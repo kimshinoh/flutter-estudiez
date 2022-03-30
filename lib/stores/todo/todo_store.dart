@@ -1,5 +1,8 @@
+import 'package:dio/dio.dart';
+import 'package:fruity/data/network/dio_client.dart';
 import 'package:fruity/models/todo/todo.dart';
 import 'package:mobx/mobx.dart';
+
 part 'todo_store.g.dart';
 
 class TodoList = _TodoListBase with _$TodoList;
@@ -25,6 +28,21 @@ abstract class _TodoListBase with Store {
   @action
   void removeTodo(Todo todo) {
     todos.remove(todo);
+  }
+
+  @action
+  Future<void> listTodo() async {
+    try {
+      DioClient rest = DioClient(Dio());
+      print('hrere');
+
+      final future = rest.get("https://jsonplaceholder.typicode.com/todos");
+
+      print('hrere 1');
+      future.then((value) {});
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @computed

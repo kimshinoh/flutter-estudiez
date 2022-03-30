@@ -10,12 +10,12 @@ class RestClient {
   final JsonDecoder _decoder = const JsonDecoder();
 
   // Get:-----------------------------------------------------------------------
-  Future<dynamic> get(String path) {
+  Future<Map<String, dynamic>> get(String path) {
     return http.get(Uri.https(Endpoints.baseUrl, path)).then(_createResponse);
   }
 
   // Post:----------------------------------------------------------------------
-  Future<dynamic> post(String path,
+  Future<Map<String, dynamic>> post(String path,
       {Map<String, String>? headers, Object? body, Encoding? encoding}) {
     return http
         .post(
@@ -28,7 +28,7 @@ class RestClient {
   }
 
   // Put:----------------------------------------------------------------------
-  Future<dynamic> put(String path,
+  Future<Map<String, dynamic>> put(String path,
       {Map<String, String>? headers, Object? body, Encoding? encoding}) {
     return http
         .put(
@@ -41,7 +41,7 @@ class RestClient {
   }
 
   // Delete:----------------------------------------------------------------------
-  Future<dynamic> delete(String path,
+  Future<Map<String, dynamic>> delete(String path,
       {Map<String, String>? headers, Object? body, Encoding? encoding}) {
     return http
         .delete(
@@ -54,15 +54,19 @@ class RestClient {
   }
 
   // Response:------------------------------------------------------------------
-  dynamic _createResponse(http.Response response) {
+  Map<String, dynamic> _createResponse(http.Response response) {
     final String res = response.body;
     final int statusCode = response.statusCode;
-
+    final Map<String, dynamic> body =
+        _decoder.convert(res) as Map<String, dynamic>;
+    final String? message = body['message'].toString();
     if (statusCode < 200 || statusCode > 400) {
       throw NetworkException(
-          message: 'Error fetching data from server', statusCode: statusCode,);
+        message: message,
+        statusCode: statusCode,
+      );
     }
 
-    return _decoder.convert(res);
+    return body;
   }
 }

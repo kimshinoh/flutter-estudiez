@@ -61,6 +61,13 @@ mixin _$TodoList on _TodoListBase, Store {
     });
   }
 
+  final _$listTodoAsyncAction = AsyncAction('_TodoListBase.listTodo');
+
+  @override
+  Future<void> listTodo() {
+    return _$listTodoAsyncAction.run(() => super.listTodo());
+  }
+
   final _$_TodoListBaseActionController =
       ActionController(name: '_TodoListBase');
 
