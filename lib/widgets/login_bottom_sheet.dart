@@ -1,0 +1,207 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/stores/user/form_login_store.dart';
+
+class LoginBottomSheet extends StatelessWidget {
+  const LoginBottomSheet({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final fullHeight = MediaQuery.of(context).size.height;
+    final fullWidth = MediaQuery.of(context).size.width;
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        margin: EdgeInsets.only(bottom: 5),
+        width: MediaQuery.of(context).size.width * 0.95,
+        decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.7),
+            borderRadius: BorderRadius.all(Radius.circular(5))),
+        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.6,
+            child: Text("Đăng nhập ngay để nhận nhiều ưu đãi hơn",
+                style: TextStyle(color: Colors.white, fontSize: 14)),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(AppColors.palette.shade500),
+            ),
+            child: const Text('Đăng nhập'),
+            onPressed: () {
+              showModalBottomSheet<void>(
+                // border top corner
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                ),
+
+                // close button in top right corn
+
+                isScrollControlled: true,
+                context: context,
+                builder: (BuildContext context) {
+                  return Padding(
+                      padding: MediaQuery.of(context).viewInsets,
+                      child: Container(
+                          child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Container(
+                            height: fullHeight * 0.5,
+                            child: _formLogin(),
+                          ),
+                        ],
+                      )));
+                },
+              );
+            },
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
+class _formLogin extends StatefulWidget {
+  _formLogin({Key? key}) : super(key: key);
+
+  @override
+  State<_formLogin> createState() => _formLoginState();
+}
+
+class _formLoginState extends State<_formLogin> {
+  FocusNode _phoneFocusNode = FocusNode();
+
+  FocusNode _secureCodeNode = FocusNode();
+
+  TextEditingController _phoneController = TextEditingController();
+
+  TextEditingController _secureCodeController = TextEditingController();
+
+  FormLoginStore _formLoginStore = FormLoginStore();
+  @override
+  void dispose() {
+    super.dispose();
+    _phoneController.dispose();
+    _secureCodeController.dispose();
+    _phoneFocusNode.dispose();
+    _secureCodeNode.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final fullWidth = MediaQuery.of(context).size.width;
+
+    return ListView(children: <Widget>[
+      Container(
+        margin: EdgeInsets.only(top: 20, left: 10, right: 10),
+        child: Text(
+          'Đăng nhập',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ),
+      Container(
+        width: fullWidth,
+        margin: EdgeInsets.only(top: 20, left: 30, right: 30),
+        child: Observer(builder: (_) {
+          return Column(children: [
+            Container(
+              width: fullWidth,
+              child: Text(
+                'Lần đầu đăng nhập tự động đăng ký',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+            ),
+            TextField(
+                maxLength: 10,
+                controller: _phoneController,
+                keyboardType: TextInputType.phone,
+                autofocus: false,
+                focusNode: _phoneFocusNode,
+                onChanged: (value) {
+                  _formLoginStore.setPhoneNumber(value);
+                },
+                decoration: InputDecoration(
+                  counterText: "",
+                  errorText: _formLoginStore.phoneNumberError,
+                  labelText: 'Số điện thoại',
+                  labelStyle:
+                      TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.highlight_off_rounded),
+                    onPressed: () {
+                      _phoneController.clear();
+                    },
+                  ),
+                )),
+            TextField(
+                maxLength: 6,
+                controller: _secureCodeController,
+                keyboardType: TextInputType.phone,
+                autofocus: false,
+                focusNode: _secureCodeNode,
+                decoration: InputDecoration(
+                    counterText: "",
+                    labelText: 'Mã xác minh',
+                    labelStyle:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                    suffixStyle: TextStyle(fontSize: 12),
+                    suffixIconConstraints: BoxConstraints(
+                      minWidth: 0,
+                      minHeight: 0,
+                    ),
+                    suffixIcon: OutlinedButton(
+                      onPressed: () {
+                        _formLoginStore.handleRequestOTP();
+                      },
+                      child: Text('Gửi mã'),
+                      style: OutlinedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30)),
+                          ),
+                          side: BorderSide(
+                              width: 1.0, color: AppColors.palette.shade500),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 5, horizontal: 15)),
+                    ))),
+            SizedBox(height: 10),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size.fromHeight(
+                    30), // fromHeight use double.infinity as width and 40 is the height
+              ),
+              onPressed: () {
+                _formLoginStore.handleVerifyOTP(_secureCodeController.text);
+              },
+              child: Text('Đăng nhập',
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+            ),
+            Container(
+              width: fullWidth,
+              child: Text(
+                'Bằng việc đăng nhập, bạn đồng ý với các điều khoản của chúng tôi',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+              ),
+            ),
+          ]);
+        }),
+      )
+    ]);
+  }
+}

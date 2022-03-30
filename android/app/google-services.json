@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "28096104856",
+    "project_id": "flutter-fruity",
+    "storage_bucket": "flutter-fruity.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28096104856:android:e30053fbfb1eaf334c03ed",
+        "android_client_info": {
+          "package_name": "com.fruity.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "28096104856-gmm24pb138c9oqdu1o3eg2okrcvia4h6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fruity.app",
+            "certificate_hash": "fd8e8c9256b9614e83f6e1c231999d0b9af8eccc"
+          }
+        },
+        {
+          "client_id": "28096104856-kdqtgi29bep6uptc265ci71mtbu48kud.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fruity.app",
+            "certificate_hash": "bbd6232e2408620d414b69403f79bd5a88ddb7f1"
+          }
+        },
+        {
+          "client_id": "28096104856-bp5g97f5l12n1hrktpobb2p8f1ptvlld.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKPaKZ0aDD9XdOwIPhUnt69NeLs2rp-q4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "28096104856-bp5g97f5l12n1hrktpobb2p8f1ptvlld.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "28096104856-use1rea7p19g8139lfc7gqoc128qthqa.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fruity.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,21 +6,30 @@ import 'package:fruity/data/network/exceptions/network_exceptions.dart';
 import 'package:http/http.dart' as http;
 
 class RestClient {
-  // instantiate json decoder for json serialization
   final JsonDecoder _decoder = const JsonDecoder();
 
   // Get:-----------------------------------------------------------------------
   Future<Map<String, dynamic>> get(String path) {
-    return http.get(Uri.https(Endpoints.baseUrl, path)).then(_createResponse);
+    return http
+        .get(
+          Uri.parse(
+            '${Endpoints.baseUrl}$path',
+          ),
+        )
+        .then(_createResponse);
   }
 
   // Post:----------------------------------------------------------------------
   Future<Map<String, dynamic>> post(String path,
-      {Map<String, String>? headers, Object? body, Encoding? encoding}) {
+      {Map<String, String>? headers,
+      Map<String, dynamic>? body,
+      Encoding? encoding}) {
     return http
         .post(
-          Uri.https(Endpoints.baseUrl, path),
-          body: body,
+          Uri.parse(
+            '${Endpoints.baseUrl}$path',
+          ),
+          body: JsonEncoder().convert(body),
           headers: headers,
           encoding: encoding,
         )
@@ -32,7 +41,9 @@ class RestClient {
       {Map<String, String>? headers, Object? body, Encoding? encoding}) {
     return http
         .put(
-          Uri.https(Endpoints.baseUrl, path),
+          Uri.parse(
+            '${Endpoints.baseUrl}$path',
+          ),
           body: body,
           headers: headers,
           encoding: encoding,
@@ -45,7 +56,9 @@ class RestClient {
       {Map<String, String>? headers, Object? body, Encoding? encoding}) {
     return http
         .delete(
-          Uri.https(Endpoints.baseUrl, path),
+          Uri.parse(
+            '${Endpoints.baseUrl}$path',
+          ),
           body: body,
           headers: headers,
           encoding: encoding,

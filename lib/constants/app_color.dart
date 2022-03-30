@@ -4,25 +4,25 @@ class AppColors {
   AppColors._();
   static MaterialColor palette =
       const MaterialColor(_mcgpalette0PrimaryValue, <int, Color>{
-    50: Color(0xFFE0F4E8),
-    100: Color(0xFFB3E3C6),
-    200: Color(0xFF80D1A0),
-    300: Color(0xFF4DBF7A),
-    400: Color(0xFF26B15E),
+    50: Color(0xFFEAF5E1),
+    100: Color(0xFFCBE6B3),
+    200: Color(0xFFA8D581),
+    300: Color(0xFF85C44F),
+    400: Color(0xFF6AB729),
     500: Color(_mcgpalette0PrimaryValue),
-    600: Color(0xFF009B3B),
-    700: Color(0xFF009132),
-    800: Color(0xFF00882A),
-    900: Color(0xFF00771C),
+    600: Color(0xFF49A303),
+    700: Color(0xFF409902),
+    800: Color(0xFF379002),
+    900: Color(0xFF277F01),
   });
-  static const int _mcgpalette0PrimaryValue = 0xFF00A341;
+  static const int _mcgpalette0PrimaryValue = 0xFF50AA03;
 
   static const MaterialColor paletteAccent =
       MaterialColor(_mcgpalette0AccentValue, <int, Color>{
-    100: Color(0xFFA5FFB3),
+    100: Color(0xFFBFFFAD),
     200: Color(_mcgpalette0AccentValue),
-    400: Color(0xFF3FFF5C),
-    700: Color(0xFF25FF47),
+    400: Color(0xFF6FFF47),
+    700: Color(0xFF5BFF2D),
   });
-  static const int _mcgpalette0AccentValue = 0xFF72FF88;
+  static const int _mcgpalette0AccentValue = 0xFF97FF7A;
 }

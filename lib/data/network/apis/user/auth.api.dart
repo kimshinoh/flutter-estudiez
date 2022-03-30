@@ -9,10 +9,12 @@ class AuthAPI {
 
   Future<UserLoginResponseDTO> login(UserLoginRequestDTO req) async {
     try {
-      final response = await _restClient.post('/login', body: {
+      final Map<String, dynamic> response =
+          await _restClient.post('/login', body: <String, dynamic>{
         'phone_number': req.phoneNumber,
-        'idToken': req.idToken,
+        'id_token': req.idToken,
       });
+
       return UserLoginResponseDTO.fromJson(response);
     } catch (e) {
       return UserLoginResponseDTO.withError(e.toString());
