@@ -110,6 +110,7 @@ class _formLoginState extends State<_formLogin> {
       }),
       reaction((_) => _store.isSuccess, (_) {
         if (_store.isSuccess) {
+          Navigator.of(context).pop();
           FlushbarHelper.createSuccess(
             message: "Đăng nhập thành công",
             duration: const Duration(seconds: 2),
@@ -186,6 +187,7 @@ class _formLoginState extends State<_formLogin> {
                     ),
                     suffixIcon: OutlinedButton(
                       onPressed: () {
+                        FocusScope.of(context).unfocus();
                         if (_store.canVerify) {
                           _store.handleRequestOTP();
                         }
@@ -224,7 +226,10 @@ class _formLoginState extends State<_formLogin> {
                       30), // fromHeight use double.infinity as width and 40 is the height
                 ),
                 onPressed: () {
-                  _store.handleVerifyOTP();
+                  FocusScope.of(context).unfocus();
+                  if (_store.canLogin) {
+                    _store.handleVerifyOTP();
+                  }
                 },
                 child: _store.isLoading
                     ? SizedBox(

@@ -174,6 +174,7 @@ abstract class _AuthStoreBase with Store {
         return;
       }
       setAuth(res);
+      isLoggedIn = true;
       isSuccess = true;
     } on FirebaseAuthException catch (e) {
       if (e.message != null) {

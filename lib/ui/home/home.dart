@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fruity/stores/user/auth_store.dart';
 import 'package:fruity/ui/home/home_header.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -9,6 +11,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late AuthStore _store;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _store = context.read<AuthStore>();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
