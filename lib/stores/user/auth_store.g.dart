@@ -64,13 +64,13 @@ mixin _$AuthStore on _AuthStoreBase, Store {
   final _$verificationIdAtom = Atom(name: '_AuthStoreBase.verificationId');
 
   @override
-  String? get verificationId {
+  String get verificationId {
     _$verificationIdAtom.reportRead();
     return super.verificationId;
   }
 
   @override
-  set verificationId(String? value) {
+  set verificationId(String value) {
     _$verificationIdAtom.reportWrite(value, super.verificationId, () {
       super.verificationId = value;
     });

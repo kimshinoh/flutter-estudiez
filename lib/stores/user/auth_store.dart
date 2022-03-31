@@ -1,4 +1,3 @@
-import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fruity/data/network/apis/user/auth.api.dart';
 import 'package:fruity/data/network/exceptions/network_exceptions.dart';
@@ -14,8 +13,8 @@ part 'auth_store.g.dart';
 class AuthStore = _AuthStoreBase with _$AuthStore;
 
 abstract class _AuthStoreBase with Store {
-  FirebaseAuth auth = FirebaseAuth.instance;
-  AuthAPI authApi = AuthAPI(
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  AuthAPI _authAPI = AuthAPI(
     RestClient(),
   );
 
@@ -31,8 +30,7 @@ abstract class _AuthStoreBase with Store {
   late int? expiredAt = null;
 
   @observable
-  late String? verificationId = null;
-
+  String verificationId = '';
   @observable
   bool isLoading = false;
 
@@ -81,7 +79,8 @@ abstract class _AuthStoreBase with Store {
   bool get canLogin =>
       formLoginStore.phoneNumber.isNotEmpty &&
       formLoginStore.smsCode.isNotEmpty &&
-      !formLoginStore.formErrorStore.hasErrorsInLogin;
+      !formLoginStore.formErrorStore.hasErrorsInLogin &&
+      verificationId.isNotEmpty;
 
   bool get canVerify =>
       formLoginStore.phoneNumber.isNotEmpty &&
@@ -91,16 +90,16 @@ abstract class _AuthStoreBase with Store {
   Future<void> handleRequestOTP() async {
     errorMessage = '';
     isSuccess = false;
-    await auth.verifyPhoneNumber(
+    await _auth.verifyPhoneNumber(
       phoneNumber: formLoginStore.transformPhoneNumber,
       timeout: const Duration(seconds: 60),
       verificationCompleted: (credential) async {
         try {
           isLoading = true;
-          await auth.signInWithCredential(credential);
+          await _auth.signInWithCredential(credential);
           final User user = FirebaseAuth.instance.currentUser!;
           String idToken = await user.getIdToken();
-          UserLoginResponseDTO res = await authApi.login(
+          UserLoginResponseDTO res = await _authAPI.login(
             UserLoginRequestDTO(
               phoneNumber: formLoginStore.phoneNumber,
               idToken: idToken,
@@ -148,23 +147,20 @@ abstract class _AuthStoreBase with Store {
   Future<void> handleVerifyOTP() async {
     errorMessage = '';
     isSuccess = false;
-    if (verificationId == '') {
-      return;
-    }
 
     final AuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: verificationId ?? '',
+      verificationId: verificationId,
       smsCode: formLoginStore.smsCode,
     );
 
     try {
       isLoading = true;
-      await auth.signInWithCredential(credential);
+      await _auth.signInWithCredential(credential);
 
       final User user = FirebaseAuth.instance.currentUser!;
       final String idToken = await user.getIdToken();
 
-      final UserLoginResponseDTO res = await authApi.login(UserLoginRequestDTO(
+      final UserLoginResponseDTO res = await _authAPI.login(UserLoginRequestDTO(
         phoneNumber: formLoginStore.phoneNumber,
         idToken: idToken,
       ));
