@@ -32,66 +32,34 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
     });
   }
 
-  final _$idTokenAtom = Atom(name: '_FormLoginStoreBase.idToken');
+  final _$smsCodeAtom = Atom(name: '_FormLoginStoreBase.smsCode');
 
   @override
-  String get idToken {
-    _$idTokenAtom.reportRead();
-    return super.idToken;
+  String get smsCode {
+    _$smsCodeAtom.reportRead();
+    return super.smsCode;
   }
 
   @override
-  set idToken(String value) {
-    _$idTokenAtom.reportWrite(value, super.idToken, () {
-      super.idToken = value;
+  set smsCode(String value) {
+    _$smsCodeAtom.reportWrite(value, super.smsCode, () {
+      super.smsCode = value;
     });
   }
 
-  final _$verificationIdAtom = Atom(name: '_FormLoginStoreBase.verificationId');
+  final _$formErrorStoreAtom = Atom(name: '_FormLoginStoreBase.formErrorStore');
 
   @override
-  String get verificationId {
-    _$verificationIdAtom.reportRead();
-    return super.verificationId;
+  FormErrorStore get formErrorStore {
+    _$formErrorStoreAtom.reportRead();
+    return super.formErrorStore;
   }
 
   @override
-  set verificationId(String value) {
-    _$verificationIdAtom.reportWrite(value, super.verificationId, () {
-      super.verificationId = value;
+  set formErrorStore(FormErrorStore value) {
+    _$formErrorStoreAtom.reportWrite(value, super.formErrorStore, () {
+      super.formErrorStore = value;
     });
-  }
-
-  final _$phoneNumberErrorAtom =
-      Atom(name: '_FormLoginStoreBase.phoneNumberError');
-
-  @override
-  String? get phoneNumberError {
-    _$phoneNumberErrorAtom.reportRead();
-    return super.phoneNumberError;
-  }
-
-  @override
-  set phoneNumberError(String? value) {
-    _$phoneNumberErrorAtom.reportWrite(value, super.phoneNumberError, () {
-      super.phoneNumberError = value;
-    });
-  }
-
-  final _$handleRequestOTPAsyncAction =
-      AsyncAction('_FormLoginStoreBase.handleRequestOTP');
-
-  @override
-  Future<void> handleRequestOTP() {
-    return _$handleRequestOTPAsyncAction.run(() => super.handleRequestOTP());
-  }
-
-  final _$handleVerifyOTPAsyncAction =
-      AsyncAction('_FormLoginStoreBase.handleVerifyOTP');
-
-  @override
-  Future<void> handleVerifyOTP(String otp) {
-    return _$handleVerifyOTPAsyncAction.run(() => super.handleVerifyOTP(otp));
   }
 
   final _$_FormLoginStoreBaseActionController =
@@ -109,13 +77,91 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
   }
 
   @override
+  void validatePhoneNumber(String value) {
+    final _$actionInfo = _$_FormLoginStoreBaseActionController.startAction(
+        name: '_FormLoginStoreBase.validatePhoneNumber');
+    try {
+      return super.validatePhoneNumber(value);
+    } finally {
+      _$_FormLoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void validateSMSCode(String value) {
+    final _$actionInfo = _$_FormLoginStoreBaseActionController.startAction(
+        name: '_FormLoginStoreBase.validateSMSCode');
+    try {
+      return super.validateSMSCode(value);
+    } finally {
+      _$_FormLoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 phoneNumber: ${phoneNumber},
-idToken: ${idToken},
-verificationId: ${verificationId},
-phoneNumberError: ${phoneNumberError},
+smsCode: ${smsCode},
+formErrorStore: ${formErrorStore},
 transformPhoneNumber: ${transformPhoneNumber}
+    ''';
+  }
+}
+
+mixin _$FormErrorStore on _FormErrorStore, Store {
+  Computed<bool>? _$hasErrorsInLoginComputed;
+
+  @override
+  bool get hasErrorsInLogin => (_$hasErrorsInLoginComputed ??= Computed<bool>(
+          () => super.hasErrorsInLogin,
+          name: '_FormErrorStore.hasErrorsInLogin'))
+      .value;
+  Computed<bool>? _$hasErrorsInVerifyComputed;
+
+  @override
+  bool get hasErrorsInVerify => (_$hasErrorsInVerifyComputed ??= Computed<bool>(
+          () => super.hasErrorsInVerify,
+          name: '_FormErrorStore.hasErrorsInVerify'))
+      .value;
+
+  final _$phoneNumberAtom = Atom(name: '_FormErrorStore.phoneNumber');
+
+  @override
+  String? get phoneNumber {
+    _$phoneNumberAtom.reportRead();
+    return super.phoneNumber;
+  }
+
+  @override
+  set phoneNumber(String? value) {
+    _$phoneNumberAtom.reportWrite(value, super.phoneNumber, () {
+      super.phoneNumber = value;
+    });
+  }
+
+  final _$smsCodeAtom = Atom(name: '_FormErrorStore.smsCode');
+
+  @override
+  String? get smsCode {
+    _$smsCodeAtom.reportRead();
+    return super.smsCode;
+  }
+
+  @override
+  set smsCode(String? value) {
+    _$smsCodeAtom.reportWrite(value, super.smsCode, () {
+      super.smsCode = value;
+    });
+  }
+
+  @override
+  String toString() {
+    return '''
+phoneNumber: ${phoneNumber},
+smsCode: ${smsCode},
+hasErrorsInLogin: ${hasErrorsInLogin},
+hasErrorsInVerify: ${hasErrorsInVerify}
     ''';
   }
 }

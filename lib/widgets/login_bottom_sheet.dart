@@ -1,7 +1,10 @@
+import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
-import 'package:fruity/stores/user/form_login_store.dart';
+import 'package:fruity/stores/user/auth_store.dart';
+import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
 class LoginBottomSheet extends StatelessWidget {
   const LoginBottomSheet({Key? key}) : super(key: key);
@@ -75,22 +78,45 @@ class _formLogin extends StatefulWidget {
 }
 
 class _formLoginState extends State<_formLogin> {
-  FocusNode _phoneFocusNode = FocusNode();
-
-  FocusNode _secureCodeNode = FocusNode();
-
   TextEditingController _phoneController = TextEditingController();
 
   TextEditingController _secureCodeController = TextEditingController();
 
-  FormLoginStore _formLoginStore = FormLoginStore();
+  late AuthStore _store;
+  late List<ReactionDisposer> _disposers;
   @override
   void dispose() {
     super.dispose();
     _phoneController.dispose();
     _secureCodeController.dispose();
-    _phoneFocusNode.dispose();
-    _secureCodeNode.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _store = context.read<AuthStore>();
+    _store.formLoginStore.setupValidations();
+
+    _disposers = [
+      reaction((_) => _store.errorMessage, (_) {
+        if (_store.errorMessage.isNotEmpty) {
+          FlushbarHelper.createError(
+            message: _store.errorMessage,
+            title: 'Lỗi',
+            duration: const Duration(seconds: 2),
+          ).show(context);
+        }
+      }),
+      reaction((_) => _store.isSuccess, (_) {
+        if (_store.isSuccess) {
+          FlushbarHelper.createSuccess(
+            message: "Đăng nhập thành công",
+            duration: const Duration(seconds: 2),
+          ).show(context);
+        }
+      }),
+    ];
   }
 
   @override
@@ -129,30 +155,26 @@ class _formLoginState extends State<_formLogin> {
                 controller: _phoneController,
                 keyboardType: TextInputType.phone,
                 autofocus: false,
-                focusNode: _phoneFocusNode,
-                onChanged: (value) {
-                  _formLoginStore.setPhoneNumber(value);
+                onChanged: (_) {
+                  _store.formLoginStore.setPhoneNumber(_phoneController.text);
                 },
                 decoration: InputDecoration(
+                  errorText: _store.formLoginStore.formErrorStore.phoneNumber,
                   counterText: "",
-                  errorText: _formLoginStore.phoneNumberError,
                   labelText: 'Số điện thoại',
                   labelStyle:
                       TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.highlight_off_rounded),
-                    onPressed: () {
-                      _phoneController.clear();
-                    },
-                  ),
                 )),
             TextField(
                 maxLength: 6,
                 controller: _secureCodeController,
                 keyboardType: TextInputType.phone,
                 autofocus: false,
-                focusNode: _secureCodeNode,
+                onChanged: (_) {
+                  _store.formLoginStore.setSMSCode(_secureCodeController.text);
+                },
                 decoration: InputDecoration(
+                    errorText: _store.formLoginStore.formErrorStore.smsCode,
                     counterText: "",
                     labelText: 'Mã xác minh',
                     labelStyle:
@@ -164,31 +186,60 @@ class _formLoginState extends State<_formLogin> {
                     ),
                     suffixIcon: OutlinedButton(
                       onPressed: () {
-                        _formLoginStore.handleRequestOTP();
+                        if (_store.canVerify) {
+                          _store.handleRequestOTP();
+                        }
                       },
                       child: Text('Gửi mã'),
                       style: OutlinedButton.styleFrom(
+                          primary: _store.canVerify
+                              ? AppColors.palette.shade500
+                              : Colors.grey.shade500,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(30)),
                           ),
                           side: BorderSide(
-                              width: 1.0, color: AppColors.palette.shade500),
+                              width: 1.0,
+                              color: _store.canVerify
+                                  ? AppColors.palette.shade500
+                                  : Colors.grey.shade500),
+                          textStyle: TextStyle(
+                            color: _store.canVerify
+                                ? AppColors.palette.shade500
+                                : Colors.grey.shade500,
+                            fontSize: 12,
+                          ),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           padding: EdgeInsets.symmetric(
                               vertical: 5, horizontal: 15)),
                     ))),
             SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size.fromHeight(
-                    30), // fromHeight use double.infinity as width and 40 is the height
-              ),
-              onPressed: () {
-                _formLoginStore.handleVerifyOTP(_secureCodeController.text);
-              },
-              child: Text('Đăng nhập',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-            ),
+            Observer(builder: (_) {
+              return ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: _store.canLogin
+                      ? AppColors.palette.shade500
+                      : Colors.grey.shade500,
+                  minimumSize: Size.fromHeight(
+                      30), // fromHeight use double.infinity as width and 40 is the height
+                ),
+                onPressed: () {
+                  _store.handleVerifyOTP();
+                },
+                child: _store.isLoading
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
+                      )
+                    : Text('Đăng nhập',
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold)),
+              );
+            }),
             Container(
               width: fullWidth,
               child: Text(

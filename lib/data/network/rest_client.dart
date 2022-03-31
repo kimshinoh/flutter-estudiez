@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class RestClient {
   final JsonDecoder _decoder = const JsonDecoder();
-
+  final JsonEncoder _encoder = const JsonEncoder();
   // Get:-----------------------------------------------------------------------
   Future<Map<String, dynamic>> get(String path) {
     return http
@@ -29,7 +29,7 @@ class RestClient {
           Uri.parse(
             '${Endpoints.baseUrl}$path',
           ),
-          body: JsonEncoder().convert(body),
+          body: _encoder.convert(body),
           headers: headers,
           encoding: encoding,
         )
@@ -44,7 +44,7 @@ class RestClient {
           Uri.parse(
             '${Endpoints.baseUrl}$path',
           ),
-          body: body,
+          body: _encoder.convert(body),
           headers: headers,
           encoding: encoding,
         )
@@ -59,7 +59,7 @@ class RestClient {
           Uri.parse(
             '${Endpoints.baseUrl}$path',
           ),
-          body: body,
+          body: _encoder.convert(body),
           headers: headers,
           encoding: encoding,
         )
