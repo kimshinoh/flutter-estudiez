@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fruity/ui/home/home_header.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,12 +11,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Home'),
-      ),
-      body: Center(
-        child: Text('Home'),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverPersistentHeader(
+            delegate: MyHomeHeader(
+              minWidth: width * 0.75,
+              searchBarMaxWidth: width * 0.94,
+            ),
+            pinned: true,
+          ),
+          SliverToBoxAdapter(
+            child: Container(
+              child: const SizedBox(
+                height: 2000,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
