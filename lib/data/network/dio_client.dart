@@ -1,108 +1,187 @@
 import 'package:dio/dio.dart';
+import 'package:fruity/data/network/constants/endpoints.dart';
+import 'package:fruity/data/network/exceptions/network_exceptions.dart';
+import 'package:fruity/data/sharedpref/constants/preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DioClient {
   // dio instance
   final Dio _dio;
 
   // injecting dio instance
-  DioClient(this._dio);
+  DioClient(this._dio) {
+    _dio.options.baseUrl = Endpoints.baseUrl;
+    _dio.options.connectTimeout = 5000;
+    _dio.options.receiveTimeout = 5000;
+    _dio.options.headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    _dio.options.validateStatus = (status) {
+      return status! <= 500;
+    };
+
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest:
+            (RequestOptions options, RequestInterceptorHandler handler) async {
+          // Do something before request is sent
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          final token = prefs.getString(Preferences.token);
+
+          if (token != null) {
+            options.headers['Authorization'] = 'Bearer $token';
+          }
+          handler.next(options);
+        },
+      ),
+    );
+  }
 
   // Get:-----------------------------------------------------------------------
-  Future<dynamic> get(
+  Future<Map<String, dynamic>> get(
     String uri, {
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onReceiveProgress,
   }) async {
-    try {
-      final Response response = await _dio.get(
-        uri,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
-        onReceiveProgress: onReceiveProgress,
-      );
-      return response.data;
-    } catch (e) {
-      print(e.toString());
-      rethrow;
-    }
+    return _dio
+        .get(
+          uri,
+          queryParameters: queryParameters,
+          options: options,
+          cancelToken: cancelToken,
+          onReceiveProgress: onReceiveProgress,
+        )
+        .then(_createResponse)
+        .catchError((err) {
+      _handleError(err);
+    });
   }
 
   // Post:----------------------------------------------------------------------
-  Future<dynamic> post(
+  Future<Map<String, dynamic>> post(
     String uri, {
-    data,
+    Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    try {
-      final Response response = await _dio.post(
-        uri,
-        data: data,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
-        onSendProgress: onSendProgress,
-        onReceiveProgress: onReceiveProgress,
-      );
-      return response.data;
-    } catch (e) {
-      rethrow;
-    }
+    return _dio
+        .post(
+          uri,
+          data: data,
+          queryParameters: queryParameters,
+          options: options,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        )
+        .then(_createResponse)
+        .catchError((err) {
+      _handleError(err);
+    });
   }
 
   // Put:-----------------------------------------------------------------------
-  Future<dynamic> put(
+  Future<Map<String, dynamic>> put(
     String uri, {
-    data,
+    Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    try {
-      final Response response = await _dio.put(
-        uri,
-        data: data,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
-        onSendProgress: onSendProgress,
-        onReceiveProgress: onReceiveProgress,
-      );
-      return response.data;
-    } catch (e) {
-      rethrow;
-    }
+    return _dio
+        .put(
+          uri,
+          data: data,
+          queryParameters: queryParameters,
+          options: options,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        )
+        .then(_createResponse)
+        .catchError((err) {
+      _handleError(err);
+    });
   }
 
   // Delete:--------------------------------------------------------------------
-  Future<dynamic> delete(
+  Future<Map<String, dynamic>> delete(
     String uri, {
-    data,
+    Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    try {
-      final Response response = await _dio.delete(
-        uri,
-        data: data,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
+    return _dio
+        .delete(
+          uri,
+          data: data,
+          queryParameters: queryParameters,
+          options: options,
+          cancelToken: cancelToken,
+        )
+        .then(_createResponse)
+        .catchError((err) {
+      _handleError(err);
+    });
+  }
+
+  Map<String, dynamic> _createResponse(Response response) {
+    final int? statusCode = response.statusCode;
+    if (statusCode == 404) {
+      throw NetworkException(
+        message: 'Không tìm thấy đường dẫn',
       );
-      return response.data;
-    } catch (e) {
-      rethrow;
     }
+    if (statusCode != null && (statusCode < 200 || statusCode > 400)) {
+      late String message = "";
+      if (response.data != null) {
+        if (response.data.runtimeType == String) {
+          message = response.data as String;
+        } else {
+          message = response.data['message'] as String;
+        }
+      }
+
+      throw NetworkException(
+        message: message,
+        statusCode: statusCode,
+      );
+    }
+    return response.data as Map<String, dynamic>;
+  }
+
+  void _handleError(dynamic error) {
+    if (error is DioError) {
+      if (error.message.contains('SocketException')) {
+        throw NetworkException(
+          message: 'Không thể kết nối mạng',
+        );
+      }
+      if (error.message.contains('TimeoutException')) {
+        throw NetworkException(
+          message: 'Kết nối mạng quá chậm',
+        );
+      }
+      if (error.message.contains('CancelException')) {
+        throw NetworkException(
+          message: 'Hủy kết nối mạng',
+        );
+      }
+    }
+    if (error is NetworkException) {
+      throw error;
+    }
+    throw Exception(error);
   }
 }

@@ -1,7 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fruity/data/network/apis/user/auth.api.dart';
+import 'package:fruity/data/network/dio_client.dart';
 import 'package:fruity/data/network/exceptions/network_exceptions.dart';
-import 'package:fruity/data/network/rest_client.dart';
 import 'package:fruity/dto/user/user_request.dart';
 import 'package:fruity/dto/user/user_response.dart';
 import 'package:fruity/models/user/user.dart' as UserModel;
@@ -25,7 +26,7 @@ abstract class _AuthStoreBase with Store {
   }
 
   final AuthAPI _authAPI = AuthAPI(
-    RestClient(),
+    DioClient(Dio()),
   );
 
   FormLoginStore formLoginStore = FormLoginStore();
