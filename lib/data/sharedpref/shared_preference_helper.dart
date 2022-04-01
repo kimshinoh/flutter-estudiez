@@ -11,16 +11,16 @@ class SharedPreferenceHelper {
   // constructor
 
   // General Methods: ----------------------------------------------------------
-  Future<String?> get authToken async {
-    return _sharedPreference.getString(Preferences.authToken);
+  Future<String?> get token async {
+    return _sharedPreference.getString(Preferences.token);
   }
 
   Future<bool> saveAuthToken(String authToken) async {
-    return _sharedPreference.setString(Preferences.authToken, authToken);
+    return _sharedPreference.setString(Preferences.token, authToken);
   }
 
   Future<bool> removeAuthToken() async {
-    return _sharedPreference.remove(Preferences.authToken);
+    return _sharedPreference.remove(Preferences.token);
   }
 
   // Login:---------------------------------------------------------------------
