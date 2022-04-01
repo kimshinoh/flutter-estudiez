@@ -47,6 +47,7 @@ dependencies:
   firebase_auth: ^3.3.11
   provider: ^6.0.2
   another_flushbar: ^1.10.28
+  badges: ^2.0.2
 
 dev_dependencies:
   flutter_test:

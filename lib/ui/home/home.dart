@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/stores/user/auth_store.dart';
-import 'package:fruity/ui/home/home_header.dart';
+import 'package:fruity/ui/home/widgets/header_home.dart';
 import 'package:fruity/widgets/login_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
