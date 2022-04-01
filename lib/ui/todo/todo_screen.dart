@@ -6,26 +6,39 @@ import 'package:fruity/models/todo/todo.dart';
 import 'package:fruity/stores/todo/todo_store.dart';
 import 'package:fruity/utils/datetime_utils.dart';
 
-class TodoScreen extends StatelessWidget {
-  TodoList todoStore = TodoList();
-
+class TodoScreen extends StatefulWidget {
   TodoScreen({Key? key}) : super(key: key);
+
+  @override
+  State<TodoScreen> createState() => _TodoScreenState();
+}
+
+class _TodoScreenState extends State<TodoScreen> {
+  TodoList todoStore = TodoList();
 
   TextEditingController _textEditingController = TextEditingController();
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    todoStore.listTodo();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('TodoList')),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              _inputAddTodo(),
-              _filterTodo(),
-              _listTodo(),
-            ],
-          ),
-        ));
+      appBar: AppBar(title: Text('TodoList')),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            _inputAddTodo(),
+            _filterTodo(),
+            _listTodo(),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _filterTodo() {

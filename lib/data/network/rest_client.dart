@@ -6,21 +6,30 @@ import 'package:fruity/data/network/exceptions/network_exceptions.dart';
 import 'package:http/http.dart' as http;
 
 class RestClient {
-  // instantiate json decoder for json serialization
   final JsonDecoder _decoder = const JsonDecoder();
-
+  final JsonEncoder _encoder = const JsonEncoder();
   // Get:-----------------------------------------------------------------------
-  Future<dynamic> get(String path) {
-    return http.get(Uri.https(Endpoints.baseUrl, path)).then(_createResponse);
+  Future<Map<String, dynamic>> get(String path) {
+    return http
+        .get(
+          Uri.parse(
+            '${Endpoints.baseUrl}$path',
+          ),
+        )
+        .then(_createResponse);
   }
 
   // Post:----------------------------------------------------------------------
-  Future<dynamic> post(String path,
-      {Map<String, String>? headers, Object? body, Encoding? encoding}) {
+  Future<Map<String, dynamic>> post(String path,
+      {Map<String, String>? headers,
+      Map<String, dynamic>? body,
+      Encoding? encoding}) {
     return http
         .post(
-          Uri.https(Endpoints.baseUrl, path),
-          body: body,
+          Uri.parse(
+            '${Endpoints.baseUrl}$path',
+          ),
+          body: _encoder.convert(body),
           headers: headers,
           encoding: encoding,
         )
@@ -28,12 +37,14 @@ class RestClient {
   }
 
   // Put:----------------------------------------------------------------------
-  Future<dynamic> put(String path,
+  Future<Map<String, dynamic>> put(String path,
       {Map<String, String>? headers, Object? body, Encoding? encoding}) {
     return http
         .put(
-          Uri.https(Endpoints.baseUrl, path),
-          body: body,
+          Uri.parse(
+            '${Endpoints.baseUrl}$path',
+          ),
+          body: _encoder.convert(body),
           headers: headers,
           encoding: encoding,
         )
@@ -41,12 +52,14 @@ class RestClient {
   }
 
   // Delete:----------------------------------------------------------------------
-  Future<dynamic> delete(String path,
+  Future<Map<String, dynamic>> delete(String path,
       {Map<String, String>? headers, Object? body, Encoding? encoding}) {
     return http
         .delete(
-          Uri.https(Endpoints.baseUrl, path),
-          body: body,
+          Uri.parse(
+            '${Endpoints.baseUrl}$path',
+          ),
+          body: _encoder.convert(body),
           headers: headers,
           encoding: encoding,
         )
@@ -54,15 +67,19 @@ class RestClient {
   }
 
   // Response:------------------------------------------------------------------
-  dynamic _createResponse(http.Response response) {
+  Map<String, dynamic> _createResponse(http.Response response) {
     final String res = response.body;
     final int statusCode = response.statusCode;
-
+    final Map<String, dynamic> body =
+        _decoder.convert(res) as Map<String, dynamic>;
+    final String? message = body['message'].toString();
     if (statusCode < 200 || statusCode > 400) {
       throw NetworkException(
-          message: 'Error fetching data from server', statusCode: statusCode,);
+        message: message,
+        statusCode: statusCode,
+      );
     }
 
-    return _decoder.convert(res);
+    return body;
   }
 }

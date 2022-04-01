@@ -28,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
       return;
     }
 
-    Navigator.of(context).pushReplacementNamed(Routes.todo);
+    Navigator.of(context).pushReplacementNamed(Routes.home);
   }
 
   @override
