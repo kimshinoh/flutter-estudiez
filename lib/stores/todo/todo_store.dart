@@ -33,10 +33,10 @@ abstract class _TodoListBase with Store {
   @action
   Future<void> listTodo() async {
     try {
-      DioClient rest = DioClient(Dio());
+      final DioClient rest = DioClient(Dio());
       print('hrere');
 
-      final future = rest.get("https://jsonplaceholder.typicode.com/todos");
+      final Future future = rest.get('https://jsonplaceholder.typicode.com/todos');
 
       print('hrere 1');
       future.then((value) {});
@@ -52,7 +52,7 @@ abstract class _TodoListBase with Store {
 
   @computed
   ObservableList<Todo> get completedTodos {
-    return ObservableList.of(todos.where((todo) => todo.completed));
+    return ObservableList.of(todos.where((Todo todo) => todo.completed));
   }
 
   @computed

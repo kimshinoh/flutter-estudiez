@@ -5,7 +5,7 @@ include: package:lint/analysis_options.yaml
 linter:
   rules:
     # Make constructors the first thing in every class
-    sort_constructors_first: true
+    
 
     # The new tabs vs. spaces. Choose wisely
     prefer_single_quotes: true
@@ -21,3 +21,5 @@ linter:
 
     # Util classes are awesome!
     avoid_classes_with_only_static_members: false
+    
+    prefer_const_declarations: true

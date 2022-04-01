@@ -16,7 +16,7 @@ class UserLoginResponseDTO {
       UserLoginResponseDTO(error: error);
 
   factory UserLoginResponseDTO.fromPrefs(SharedPreferences prefs) {
-    final _user = User.fromPrefs(prefs);
+    final User _user = User.fromPrefs(prefs);
 
     return UserLoginResponseDTO(
       user: _user,

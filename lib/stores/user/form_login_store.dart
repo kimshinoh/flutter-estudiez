@@ -38,9 +38,9 @@ abstract class _FormLoginStoreBase with Store {
   @action
   void validatePhoneNumber(String value) {
     if (value.isEmpty) {
-      formErrorStore.phoneNumber = "Vui lòng nhập số điện thoại";
+      formErrorStore.phoneNumber = 'Vui lòng nhập số điện thoại';
     } else if (value.length < 10) {
-      formErrorStore.phoneNumber = "Số điện thoại không hợp lệ";
+      formErrorStore.phoneNumber = 'Số điện thoại không hợp lệ';
     } else {
       formErrorStore.phoneNumber = null;
     }
@@ -49,9 +49,9 @@ abstract class _FormLoginStoreBase with Store {
   @action
   void validateSMSCode(String value) {
     if (value.isEmpty) {
-      formErrorStore.smsCode = "Vui lòng nhập mã xác thực";
+      formErrorStore.smsCode = 'Vui lòng nhập mã xác thực';
     } else if (value.length < 6) {
-      formErrorStore.smsCode = "Mã xác thực không hợp lệ";
+      formErrorStore.smsCode = 'Mã xác thực không hợp lệ';
     } else {
       formErrorStore.smsCode = null;
     }

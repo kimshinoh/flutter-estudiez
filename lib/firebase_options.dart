@@ -60,8 +60,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '28096104856',
     projectId: 'flutter-fruity',
     storageBucket: 'flutter-fruity.appspot.com',
-    androidClientId: '28096104856-ct6s4qok84vamq57clccbnj0l91bn61l.apps.googleusercontent.com',
-    iosClientId: '28096104856-use1rea7p19g8139lfc7gqoc128qthqa.apps.googleusercontent.com',
+    androidClientId:
+        '28096104856-ct6s4qok84vamq57clccbnj0l91bn61l.apps.googleusercontent.com',
+    iosClientId:
+        '28096104856-use1rea7p19g8139lfc7gqoc128qthqa.apps.googleusercontent.com',
     iosBundleId: 'com.fruity.app',
   );
 }

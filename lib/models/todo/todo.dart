@@ -8,8 +8,8 @@ part 'todo.g.dart';
 @JsonSerializable()
 class Todo extends _Todo with _$Todo {
   Todo(String title) : super(title) {
-    this.createdAt = DateTime.now();
-    this.id = Random().nextInt(1000).toString();
+    createdAt = DateTime.now();
+    id = Random().nextInt(1000).toString();
   }
 
   factory Todo.fromJson(Map<String, dynamic> data) => _$TodoFromJson(data);

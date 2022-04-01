@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/stores/user/auth_store.dart';
 import 'package:fruity/ui/home/home_header.dart';
+import 'package:fruity/widgets/login_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,7 +24,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
     return Scaffold(
+      floatingActionButton: const LoginBottomSheet(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: CustomScrollView(
         slivers: <Widget>[
           SliverPersistentHeader(
@@ -35,8 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           SliverToBoxAdapter(
             child: Container(
-              child: const SizedBox(
-                height: 2000,
+              child: SizedBox(
+                height: height,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                ),
               ),
             ),
           )

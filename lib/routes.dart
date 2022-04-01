@@ -14,6 +14,6 @@ class Routes {
   static final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => const SplashScreen(),
     home: (BuildContext context) => const HomeScreen(),
-    todo: (BuildContext context) => TodoScreen()
+    todo: (BuildContext context) => const TodoScreen()
   };
 }

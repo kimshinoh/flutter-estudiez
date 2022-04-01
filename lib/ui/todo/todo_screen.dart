@@ -7,7 +7,7 @@ import 'package:fruity/stores/todo/todo_store.dart';
 import 'package:fruity/utils/datetime_utils.dart';
 
 class TodoScreen extends StatefulWidget {
-  TodoScreen({Key? key}) : super(key: key);
+  const TodoScreen({Key? key}) : super(key: key);
 
   @override
   State<TodoScreen> createState() => _TodoScreenState();
@@ -16,7 +16,7 @@ class TodoScreen extends StatefulWidget {
 class _TodoScreenState extends State<TodoScreen> {
   TodoList todoStore = TodoList();
 
-  TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _textEditingController = TextEditingController();
 
   @override
   void didChangeDependencies() {
@@ -28,7 +28,7 @@ class _TodoScreenState extends State<TodoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('TodoList')),
+      appBar: AppBar(title: const Text('TodoList')),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -46,49 +46,49 @@ class _TodoScreenState extends State<TodoScreen> {
       return Column(
         children: [
           ListTile(
-            title: Text("All"),
+            title: const Text('All'),
             leading: Radio(
                 value: VisibilityFilter.all,
                 groupValue: todoStore.activeFilter,
                 onChanged: (_) {
                   todoStore.setFilter(VisibilityFilter.all);
-                }),
+                },),
           ),
           ListTile(
-            title: Text("Completed"),
+            title: const Text('Completed'),
             leading: Radio(
                 value: VisibilityFilter.completed,
                 groupValue: todoStore.activeFilter,
                 onChanged: (_) {
                   todoStore.setFilter(VisibilityFilter.completed);
-                }),
+                },),
           ),
           ListTile(
-            title: Text("Pending"),
+            title: const Text('Pending'),
             leading: Radio(
                 value: VisibilityFilter.pending,
                 groupValue: todoStore.activeFilter,
                 onChanged: (_) {
                   todoStore.setFilter(VisibilityFilter.pending);
-                }),
+                },),
           ),
         ],
       );
-    });
+    },);
   }
 
   Widget _inputAddTodo() {
     return TextField(
-      decoration: InputDecoration(
-        hintText: "Enter your todo",
+      decoration: const InputDecoration(
+        hintText: 'Enter your todo',
         contentPadding: EdgeInsets.symmetric(horizontal: 10),
       ),
       controller: _textEditingController,
       textInputAction: TextInputAction.done,
       onSubmitted: (String? value) {
         if (value != null) {
-          String id = Random().nextInt(1000).toString();
-          Todo newTodo = Todo(value);
+          final String id = Random().nextInt(1000).toString();
+          final Todo newTodo = Todo(value);
           todoStore.addTodo(newTodo);
           _textEditingController.clear();
         }
@@ -100,7 +100,7 @@ class _TodoScreenState extends State<TodoScreen> {
     return Observer(builder: (BuildContext context) {
       return Column(
         children: [
-          ...todoStore.todos.map((todo) {
+          ...todoStore.todos.map((Todo todo) {
             return Observer(builder: (_) {
               return ListTile(
                 leading: Checkbox(
@@ -110,19 +110,19 @@ class _TodoScreenState extends State<TodoScreen> {
                   },
                 ),
                 trailing: IconButton(
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                   onPressed: () {
                     todoStore.removeTodo(todo);
                   },
                 ),
                 title: Text(todo.title),
                 subtitle: Text(DateTimeHelper.formatDate(
-                    todo.createdAt, "dd/MM/yyyy HH:ss")),
+                    todo.createdAt, 'dd/MM/yyyy HH:ss',),),
               );
-            });
+            },);
           })
         ],
       );
-    });
+    },);
   }
 }

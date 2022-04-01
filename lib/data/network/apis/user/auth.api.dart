@@ -4,7 +4,7 @@ import 'package:fruity/dto/user/user_request.dart';
 import 'package:fruity/dto/user/user_response.dart';
 
 class AuthAPI {
-  RestClient _restClient;
+  final RestClient _restClient;
 
   AuthAPI(this._restClient);
 
@@ -14,7 +14,7 @@ class AuthAPI {
           await _restClient.post('/login', body: <String, dynamic>{
         'phone_number': req.phoneNumber,
         'id_token': req.idToken,
-      });
+      },);
 
       return UserLoginResponseDTO.fromJson(response);
     } catch (e) {

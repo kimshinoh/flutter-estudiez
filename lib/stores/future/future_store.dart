@@ -6,19 +6,19 @@ class FutureStore<T> = FutureBase<T> with _$FutureStore;
 
 abstract class FutureBase<T> with Store {
   @observable
-  late String? errorMessage = null;
+  late String? errorMessage;
 
   @observable
   late ObservableFuture future;
 
   @observable
-  late T? data = null;
+  late T? data;
 
   @computed
   FutureState get futureState => _computeFutureState(future);
 
   FutureState _computeFutureState(ObservableFuture future) {
-    if (future == null || future.status == FutureStatus.rejected) {
+    if (future.status == FutureStatus.rejected) {
       return FutureState.initial;
     }
 

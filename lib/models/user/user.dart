@@ -13,7 +13,7 @@ class User {
     return User(
         id: prefs.getString('id') ?? '',
         fullName: prefs.getString('fullName') ?? '',
-        phoneNumber: prefs.getString('phoneNumber') ?? '');
+        phoneNumber: prefs.getString('phoneNumber') ?? '',);
   }
 
   Map<String, dynamic> toJson() => _$UserToJson(this);

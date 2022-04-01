@@ -72,7 +72,7 @@ class RestClient {
     final int statusCode = response.statusCode;
     final Map<String, dynamic> body =
         _decoder.convert(res) as Map<String, dynamic>;
-    final String? message = body['message'].toString();
+    final String message = body['message'].toString();
     if (statusCode < 200 || statusCode > 400) {
       throw NetworkException(
         message: message,

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/assest.dart';
-import 'package:fruity/routes.dart';
+import 'package:fruity/widgets/bottom_bar.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -28,7 +28,11 @@ class _SplashScreenState extends State<SplashScreen> {
       return;
     }
 
-    Navigator.of(context).pushReplacementNamed(Routes.home);
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (BuildContext context) => const MyBottombar(),
+      ),
+    );
   }
 
   @override

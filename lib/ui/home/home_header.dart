@@ -1,7 +1,5 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
-
 
 class MyHomeHeader extends SliverPersistentHeaderDelegate {
   MyHomeHeader({
@@ -22,12 +20,8 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    if (_topPadding == null) {
-      _topPadding = MediaQuery.of(context).padding.top;
-    }
-    if (_centerX == null) {
-      _centerX = MediaQuery.of(context).size.width / 2;
-    }
+    _topPadding ??= MediaQuery.of(context).padding.top;
+    _centerX ??= MediaQuery.of(context).size.width / 2;
 
     double percent = shrinkOffset / ((maxExtent - minExtent));
     percent = percent > 1 ? 1 : percent;
@@ -45,8 +39,8 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
   }
 
   Widget _buildAddressAndIcons(double shrinkOffset, BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    final double width = MediaQuery.of(context).size.width;
+    final double height = MediaQuery.of(context).size.height;
     return Align(
         alignment: Alignment.topCenter,
         child: Padding(
@@ -56,14 +50,14 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
               Opacity(
                   opacity: 1 - shrinkOffset / maxExtent,
                   child: Row(children: [
-                    Icon(
+                    const Icon(
                       Icons.location_on,
                       color: Colors.white,
                       size: 12,
                     ),
-                    Container(
+                    SizedBox(
                         width: width * 0.7,
-                        child: Text(
+                        child: const Text(
                           '102 Nguyễn Đổng Chi, Cầu Diễn, Nam Từ Liêm, Hà Nội',
                           style: TextStyle(
                             fontSize: 12,
@@ -72,21 +66,21 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
                           ),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
-                        ))
-                  ])),
+                        ),)
+                  ],),),
               Container(
                 padding: const EdgeInsets.only(left: 10),
                 width: width * 0.2,
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
+                    children: const <Widget>[
                       Icon(Icons.shopping_basket_outlined,
-                          color: Colors.white, size: 25),
-                      const SizedBox(width: 15),
+                          color: Colors.white, size: 25,),
+                      SizedBox(width: 15),
                       Icon(Icons.message_sharp, color: Colors.white, size: 25),
-                    ]),
+                    ],),
               )
-            ]))));
+            ],),),),);
   }
 
   double getScaledWidth(double width, double percent) =>
@@ -95,24 +89,24 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
   Widget _buildSearchBox(double percent) {
     final double rangeTop = minExtent - _shrinkedTopPos + 4;
 
-    final double top = minExtent - (rangeTop * (percent)) - 30;
+    final double top = minExtent - (rangeTop * percent) - 30;
 
     return Positioned(
       top: top,
-      child: Container(
+      child: SizedBox(
         width: getScaledWidth(searchBarMaxWidth, percent),
         child: Container(
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.greenAccent),
-                borderRadius: BorderRadius.all(Radius.circular(6))),
+                borderRadius: const BorderRadius.all(Radius.circular(6)),),
             height: 35,
             padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
             child: Stack(
               alignment: Alignment.centerLeft,
               children: [
-                Text(
-                  "Freeship toàn sàn - An tâm phòng dịch",
+                const Text(
+                  'Freeship toàn sàn - An tâm phòng dịch',
                   style: TextStyle(
                     fontSize: 13,
                     color: Colors.grey,
@@ -122,11 +116,11 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
                 ),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
+                    children: const <Widget>[
                       Icon(Icons.search, color: Colors.grey),
-                    ])
+                    ],)
               ],
-            )),
+            ),),
       ),
     );
   }

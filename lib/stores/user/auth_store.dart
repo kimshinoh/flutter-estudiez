@@ -13,21 +13,21 @@ part 'auth_store.g.dart';
 class AuthStore = _AuthStoreBase with _$AuthStore;
 
 abstract class _AuthStoreBase with Store {
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  AuthAPI _authAPI = AuthAPI(
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final AuthAPI _authAPI = AuthAPI(
     RestClient(),
   );
 
   FormLoginStore formLoginStore = FormLoginStore();
 
   @observable
-  late UserModel.User? user = null;
+  late UserModel.User? user;
 
   @observable
-  late String? token = null;
+  late String? token;
 
   @observable
-  late int? expiredAt = null;
+  late int? expiredAt;
 
   @observable
   String verificationId = '';
@@ -93,13 +93,13 @@ abstract class _AuthStoreBase with Store {
     await _auth.verifyPhoneNumber(
       phoneNumber: formLoginStore.transformPhoneNumber,
       timeout: const Duration(seconds: 60),
-      verificationCompleted: (credential) async {
+      verificationCompleted: (PhoneAuthCredential credential) async {
         try {
           isLoading = true;
           await _auth.signInWithCredential(credential);
           final User user = FirebaseAuth.instance.currentUser!;
-          String idToken = await user.getIdToken();
-          UserLoginResponseDTO res = await _authAPI.login(
+          final String idToken = await user.getIdToken();
+          final UserLoginResponseDTO res = await _authAPI.login(
             UserLoginRequestDTO(
               phoneNumber: formLoginStore.phoneNumber,
               idToken: idToken,
@@ -163,7 +163,7 @@ abstract class _AuthStoreBase with Store {
       final UserLoginResponseDTO res = await _authAPI.login(UserLoginRequestDTO(
         phoneNumber: formLoginStore.phoneNumber,
         idToken: idToken,
-      ));
+      ),);
 
       if (res.error != null) {
         errorMessage = res.error!;
