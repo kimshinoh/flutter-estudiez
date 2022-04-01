@@ -11,9 +11,10 @@ class User {
 
   factory User.fromPrefs(SharedPreferences prefs) {
     return User(
-        id: prefs.getString('id') ?? '',
-        fullName: prefs.getString('fullName') ?? '',
-        phoneNumber: prefs.getString('phoneNumber') ?? '',);
+      id: prefs.getString('id') ?? '',
+      fullName: prefs.getString('fullName') ?? '',
+      phoneNumber: prefs.getString('phoneNumber') ?? '',
+    );
   }
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
@@ -22,6 +23,12 @@ class User {
     prefs.setString('id', id);
     prefs.setString('fullName', fullName);
     prefs.setString('phoneNumber', phoneNumber);
+  }
+
+  static void clearPrefs(SharedPreferences prefs) {
+    prefs.remove('id');
+    prefs.remove('fullName');
+    prefs.remove('phoneNumber');
   }
 
   String id;

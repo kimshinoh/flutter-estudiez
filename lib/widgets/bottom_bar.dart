@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/ui/home/home.dart';
+import 'package:fruity/ui/personal/personal_screen.dart';
 
 class MyBottombar extends StatefulWidget {
   const MyBottombar({Key? key}) : super(key: key);
@@ -34,10 +35,7 @@ class _MyBottombarState extends State<MyBottombar> {
       'Index 3: School',
       style: optionStyle,
     ),
-    Text(
-      'Index 3: School',
-      style: optionStyle,
-    ),
+    PersonalScreen()
   ];
 
   @override

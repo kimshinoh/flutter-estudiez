@@ -171,18 +171,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
       ActionController(name: '_AuthStoreBase');
 
   @override
-  void setUser(UserModel.User user) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setUser');
-    try {
-      return super.setUser(user);
-    } finally {
-      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setErrorMessage(String errorMessage) {
+  void setErrorMessage(String errorMessage) {
     final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
         name: '_AuthStoreBase.setErrorMessage');
     try {
@@ -193,29 +182,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
   }
 
   @override
-  void setToken(String token) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setToken');
-    try {
-      return super.setToken(token);
-    } finally {
-      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setExpired(int expiredAt) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setExpired');
-    try {
-      return super.setExpired(expiredAt);
-    } finally {
-      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic setAuth(UserLoginResponseDTO res) {
+  void setAuth(UserLoginResponseDTO res) {
     final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
         name: '_AuthStoreBase.setAuth');
     try {

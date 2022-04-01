@@ -7,6 +7,7 @@ import 'package:fruity/dto/user/user_response.dart';
 import 'package:fruity/models/user/user.dart' as UserModel;
 import 'package:fruity/stores/user/form_login_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_store.g.dart';
 
@@ -14,6 +15,15 @@ class AuthStore = _AuthStoreBase with _$AuthStore;
 
 abstract class _AuthStoreBase with Store {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  late SharedPreferences _prefs;
+  _AuthStoreBase() {
+    init();
+  }
+
+  Future<void> init() async {
+    _prefs = await SharedPreferences.getInstance();
+  }
+
   final AuthAPI _authAPI = AuthAPI(
     RestClient(),
   );
@@ -21,13 +31,13 @@ abstract class _AuthStoreBase with Store {
   FormLoginStore formLoginStore = FormLoginStore();
 
   @observable
-  late UserModel.User? user;
+  late UserModel.User? user = null;
 
   @observable
-  late String? token;
+  late String? token = null;
 
   @observable
-  late int? expiredAt;
+  late int? expiredAt = null;
 
   @observable
   String verificationId = '';
@@ -46,33 +56,29 @@ abstract class _AuthStoreBase with Store {
   @observable
   bool isSuccess = false;
 
-  void setupValidations() {}
-
   @action
-  void setUser(UserModel.User user) {
-    this.user = user;
-  }
-
-  @action
-  setErrorMessage(String errorMessage) {
+  void setErrorMessage(String errorMessage) {
     this.errorMessage = errorMessage;
   }
 
   @action
-  void setToken(String token) {
-    this.token = token;
+  void setAuth(UserLoginResponseDTO res) {
+    user = res.user;
+    token = res.token;
+    expiredAt = res.expiredAt;
+    isLoggedIn = true;
+    isSuccess = true;
+    res.saveToPrefs(_prefs);
   }
 
-  @action
-  void setExpired(int expiredAt) {
-    this.expiredAt = expiredAt;
-  }
+  void removeAuth() {
+    user = null;
+    token = null;
+    expiredAt = null;
+    isLoggedIn = false;
+    isSuccess = false;
 
-  @action
-  setAuth(UserLoginResponseDTO res) {
-    setUser(res.user!);
-    setToken(res.token!);
-    setExpired(res.expiredAt!);
+    UserLoginResponseDTO.clearPrefs(_prefs);
   }
 
   @computed
@@ -111,8 +117,6 @@ abstract class _AuthStoreBase with Store {
             return;
           }
           setAuth(res);
-          isLoggedIn = true;
-          isSuccess = true;
         } on FirebaseException catch (e) {
           if (e.message != null) {
             errorMessage = e.message!;
@@ -160,18 +164,18 @@ abstract class _AuthStoreBase with Store {
       final User user = FirebaseAuth.instance.currentUser!;
       final String idToken = await user.getIdToken();
 
-      final UserLoginResponseDTO res = await _authAPI.login(UserLoginRequestDTO(
-        phoneNumber: formLoginStore.phoneNumber,
-        idToken: idToken,
-      ),);
+      final UserLoginResponseDTO res = await _authAPI.login(
+        UserLoginRequestDTO(
+          phoneNumber: formLoginStore.phoneNumber,
+          idToken: idToken,
+        ),
+      );
 
       if (res.error != null) {
         errorMessage = res.error!;
         return;
       }
       setAuth(res);
-      isLoggedIn = true;
-      isSuccess = true;
     } on FirebaseAuthException catch (e) {
       if (e.message != null) {
         errorMessage = e.message!;

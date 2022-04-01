@@ -27,10 +27,20 @@ class UserLoginResponseDTO {
 
   void saveToPrefs(SharedPreferences prefs) {
     if (user != null) {
-      prefs.setString(Preferences.token, token!);
-      prefs.setInt(Preferences.expiredAt, expiredAt!);
       user?.saveToPrefs(prefs);
     }
+    if (token != null) {
+      prefs.setString(Preferences.token, token!);
+    }
+    if (expiredAt != null) {
+      prefs.setInt(Preferences.expiredAt, expiredAt!);
+    }
+  }
+
+  static void clearPrefs(SharedPreferences prefs) {
+    User.clearPrefs(prefs);
+    prefs.remove(Preferences.token);
+    prefs.remove(Preferences.expiredAt);
   }
 
   Map<String, dynamic> toJson() => _$UserLoginResponseDTOToJson(this);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/stores/user/auth_store.dart';
 import 'package:fruity/ui/home/home_header.dart';
 import 'package:fruity/widgets/login_bottom_sheet.dart';
@@ -25,30 +26,33 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      floatingActionButton: const LoginBottomSheet(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverPersistentHeader(
-            delegate: MyHomeHeader(
-              minWidth: width * 0.75,
-              searchBarMaxWidth: width * 0.94,
+    return Observer(builder: (_) {
+      return Scaffold(
+        floatingActionButton:
+            !_store.isLoggedIn ? const LoginBottomSheet() : null,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: CustomScrollView(
+          slivers: <Widget>[
+            SliverPersistentHeader(
+              delegate: MyHomeHeader(
+                minWidth: width * 0.75,
+                searchBarMaxWidth: width * 0.94,
+              ),
+              pinned: true,
             ),
-            pinned: true,
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              child: SizedBox(
-                height: height,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
+            SliverToBoxAdapter(
+              child: Container(
+                child: SizedBox(
+                  height: height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
-      ),
-    );
+            )
+          ],
+        ),
+      );
+    });
   }
 }

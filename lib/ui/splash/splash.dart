@@ -2,7 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/assest.dart';
+import 'package:fruity/dto/user/user_response.dart';
+import 'package:fruity/stores/user/auth_store.dart';
 import 'package:fruity/widgets/bottom_bar.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -11,9 +15,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late AuthStore _store;
   @override
   void initState() {
     super.initState();
+    _store = context.read<AuthStore>();
     startTimer();
   }
 
@@ -23,6 +29,12 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _navigate() async {
+    SharedPreferences _preferences = await SharedPreferences.getInstance();
+    UserLoginResponseDTO user = UserLoginResponseDTO.fromPrefs(_preferences);
+    if (user.user != null) {
+      _store.setAuth(user);
+    }
+
     await Future<void>.delayed(const Duration(seconds: 1));
     if (!mounted) {
       return;
