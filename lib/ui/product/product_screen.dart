@@ -18,8 +18,8 @@ class _ProductScreenState extends State<ProductScreen> {
     // TODO: implement initState
     super.initState();
 
-    DioClient dio = DioClient(Dio());
-    dio.get('/users').then((value) {
+    final DioClient dio = DioClient(Dio());
+    dio.get('/users').then((Map<String, dynamic> value) {
       print(value);
     }).catchError((err) {
       print(err.message);
@@ -33,9 +33,9 @@ class _ProductScreenState extends State<ProductScreen> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              CategoryCarousel(),
+              const CategoryCarousel(),
               Row(
-                children: [
+                children: const [
                   SubcategoryCarousel(),
                   SizedBox(
                     width: 20,
@@ -47,6 +47,6 @@ class _ProductScreenState extends State<ProductScreen> {
               )
             ],
           ),
-        ));
+        ),);
   }
 }

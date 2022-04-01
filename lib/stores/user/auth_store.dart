@@ -32,13 +32,13 @@ abstract class _AuthStoreBase with Store {
   FormLoginStore formLoginStore = FormLoginStore();
 
   @observable
-  late UserModel.User? user = null;
+  late UserModel.User? user;
 
   @observable
-  late String? token = null;
+  late String? token;
 
   @observable
-  late int? expiredAt = null;
+  late int? expiredAt;
 
   @observable
   String verificationId = '';

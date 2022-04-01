@@ -169,7 +169,7 @@ class _formLoginState extends State<_formLogin> {
                       counterText: '',
                       labelText: 'Số điện thoại',
                       labelStyle: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w600),
+                          fontSize: 14, fontWeight: FontWeight.w600,),
                     ),
                   ),
                   TextField(
@@ -185,7 +185,7 @@ class _formLoginState extends State<_formLogin> {
                       counterText: '',
                       labelText: 'Mã xác minh',
                       labelStyle: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w600),
+                          fontSize: 14, fontWeight: FontWeight.w600,),
                       suffixStyle: const TextStyle(fontSize: 12),
                       suffixIconConstraints: const BoxConstraints(),
                       suffixIcon: OutlinedButton(

@@ -14,10 +14,10 @@ mixin _$FutureStore<T> on FutureBase<T>, Store {
   @override
   FutureState get futureState =>
       (_$futureStateComputed ??= Computed<FutureState>(() => super.futureState,
-              name: 'FutureBase.futureState'))
+              name: 'FutureBase.futureState',))
           .value;
 
-  final _$errorMessageAtom = Atom(name: 'FutureBase.errorMessage');
+  final Atom _$errorMessageAtom = Atom(name: 'FutureBase.errorMessage');
 
   @override
   String? get errorMessage {
@@ -32,7 +32,7 @@ mixin _$FutureStore<T> on FutureBase<T>, Store {
     });
   }
 
-  final _$futureAtom = Atom(name: 'FutureBase.future');
+  final Atom _$futureAtom = Atom(name: 'FutureBase.future');
 
   @override
   ObservableFuture<dynamic> get future {
@@ -47,7 +47,7 @@ mixin _$FutureStore<T> on FutureBase<T>, Store {
     });
   }
 
-  final _$dataAtom = Atom(name: 'FutureBase.data');
+  final Atom _$dataAtom = Atom(name: 'FutureBase.data');
 
   @override
   T? get data {

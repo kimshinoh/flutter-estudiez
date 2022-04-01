@@ -13,7 +13,7 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   static User? fromPrefs(SharedPreferences prefs) {
-    JsonDecoder _decoder = JsonDecoder();
+    const JsonDecoder _decoder = JsonDecoder();
 
     final Map<String, dynamic> _userJson =
         json.decode(prefs.getString(Preferences.user) ?? '{}')
@@ -37,7 +37,6 @@ class User {
     user['fullName'] = fullName;
     user['phoneNumber'] = phoneNumber;
     if (user.isNotEmpty) {
-      JsonEncoder _encoder = JsonEncoder();
       prefs.setString(Preferences.user, json.encode(user));
     }
   }

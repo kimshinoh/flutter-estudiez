@@ -17,7 +17,7 @@ class DioClient {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
-    _dio.options.validateStatus = (status) {
+    _dio.options.validateStatus = (int? status) {
       return status! <= 500;
     };
 
@@ -27,7 +27,7 @@ class DioClient {
             (RequestOptions options, RequestInterceptorHandler handler) async {
           // Do something before request is sent
           final SharedPreferences prefs = await SharedPreferences.getInstance();
-          final token = prefs.getString(Preferences.token);
+          final String? token = prefs.getString(Preferences.token);
 
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
@@ -144,7 +144,7 @@ class DioClient {
       );
     }
     if (statusCode != null && (statusCode < 200 || statusCode > 400)) {
-      late String message = "";
+      late String message = '';
       if (response.data != null) {
         if (response.data.runtimeType == String) {
           message = response.data as String;
