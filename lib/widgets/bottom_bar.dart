@@ -61,8 +61,8 @@ class _MyBottombarState extends State<MyBottombar> {
             label: 'Thông báo',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
-            activeIcon: Icon(Icons.shopping_cart),
+            icon: Icon(Icons.shopping_basket_outlined),
+            activeIcon: Icon(Icons.shopping_basket),
             label: 'Đơn hàng',
           ),
           BottomNavigationBarItem(
