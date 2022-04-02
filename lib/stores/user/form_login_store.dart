@@ -56,6 +56,13 @@ abstract class _FormLoginStoreBase with Store {
       formErrorStore.smsCode = null;
     }
   }
+
+  @action
+  dispose() {
+    for (final ReactionDisposer d in _disposers) {
+      d();
+    }
+  }
 }
 
 class FormErrorStore = _FormErrorStore with _$FormErrorStore;
