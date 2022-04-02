@@ -30,9 +30,9 @@ class PersonalScreen extends StatelessWidget {
               );
             }
             return Container();
-          }),
+          },),
         );
-      }),
+      },),
     );
   }
 }

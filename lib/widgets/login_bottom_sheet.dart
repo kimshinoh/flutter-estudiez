@@ -1,8 +1,8 @@
-import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/stores/user/auth_store.dart';
+import 'package:fruity/utils/notify_util.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +35,8 @@ class LoginBottomSheet extends StatelessWidget {
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
-                    AppColors.palette.shade500,),
+                  AppColors.palette.shade500,
+                ),
               ),
               child: const Text('Đăng nhập'),
               onPressed: () {
@@ -109,20 +110,13 @@ class _formLoginState extends State<_formLogin> {
     _disposers = [
       reaction((_) => _store.errorMessage, (_) {
         if (_store.errorMessage.isNotEmpty) {
-          FlushbarHelper.createError(
-            message: _store.errorMessage,
-            title: 'Lỗi',
-            duration: const Duration(seconds: 2),
-          ).show(context);
+          NotifyHelper.error(context, _store.errorMessage);
         }
       }),
       reaction((_) => _store.isSuccess, (_) {
         if (_store.isSuccess) {
           Navigator.of(context).pop();
-          FlushbarHelper.createSuccess(
-            message: 'Đăng nhập thành công',
-            duration: const Duration(seconds: 2),
-          ).show(context);
+          NotifyHelper.success(context, 'Đăng nhập thành công');
         }
       }),
     ];
@@ -174,8 +168,8 @@ class _formLoginState extends State<_formLogin> {
                           _store.formLoginStore.formErrorStore.phoneNumber,
                       counterText: '',
                       labelText: 'Số điện thoại',
-                      labelStyle:
-                          const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                      labelStyle: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w600,),
                     ),
                   ),
                   TextField(
@@ -190,12 +184,10 @@ class _formLoginState extends State<_formLogin> {
                       errorText: _store.formLoginStore.formErrorStore.smsCode,
                       counterText: '',
                       labelText: 'Mã xác minh',
-                      labelStyle:
-                          const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                      labelStyle: const TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w600,),
                       suffixStyle: const TextStyle(fontSize: 12),
-                      suffixIconConstraints: const BoxConstraints(
-                        
-                      ),
+                      suffixIconConstraints: const BoxConstraints(),
                       suffixIcon: OutlinedButton(
                         onPressed: () {
                           FocusScope.of(context).unfocus();
@@ -255,7 +247,8 @@ class _formLoginState extends State<_formLogin> {
                                 width: 20,
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.white,),
+                                    Colors.white,
+                                  ),
                                 ),
                               )
                             : const Text(

@@ -27,7 +27,7 @@ Map<String, dynamic> _$TodoToJson(Todo instance) => <String, dynamic>{
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$Todo on _Todo, Store {
-  final _$titleAtom = Atom(name: '_Todo.title');
+  final Atom _$titleAtom = Atom(name: '_Todo.title');
 
   @override
   String get title {
@@ -42,7 +42,7 @@ mixin _$Todo on _Todo, Store {
     });
   }
 
-  final _$completedAtom = Atom(name: '_Todo.completed');
+  final Atom _$completedAtom = Atom(name: '_Todo.completed');
 
   @override
   bool get completed {

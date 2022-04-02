@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:fruity/data/sharedpref/constants/preferences.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,26 +12,37 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  factory User.fromPrefs(SharedPreferences prefs) {
+  static User? fromPrefs(SharedPreferences prefs) {
+    const JsonDecoder _decoder = JsonDecoder();
+
+    final Map<String, dynamic> _userJson =
+        json.decode(prefs.getString(Preferences.user) ?? '{}')
+            as Map<String, dynamic>;
+
+    if (_userJson['id'] == null) {
+      return null;
+    }
     return User(
-      id: prefs.getString('id') ?? '',
-      fullName: prefs.getString('fullName') ?? '',
-      phoneNumber: prefs.getString('phoneNumber') ?? '',
+      id: _userJson['id'].toString(),
+      fullName: _userJson['fullName'].toString(),
+      phoneNumber: _userJson['phoneNumber'].toString(),
     );
   }
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
   void saveToPrefs(SharedPreferences prefs) {
-    prefs.setString('id', id);
-    prefs.setString('fullName', fullName);
-    prefs.setString('phoneNumber', phoneNumber);
+    final Map<String, String> user = <String, String>{};
+    user['id'] = id;
+    user['fullName'] = fullName;
+    user['phoneNumber'] = phoneNumber;
+    if (user.isNotEmpty) {
+      prefs.setString(Preferences.user, json.encode(user));
+    }
   }
 
   static void clearPrefs(SharedPreferences prefs) {
-    prefs.remove('id');
-    prefs.remove('fullName');
-    prefs.remove('phoneNumber');
+    prefs.remove(Preferences.user);
   }
 
   String id;

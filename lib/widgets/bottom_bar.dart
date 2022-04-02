@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/ui/home/home.dart';
 import 'package:fruity/ui/personal/personal_screen.dart';
+import 'package:fruity/ui/product/product_screen.dart';
 
 class MyBottombar extends StatefulWidget {
   const MyBottombar({Key? key}) : super(key: key);
@@ -23,10 +24,7 @@ class _MyBottombarState extends State<MyBottombar> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
+    ProductScreen(),
     Text(
       'Index 2: School',
       style: optionStyle,
@@ -63,8 +61,8 @@ class _MyBottombarState extends State<MyBottombar> {
             label: 'Thông báo',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
-            activeIcon: Icon(Icons.shopping_cart),
+            icon: Icon(Icons.shopping_basket_outlined),
+            activeIcon: Icon(Icons.shopping_basket),
             label: 'Đơn hàng',
           ),
           BottomNavigationBarItem(

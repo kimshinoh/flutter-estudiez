@@ -15,9 +15,11 @@ class UserLoginResponseDTO {
   factory UserLoginResponseDTO.withError(String error) =>
       UserLoginResponseDTO(error: error);
 
-  factory UserLoginResponseDTO.fromPrefs(SharedPreferences prefs) {
-    final User _user = User.fromPrefs(prefs);
-
+  static UserLoginResponseDTO? fromPrefs(SharedPreferences prefs) {
+    final User? _user = User.fromPrefs(prefs);
+    if (_user == null) {
+      return null;
+    }
     return UserLoginResponseDTO(
       user: _user,
       expiredAt: prefs.getInt(Preferences.expiredAt),
