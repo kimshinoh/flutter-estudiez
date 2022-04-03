@@ -46,39 +46,55 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
-    return Observer(builder: (_) {
-      return Scaffold(
-        floatingActionButton:
-            !_store.isLoggedIn ? const LoginBottomSheet() : null,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: CustomScrollView(
-          slivers: <Widget>[
-            SliverStack(insetOnOverlap: true, children: [
-              SliverToBoxAdapter(child: _body(width, height)),
-              SliverPersistentHeader(
-                delegate: MyHomeHeader(
-                  minWidth: width * 0.75,
-                  searchBarMaxWidth: width * 0.94,
-                ),
-                pinned: true,
-              ),
-            ])
-          ],
-        ),
-      );
-    },);
+    return Observer(
+      builder: (_) {
+        return Scaffold(
+          floatingActionButton:
+              !_store.isLoggedIn ? const LoginBottomSheet() : null,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          body: CustomScrollView(
+            slivers: <Widget>[
+              SliverStack(
+                insetOnOverlap: true,
+                children: [
+                  SliverToBoxAdapter(child: _body(width, height)),
+                  SliverPersistentHeader(
+                    delegate: MyHomeHeader(
+                      minWidth: width * 0.75,
+                      searchBarMaxWidth: width * 0.94,
+                    ),
+                    pinned: true,
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Widget _body(double width, double height) {
     return Container(
-        color: AppColors.primary,
-        child: Column(children: [
-          Stack(children: [
-            CarouselSlider(
-                items: banners.map((e) {
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+        begin: Alignment.topRight,
+        end: Alignment.bottomLeft,
+        colors: [
+          AppColors.primary,
+          AppColors.palette.shade400,
+        ],
+      )),
+      child: Column(
+        children: [
+          Stack(
+            children: [
+              CarouselSlider(
+                items: banners.map((Image e) {
                   return Builder(
                     builder: (BuildContext context) {
-                      return Container(
+                      return SizedBox(
                         width: width,
                         height: height,
                         child: e,
@@ -88,20 +104,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 }).toList(),
                 options: CarouselOptions(
                   viewportFraction: 1,
-                  // aspectRatio: 4/3,
-                  scrollDirection: Axis.horizontal,
                   autoPlay: true,
-                  onPageChanged: (i, r) {
+                  onPageChanged: (int i, CarouselPageChangedReason r) {
                     setState(() {
                       currentIndex = i;
                     });
                   },
-                )),
-            Positioned.fill(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                    padding: EdgeInsets.only(bottom: 5),
+                ),
+              ),
+              Positioned.fill(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
                     child: AnimatedSmoothIndicator(
                       activeIndex: currentIndex,
                       count: banners.length,
@@ -112,147 +127,172 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         activeDotColor: Colors.white,
                         dotColor: Colors.white.withOpacity(0.5),
                       ),
-                    )),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ]),
+            ],
+          ),
           const SizedBox(height: 20),
           Container(
             width: width * 0.9,
             height: 200,
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(Radius.circular(6))),
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(6)),
+            ),
             child: Column(
               children: [
                 Padding(
-                    padding: EdgeInsets.all(5),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  padding: const EdgeInsets.all(5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
                         children: [
-                          Container(
-                              child: Row(
-                            children: [
-                              Container(
-                                  child: Image.asset(
-                                'assets/images/hot.png',
-                                width: 40,
-                              )),
-                              GradientText(
-                                'Top Sản Phẩm',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                                gradient: LinearGradient(colors: [
-                                  Colors.orange.shade400,
-                                  Colors.orange.shade900,
-                                ]),
-                              ),
-                            ],
-                          )),
-                          Container(
-                              child: Row(
-                            children: [
-                              Text('Xem thêm',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey)),
-                              Icon(Icons.arrow_forward_ios,
-                                  size: 15, color: Colors.grey)
-                            ],
-                          ))
-                        ])),
-                // Padding(
-                //   padding: EdgeInsets.only(bottom: 5),
-                // child:
+                          Image.asset(
+                            'assets/images/hot.png',
+                            width: 40,
+                          ),
+                          GradientText(
+                            'Top Sản Phẩm',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.orange.shade400,
+                                Colors.orange.shade900,
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: const [
+                          Text(
+                            'Xem thêm',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 15,
+                            color: Colors.grey,
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+
                 Expanded(
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    itemBuilder: (context, index) {
-                      return Container(
-                          child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          width: 120,
-                          child: Column(
-                            children: [
-                              Container(
-                                  width: 95,
-                                  height: 95,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 10,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {},
+                          child: SizedBox(
+                            width: 100,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  width: 96,
+                                  height: 96,
                                   child: Stack(
                                     fit: StackFit.expand,
                                     children: [
                                       ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          child: SizedBox.fromSize(
-                                            child: Image.asset(
-                                              'assets/images/dautangtrongiu.jpg',
-                                              fit: BoxFit.cover,
-                                            ),
-                                          )),
+                                        borderRadius: BorderRadius.circular(3),
+                                        child: SizedBox.fromSize(
+                                          child: Image.asset(
+                                            'assets/images/dautangtrongiu.jpg',
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
                                       Positioned(
                                         top: 0,
                                         left: 0,
                                         child: Container(
-                                          width: 40,
-                                          height: 23,
                                           decoration: BoxDecoration(
                                             color: Colors.red.shade100,
                                             border: Border.all(
-                                                color: Colors.red, width: 1.2),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(1))),
-                                          child: Text(
-                                            '-30%',
-                                            
-                                            style: TextStyle(
-                                              letterSpacing: 0.7,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.red),
+                                              color: Colors.red,
+                                              width: 1.2,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(3),
+                                            ),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2),
+                                            child: Text(
+                                              '-30%',
+                                              style: TextStyle(
+                                                letterSpacing: 0.7,
+                                                fontSize: 11,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.red,
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       )
                                     ],
-                                  )),
-                              const SizedBox(height: 8),
-                              Text('23.000₫',
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.orange.shade400)),
-                              const SizedBox(height: 3),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.person_rounded,
-                                    color: Colors.grey,
-                                    size: 20,
                                   ),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    '20',
-                                    style: TextStyle(
-                                        fontSize: 13, color: Colors.grey),
-                                  )
-                                ],
-                              )
-                            ],
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  '23.000₫',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.orange.shade400,
+                                  ),
+                                ),
+                                const SizedBox(height: 3),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Icon(
+                                      Icons.person_rounded,
+                                      color: Colors.grey,
+                                      size: 16,
+                                    ),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      '20',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ));
-                    },
+                        );
+                      },
+                    ),
                   ),
                 ),
                 // )
               ],
             ),
           ),
-          const SizedBox(height: 2000)
-        ]));
+          SizedBox(height: height)
+        ],
+      ),
+    );
   }
 }

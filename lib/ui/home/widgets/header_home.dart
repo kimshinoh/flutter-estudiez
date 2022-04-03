@@ -43,8 +43,10 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
       alignment: Alignment.topCenter,
       child: Padding(
         padding: EdgeInsets.only(top: _topPadding!),
-        child: Container(
+        child: SizedBox(
+          width: width,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Opacity(
                 opacity: 1 - shrinkOffset / maxExtent,
@@ -73,16 +75,15 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
               ),
               Container(
                 padding: const EdgeInsets.only(left: 10),
-                width: width * 0.2,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const <Widget>[
                     Icon(
                       Icons.shopping_basket_outlined,
                       color: Colors.white,
                       size: 25,
                     ),
-                    SizedBox(width: 15),
+                    SizedBox(width: 10),
                     Icon(Icons.message_sharp, color: Colors.white, size: 25),
                   ],
                 ),
@@ -96,6 +97,7 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
 
   double getScaledWidth(double width, double percent) =>
       width - ((width - minWidth) * percent);
+
   Color getColorHeader(double percent) =>
       AppColors.palette.shade600.withOpacity(percent);
 
@@ -116,24 +118,23 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
           ),
           height: 35,
           padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
-          child: Stack(
-            alignment: Alignment.centerLeft,
-            children: [
-              const Text(
-                'Freeship toàn sàn - An tâm phòng dịch',
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Colors.grey,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              Expanded(
+                child: SizedBox(
+                  child: Text(
+                    'Freeship toàn sàn - An tâm phòng dịch',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
                 ),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: const <Widget>[
-                  Icon(Icons.search, color: Colors.grey),
-                ],
-              )
+              Icon(Icons.search, color: Colors.grey),
             ],
           ),
         ),

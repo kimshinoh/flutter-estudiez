@@ -19,7 +19,7 @@ class LoginBottomSheet extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 5),
         width: MediaQuery.of(context).size.width * 0.95,
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.7),
+          color: Colors.black.withOpacity(0.5),
           borderRadius: const BorderRadius.all(Radius.circular(5)),
         ),
         child: Row(
@@ -29,7 +29,7 @@ class LoginBottomSheet extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.6,
               child: const Text(
                 'Đăng nhập ngay để nhận nhiều ưu đãi hơn',
-                style: TextStyle(color: Colors.white, fontSize: 14),
+                style: TextStyle(color: Colors.white, fontSize: 12),
               ),
             ),
             ElevatedButton(
@@ -169,7 +169,9 @@ class _formLoginState extends State<_formLogin> {
                       counterText: '',
                       labelText: 'Số điện thoại',
                       labelStyle: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w600,),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   TextField(
@@ -183,9 +185,11 @@ class _formLoginState extends State<_formLogin> {
                     decoration: InputDecoration(
                       errorText: _store.formLoginStore.formErrorStore.smsCode,
                       counterText: '',
-                      labelText: 'Mã xác minh',
+                      labelText: 'Mã xác thực',
                       labelStyle: const TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w600,),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
                       suffixStyle: const TextStyle(fontSize: 12),
                       suffixIconConstraints: const BoxConstraints(),
                       suffixIcon: OutlinedButton(
