@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/ui/home/home.dart';
+import 'package:fruity/ui/product/product_screen.dart';
 import 'package:fruity/ui/splash/splash.dart';
-import 'package:fruity/ui/todo/todo_screen.dart';
 
 class Routes {
   Routes._();
@@ -10,10 +10,11 @@ class Routes {
   static const String splash = '/splash';
   static const String home = '/home';
   static const String todo = '/todo';
+  static const String product = '/product';
 
   static final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => const SplashScreen(),
     home: (BuildContext context) => const HomeScreen(),
-    todo: (BuildContext context) => const TodoScreen()
+    product: (BuildContext context) => const ProductScreen()
   };
 }

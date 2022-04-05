@@ -98,6 +98,10 @@ class _formLoginState extends State<_formLogin> {
     super.dispose();
     _phoneController.dispose();
     _secureCodeController.dispose();
+    for (final ReactionDisposer d in _disposers) {
+      d();
+    }
+    _store.formLoginStore.dispose();
   }
 
   @override

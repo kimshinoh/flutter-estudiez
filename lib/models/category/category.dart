@@ -12,7 +12,11 @@ class Category {
 
   String id;
   String name;
-  String imageUrl;
+
+  @JsonKey(name: 'image_url')
+  String? imageUrl;
+
+  @JsonKey(name: 'parent_id')
   String? parentId;
 
   factory Category.fromJson(Map<String, dynamic> json) =>
