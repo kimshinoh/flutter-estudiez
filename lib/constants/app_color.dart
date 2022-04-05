@@ -25,4 +25,6 @@ class AppColors {
     700: Color(0xFF5BFF2D),
   });
   static const int _mcgpalette0AccentValue = 0xFF97FF7A;
+  static const Color primary = Color.fromARGB(255, 26, 162, 70);
+  static const Color backgroudGrey = Color.fromARGB(255, 242, 242, 242);
 }
