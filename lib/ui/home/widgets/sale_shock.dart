@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
@@ -51,14 +50,14 @@ class SaleShock extends StatelessWidget {
           const SizedBox(
             height: 2,
           ),
-          Text(
-            "Siêu ưu đãi, giá cực shock chỉ từ 1k",
+          const Text(
+            'Siêu ưu đãi, giá cực shock chỉ từ 1k',
             style: TextStyle(
                 fontSize: 13,
                 color: Color.fromARGB(255, 124, 124, 124),
-                fontWeight: FontWeight.w600),
+                fontWeight: FontWeight.w600,),
           ),
-          Container(
+          SizedBox(
             height: 450,
             width: width,
             child: ListView.builder(
@@ -66,7 +65,7 @@ class SaleShock extends StatelessWidget {
               itemCount: itemCount,
               itemBuilder: (BuildContext context, int index) {
                 return InkWell(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
                     onTap: () {},
                     child: Column(children: [
                       SizedBox(
@@ -75,7 +74,7 @@ class SaleShock extends StatelessWidget {
                         child: Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.fromLTRB(0, 15, 0, 15),
+                              padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
                               height: width * 0.3,
                               width: width * 0.3,
                               decoration: const BoxDecoration(
@@ -83,18 +82,18 @@ class SaleShock extends StatelessWidget {
                                     image: AssetImage(
                                       'assets/images/chocopiechotrongiu.jpg',
                                     ),
-                                    fit: BoxFit.cover),
+                                    fit: BoxFit.cover,),
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                               ),
                             ),
                             Container(
-                                padding: EdgeInsets.fromLTRB(15, 10, 5, 0),
+                                padding: const EdgeInsets.fromLTRB(15, 10, 5, 0),
                                 width: width * 0.6,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Trong gay',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
@@ -104,7 +103,7 @@ class SaleShock extends StatelessWidget {
                                       ),
                                     ),
                                     const SizedBox(height: 8),
-                                    Text(
+                                    const Text(
                                       'Fresh Meat- Thit heo song',
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
@@ -114,17 +113,15 @@ class SaleShock extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 6),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
+                                      children: const [
                                         RadiantGradientMask(
+                                            firstColor: Colors.orange,
+                                            secondColor: Colors.yellow,
                                             child: Icon(
                                               Icons.star,
                                               size: 20,
                                               color: Colors.white,
-                                            ),
-                                            firstColor: Colors.orange,
-                                            secondColor: Colors.yellow),
+                                            ),),
                                         SizedBox(width: 4),
                                         Text(
                                           '4.8',
@@ -137,7 +134,7 @@ class SaleShock extends StatelessWidget {
                                     ),
                                     const SizedBox(height: 6),
                                     RichText(
-                                        text: TextSpan(
+                                        text: const TextSpan(
                                       text: '55.000₫',
                                       style: TextStyle(
                                         fontSize: 15,
@@ -153,12 +150,12 @@ class SaleShock extends StatelessWidget {
                                           ),
                                         ),
                                       ],
-                                    )),
+                                    ),),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
+                                      children: const [
                                         Text(
-                                          "Đã bán 230",
+                                          'Đã bán 230',
                                           style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.grey,
@@ -172,7 +169,7 @@ class SaleShock extends StatelessWidget {
                                       ],
                                     )
                                   ],
-                                )),
+                                ),),
                           ],
                         ),
                       ),
@@ -182,7 +179,7 @@ class SaleShock extends StatelessWidget {
                           thickness: 1,
                           color: AppColors.backgroudGrey,
                         )
-                    ]));
+                    ],),);
               },
             ),
           )

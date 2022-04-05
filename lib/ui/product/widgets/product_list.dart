@@ -16,21 +16,33 @@ class ProductList extends StatelessWidget {
 
     return Observer(
       builder: (BuildContext context) {
-        return Skeleton(
-          isLoading: _categoryStore.productStore.loading,
-          skeleton: const _ProductListSkeleton(),
-          child: ListView.separated(
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(
-              thickness: 1,
-              height: 1,
+        return Container(
+          margin: const EdgeInsets.only(left: 1),
+          decoration: BoxDecoration(
+            border: Border(
+              left: BorderSide(
+                color: Colors.grey.shade300,
+              ),
             ),
-            itemCount: _categoryStore.productStore.products.length,
-            itemBuilder: (BuildContext context, int index) {
-              final Product product =
-                  _categoryStore.productStore.products[index];
-              return _ProductItem(product: product);
-            },
+          ),
+          child: Skeleton(
+            isLoading: _categoryStore.productStore.loading,
+            skeleton: const _ProductListSkeleton(),
+            child: ListView.separated(
+              separatorBuilder: (BuildContext context, int index) => const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Divider(
+                  thickness: 1,
+                  height: 1,
+                ),
+              ),
+              itemCount: _categoryStore.productStore.products.length,
+              itemBuilder: (BuildContext context, int index) {
+                final Product product =
+                    _categoryStore.productStore.products[index];
+                return _ProductItem(product: product);
+              },
+            ),
           ),
         );
       },
@@ -45,14 +57,14 @@ class _ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.all(Radius.circular(10)),
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
       onTap: () {
         print('navigate to product dettail');
       },
       child: Stack(children: [
         Container(
           padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.only(right: 10),
+          color: Colors.white,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -71,7 +83,7 @@ class _ProductItem extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: Container(
+                child: SizedBox(
                   height: 80,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,11 +96,11 @@ class _ProductItem extends StatelessWidget {
                             product.name.trim(),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold,),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                               top: 5,
                             ),
                             child: product.packs.isNotEmpty
@@ -96,10 +108,10 @@ class _ProductItem extends StatelessWidget {
                                     product.packs.join('/'),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.normal,
-                                        color: Colors.black87),
+                                        color: Colors.black87,),
                                   )
                                 : Container(),
                           ),
@@ -114,14 +126,14 @@ class _ProductItem extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.palette.shade500),
+                                  color: AppColors.palette.shade500,),
                             ),
                             TextSpan(
-                              text: "/ ${product.unit}",
-                              style: TextStyle(
+                              text: '/ ${product.unit}',
+                              style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.normal,
-                                  color: Colors.grey),
+                                  color: Colors.grey,),
                             ),
                           ],
                         ),
@@ -134,7 +146,7 @@ class _ProductItem extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 10,
+          bottom: 0,
           right: 10,
           child: IconButton(
             onPressed: () {
@@ -147,7 +159,7 @@ class _ProductItem extends StatelessWidget {
             ),
           ),
         )
-      ]),
+      ],),
     );
   }
 }
@@ -164,6 +176,7 @@ class _ProductListSkeleton extends StatelessWidget {
       ),
       itemCount: 15,
       itemBuilder: (BuildContext context, int index) {
+        final double width = MediaQuery.of(context).size.width;
         return Container(
           width: 100,
           height: 100,
@@ -182,33 +195,35 @@ class _ProductListSkeleton extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                SkeletonParagraph(
-                  style: SkeletonParagraphStyle(
-                      lines: 1,
-                      lineStyle: SkeletonLineStyle(
-                        height: 10,
-                        width: 150,
-                      )),
+                Expanded(
+                  child: SkeletonParagraph(
+                    style: const SkeletonParagraphStyle(
+                        lines: 1,
+                        lineStyle: SkeletonLineStyle(
+                          height: 10,
+                          width: 120,
+                        ),),
+                  ),
                 ),
                 SkeletonParagraph(
-                  style: SkeletonParagraphStyle(
+                  style: const SkeletonParagraphStyle(
                       lines: 1,
                       lineStyle: SkeletonLineStyle(
                         height: 10,
-                        width: 150,
-                      )),
+                        width: 120,
+                      ),),
                 ),
                 SkeletonParagraph(
-                  style: SkeletonParagraphStyle(
+                  style: const SkeletonParagraphStyle(
                       lines: 1,
                       lineStyle: SkeletonLineStyle(
                         height: 10,
-                        width: 100,
-                      )),
+                        width: 80,
+                      ),),
                 ),
               ],
             )
-          ]),
+          ],),
         );
       },
     );

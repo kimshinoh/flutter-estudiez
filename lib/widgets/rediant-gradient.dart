@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class RadiantGradientMask extends StatelessWidget {
-  RadiantGradientMask(
+  const RadiantGradientMask(
       {required this.child,
       required this.firstColor,
       required this.secondColor});
@@ -12,9 +12,7 @@ class RadiantGradientMask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
-      shaderCallback: (bounds) => RadialGradient(
-        center: Alignment.center,
-        radius: 0.5,
+      shaderCallback: (Rect bounds) => RadialGradient(
         colors: [firstColor, secondColor],
         tileMode: TileMode.mirror,
       ).createShader(bounds),
