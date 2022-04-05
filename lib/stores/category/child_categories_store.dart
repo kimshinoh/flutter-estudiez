@@ -29,7 +29,6 @@ abstract class _ChildCategoryStoreBase with Store {
       final CategoryListResponse res = await _categoryAPI.getChildCategories(
         CategoryListRequest(query: {'parent_id': category.id}),
       );
-      await Future.delayed(Duration(seconds: 1));
 
       if (res.errorMessage != null) {
         errorMessage = res.errorMessage;

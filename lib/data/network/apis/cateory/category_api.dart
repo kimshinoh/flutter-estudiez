@@ -45,4 +45,22 @@ class CategoryAPI {
       return CategoryListResponse.withError(e.toString());
     }
   }
+
+  Future<ListProductsByCategoryResponse> getProductsByCategory(
+    ListProductsByCategoryRequest req,
+  ) async {
+    try {
+      final Map<String, dynamic> response = await _dioClient.get(
+        '/categories/${req.categoryId}/products',
+      );
+      return ListProductsByCategoryResponse.fromJson(response);
+    } catch (e) {
+      if (e is NetworkException) {
+        return ListProductsByCategoryResponse.withError(
+          e.message ?? 'Có lỗi xảy ra',
+        );
+      }
+      return ListProductsByCategoryResponse.withError(e.toString());
+    }
+  }
 }

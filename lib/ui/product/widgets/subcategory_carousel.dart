@@ -61,7 +61,6 @@ class _SubcategoryItem extends StatelessWidget {
       height: 45,
       child: InkWell(
         onTap: () {
-          // scrollTo();
           _categoryStore.setSelectChildCategory(category);
         },
         child: Row(

@@ -29,7 +29,6 @@ abstract class _ParentCategoryStoreBase with Store {
       final CategoryListResponse res =
           await _categoryAPI.getParentCategories(CategoryListRequest());
 
-      await Future.delayed(Duration(seconds: 1));
       if (res.errorMessage != null) {
         errorMessage = res.errorMessage;
       } else {

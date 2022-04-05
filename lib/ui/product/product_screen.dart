@@ -33,18 +33,21 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: ProductScreenAppBar(),
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Column(
           children: [
             const CategoryCarousel(),
-            Row(
-              children: const <Widget>[
-                SubcategoryCarousel(),
-                Expanded(
-                  child: ProductList(),
-                ),
-              ],
+            Expanded(
+              child: Row(
+                children: const <Widget>[
+                  SubcategoryCarousel(),
+                  Expanded(
+                    child: ProductList(),
+                  ),
+                ],
+              ),
             )
           ],
         ),

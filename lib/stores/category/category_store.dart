@@ -1,6 +1,7 @@
 import 'package:fruity/models/category/category.dart';
 import 'package:fruity/stores/category/child_categories_store.dart';
 import 'package:fruity/stores/category/parent_categories_store.dart';
+import 'package:fruity/stores/category/product_store.dart';
 import 'package:mobx/mobx.dart';
 
 part 'category_store.g.dart';
@@ -10,7 +11,7 @@ class CategoryStore = _CategoryStoreBase with _$CategoryStore;
 abstract class _CategoryStoreBase with Store {
   ChildCategoryStore childCategoryStore = ChildCategoryStore();
   ParentCategoryStore parentCategoryStore = ParentCategoryStore();
-
+  ProductStore productStore = ProductStore();
   List<ReactionDisposer> _disposers = [];
 
   @observable
@@ -23,10 +24,16 @@ abstract class _CategoryStoreBase with Store {
     _disposers = [
       reaction((_) => selectedCategory, (_) async {
         if (selectedCategory != null) {
+          productStore.loading = true;
           await childCategoryStore.getCategories(selectedCategory!);
           if (childCategoryStore.categories.isNotEmpty) {
             selectedChildCategory = childCategoryStore.categories.first;
           }
+        }
+      }),
+      reaction((_) => selectedChildCategory, (_) async {
+        if (selectedChildCategory != null) {
+          await productStore.getProducts(selectedChildCategory!.id);
         }
       }),
     ];

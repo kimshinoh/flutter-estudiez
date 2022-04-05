@@ -73,6 +73,7 @@ class _MyBottombarState extends State<MyBottombar> {
         ],
         currentIndex: _selectedIndex,
         iconSize: 20,
+        elevation: 0,
         unselectedFontSize: 10,
         selectedFontSize: 12,
         onTap: _onItemTapped,
