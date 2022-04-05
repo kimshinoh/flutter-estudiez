@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
@@ -51,19 +50,18 @@ class SaleOff extends StatelessWidget {
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-              child: Text(
-                "Thực phẩm tươi ngon - Giá tốt mỗi ngày",
+              child: const Text(
+                'Thực phẩm tươi ngon - Giá tốt mỗi ngày',
                 style: TextStyle(
                     fontSize: 13,
                     color: Color.fromARGB(255, 124, 124, 124),
-                    fontWeight: FontWeight.w600),
+                    fontWeight: FontWeight.w600,),
               ),
             ),
             const SizedBox(
               height: 15,
             ),
             Align(
-              alignment: Alignment.center,
               child: Container(
                 padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                 height: 130,
@@ -73,7 +71,7 @@ class SaleOff extends StatelessWidget {
                       image: AssetImage(
                         'assets/images/saleoff.png',
                       ),
-                      fit: BoxFit.fill),
+                      fit: BoxFit.fill,),
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
               ),
@@ -97,7 +95,7 @@ class SaleOff extends StatelessWidget {
               ),
             )
           ],
-        ));
+        ),);
   }
 
   Widget _watchMore(BuildContext context) {
@@ -113,7 +111,7 @@ class SaleOff extends StatelessWidget {
             size: 40,
             color: AppColors.primary,
           ),
-          const SizedBox(
+          SizedBox(
             height: 10,
           ),
           Text(
@@ -125,13 +123,13 @@ class SaleOff extends StatelessWidget {
             ),
           ),
         ],
-      )),
+      ),),
     );
   }
 
   Widget _builderItem(BuildContext context, int index) {
     return InkWell(
-      borderRadius: BorderRadius.all(Radius.circular(10)),
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
       onTap: () {},
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -156,7 +154,7 @@ class SaleOff extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            Text(
+            const Text(
               'Trong gay',
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
@@ -166,7 +164,7 @@ class SaleOff extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            Text(
+            const Text(
               'Fresh Meat- Thit heo song',
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
@@ -176,16 +174,15 @@ class SaleOff extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
+              children: const [
                 RadiantGradientMask(
+                    firstColor: Colors.orange,
+                    secondColor: Colors.yellow,
                     child: Icon(
                       Icons.star,
                       size: 20,
                       color: Colors.white,
-                    ),
-                    firstColor: Colors.orange,
-                    secondColor: Colors.yellow),
+                    ),),
                 SizedBox(width: 4),
                 Text(
                   '4.8',
@@ -198,7 +195,7 @@ class SaleOff extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             RichText(
-                text: TextSpan(
+                text: const TextSpan(
               text: '55.000₫',
               style: TextStyle(
                 fontSize: 15,
@@ -214,21 +211,21 @@ class SaleOff extends StatelessWidget {
                   ),
                 ),
               ],
-            )),
+            ),),
             const SizedBox(height: 6),
-            Text("60.000₫",
+            const Text('60.000₫',
                 style: TextStyle(
                   fontSize: 14,
                   decoration: TextDecoration.lineThrough,
                   color: Colors.grey,
-                )),
-            Align(
+                ),),
+            const Align(
                 alignment: Alignment.centerRight,
                 child: Icon(
                   Icons.add_circle,
                   size: 30,
                   color: AppColors.primary,
-                )),
+                ),),
           ],
         ),
       ),

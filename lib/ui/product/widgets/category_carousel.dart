@@ -38,7 +38,7 @@ class _CategoryCarouselState extends State<CategoryCarousel> {
         builder: (_) {
           return Skeleton(
             isLoading: _categoryStore.parentCategoryStore.loading,
-            skeleton: _CategoryListSkeleton(),
+            skeleton: const _CategoryListSkeleton(),
             child: ScrollablePositionedList.builder(
               itemCount: _categoryStore.parentCategoryStore.categories.length,
               itemScrollController: itemScrollController,
@@ -94,7 +94,7 @@ class _CategoryItem extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(category.imageUrl ??
-                          'https://via.placeholder.com/150'),
+                          'https://via.placeholder.com/150',),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -111,7 +111,7 @@ class _CategoryItem extends StatelessWidget {
                     width: 70,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 3),
+                          horizontal: 5, vertical: 3,),
                       child: Text(
                         category.name,
                         maxLines: 1,

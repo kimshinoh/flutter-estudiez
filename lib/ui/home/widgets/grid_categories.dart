@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GridCategory extends StatelessWidget {
@@ -27,8 +26,8 @@ class GridCategory extends StatelessWidget {
                     Image.asset('assets/images/meat.png',
                         width: widthIcon,
                         height: heightIcon,
-                        fit: BoxFit.cover),
-                    SizedBox(
+                        fit: BoxFit.cover,),
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
@@ -46,8 +45,8 @@ class GridCategory extends StatelessWidget {
                     Image.asset('assets/images/fruit.png',
                         width: widthIcon,
                         height: heightIcon,
-                        fit: BoxFit.cover),
-                    SizedBox(
+                        fit: BoxFit.cover,),
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
@@ -65,8 +64,8 @@ class GridCategory extends StatelessWidget {
                     Image.asset('assets/images/fruit2.png',
                         width: widthIcon,
                         height: heightIcon,
-                        fit: BoxFit.cover),
-                    SizedBox(
+                        fit: BoxFit.cover,),
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
@@ -84,8 +83,8 @@ class GridCategory extends StatelessWidget {
                     Image.asset('assets/images/cook.png',
                         width: widthIcon,
                         height: heightIcon,
-                        fit: BoxFit.cover),
-                    SizedBox(
+                        fit: BoxFit.cover,),
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
@@ -103,8 +102,8 @@ class GridCategory extends StatelessWidget {
                     Image.asset('assets/images/sale.png',
                         width: widthIcon,
                         height: heightIcon,
-                        fit: BoxFit.cover),
-                    SizedBox(
+                        fit: BoxFit.cover,),
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
@@ -122,8 +121,8 @@ class GridCategory extends StatelessWidget {
                     Image.asset('assets/images/seed.png',
                         width: widthIcon,
                         height: heightIcon,
-                        fit: BoxFit.cover),
-                    SizedBox(
+                        fit: BoxFit.cover,),
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
@@ -141,8 +140,8 @@ class GridCategory extends StatelessWidget {
                     Image.asset('assets/images/seafood.png',
                         width: widthIcon,
                         height: heightIcon,
-                        fit: BoxFit.cover),
-                    SizedBox(
+                        fit: BoxFit.cover,),
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
@@ -160,8 +159,8 @@ class GridCategory extends StatelessWidget {
                     Image.asset('assets/images/snack.png',
                         width: widthIcon,
                         height: heightIcon,
-                        fit: BoxFit.cover),
-                    SizedBox(
+                        fit: BoxFit.cover,),
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
@@ -173,6 +172,6 @@ class GridCategory extends StatelessWidget {
                   ],
                 ),
               ),
-            ]));
+            ],),);
   }
 }

@@ -16,7 +16,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
           Computed<bool>(() => super.canLogin, name: '_AuthStoreBase.canLogin'))
       .value;
 
-  final _$userAtom = Atom(name: '_AuthStoreBase.user');
+  final Atom _$userAtom = Atom(name: '_AuthStoreBase.user');
 
   @override
   UserModel.User? get user {
@@ -31,7 +31,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$tokenAtom = Atom(name: '_AuthStoreBase.token');
+  final Atom _$tokenAtom = Atom(name: '_AuthStoreBase.token');
 
   @override
   String? get token {
@@ -46,7 +46,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$expiredAtAtom = Atom(name: '_AuthStoreBase.expiredAt');
+  final Atom _$expiredAtAtom = Atom(name: '_AuthStoreBase.expiredAt');
 
   @override
   int? get expiredAt {
@@ -61,7 +61,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$verificationIdAtom = Atom(name: '_AuthStoreBase.verificationId');
+  final Atom _$verificationIdAtom = Atom(name: '_AuthStoreBase.verificationId');
 
   @override
   String get verificationId {
@@ -76,7 +76,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$isLoadingAtom = Atom(name: '_AuthStoreBase.isLoading');
+  final Atom _$isLoadingAtom = Atom(name: '_AuthStoreBase.isLoading');
 
   @override
   bool get isLoading {
@@ -91,7 +91,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$isLoggedInAtom = Atom(name: '_AuthStoreBase.isLoggedIn');
+  final Atom _$isLoggedInAtom = Atom(name: '_AuthStoreBase.isLoggedIn');
 
   @override
   bool get isLoggedIn {
@@ -106,7 +106,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$isVerifiedAtom = Atom(name: '_AuthStoreBase.isVerified');
+  final Atom _$isVerifiedAtom = Atom(name: '_AuthStoreBase.isVerified');
 
   @override
   bool get isVerified {
@@ -121,7 +121,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: '_AuthStoreBase.errorMessage');
+  final Atom _$errorMessageAtom = Atom(name: '_AuthStoreBase.errorMessage');
 
   @override
   String get errorMessage {
@@ -136,7 +136,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$isSuccessAtom = Atom(name: '_AuthStoreBase.isSuccess');
+  final Atom _$isSuccessAtom = Atom(name: '_AuthStoreBase.isSuccess');
 
   @override
   bool get isSuccess {
@@ -151,7 +151,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$handleRequestOTPAsyncAction =
+  final AsyncAction _$handleRequestOTPAsyncAction =
       AsyncAction('_AuthStoreBase.handleRequestOTP');
 
   @override
@@ -159,7 +159,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     return _$handleRequestOTPAsyncAction.run(() => super.handleRequestOTP());
   }
 
-  final _$handleVerifyOTPAsyncAction =
+  final AsyncAction _$handleVerifyOTPAsyncAction =
       AsyncAction('_AuthStoreBase.handleVerifyOTP');
 
   @override
@@ -167,13 +167,13 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     return _$handleVerifyOTPAsyncAction.run(() => super.handleVerifyOTP());
   }
 
-  final _$_AuthStoreBaseActionController =
+  final ActionController _$_AuthStoreBaseActionController =
       ActionController(name: '_AuthStoreBase');
 
   @override
   void setErrorMessage(String errorMessage) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setErrorMessage');
+    final ActionRunInfo _$actionInfo = _$_AuthStoreBaseActionController.startAction(
+        name: '_AuthStoreBase.setErrorMessage',);
     try {
       return super.setErrorMessage(errorMessage);
     } finally {
@@ -183,8 +183,8 @@ mixin _$AuthStore on _AuthStoreBase, Store {
 
   @override
   void setAuth(UserLoginResponseDTO res) {
-    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setAuth');
+    final ActionRunInfo _$actionInfo = _$_AuthStoreBaseActionController.startAction(
+        name: '_AuthStoreBase.setAuth',);
     try {
       return super.setAuth(res);
     } finally {

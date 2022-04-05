@@ -24,7 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late AuthStore _store;
   late int currentIndex;
   late double topPosition = 190;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   late double offset = 0;
   final double maxPosition = 190;
   final double minPosition = 160;
@@ -105,13 +105,13 @@ class _HomeScreenState extends State<HomeScreen> {
           AppColors.primary,
           AppColors.palette.shade400,
         ],
-      )),
+      ),),
       child: _underHeader(width, height),
     );
   }
 
   Widget _mainBody(double width, double height) {
-    return Container(
+    return SizedBox(
       // height: 800,
       width: width,
       child: Stack(
@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             // height: height,
             width: width,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColors.backgroudGrey,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20),
@@ -129,12 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
+              children: const [
                 GridCategory(),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 SaleOff(),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 SaleShock()
               ],
             ),
@@ -159,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       fit: BoxFit.cover,
                       width: width * 0.3,
                     ),
-                  ])),
+                  ],),),
         ],
       ),
     );
@@ -218,12 +217,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     width: width * 0.9,
                     height: 200,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.all(Radius.circular(6)),
                     ),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(5),
@@ -316,9 +314,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       Radius.circular(3),
                                                     ),
                                                   ),
-                                                  child: Padding(
+                                                  child: const Padding(
                                                     padding:
-                                                        const EdgeInsets.all(2),
+                                                        EdgeInsets.all(2),
                                                     child: Text(
                                                       '-30%',
                                                       style: TextStyle(
@@ -382,7 +380,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   _mainBody(width, height)
                 ],
-              ))
+              ),)
         ],
       ),
     );

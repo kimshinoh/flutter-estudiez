@@ -15,10 +15,10 @@ abstract class _CategoryStoreBase with Store {
   List<ReactionDisposer> _disposers = [];
 
   @observable
-  late Category? selectedCategory = null;
+  late Category? selectedCategory;
 
   @observable
-  late Category? selectedChildCategory = null;
+  late Category? selectedChildCategory;
 
   void setupUpdateParent() {
     _disposers = [

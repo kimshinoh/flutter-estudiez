@@ -28,7 +28,7 @@ abstract class _ProductStoreBase with Store {
       loading = true;
       final ListProductsByCategoryResponse res =
           await _categoryAPI.getProductsByCategory(
-              ListProductsByCategoryRequest(categoryId: categoryId));
+              ListProductsByCategoryRequest(categoryId: categoryId),);
 
       if (res.errorMessage != null) {
         errorMessage = res.errorMessage;

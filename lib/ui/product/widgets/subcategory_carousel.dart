@@ -17,7 +17,8 @@ class SubcategoryCarousel extends StatelessWidget {
 
     return Observer(
       builder: (BuildContext context) {
-        return SizedBox(
+        return Container(
+          color: Colors.white,
           width: 75,
           height: height,
           child: Skeleton(
@@ -25,9 +26,12 @@ class SubcategoryCarousel extends StatelessWidget {
             skeleton: const _SubcategoryCarouselSkeleton(),
             child: ListView.separated(
               separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(
-                thickness: 1,
-                height: 1,
+                  const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Divider(
+                  thickness: 1,
+                  height: 1,
+                ),
               ),
               itemCount: _categoryStore.childCategoryStore.categories.length,
               itemBuilder: (BuildContext context, int index) {
@@ -64,7 +68,6 @@ class _SubcategoryItem extends StatelessWidget {
           _categoryStore.setSelectChildCategory(category);
         },
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Observer(
               builder: (_) {
@@ -120,15 +123,16 @@ class _SubcategoryCarouselSkeleton extends StatelessWidget {
         thickness: 1,
         height: 1,
       ),
-      itemBuilder: (BuildContext context, int index) => Container(
-          height: 45,
-          alignment: Alignment.center,
-          child: SkeletonParagraph(
-            style: SkeletonParagraphStyle(
-                lines: 1,
-                lineStyle:
-                    SkeletonLineStyle(height: 10, alignment: Alignment.center)),
-          )),
+      itemBuilder: (BuildContext context, int index) => Align(
+        child: SkeletonParagraph(
+          style: const SkeletonParagraphStyle(
+              lines: 1,
+              lineStyle: SkeletonLineStyle(
+                height: 10,
+                padding: EdgeInsets.symmetric(vertical: 10),
+              ),),
+        ),
+      ),
       itemCount: 15,
     );
   }
