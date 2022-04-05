@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:fruity/data/network/apis/cateory/category_apit.dart';
+import 'package:fruity/data/network/apis/cateory/category_api.dart';
+import 'package:fruity/data/network/dio_client.dart';
 import 'package:fruity/dto/category/category_request.dart';
 import 'package:fruity/dto/category/category_response.dart';
 import 'package:fruity/models/category/category.dart';
 import 'package:mobx/mobx.dart';
-
-import '../../data/network/dio_client.dart';
 
 part 'child_categories_store.g.dart';
 
@@ -18,7 +17,7 @@ abstract class _ChildCategoryStoreBase with Store {
   List<Category> categories = [];
 
   @observable
-  bool loading = false;
+  bool loading = true;
 
   @observable
   String? errorMessage;
@@ -28,7 +27,10 @@ abstract class _ChildCategoryStoreBase with Store {
     try {
       loading = true;
       final CategoryListResponse res = await _categoryAPI.getChildCategories(
-          CategoryListRequest(query: {'category_id': category.id}),);
+        CategoryListRequest(query: {'parent_id': category.id}),
+      );
+      await Future.delayed(Duration(seconds: 1));
+
       if (res.errorMessage != null) {
         errorMessage = res.errorMessage;
       } else {

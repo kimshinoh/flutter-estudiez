@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fruity/data/network/apis/cateory/category_apit.dart';
+import 'package:fruity/data/network/apis/cateory/category_api.dart';
 import 'package:fruity/data/network/dio_client.dart';
 import 'package:fruity/dto/category/category_request.dart';
 import 'package:fruity/dto/category/category_response.dart';
@@ -28,6 +28,8 @@ abstract class _ParentCategoryStoreBase with Store {
       loading = true;
       final CategoryListResponse res =
           await _categoryAPI.getParentCategories(CategoryListRequest());
+
+      await Future.delayed(Duration(seconds: 1));
       if (res.errorMessage != null) {
         errorMessage = res.errorMessage;
       } else {

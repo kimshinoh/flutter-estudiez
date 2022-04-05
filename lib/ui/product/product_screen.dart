@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fruity/stores/category/category_store.dart';
 import 'package:fruity/ui/product/widgets/category_carousel.dart';
 import 'package:fruity/ui/product/widgets/header_product_screen.dart';
+import 'package:fruity/ui/product/widgets/product_list.dart';
 import 'package:fruity/ui/product/widgets/subcategory_carousel.dart';
 import 'package:provider/provider.dart';
 
@@ -38,13 +39,10 @@ class _ProductScreenState extends State<ProductScreen> {
           children: [
             const CategoryCarousel(),
             Row(
-              children: const [
+              children: const <Widget>[
                 SubcategoryCarousel(),
-                SizedBox(
-                  width: 20,
-                ),
                 Expanded(
-                  child: SubcategoryCarousel(),
+                  child: ProductList(),
                 ),
               ],
             )

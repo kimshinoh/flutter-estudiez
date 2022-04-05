@@ -14,13 +14,19 @@ abstract class _CategoryStoreBase with Store {
   List<ReactionDisposer> _disposers = [];
 
   @observable
-  late Category? selectedCategory;
+  late Category? selectedCategory = null;
+
+  @observable
+  late Category? selectedChildCategory = null;
 
   void setupUpdateParent() {
     _disposers = [
       reaction((_) => selectedCategory, (_) async {
         if (selectedCategory != null) {
-          childCategoryStore.getCategories(selectedCategory!);
+          await childCategoryStore.getCategories(selectedCategory!);
+          if (childCategoryStore.categories.isNotEmpty) {
+            selectedChildCategory = childCategoryStore.categories.first;
+          }
         }
       }),
     ];
@@ -28,13 +34,23 @@ abstract class _CategoryStoreBase with Store {
 
   @action
   Future<void> init() async {
-    await parentCategoryStore.getCategories();
-    selectedCategory = parentCategoryStore.categories.first;
+    if (parentCategoryStore.categories.isEmpty) {
+      await parentCategoryStore.getCategories();
+      if (parentCategoryStore.categories.isNotEmpty) {
+        selectedCategory = parentCategoryStore.categories.first;
+        selectedChildCategory = parentCategoryStore.categories.first;
+      }
+    }
   }
 
   @action
   void setSelectCategory(Category category) {
     selectedCategory = category;
+  }
+
+  @action
+  void setSelectChildCategory(Category category) {
+    selectedChildCategory = category;
   }
 
   @action

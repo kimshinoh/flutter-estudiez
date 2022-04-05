@@ -25,6 +25,23 @@ mixin _$CategoryStore on _CategoryStoreBase, Store {
     });
   }
 
+  final _$selectedChildCategoryAtom =
+      Atom(name: '_CategoryStoreBase.selectedChildCategory');
+
+  @override
+  Category? get selectedChildCategory {
+    _$selectedChildCategoryAtom.reportRead();
+    return super.selectedChildCategory;
+  }
+
+  @override
+  set selectedChildCategory(Category? value) {
+    _$selectedChildCategoryAtom.reportWrite(value, super.selectedChildCategory,
+        () {
+      super.selectedChildCategory = value;
+    });
+  }
+
   final _$initAsyncAction = AsyncAction('_CategoryStoreBase.init');
 
   @override
@@ -47,6 +64,17 @@ mixin _$CategoryStore on _CategoryStoreBase, Store {
   }
 
   @override
+  void setSelectChildCategory(Category category) {
+    final _$actionInfo = _$_CategoryStoreBaseActionController.startAction(
+        name: '_CategoryStoreBase.setSelectChildCategory');
+    try {
+      return super.setSelectChildCategory(category);
+    } finally {
+      _$_CategoryStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void dispose() {
     final _$actionInfo = _$_CategoryStoreBaseActionController.startAction(
         name: '_CategoryStoreBase.dispose');
@@ -60,7 +88,8 @@ mixin _$CategoryStore on _CategoryStoreBase, Store {
   @override
   String toString() {
     return '''
-selectedCategory: ${selectedCategory}
+selectedCategory: ${selectedCategory},
+selectedChildCategory: ${selectedChildCategory}
     ''';
   }
 }
