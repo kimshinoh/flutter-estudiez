@@ -16,13 +16,34 @@ class CategoryCarousel extends StatefulWidget {
 
 class _CategoryCarouselState extends State<CategoryCarousel> {
   late CategoryStore _categoryStore;
-  final ItemScrollController itemScrollController = ItemScrollController();
+  late ItemScrollController itemScrollController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    itemScrollController = ItemScrollController();
     _categoryStore = context.read<CategoryStore>();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    final Category? selectedCategory = _categoryStore.selectedCategory;
+
+    if (selectedCategory != null) {
+      final int index = _categoryStore.parentCategoryStore.categories
+          .indexOf(selectedCategory);
+      Future<void>.delayed(Duration.zero, () {
+        itemScrollController.scrollTo(
+          index: index,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+          alignment: 0.5,
+        );
+      });
+    }
   }
 
   @override
@@ -93,8 +114,9 @@ class _CategoryItem extends StatelessWidget {
                   height: 60,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(category.imageUrl ??
-                          'https://via.placeholder.com/150',),
+                      image: NetworkImage(
+                        category.imageUrl ?? 'https://via.placeholder.com/150',
+                      ),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -111,7 +133,9 @@ class _CategoryItem extends StatelessWidget {
                     width: 70,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 3,),
+                        horizontal: 5,
+                        vertical: 3,
+                      ),
                       child: Text(
                         category.name,
                         maxLines: 1,

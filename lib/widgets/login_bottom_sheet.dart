@@ -196,39 +196,54 @@ class _formLoginState extends State<_formLogin> {
                       ),
                       suffixStyle: const TextStyle(fontSize: 12),
                       suffixIconConstraints: const BoxConstraints(),
-                      suffixIcon: OutlinedButton(
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
-                          if (_store.canVerify) {
-                            _store.handleRequestOTP();
-                          }
-                        },
-                        style: OutlinedButton.styleFrom(
-                          primary: _store.canVerify
-                              ? AppColors.palette.shade500
-                              : Colors.grey.shade500,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                          ),
-                          side: BorderSide(
-                            color: _store.canVerify
-                                ? AppColors.palette.shade500
-                                : Colors.grey.shade500,
-                          ),
-                          textStyle: TextStyle(
-                            color: _store.canVerify
-                                ? AppColors.palette.shade500
-                                : Colors.grey.shade500,
-                            fontSize: 12,
-                          ),
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 5,
-                            horizontal: 15,
-                          ),
-                        ),
-                        child: const Text('Gửi mã'),
-                      ),
+                      suffixIcon: Observer(builder: (_) {
+                        return OutlinedButton(
+                            onPressed: () {
+                              FocusScope.of(context).unfocus();
+                              if (_store.canVerify) {
+                                _store.handleRequestOTP();
+                              }
+                            },
+                            style: OutlinedButton.styleFrom(
+                              primary: _store.canVerify
+                                  ? AppColors.palette.shade500
+                                  : Colors.grey.shade500,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30)),
+                              ),
+                              side: BorderSide(
+                                color: _store.canVerify
+                                    ? AppColors.palette.shade500
+                                    : Colors.grey.shade500,
+                              ),
+                              textStyle: TextStyle(
+                                color: _store.canVerify
+                                    ? AppColors.palette.shade500
+                                    : Colors.grey.shade500,
+                                fontSize: 12,
+                              ),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 5,
+                                horizontal: 15,
+                              ),
+                            ),
+                            child: Observer(builder: (_) {
+                              return _store.isLoadingSentCode
+                                  ? SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator())
+                                  : const Text(
+                                      'Gửi mã',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    );
+                            }));
+                      }),
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -251,8 +266,8 @@ class _formLoginState extends State<_formLogin> {
                         },
                         child: _store.isLoading
                             ? const SizedBox(
-                                height: 20,
-                                width: 20,
+                                height: 10,
+                                width: 10,
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation<Color>(
                                     Colors.white,

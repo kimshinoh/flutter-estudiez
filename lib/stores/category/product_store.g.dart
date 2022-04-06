@@ -9,7 +9,7 @@ part of 'product_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ProductStore on _ProductStoreBase, Store {
-  final Atom _$productsAtom = Atom(name: '_ProductStoreBase.products');
+  final _$productsAtom = Atom(name: '_ProductStoreBase.products');
 
   @override
   List<Product> get products {
@@ -24,7 +24,7 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final Atom _$loadingAtom = Atom(name: '_ProductStoreBase.loading');
+  final _$loadingAtom = Atom(name: '_ProductStoreBase.loading');
 
   @override
   bool get loading {
@@ -39,7 +39,7 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final Atom _$errorMessageAtom = Atom(name: '_ProductStoreBase.errorMessage');
+  final _$errorMessageAtom = Atom(name: '_ProductStoreBase.errorMessage');
 
   @override
   String? get errorMessage {
@@ -54,7 +54,7 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final AsyncAction _$getProductsAsyncAction = AsyncAction('_ProductStoreBase.getProducts');
+  final _$getProductsAsyncAction = AsyncAction('_ProductStoreBase.getProducts');
 
   @override
   Future<void> getProducts(String categoryId) {

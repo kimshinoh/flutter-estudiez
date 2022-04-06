@@ -16,7 +16,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
           Computed<bool>(() => super.canLogin, name: '_AuthStoreBase.canLogin'))
       .value;
 
-  final Atom _$userAtom = Atom(name: '_AuthStoreBase.user');
+  final _$userAtom = Atom(name: '_AuthStoreBase.user');
 
   @override
   UserModel.User? get user {
@@ -31,7 +31,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final Atom _$tokenAtom = Atom(name: '_AuthStoreBase.token');
+  final _$tokenAtom = Atom(name: '_AuthStoreBase.token');
 
   @override
   String? get token {
@@ -46,7 +46,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final Atom _$expiredAtAtom = Atom(name: '_AuthStoreBase.expiredAt');
+  final _$expiredAtAtom = Atom(name: '_AuthStoreBase.expiredAt');
 
   @override
   int? get expiredAt {
@@ -61,7 +61,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final Atom _$verificationIdAtom = Atom(name: '_AuthStoreBase.verificationId');
+  final _$verificationIdAtom = Atom(name: '_AuthStoreBase.verificationId');
 
   @override
   String get verificationId {
@@ -76,7 +76,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final Atom _$isLoadingAtom = Atom(name: '_AuthStoreBase.isLoading');
+  final _$isLoadingAtom = Atom(name: '_AuthStoreBase.isLoading');
 
   @override
   bool get isLoading {
@@ -91,7 +91,23 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final Atom _$isLoggedInAtom = Atom(name: '_AuthStoreBase.isLoggedIn');
+  final _$isLoadingSentCodeAtom =
+      Atom(name: '_AuthStoreBase.isLoadingSentCode');
+
+  @override
+  bool get isLoadingSentCode {
+    _$isLoadingSentCodeAtom.reportRead();
+    return super.isLoadingSentCode;
+  }
+
+  @override
+  set isLoadingSentCode(bool value) {
+    _$isLoadingSentCodeAtom.reportWrite(value, super.isLoadingSentCode, () {
+      super.isLoadingSentCode = value;
+    });
+  }
+
+  final _$isLoggedInAtom = Atom(name: '_AuthStoreBase.isLoggedIn');
 
   @override
   bool get isLoggedIn {
@@ -106,7 +122,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final Atom _$isVerifiedAtom = Atom(name: '_AuthStoreBase.isVerified');
+  final _$isVerifiedAtom = Atom(name: '_AuthStoreBase.isVerified');
 
   @override
   bool get isVerified {
@@ -121,7 +137,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final Atom _$errorMessageAtom = Atom(name: '_AuthStoreBase.errorMessage');
+  final _$errorMessageAtom = Atom(name: '_AuthStoreBase.errorMessage');
 
   @override
   String get errorMessage {
@@ -136,7 +152,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final Atom _$isSuccessAtom = Atom(name: '_AuthStoreBase.isSuccess');
+  final _$isSuccessAtom = Atom(name: '_AuthStoreBase.isSuccess');
 
   @override
   bool get isSuccess {
@@ -151,7 +167,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final AsyncAction _$handleRequestOTPAsyncAction =
+  final _$handleRequestOTPAsyncAction =
       AsyncAction('_AuthStoreBase.handleRequestOTP');
 
   @override
@@ -159,7 +175,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     return _$handleRequestOTPAsyncAction.run(() => super.handleRequestOTP());
   }
 
-  final AsyncAction _$handleVerifyOTPAsyncAction =
+  final _$handleVerifyOTPAsyncAction =
       AsyncAction('_AuthStoreBase.handleVerifyOTP');
 
   @override
@@ -167,13 +183,20 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     return _$handleVerifyOTPAsyncAction.run(() => super.handleVerifyOTP());
   }
 
-  final ActionController _$_AuthStoreBaseActionController =
+  final _$handleLoginAsyncAction = AsyncAction('_AuthStoreBase.handleLogin');
+
+  @override
+  Future<void> handleLogin(AuthCredential credential) {
+    return _$handleLoginAsyncAction.run(() => super.handleLogin(credential));
+  }
+
+  final _$_AuthStoreBaseActionController =
       ActionController(name: '_AuthStoreBase');
 
   @override
   void setErrorMessage(String errorMessage) {
-    final ActionRunInfo _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setErrorMessage',);
+    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
+        name: '_AuthStoreBase.setErrorMessage');
     try {
       return super.setErrorMessage(errorMessage);
     } finally {
@@ -183,10 +206,21 @@ mixin _$AuthStore on _AuthStoreBase, Store {
 
   @override
   void setAuth(UserLoginResponseDTO res) {
-    final ActionRunInfo _$actionInfo = _$_AuthStoreBaseActionController.startAction(
-        name: '_AuthStoreBase.setAuth',);
+    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
+        name: '_AuthStoreBase.setAuth');
     try {
       return super.setAuth(res);
+    } finally {
+      _$_AuthStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void cleanState() {
+    final _$actionInfo = _$_AuthStoreBaseActionController.startAction(
+        name: '_AuthStoreBase.cleanState');
+    try {
+      return super.cleanState();
     } finally {
       _$_AuthStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -200,6 +234,7 @@ token: ${token},
 expiredAt: ${expiredAt},
 verificationId: ${verificationId},
 isLoading: ${isLoading},
+isLoadingSentCode: ${isLoadingSentCode},
 isLoggedIn: ${isLoggedIn},
 isVerified: ${isVerified},
 errorMessage: ${errorMessage},

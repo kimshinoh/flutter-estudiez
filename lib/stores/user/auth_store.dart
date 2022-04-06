@@ -32,18 +32,21 @@ abstract class _AuthStoreBase with Store {
   FormLoginStore formLoginStore = FormLoginStore();
 
   @observable
-  late UserModel.User? user;
+  UserModel.User? user;
 
   @observable
-  late String? token;
+  String? token;
 
   @observable
-  late int? expiredAt;
+  int? expiredAt;
 
   @observable
   String verificationId = '';
   @observable
   bool isLoading = false;
+
+  @observable
+  bool isLoadingSentCode = false;
 
   @observable
   bool isLoggedIn = false;
@@ -87,37 +90,32 @@ abstract class _AuthStoreBase with Store {
       formLoginStore.phoneNumber.isNotEmpty &&
       formLoginStore.smsCode.isNotEmpty &&
       !formLoginStore.formErrorStore.hasErrorsInLogin &&
-      verificationId.isNotEmpty;
+      verificationId.isNotEmpty &&
+      !isLoading;
 
   bool get canVerify =>
       formLoginStore.phoneNumber.isNotEmpty &&
-      !formLoginStore.formErrorStore.hasErrorsInVerify;
+      !formLoginStore.formErrorStore.hasErrorsInVerify &&
+      !isLoading;
+
+  @action
+  void cleanState() {
+    isLoading = false;
+    isSuccess = false;
+    errorMessage = '';
+  }
 
   @action
   Future<void> handleRequestOTP() async {
-    errorMessage = '';
-    isSuccess = false;
-    await _auth.verifyPhoneNumber(
+    cleanState();
+    isLoadingSentCode = true;
+    await _auth
+        .verifyPhoneNumber(
       phoneNumber: formLoginStore.transformPhoneNumber,
-      timeout: const Duration(seconds: 60),
       verificationCompleted: (PhoneAuthCredential credential) async {
         try {
           isLoading = true;
-          await _auth.signInWithCredential(credential);
-          final User user = FirebaseAuth.instance.currentUser!;
-          final String idToken = await user.getIdToken();
-          final UserLoginResponseDTO res = await _authAPI.login(
-            UserLoginRequestDTO(
-              phoneNumber: formLoginStore.phoneNumber,
-              idToken: idToken,
-            ),
-          );
-
-          if (res.error != null) {
-            errorMessage = res.error!;
-            return;
-          }
-          setAuth(res);
+          await handleLogin(credential);
         } on FirebaseException catch (e) {
           if (e.message != null) {
             errorMessage = e.message!;
@@ -134,9 +132,13 @@ abstract class _AuthStoreBase with Store {
           isLoading = false;
         }
       },
-      codeAutoRetrievalTimeout: (String verificationId) {},
+      codeAutoRetrievalTimeout: (String codeAutoRetrievalTimeout) {
+        verificationId = verificationId;
+        isLoadingSentCode = false;
+      },
       codeSent: (String verificationId, int? forceResendingToken) {
         this.verificationId = verificationId;
+        isLoadingSentCode = false;
       },
       verificationFailed: (FirebaseAuthException error) {
         if (error.message != null) {
@@ -145,13 +147,15 @@ abstract class _AuthStoreBase with Store {
           errorMessage = error.toString();
         }
       },
-    );
+    )
+        .catchError((err) {
+      errorMessage = err.toString();
+    });
   }
 
   @action
   Future<void> handleVerifyOTP() async {
-    errorMessage = '';
-    isSuccess = false;
+    cleanState();
 
     final AuthCredential credential = PhoneAuthProvider.credential(
       verificationId: verificationId,
@@ -160,23 +164,7 @@ abstract class _AuthStoreBase with Store {
 
     try {
       isLoading = true;
-      await _auth.signInWithCredential(credential);
-
-      final User user = FirebaseAuth.instance.currentUser!;
-      final String idToken = await user.getIdToken();
-
-      final UserLoginResponseDTO res = await _authAPI.login(
-        UserLoginRequestDTO(
-          phoneNumber: formLoginStore.phoneNumber,
-          idToken: idToken,
-        ),
-      );
-
-      if (res.error != null) {
-        errorMessage = res.error!;
-        return;
-      }
-      setAuth(res);
+      await handleLogin(credential);
     } on FirebaseAuthException catch (e) {
       if (e.message != null) {
         errorMessage = e.message!;
@@ -192,5 +180,25 @@ abstract class _AuthStoreBase with Store {
     } finally {
       isLoading = false;
     }
+  }
+
+  @action
+  Future<void> handleLogin(AuthCredential credential) async {
+    await _auth.signInWithCredential(credential);
+    final User user = FirebaseAuth.instance.currentUser!;
+    final String idToken = await user.getIdToken();
+
+    final UserLoginResponseDTO res = await _authAPI.login(
+      UserLoginRequestDTO(
+        phoneNumber: formLoginStore.phoneNumber,
+        idToken: idToken,
+      ),
+    );
+
+    if (res.error != null) {
+      errorMessage = res.error!;
+      return;
+    }
+    setAuth(res);
   }
 }
