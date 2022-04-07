@@ -1,3 +1,4 @@
+import 'package:fruity/models/cart/cart.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'product.g.dart';
@@ -46,4 +47,16 @@ class Product {
       _$ProductFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductToJson(this);
+
+  CartItem toCartItem({int quantity = 1}) {
+    return CartItem(
+      id: id,
+      productId: id,
+      name: name,
+      price: price,
+      unit: unit,
+      imageUrl: imageUrl,
+      quantity: quantity,
+    );
+  }
 }

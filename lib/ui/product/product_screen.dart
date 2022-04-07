@@ -14,7 +14,27 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: ProductScreenAppBar(),
+      body: Provider<CategoryStore>(
+          create: (_) => CategoryStore(), child: _ProductScreenBody()),
+    );
+  }
+}
+
+class _ProductScreenBody extends StatefulWidget {
+  _ProductScreenBody({Key? key}) : super(key: key);
+
+  @override
+  State<_ProductScreenBody> createState() => __ProductScreenBodyState();
+}
+
+class __ProductScreenBodyState extends State<_ProductScreenBody> {
   late CategoryStore _categoryStore;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -32,25 +52,21 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: ProductScreenAppBar(),
-      body: SafeArea(
-        child: Column(
-          children: [
-            const CategoryCarousel(),
-            Expanded(
-              child: Row(
-                children: const <Widget>[
-                  SubcategoryCarousel(),
-                  Expanded(
-                    child: ProductList(),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+    return SafeArea(
+      child: Column(
+        children: [
+          const CategoryCarousel(),
+          Expanded(
+            child: Row(
+              children: const <Widget>[
+                SubcategoryCarousel(),
+                Expanded(
+                  child: ProductList(),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

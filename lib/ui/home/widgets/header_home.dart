@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/widgets/cart.dart';
 
 class MyHomeHeader extends SliverPersistentHeaderDelegate {
   MyHomeHeader({
@@ -74,17 +75,14 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
                 ),
               ),
               Container(
-                padding: const EdgeInsets.only(left: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const <Widget>[
+                  children: <Widget>[
+                    CartButton(badgeColor: Colors.red),
                     Icon(
-                      Icons.shopping_basket_outlined,
+                      Icons.message_sharp,
                       color: Colors.white,
-                      size: 25,
                     ),
-                    SizedBox(width: 10),
-                    Icon(Icons.message_sharp, color: Colors.white, size: 25),
                   ],
                 ),
               )

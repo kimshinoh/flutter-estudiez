@@ -4,6 +4,7 @@ import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/stores/category/category_store.dart';
 import 'package:fruity/utils/money.dart';
+import 'package:fruity/widgets/add_to_cart_button.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:fruity/extensions/string_extension.dart';
@@ -178,19 +179,11 @@ class _ProductItem extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: 0,
-            right: 10,
-            child: IconButton(
-              onPressed: () {
-                print('add to cart');
-              },
-              icon: Icon(
-                Icons.add_circle,
-                size: 30,
-                color: AppColors.palette.shade500,
-              ),
-            ),
-          )
+              bottom: 0,
+              right: 10,
+              child: AddToCartButton(
+                product: product,
+              ))
         ],
       ),
     );
