@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +37,9 @@ class CartButton extends StatelessWidget {
             color: iconColor,
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed(Routes.cart);
+        },
       );
     });
   }

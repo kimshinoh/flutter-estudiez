@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
-import 'package:fruity/widgets/cart.dart';
+import 'package:fruity/widgets/cart_button.dart';
 
 AppBar ProductScreenAppBar() {
   return AppBar(
@@ -43,7 +43,8 @@ AppBar ProductScreenAppBar() {
       );
     }),
     actions: [
-      CartButton(iconColor: Colors.black, badgeColor: AppColors.primary),
+      CartButton(
+          iconColor: Colors.black, badgeColor: AppColors.palette.shade500),
     ],
   );
 }

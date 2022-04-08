@@ -20,13 +20,15 @@ class _ProductScreenState extends State<ProductScreen> {
       resizeToAvoidBottomInset: false,
       appBar: ProductScreenAppBar(),
       body: Provider<CategoryStore>(
-          create: (_) => CategoryStore(), child: _ProductScreenBody()),
+        create: (_) => CategoryStore(),
+        child: const _ProductScreenBody(),
+      ),
     );
   }
 }
 
 class _ProductScreenBody extends StatefulWidget {
-  _ProductScreenBody({Key? key}) : super(key: key);
+  const _ProductScreenBody({Key? key}) : super(key: key);
 
   @override
   State<_ProductScreenBody> createState() => __ProductScreenBodyState();

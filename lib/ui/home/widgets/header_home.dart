@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
-import 'package:fruity/widgets/cart.dart';
+import 'package:fruity/widgets/cart_button.dart';
 
 class MyHomeHeader extends SliverPersistentHeaderDelegate {
   MyHomeHeader({
