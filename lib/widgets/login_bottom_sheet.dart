@@ -12,7 +12,6 @@ class LoginBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double fullHeight = MediaQuery.of(context).size.height;
-    final double fullWidth = MediaQuery.of(context).size.width;
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
