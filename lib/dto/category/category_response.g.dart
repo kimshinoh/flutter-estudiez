@@ -9,7 +9,7 @@ part of 'category_response.dart';
 CategoryListResponse _$CategoryListResponseFromJson(
         Map<String, dynamic> json) =>
     CategoryListResponse(
-      errorMessage: json['message'] as String?,
+      errorMessage: json['errorMessage'] as String?,
       categories: (json['categories'] as List<dynamic>)
           .map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -19,7 +19,7 @@ Map<String, dynamic> _$CategoryListResponseToJson(
         CategoryListResponse instance) =>
     <String, dynamic>{
       'categories': instance.categories,
-      'message': instance.errorMessage,
+      'errorMessage': instance.errorMessage,
     };
 
 ListProductsByCategoryResponse _$ListProductsByCategoryResponseFromJson(

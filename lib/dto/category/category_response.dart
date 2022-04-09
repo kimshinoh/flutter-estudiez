@@ -13,11 +13,12 @@ class CategoryListResponse {
   }
 
   List<Category> _categories = [];
+
+  @JsonKey(name: 'message')
   String? _errorMessage;
 
   List<Category> get categories => _categories;
 
-  @JsonKey(name: 'message')
   String? get errorMessage => _errorMessage;
 
   factory CategoryListResponse.fromJson(Map<String, dynamic> json) =>

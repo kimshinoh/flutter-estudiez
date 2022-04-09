@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
-import 'package:fruity/widgets/cart.dart';
+import 'package:fruity/widgets/cart_button.dart';
 
 class MyHomeHeader extends SliverPersistentHeaderDelegate {
   MyHomeHeader({
@@ -39,55 +39,52 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
 
   Widget _buildAddressAndIcons(double shrinkOffset, BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
-    final double height = MediaQuery.of(context).size.height;
+
     return Align(
       alignment: Alignment.topCenter,
       child: Padding(
         padding: EdgeInsets.only(top: _topPadding!),
-        child: SizedBox(
-          width: width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Opacity(
-                opacity: 1 - shrinkOffset / maxExtent,
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.location_on,
-                      color: Colors.white,
-                      size: 12,
-                    ),
-                    SizedBox(
-                      width: width * 0.7,
-                      child: const Text(
-                        '102 Nguyễn Đổng Chi, Cầu Diễn, Nam Từ Liêm, Hà Nội',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Opacity(
+              opacity: 1 - shrinkOffset / maxExtent,
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.location_on,
+                    color: Colors.white,
+                    size: 12,
+                  ),
+                  SizedBox(
+                    width: width * 0.7,
+                    child: const Text(
+                      '102 Nguyễn Đổng Chi, Cầu Diễn, Nam Từ Liêm, Hà Nội',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    CartButton(badgeColor: Colors.red),
-                    Icon(
-                      Icons.message_sharp,
-                      color: Colors.white,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  CartButton(badgeColor: Colors.red),
+                  Icon(
+                    Icons.message_sharp,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

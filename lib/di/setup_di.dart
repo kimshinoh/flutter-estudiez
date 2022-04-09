@@ -7,11 +7,13 @@ import 'package:sqflite/sqflite.dart';
 final getIt = GetIt.instance;
 
 Future<void> setupDI() async {
-  getIt.registerLazySingletonAsync<Database>(() => getDatabase());
+  final Database db = await getDatabase();
+
+  getIt.registerSingleton<Database>(db);
 
 // Alternatively you could write it if you don't like global variables
   getIt.registerSingleton<CartDataSource>(
-      CartDataSource(db: await getIt.getAsync<Database>()));
+      CartDataSource(db: getIt.get<Database>()));
 
   getIt.registerSingleton<CartStore>(CartStore(getIt.get<CartDataSource>()));
 }
