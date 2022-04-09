@@ -117,4 +117,23 @@ abstract class _CartStoreBase with Store {
 
   @computed
   bool get canAddToCart => qty > 0;
+
+  @computed
+  Map<String, List<CartItem>> get groupedItemsBySeller {
+    return groupBy(
+      items,
+      (CartItem item) => item.sellerId,
+    );
+  }
+
+  @computed
+  Map<String, double> get totalPriceBySeller {
+    return groupedItemsBySeller.map((String key, List<CartItem> value) {
+      double totalPrice = 0;
+      for (final CartItem item in value) {
+        totalPrice += item.price * item.quantity;
+      }
+      return MapEntry(key, totalPrice);
+    });
+  }
 }

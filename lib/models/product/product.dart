@@ -13,6 +13,7 @@ class Product {
       required this.imageUrl,
       required this.categoryId,
       required this.imageUrls,
+      required this.sellerId,
       this.oldPrice,
       this.instruction,
       required this.packs,
@@ -28,6 +29,9 @@ class Product {
   double? oldPrice;
   @JsonKey(name: 'category_id')
   String categoryId;
+
+  @JsonKey(name: 'seller_id')
+  String sellerId;
 
   @JsonKey(name: 'image_url')
   String imageUrl;
@@ -57,6 +61,7 @@ class Product {
       unit: unit,
       imageUrl: imageUrl,
       quantity: quantity,
+      sellerId: sellerId,
     );
   }
 }

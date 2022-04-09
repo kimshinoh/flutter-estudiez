@@ -40,18 +40,30 @@ class CartItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
+                  Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        item.name.trim(),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
+                      Expanded(
+                        flex: 3,
+                        child: Text(
+                          item.name.trim(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ),
+                      IconButton(
+                        onPressed: () {
+                          _cartStore.removeItem(item);
+                        },
+                        icon: Icon(Icons.close, size: 20),
+                        constraints: BoxConstraints(),
+                        padding: EdgeInsets.only(left: 20),
+                      )
                     ],
                   ),
                   const SizedBox(height: 5),
