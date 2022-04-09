@@ -1,6 +1,10 @@
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:fruity/data/local/datasource/cart_datasource.dart';
+import 'package:fruity/data/network/apis/seller/seller_api.dart';
+import 'package:fruity/data/network/dio_client.dart';
 import 'package:fruity/models/cart/cart.dart';
+import 'package:fruity/stores/seller/seller_store.dart';
 import 'package:mobx/mobx.dart';
 
 part 'cart_store.g.dart';
@@ -10,14 +14,27 @@ class CartStore = _CartStoreBase with _$CartStore;
 abstract class _CartStoreBase with Store {
   late CartDataSource _cartDataSource;
 
+  SellerStore sellerStore = SellerStore();
+
+  final SellerAPI _sellerApi = SellerAPI(DioClient(Dio()));
+
+  List<ReactionDisposer> _disposers = [];
+
   _CartStoreBase(CartDataSource cartDataSource) {
     _cartDataSource = cartDataSource;
     cartDataSource.getAll().then(
           (Cart value) => {
             items = value.items,
-            isLoading = false,
           },
         );
+  }
+
+  void setupUpdateParent() {
+    _disposers = [
+      reaction((_) => sellerIds.toString(), (_) async {
+        sellerStore.getSellers(sellerIds);
+      }),
+    ];
   }
 
   @observable
@@ -135,5 +152,10 @@ abstract class _CartStoreBase with Store {
       }
       return MapEntry(key, totalPrice);
     });
+  }
+
+  @computed
+  List<String> get sellerIds {
+    return groupedItemsBySeller.keys.toList();
   }
 }

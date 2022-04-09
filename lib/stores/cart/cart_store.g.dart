@@ -46,6 +46,13 @@ mixin _$CartStore on _CartStoreBase, Store {
               () => super.totalPriceBySeller,
               name: '_CartStoreBase.totalPriceBySeller'))
           .value;
+  Computed<List<String>>? _$sellerIdsComputed;
+
+  @override
+  List<String> get sellerIds =>
+      (_$sellerIdsComputed ??= Computed<List<String>>(() => super.sellerIds,
+              name: '_CartStoreBase.sellerIds'))
+          .value;
 
   final _$itemsAtom = Atom(name: '_CartStoreBase.items');
 
@@ -199,7 +206,8 @@ canIncreaseQuantity: ${canIncreaseQuantity},
 canDecreaseQuantity: ${canDecreaseQuantity},
 canAddToCart: ${canAddToCart},
 groupedItemsBySeller: ${groupedItemsBySeller},
-totalPriceBySeller: ${totalPriceBySeller}
+totalPriceBySeller: ${totalPriceBySeller},
+sellerIds: ${sellerIds}
     ''';
   }
 }
