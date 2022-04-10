@@ -1,4 +1,5 @@
 import 'package:fruity/models/cart/cart.dart';
+import 'package:fruity/models/seller/seller.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'product.g.dart';
@@ -14,6 +15,7 @@ class Product {
       required this.categoryId,
       required this.imageUrls,
       required this.sellerId,
+      required this.seller,
       this.oldPrice,
       this.instruction,
       required this.packs,
@@ -43,6 +45,8 @@ class Product {
   List<String> tags;
   String? instruction;
   String? origin;
+
+  Seller seller;
 
   @JsonKey(name: 'packs', defaultValue: [])
   List<String> packs;

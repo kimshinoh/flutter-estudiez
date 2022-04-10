@@ -232,20 +232,13 @@ class SaleOff extends StatelessWidget {
           ),
           Positioned(
               right: 0,
-              bottom: 0,
-              child: AddToCartButton(
-                product: Product(
-                    id: "1",
-                    name: "Trong",
-                    price: 55000,
-                    imageUrl: 'assets/images/chocopiechotrongiu.jpg',
-                    description: "Thit heo song",
-                    imageUrls: ["assets/images/chocopiechotrongiu.jpg"],
-                    packs: ["Hộp 12 bánh"],
-                    unit: "Hộp",
-                    tags: ["Thịt heo"],
-                    categoryId: "1",
-                    sellerId: '11'),
+              bottom: 0,              child: IconButton(
+                icon: Icon(
+                  Icons.add_circle,
+                  size: 24,
+                  color: AppColors.palette.shade500,
+                ),
+                onPressed: () {},
               ))
         ]),
       ),

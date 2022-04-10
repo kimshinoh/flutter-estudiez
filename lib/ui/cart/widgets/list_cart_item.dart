@@ -54,47 +54,59 @@ class _ListCartItemState extends State<ListCartItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // ignore: prefer_if_elements_to_conditional_expressions
-                seller != null
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipOval(
-                              child: SizedBox(
-                                  width: 40,
-                                  height: 40,
-                                  child: Image(
-                                    image: NetworkImage(seller.logo),
-                                    fit: BoxFit.contain,
-                                  )),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    seller.name,
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(
-                                    'Giao từ: ${seller.headQuarter}',
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        fontSize: 14, color: Colors.grey),
-                                  )
-                                ],
+                if (seller != null)
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipOval(
+                                child: SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: Image(
+                                      image: NetworkImage(seller.logo),
+                                      fit: BoxFit.contain,
+                                    )),
                               ),
-                            )
-                          ],
-                        ))
-                    : Container(),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      seller.name,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                    Text(
+                                      'Giao từ: ${seller.headQuarter}',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 14, color: Colors.grey),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Divider(
+                            height: 1,
+                            thickness: 1,
+                          )
+                        ],
+                      ))
+                else
+                  Container(),
                 Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
@@ -118,9 +130,13 @@ class _ListCartItemState extends State<ListCartItem> {
                     itemCount: items!.length,
                   ),
                 ),
-                Divider(
-                  thickness: 1,
-                  height: 1,
+
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Divider(
+                    thickness: 1,
+                    height: 1,
+                  ),
                 ),
                 Padding(
                     padding: EdgeInsets.all(8),

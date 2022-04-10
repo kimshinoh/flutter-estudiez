@@ -148,7 +148,7 @@ class _DefaultAddress extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthStore _authStore = context.read<AuthStore>();
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
       child: ListView(shrinkWrap: true, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
