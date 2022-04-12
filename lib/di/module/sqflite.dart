@@ -3,12 +3,16 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 Future<Database> getDatabase() async {
+  final String path = join(await getDatabasesPath(), DBConstants.DB_NAME);
+  // await deleteDatabase(path);
+
   final Database db = await openDatabase(
-    join(await getDatabasesPath(), DBConstants.DB_NAME),
+    join(path),
     // When the database is first created, create a table to store dogs.
-    onCreate: (Database db, int version) {
+
+    onCreate: (Database db, int version) async {
       // Run the CREATE TABLE statement on the database.
-      return db.execute(
+      await db.execute(
         '''
       CREATE TABLE IF NOT EXISTS cart (
         id TEXT PRIMARY KEY,
@@ -17,11 +21,13 @@ Future<Database> getDatabase() async {
         price REAL,
         imageUrl TEXT,
         unit TEXT,
-        quantity INTEGER
+        quantity INTEGER,
+        sellerId TEXT
       )
     ''',
       );
     },
+
     version: 1,
   ).catchError((e) {
     print(e);

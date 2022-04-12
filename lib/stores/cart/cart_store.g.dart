@@ -30,6 +30,29 @@ mixin _$CartStore on _CartStoreBase, Store {
       (_$canAddToCartComputed ??= Computed<bool>(() => super.canAddToCart,
               name: '_CartStoreBase.canAddToCart'))
           .value;
+  Computed<Map<String, List<CartItem>>>? _$groupedItemsBySellerComputed;
+
+  @override
+  Map<String, List<CartItem>> get groupedItemsBySeller =>
+      (_$groupedItemsBySellerComputed ??= Computed<Map<String, List<CartItem>>>(
+              () => super.groupedItemsBySeller,
+              name: '_CartStoreBase.groupedItemsBySeller'))
+          .value;
+  Computed<Map<String, double>>? _$totalPriceBySellerComputed;
+
+  @override
+  Map<String, double> get totalPriceBySeller =>
+      (_$totalPriceBySellerComputed ??= Computed<Map<String, double>>(
+              () => super.totalPriceBySeller,
+              name: '_CartStoreBase.totalPriceBySeller'))
+          .value;
+  Computed<List<String>>? _$sellerIdsComputed;
+
+  @override
+  List<String> get sellerIds =>
+      (_$sellerIdsComputed ??= Computed<List<String>>(() => super.sellerIds,
+              name: '_CartStoreBase.sellerIds'))
+          .value;
 
   final _$itemsAtom = Atom(name: '_CartStoreBase.items');
 
@@ -181,7 +204,10 @@ error: ${error},
 qty: ${qty},
 canIncreaseQuantity: ${canIncreaseQuantity},
 canDecreaseQuantity: ${canDecreaseQuantity},
-canAddToCart: ${canAddToCart}
+canAddToCart: ${canAddToCart},
+groupedItemsBySeller: ${groupedItemsBySeller},
+totalPriceBySeller: ${totalPriceBySeller},
+sellerIds: ${sellerIds}
     ''';
   }
 }

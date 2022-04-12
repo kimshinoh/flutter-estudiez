@@ -20,13 +20,20 @@ class MyApp extends StatelessWidget {
         Provider<CartStore>(create: (_) => CartStore(getIt<CartDataSource>())),
       ],
       child: MaterialApp(
-        theme: themeData,
-        darkTheme: themeDataDark,
-        debugShowCheckedModeBanner: false,
-        routes: Routes.routes,
-        title: Strings.appName,
-        home: const SplashScreen(),
-      ),
+          theme: themeData,
+          darkTheme: themeDataDark,
+          debugShowCheckedModeBanner: false,
+          routes: Routes.routes,
+          title: Strings.appName,
+          home: const SplashScreen(),
+          builder: (context, child) {
+            final mediaQueryData = MediaQuery.of(context);
+            final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.3);
+            return MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaleFactor: scale),
+              child: child!,
+            );
+          }),
     );
   }
 }

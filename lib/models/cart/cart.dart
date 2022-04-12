@@ -21,6 +21,7 @@ class CartItem {
       required this.price,
       required this.quantity,
       required this.imageUrl,
+      required this.sellerId,
       this.unit});
 
   String id;
@@ -30,6 +31,7 @@ class CartItem {
   String imageUrl;
   int quantity;
   String? unit;
+  String sellerId;
 
   factory CartItem.fromJson(Map<String, dynamic> json) =>
       _$CartItemFromJson(json);

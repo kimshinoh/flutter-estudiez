@@ -56,15 +56,7 @@ class LoginBottomSheet extends StatelessWidget {
                     return Padding(
                       padding: MediaQuery.of(context).viewInsets,
                       child: Container(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            SizedBox(
-                              height: fullHeight * 0.5,
-                              child: const _formLogin(),
-                            ),
-                          ],
-                        ),
+                        child: const _formLogin(),
                       ),
                     );
                   },
@@ -129,10 +121,11 @@ class _formLoginState extends State<_formLogin> {
   Widget build(BuildContext context) {
     final double fullWidth = MediaQuery.of(context).size.width;
 
-    return ListView(
+    return Wrap(
       children: <Widget>[
         Container(
           margin: const EdgeInsets.only(top: 20, left: 10, right: 10),
+          width: double.infinity,
           child: const Text(
             'Đăng nhập',
             style: TextStyle(
@@ -303,6 +296,9 @@ class _formLoginState extends State<_formLogin> {
                       ),
                     ),
                   ),
+                  Container(
+                    height: 20,
+                  )
                 ],
               );
             },

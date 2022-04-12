@@ -1,4 +1,5 @@
 import 'package:fruity/models/cart/cart.dart';
+import 'package:fruity/models/seller/seller.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'product.g.dart';
@@ -13,6 +14,8 @@ class Product {
       required this.imageUrl,
       required this.categoryId,
       required this.imageUrls,
+      required this.sellerId,
+      required this.seller,
       this.oldPrice,
       this.instruction,
       required this.packs,
@@ -30,9 +33,13 @@ class Product {
   @JsonKey(name: 'category_id')
   String categoryId;
 
+  @JsonKey(name: 'seller_id')
+  String sellerId;
+
   @JsonKey(name: 'image_url')
   String imageUrl;
-
+  @JsonKey(defaultValue: 0)
+  double percent;
   @JsonKey(name: 'image_urls')
   List<String> imageUrls;
 
@@ -40,10 +47,10 @@ class Product {
   List<String> tags;
   String? instruction;
   String? origin;
-  @JsonKey(defaultValue: 0)
-  double percent;
 
-  @JsonKey(defaultValue: [])
+  Seller seller;
+
+  @JsonKey(name: 'packs', defaultValue: [])
   List<String> packs;
 
   factory Product.fromJson(Map<String, dynamic> json) =>
@@ -60,6 +67,7 @@ class Product {
       unit: unit,
       imageUrl: imageUrl,
       quantity: quantity,
+      sellerId: sellerId,
     );
   }
 }

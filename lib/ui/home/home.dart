@@ -113,7 +113,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _mainBody(double width, double height) {
     return SizedBox(
-      // height: 800,
       width: width,
       child: Stack(
         clipBehavior: Clip.none,
