@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/product/product.dart';
+import 'package:fruity/stores/category/product_store.dart';
+import 'package:fruity/utils/money.dart';
 import 'package:fruity/widgets/add_to_cart_button.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
+import 'package:provider/provider.dart';
+import 'package:skeletons/skeletons.dart';
 
-class SaleOff extends StatelessWidget {
+class SaleOff extends StatefulWidget {
   const SaleOff({Key? key}) : super(key: key);
-  final int itemCount = 10;
+  @override
+  _SaleOffState createState() => _SaleOffState();
+}
+
+class _SaleOffState extends State<SaleOff> {
+  late ProductStore _productStore;
+  @override
+  void initState() {
+    _productStore = context.read<ProductStore>();
+    _productStore.getProductsSaleOff(10);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -84,22 +100,29 @@ class SaleOff extends StatelessWidget {
             height: 15,
           ),
           Container(
-            padding: const EdgeInsets.fromLTRB(15, 0, 0, 15),
-            height: 325,
-            width: width,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: itemCount + 1,
-              itemBuilder: (BuildContext context, int index) {
-                if (index < itemCount) {
-                  return _builderItem(context, index);
-                }
-                return _watchMore(context);
-              },
-            ),
-          )
+              padding: const EdgeInsets.fromLTRB(15, 0, 0, 15),
+              height: 310,
+              width: width,
+              child: Skeleton(
+                isLoading: _productStore.loading,
+                skeleton: _SaleOffSkeleton(),
+                child: _buildSaleOff(),
+              ))
         ],
       ),
+    );
+  }
+
+  Widget _buildSaleOff() {
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: _productStore.productsSaleOff.length + 1,
+      itemBuilder: (BuildContext context, int index) {
+        if (index < _productStore.productsSaleOff.length) {
+          return _builderItem(context, index);
+        }
+        return _watchMore(context);
+      },
     );
   }
 
@@ -134,6 +157,7 @@ class SaleOff extends StatelessWidget {
   }
 
   Widget _builderItem(BuildContext context, int index) {
+    final Product product = _productStore.productsSaleOff[index];
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(10)),
       onTap: () {},
@@ -151,25 +175,25 @@ class SaleOff extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(3),
                   child: SizedBox.fromSize(
-                    child: Image.asset(
-                      'assets/images/chocopiechotrongiu.jpg',
+                    child: Image.network(
+                      product.imageUrl,
                       fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ),
               const SizedBox(height: 10),
-              const Text(
-                'Trong gay',
+              Text(
+                product.name,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 'Fresh Meat- Thit heo song',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
@@ -201,10 +225,12 @@ class SaleOff extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               RichText(
-                text: const TextSpan(
-                  text: '55.000₫',
+                text: TextSpan(
+                  text: CurrencyHelper.withCommas(
+                          value: product.price, removeDecimal: true) +
+                      "₫",
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -220,14 +246,15 @@ class SaleOff extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 6),
-              const Text(
-                '60.000₫',
-                style: TextStyle(
-                  fontSize: 12,
-                  decoration: TextDecoration.lineThrough,
-                  color: Colors.grey,
+              if (product.oldPrice != null)
+                Text(
+                  CurrencyHelper.withCommas(value: product.oldPrice) + "₫",
+                  style: const TextStyle(
+                    fontSize: 12,
+                    decoration: TextDecoration.lineThrough,
+                    color: Colors.grey,
+                  ),
                 ),
-              ),
             ],
           ),
           Positioned(
@@ -235,20 +262,50 @@ class SaleOff extends StatelessWidget {
               bottom: 0,
               child: AddToCartButton(
                 product: Product(
-                  id: "1",
-                  name: "Trong",
-                  price: 55000,
-                  imageUrl: 'assets/images/chocopiechotrongiu.jpg',
-                  description: "Thit heo song",
-                  imageUrls: ["assets/images/chocopiechotrongiu.jpg"],
-                  packs: ["Hộp 12 bánh"],
-                  unit: "Hộp",
-                  tags: ["Thịt heo"],
-                  categoryId: "1",
-                ),
+                    id: "1",
+                    name: "Trong",
+                    price: 55000,
+                    imageUrl: 'assets/images/chocopiechotrongiu.jpg',
+                    description: "Thit heo song",
+                    imageUrls: ["assets/images/chocopiechotrongiu.jpg"],
+                    packs: ["Hộp 12 bánh"],
+                    unit: "Hộp",
+                    tags: ["Thịt heo"],
+                    categoryId: "1",
+                    percent: 2),
               ))
         ]),
       ),
     );
+  }
+}
+
+class _SaleOffSkeleton extends StatelessWidget {
+  const _SaleOffSkeleton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: 5,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.only(right: 10),
+              color: Colors.white,
+              width: 150,
+              child: Column(
+                children: [
+                  SizedBox(
+                      width: 125,
+                      height: 125,
+                      child: SkeletonAvatar(
+                          style: SkeletonAvatarStyle(
+                        height: 50,
+                        width: 50,
+                      ))),
+                  const SizedBox(height: 10),
+                ],
+              ));
+        });
   }
 }

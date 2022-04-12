@@ -18,7 +18,8 @@ class Product {
       required this.packs,
       this.origin,
       required this.tags,
-      this.unit});
+      this.unit,
+      required this.percent});
   String id;
   String name;
   String description;
@@ -39,8 +40,10 @@ class Product {
   List<String> tags;
   String? instruction;
   String? origin;
+  @JsonKey(defaultValue: 0)
+  double percent;
 
-  @JsonKey(name: 'packs', defaultValue: [])
+  @JsonKey(defaultValue: [])
   List<String> packs;
 
   factory Product.fromJson(Map<String, dynamic> json) =>
