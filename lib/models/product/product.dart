@@ -21,7 +21,8 @@ class Product {
       required this.packs,
       this.origin,
       required this.tags,
-      this.unit});
+      this.unit,
+      required this.percent});
   String id;
   String name;
   String description;
@@ -37,7 +38,8 @@ class Product {
 
   @JsonKey(name: 'image_url')
   String imageUrl;
-
+  @JsonKey(defaultValue: 0)
+  double percent;
   @JsonKey(name: 'image_urls')
   List<String> imageUrls;
 

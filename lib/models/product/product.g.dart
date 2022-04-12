@@ -26,6 +26,7 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       origin: json['origin'] as String?,
       tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       unit: json['unit'] as String?,
+      percent: (json['percent'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
@@ -37,6 +38,7 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'category_id': instance.categoryId,
       'seller_id': instance.sellerId,
       'image_url': instance.imageUrl,
+      'percent': instance.percent,
       'image_urls': instance.imageUrls,
       'unit': instance.unit,
       'tags': instance.tags,

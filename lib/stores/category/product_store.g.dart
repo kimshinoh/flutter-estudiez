@@ -24,6 +24,52 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
+  final _$productsTopSaleAtom = Atom(name: '_ProductStoreBase.productsTopSale');
+
+  @override
+  List<Product> get productsTopSale {
+    _$productsTopSaleAtom.reportRead();
+    return super.productsTopSale;
+  }
+
+  @override
+  set productsTopSale(List<Product> value) {
+    _$productsTopSaleAtom.reportWrite(value, super.productsTopSale, () {
+      super.productsTopSale = value;
+    });
+  }
+
+  final _$productsSaleOffAtom = Atom(name: '_ProductStoreBase.productsSaleOff');
+
+  @override
+  List<Product> get productsSaleOff {
+    _$productsSaleOffAtom.reportRead();
+    return super.productsSaleOff;
+  }
+
+  @override
+  set productsSaleOff(List<Product> value) {
+    _$productsSaleOffAtom.reportWrite(value, super.productsSaleOff, () {
+      super.productsSaleOff = value;
+    });
+  }
+
+  final _$productsSaleShockAtom =
+      Atom(name: '_ProductStoreBase.productsSaleShock');
+
+  @override
+  List<Product> get productsSaleShock {
+    _$productsSaleShockAtom.reportRead();
+    return super.productsSaleShock;
+  }
+
+  @override
+  set productsSaleShock(List<Product> value) {
+    _$productsSaleShockAtom.reportWrite(value, super.productsSaleShock, () {
+      super.productsSaleShock = value;
+    });
+  }
+
   final _$loadingAtom = Atom(name: '_ProductStoreBase.loading');
 
   @override
@@ -54,6 +100,33 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
+  final _$getProductsTopSaleAsyncAction =
+      AsyncAction('_ProductStoreBase.getProductsTopSale');
+
+  @override
+  Future<void> getProductsTopSale(int limit) {
+    return _$getProductsTopSaleAsyncAction
+        .run(() => super.getProductsTopSale(limit));
+  }
+
+  final _$getProductsSaleShockAsyncAction =
+      AsyncAction('_ProductStoreBase.getProductsSaleShock');
+
+  @override
+  Future<void> getProductsSaleShock(int limit) {
+    return _$getProductsSaleShockAsyncAction
+        .run(() => super.getProductsSaleShock(limit));
+  }
+
+  final _$getProductsSaleOffAsyncAction =
+      AsyncAction('_ProductStoreBase.getProductsSaleOff');
+
+  @override
+  Future<void> getProductsSaleOff(int limit) {
+    return _$getProductsSaleOffAsyncAction
+        .run(() => super.getProductsSaleOff(limit));
+  }
+
   final _$getProductsAsyncAction = AsyncAction('_ProductStoreBase.getProducts');
 
   @override
@@ -61,10 +134,27 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     return _$getProductsAsyncAction.run(() => super.getProducts(categoryId));
   }
 
+  final _$_ProductStoreBaseActionController =
+      ActionController(name: '_ProductStoreBase');
+
+  @override
+  void dispose() {
+    final _$actionInfo = _$_ProductStoreBaseActionController.startAction(
+        name: '_ProductStoreBase.dispose');
+    try {
+      return super.dispose();
+    } finally {
+      _$_ProductStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
 products: ${products},
+productsTopSale: ${productsTopSale},
+productsSaleOff: ${productsSaleOff},
+productsSaleShock: ${productsSaleShock},
 loading: ${loading},
 errorMessage: ${errorMessage}
     ''';

@@ -36,6 +36,7 @@ class _CategoryCarouselState extends State<CategoryCarousel> {
       final int index = _categoryStore.parentCategoryStore.categories
           .indexOf(selectedCategory);
       Future<void>.delayed(Duration.zero, () {
+        // code nhu biu
         itemScrollController.scrollTo(
           index: index,
           duration: Duration(milliseconds: 500),
