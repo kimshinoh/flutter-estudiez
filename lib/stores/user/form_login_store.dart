@@ -63,6 +63,13 @@ abstract class _FormLoginStoreBase with Store {
       d();
     }
   }
+
+  @action
+  void clear() {
+    phoneNumber = '';
+    smsCode = '';
+    formErrorStore.clear();
+  }
 }
 
 class FormErrorStore = _FormErrorStore with _$FormErrorStore;
@@ -79,4 +86,10 @@ abstract class _FormErrorStore with Store {
 
   @computed
   bool get hasErrorsInVerify => phoneNumber != null;
+
+  @action
+  void clear() {
+    phoneNumber = null;
+    smsCode = null;
+  }
 }

@@ -52,9 +52,6 @@ abstract class _AuthStoreBase with Store {
   bool isLoggedIn = false;
 
   @observable
-  bool isVerified = false;
-
-  @observable
   String errorMessage = '';
 
   @observable
@@ -72,7 +69,9 @@ abstract class _AuthStoreBase with Store {
     expiredAt = res.expiredAt;
     isLoggedIn = true;
     isSuccess = true;
+
     res.saveToPrefs(_prefs);
+    formLoginStore.clear();
   }
 
   void removeAuth() {
@@ -83,6 +82,7 @@ abstract class _AuthStoreBase with Store {
     isSuccess = false;
 
     UserLoginResponseDTO.clearPrefs(_prefs);
+    formLoginStore.clear();
   }
 
   @computed

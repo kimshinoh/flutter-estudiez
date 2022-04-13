@@ -122,21 +122,6 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$isVerifiedAtom = Atom(name: '_AuthStoreBase.isVerified');
-
-  @override
-  bool get isVerified {
-    _$isVerifiedAtom.reportRead();
-    return super.isVerified;
-  }
-
-  @override
-  set isVerified(bool value) {
-    _$isVerifiedAtom.reportWrite(value, super.isVerified, () {
-      super.isVerified = value;
-    });
-  }
-
   final _$errorMessageAtom = Atom(name: '_AuthStoreBase.errorMessage');
 
   @override
@@ -236,7 +221,6 @@ verificationId: ${verificationId},
 isLoading: ${isLoading},
 isLoadingSentCode: ${isLoadingSentCode},
 isLoggedIn: ${isLoggedIn},
-isVerified: ${isVerified},
 errorMessage: ${errorMessage},
 isSuccess: ${isSuccess},
 canLogin: ${canLogin}

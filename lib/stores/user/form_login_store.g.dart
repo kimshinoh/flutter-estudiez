@@ -110,6 +110,17 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
   }
 
   @override
+  void clear() {
+    final _$actionInfo = _$_FormLoginStoreBaseActionController.startAction(
+        name: '_FormLoginStoreBase.clear');
+    try {
+      return super.clear();
+    } finally {
+      _$_FormLoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 phoneNumber: ${phoneNumber},
@@ -164,6 +175,20 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     _$smsCodeAtom.reportWrite(value, super.smsCode, () {
       super.smsCode = value;
     });
+  }
+
+  final _$_FormErrorStoreActionController =
+      ActionController(name: '_FormErrorStore');
+
+  @override
+  void clear() {
+    final _$actionInfo = _$_FormErrorStoreActionController.startAction(
+        name: '_FormErrorStore.clear');
+    try {
+      return super.clear();
+    } finally {
+      _$_FormErrorStoreActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
