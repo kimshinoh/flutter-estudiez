@@ -9,28 +9,38 @@ class CartItemWidget extends StatelessWidget {
   CartItem item;
 
   CartItemWidget({Key? key, required this.item}) : super(key: key);
-  TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    CartStore _cartStore = context.read<CartStore>();
+    final CartStore _cartStore = context.read<CartStore>();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 80,
-            height: 80,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(4),
-              child: SizedBox.fromSize(
-                child: Image.network(
-                  item.imageUrl,
-                  fit: BoxFit.cover,
+          Row(
+            children: [
+              Checkbox(
+                value: item.isSelected,
+                onChanged: (bool? value) {
+                  _cartStore.selectItem(item);
+                },
+              ),
+              SizedBox(
+                width: 80,
+                height: 80,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: SizedBox.fromSize(
+                    child: Image.network(
+                      item.imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -96,7 +106,7 @@ class CartItemWidget extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            const SizedBox(width: 5),
                             Text(
                               'x ${item.quantity}',
                               style: const TextStyle(

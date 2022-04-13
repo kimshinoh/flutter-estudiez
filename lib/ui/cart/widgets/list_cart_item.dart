@@ -3,8 +3,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/models/seller/seller.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
 import 'package:fruity/ui/cart/widgets/cart_item.dart';
+import 'package:fruity/ui/order/order_confirm_screen.dart';
 import 'package:fruity/utils/money.dart';
 import 'package:provider/provider.dart';
 
@@ -20,12 +22,13 @@ class _ListCartItemState extends State<ListCartItem> {
   Widget build(BuildContext context) {
     final CartStore _cartStore = context.read<CartStore>();
     return Observer(builder: (_) {
-      final groupItemsBySeller = _cartStore.groupedItemsBySeller;
-      final sellers = groupItemsBySeller.keys.toList();
+      final Map<String, List<CartItem>> groupItemsBySeller =
+          _cartStore.groupedItemsBySeller;
+      final List<String> sellers = groupItemsBySeller.keys.toList();
 
       return ListView.separated(
         physics: const NeverScrollableScrollPhysics(),
-        separatorBuilder: (context, index) => const Padding(
+        separatorBuilder: (BuildContext context, int index) => const Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: SizedBox(
               height: 10,
@@ -115,14 +118,16 @@ class _ListCartItemState extends State<ListCartItem> {
                   )),
                   child: ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
-                    separatorBuilder: (context, index) => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Divider(
-                          thickness: 1,
-                          height: 1,
-                        )),
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Divider(
+                        thickness: 1,
+                        height: 1,
+                      ),
+                    ),
                     shrinkWrap: true,
-                    itemBuilder: (context, subIndex) {
+                    itemBuilder: (BuildContext context, int subIndex) {
                       return CartItemWidget(
                         item: groupItemsBySeller[sellers[index]]![subIndex],
                       );
@@ -169,7 +174,23 @@ class _ListCartItemState extends State<ListCartItem> {
                           ],
                         ),
                         ElevatedButton(
-                            onPressed: () {}, child: Text('Chọn mua'))
+                          onPressed: () {
+                            final List<CartItem>? _selectedItems = _cartStore
+                                .groupedItemsBySellerSelected[sellerId];
+
+                            if (_selectedItems == null ||
+                                _selectedItems.isEmpty) {
+                              return;
+                            }
+                            Navigator.pushNamed(
+                              context,
+                              Routes.confirm_order,
+                              arguments:
+                                  ConfirmOrderAgruments(sellerId: sellerId),
+                            );
+                          },
+                          child: const Text('Chọn mua'),
+                        )
                       ],
                     ))
               ],
