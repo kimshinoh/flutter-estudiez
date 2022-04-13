@@ -26,13 +26,11 @@ class _SaleShockState extends State<SaleShock> {
     final double width = MediaQuery.of(context).size.width;
     return Container(
       padding: const EdgeInsets.all(15),
-      height: 550,
       width: width,
       decoration: const BoxDecoration(
         color: Colors.white,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Wrap(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,42 +72,37 @@ class _SaleShockState extends State<SaleShock> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          SizedBox(
-            height: 450,
-            width: width,
-            child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: _productStore.productsSaleShock.length,
-              itemBuilder: (BuildContext context, int index) {
-                final Product _product = _productStore.productsSaleShock[index];
-                return InkWell(
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  onTap: () {},
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        width: width * 0.95,
-                        height: 140,
-                        child: Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-                              height: width * 0.3,
-                              width: width * 0.3,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                    _product.imageUrl,
-                                  ),
-                                  fit: BoxFit.cover,
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: _productStore.productsSaleShock.length,
+            itemBuilder: (BuildContext context, int index) {
+              final Product _product = _productStore.productsSaleShock[index];
+              return InkWell(
+                onTap: () {},
+                child: Column(
+                  children: [
+                    SizedBox(
+                      child: Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                            height: width * 0.3,
+                            width: width * 0.3,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  _product.imageUrl,
                                 ),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
+                                fit: BoxFit.cover,
                               ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
                             ),
-                            Container(
+                          ),
+                          Expanded(
+                            child: Container(
                               padding: const EdgeInsets.fromLTRB(15, 10, 5, 0),
-                              width: width * 0.6,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -123,8 +116,8 @@ class _SaleShockState extends State<SaleShock> {
                                     ),
                                   ),
                                   const SizedBox(height: 8),
-                                  const Text(
-                                    'Fresh Meat- Thit heo song',
+                                  Text(
+                                    _product.seller.name,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     style: TextStyle(
@@ -133,8 +126,8 @@ class _SaleShockState extends State<SaleShock> {
                                   ),
                                   const SizedBox(height: 6),
                                   Row(
-                                    children: [
-                                      const RadiantGradientMask(
+                                    children: const [
+                                      RadiantGradientMask(
                                         firstColor: Colors.orange,
                                         secondColor: Colors.yellow,
                                         child: Icon(
@@ -143,7 +136,7 @@ class _SaleShockState extends State<SaleShock> {
                                           color: Colors.white,
                                         ),
                                       ),
-                                      const SizedBox(width: 4),
+                                      SizedBox(width: 4),
                                       Text(
                                         '4.8',
                                         style: TextStyle(
@@ -157,7 +150,8 @@ class _SaleShockState extends State<SaleShock> {
                                   RichText(
                                     text: TextSpan(
                                       text: CurrencyHelper.withCommas(
-                                          value: _product.price),
+                                          value: _product.price,
+                                          removeDecimal: true),
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -165,7 +159,7 @@ class _SaleShockState extends State<SaleShock> {
                                       ),
                                       children: [
                                         TextSpan(
-                                          text: '/Hộp 12 bánh',
+                                          text: ' / ${_product.unit}',
                                           style: TextStyle(
                                             fontSize: 11,
                                             color: Colors.grey,
@@ -195,20 +189,20 @@ class _SaleShockState extends State<SaleShock> {
                                 ],
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      if (index < _productStore.productsSaleShock.length - 1)
-                        const Divider(
-                          height: 1,
-                          thickness: 1,
-                          color: AppColors.backgroudGrey,
-                        )
-                    ],
-                  ),
-                );
-              },
-            ),
+                    ),
+                    if (index < _productStore.productsSaleShock.length - 1)
+                      const Divider(
+                        height: 1,
+                        thickness: 1,
+                        color: AppColors.backgroudGrey,
+                      )
+                  ],
+                ),
+              );
+            },
           )
         ],
       ),

@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/stores/category/product_store.dart';
 import 'package:fruity/stores/user/auth_store.dart';
@@ -9,7 +8,6 @@ import 'package:fruity/ui/home/widgets/header_home.dart';
 import 'package:fruity/ui/home/widgets/sale_off.dart';
 import 'package:fruity/ui/home/widgets/sale_shock.dart';
 import 'package:fruity/ui/home/widgets/top_products.dart';
-import 'package:fruity/widgets/gradient_text.dart';
 import 'package:fruity/widgets/login_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -215,7 +213,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                // ),
                 TopProducts(),
                 Container(
                   height: 100,

@@ -167,7 +167,8 @@ class _SaleOffState extends State<SaleOff> {
         color: Colors.white,
         width: 150,
         child: Stack(children: [
-          Wrap(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 width: 125,
@@ -194,7 +195,7 @@ class _SaleOffState extends State<SaleOff> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Fresh Meat- Thit heo song',
+                product.seller.name,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: TextStyle(
@@ -236,7 +237,7 @@ class _SaleOffState extends State<SaleOff> {
                   ),
                   children: [
                     TextSpan(
-                      text: '/Hộp 12 bánh',
+                      text: ' / ${product.unit}',
                       style: TextStyle(
                         fontSize: 11,
                         color: Colors.grey,
@@ -248,7 +249,9 @@ class _SaleOffState extends State<SaleOff> {
               const SizedBox(height: 6),
               if (product.oldPrice != null)
                 Text(
-                  CurrencyHelper.withCommas(value: product.oldPrice) + "₫",
+                  CurrencyHelper.withCommas(
+                          value: product.oldPrice, removeDecimal: true) +
+                      "₫",
                   style: const TextStyle(
                     fontSize: 12,
                     decoration: TextDecoration.lineThrough,
