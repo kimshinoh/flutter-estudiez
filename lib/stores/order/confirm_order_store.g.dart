@@ -24,6 +24,21 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     });
   }
 
+  final _$timeAtom = Atom(name: '_OrderConfirmationStoreBase.time');
+
+  @override
+  String get time {
+    _$timeAtom.reportRead();
+    return super.time;
+  }
+
+  @override
+  set time(String value) {
+    _$timeAtom.reportWrite(value, super.time, () {
+      super.time = value;
+    });
+  }
+
   final _$noteAtom = Atom(name: '_OrderConfirmationStoreBase.note');
 
   @override
@@ -70,6 +85,22 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     });
   }
 
+  final _$timesCanSelectAtom =
+      Atom(name: '_OrderConfirmationStoreBase.timesCanSelect');
+
+  @override
+  List<String> get timesCanSelect {
+    _$timesCanSelectAtom.reportRead();
+    return super.timesCanSelect;
+  }
+
+  @override
+  set timesCanSelect(List<String> value) {
+    _$timesCanSelectAtom.reportWrite(value, super.timesCanSelect, () {
+      super.timesCanSelect = value;
+    });
+  }
+
   final _$_OrderConfirmationStoreBaseActionController =
       ActionController(name: '_OrderConfirmationStoreBase');
 
@@ -79,6 +110,17 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
         .startAction(name: '_OrderConfirmationStoreBase.setReceivedAt');
     try {
       return super.setReceivedAt(receivedAt);
+    } finally {
+      _$_OrderConfirmationStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setTime(String time) {
+    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
+        .startAction(name: '_OrderConfirmationStoreBase.setTime');
+    try {
+      return super.setTime(time);
     } finally {
       _$_OrderConfirmationStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -118,12 +160,25 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
   }
 
   @override
+  dynamic confirmReceivedAt() {
+    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
+        .startAction(name: '_OrderConfirmationStoreBase.confirmReceivedAt');
+    try {
+      return super.confirmReceivedAt();
+    } finally {
+      _$_OrderConfirmationStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 receivedAt: ${receivedAt},
+time: ${time},
 note: ${note},
 userAddress: ${userAddress},
-payment: ${payment}
+payment: ${payment},
+timesCanSelect: ${timesCanSelect}
     ''';
   }
 }

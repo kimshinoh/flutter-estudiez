@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/stores/category/product_store.dart';
-import 'package:fruity/utils/money.dart';
+import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/add_to_cart_button.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
 import 'package:provider/provider.dart';

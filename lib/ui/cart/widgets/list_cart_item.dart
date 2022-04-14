@@ -7,7 +7,7 @@ import 'package:fruity/routes.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
 import 'package:fruity/ui/cart/widgets/cart_item.dart';
 import 'package:fruity/ui/order/order_confirm_screen.dart';
-import 'package:fruity/utils/money.dart';
+import 'package:fruity/utils/currency_util.dart';
 import 'package:provider/provider.dart';
 
 class ListCartItem extends StatefulWidget {
@@ -71,7 +71,7 @@ class _ListCartItemState extends State<ListCartItem> {
                                     height: 40,
                                     child: Image(
                                       image: NetworkImage(seller.logo),
-                                      fit: BoxFit.contain,
+                                      fit: BoxFit.cover,
                                     )),
                               ),
                               SizedBox(
@@ -164,7 +164,7 @@ class _ListCartItemState extends State<ListCartItem> {
                                   children: [
                                     TextSpan(
                                         text:
-                                            '${CurrencyHelper.withCommas(value: _cartStore.totalPriceBySeller[sellerId] ?? 0, removeDecimal: true)} đ',
+                                            '${CurrencyHelper.withCommas(value: _cartStore.totalPriceBySeller[sellerId] ?? 0, removeDecimal: true)} ₫',
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,

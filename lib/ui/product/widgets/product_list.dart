@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/stores/category/category_store.dart';
-import 'package:fruity/utils/money.dart';
+import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/add_to_cart_button.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletons/skeletons.dart';
@@ -138,7 +138,7 @@ class _ProductItem extends StatelessWidget {
                                 children: [
                                   TextSpan(
                                     text:
-                                        '${CurrencyHelper.withCommas(value: product.price, removeDecimal: true)}  đ',
+                                        '${CurrencyHelper.withCommas(value: product.price, removeDecimal: true)}  ₫',
                                     style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
@@ -159,7 +159,7 @@ class _ProductItem extends StatelessWidget {
                             if (product.oldPrice != null &&
                                 product.oldPrice! > 0)
                               Text(
-                                '${CurrencyHelper.withCommas(value: product.oldPrice ?? 0, removeDecimal: true)}  đ',
+                                '${CurrencyHelper.withCommas(value: product.oldPrice ?? 0, removeDecimal: true)}  ₫',
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.normal,

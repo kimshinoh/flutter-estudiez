@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
-import 'package:fruity/utils/money.dart';
+import 'package:fruity/utils/currency_util.dart';
 import 'package:provider/provider.dart';
 
 class AddToCartButton extends StatelessWidget {
@@ -137,7 +137,7 @@ class _AddToCartForm extends StatelessWidget {
                     'Giá: ${CurrencyHelper.withCommas(
                       value: product.price,
                       removeDecimal: true,
-                    )} đ',
+                    )} ₫',
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
@@ -242,7 +242,7 @@ class _AddToCartForm extends StatelessWidget {
                   '${CurrencyHelper.withCommas(
                     value: _cartStore.qty * product.price,
                     removeDecimal: true,
-                  )} đ',
+                  )} ₫',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
