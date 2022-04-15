@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/widgets/cart_button.dart';
 
 AppBar ProductScreenAppBar() {
@@ -14,7 +15,12 @@ AppBar ProductScreenAppBar() {
           ),
           backgroundColor: const Color.fromRGBO(245, 245, 245, 1),
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(
+            context,
+            Routes.search,
+          );
+        },
         child: Row(
           children: const [
             Icon(

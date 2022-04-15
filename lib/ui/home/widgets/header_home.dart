@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
-import 'package:fruity/ui/search/search_screen.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/widgets/cart_button.dart';
-import 'package:provider/provider.dart';
 
 class MyHomeHeader extends SliverPersistentHeaderDelegate {
   MyHomeHeader({
@@ -107,9 +106,9 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
         top: top,
         child: GestureDetector(
           onTap: () {
-            Navigator.push(
+            Navigator.pushNamed(
               context,
-              MaterialPageRoute(builder: (context) => SearchScreen()),
+              Routes.search,
             );
           },
           child: SizedBox(
