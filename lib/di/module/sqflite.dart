@@ -11,9 +11,8 @@ Future<Database> getDatabase() async {
     // When the database is first created, create a table to store dogs.
 
     onCreate: (Database db, int version) async {
-      // Run the CREATE TABLE statement on the database.
-      await db.execute(
-        '''
+      final Batch batch = db.batch();
+      batch.execute('''
       CREATE TABLE IF NOT EXISTS cart (
         id TEXT PRIMARY KEY,
         productId TEXT,
@@ -24,8 +23,15 @@ Future<Database> getDatabase() async {
         quantity INTEGER,
         sellerId TEXT
       )
-    ''',
+      ''');
+      batch.execute(
+        '''
+       CREATE TABLE IF NOT EXISTS search (
+          key TEXT PRIMARY KEY
+        )
+        ''',
       );
+      await batch.commit();
     },
 
     version: 1,

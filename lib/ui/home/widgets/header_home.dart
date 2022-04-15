@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/ui/search/search_screen.dart';
 import 'package:fruity/widgets/cart_button.dart';
+import 'package:provider/provider.dart';
 
 class MyHomeHeader extends SliverPersistentHeaderDelegate {
   MyHomeHeader({
@@ -31,7 +33,7 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
       child: Stack(
         children: <Widget>[
           _buildAddressAndIcons(shrinkOffset, context),
-          _buildSearchBox(percent),
+          _buildSearchBox(percent, context),
         ],
       ),
     );
@@ -96,45 +98,52 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
   Color getColorHeader(double percent) =>
       AppColors.palette.shade600.withOpacity(percent);
 
-  Widget _buildSearchBox(double percent) {
+  Widget _buildSearchBox(double percent, BuildContext context) {
     final double rangeTop = minExtent - _shrinkedTopPos + 4;
 
     final double top = minExtent - (rangeTop * percent) - 30;
 
     return Positioned(
-      top: top,
-      child: SizedBox(
-        width: getScaledWidth(searchBarMaxWidth, percent),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.greenAccent),
-            borderRadius: const BorderRadius.all(Radius.circular(6)),
-          ),
-          height: 35,
-          padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Expanded(
-                child: SizedBox(
-                  child: Text(
-                    'Freeship toàn sàn - An tâm phòng dịch',
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                ),
+        top: top,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SearchScreen()),
+            );
+          },
+          child: SizedBox(
+            width: getScaledWidth(searchBarMaxWidth, percent),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.greenAccent),
+                borderRadius: const BorderRadius.all(Radius.circular(6)),
               ),
-              Icon(Icons.search, color: Colors.grey),
-            ],
+              height: 35,
+              padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Expanded(
+                    child: SizedBox(
+                      child: Text(
+                        'Freeship toàn sàn - An tâm phòng dịch',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ),
+                  Icon(Icons.search, color: Colors.grey),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   @override
