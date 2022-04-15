@@ -64,6 +64,17 @@ abstract class _CartStoreBase with Store {
   }
 
   @action
+  void selectItem(CartItem item) {
+    final int index = items.indexWhere(
+      (CartItem cartItem) => cartItem.id == item.id,
+    );
+    if (index != -1) {
+      items[index].isSelected = !item.isSelected;
+      items = List<CartItem>.from(items);
+    }
+  }
+
+  @action
   Future<void> updateQuantity(CartItem item, int quantty) async {
     item.quantity = quantty;
     final int index =
@@ -139,6 +150,14 @@ abstract class _CartStoreBase with Store {
   Map<String, List<CartItem>> get groupedItemsBySeller {
     return groupBy(
       items,
+      (CartItem item) => item.sellerId,
+    );
+  }
+
+  @computed
+  Map<String, List<CartItem>> get groupedItemsBySellerSelected {
+    return groupBy(
+      items.where((CartItem item) => item.isSelected),
       (CartItem item) => item.sellerId,
     );
   }

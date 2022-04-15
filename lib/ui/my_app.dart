@@ -8,6 +8,7 @@ import 'package:fruity/routes.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
 import 'package:fruity/stores/search_history/search_history_store.dart';
 import 'package:fruity/stores/user/auth_store.dart';
+import 'package:fruity/stores/user_address/user_address_store.dart';
 import 'package:fruity/ui/splash/splash.dart';
 import 'package:provider/provider.dart';
 
@@ -16,9 +17,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthStore _authStore = AuthStore();
+
+    _authStore.setupUpdateUser();
+
     return MultiProvider(
       providers: [
-        Provider<AuthStore>(create: (_) => AuthStore()),
+        Provider<AuthStore>(create: (_) => _authStore),
         Provider<CartStore>(create: (_) => CartStore(getIt<CartDataSource>())),
         Provider<SearchHistoryStore>(
             create: (_) =>

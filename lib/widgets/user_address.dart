@@ -4,14 +4,14 @@ import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/stores/user/auth_store.dart';
 import 'package:provider/provider.dart';
 
-class UserAddress extends StatefulWidget {
-  const UserAddress({Key? key}) : super(key: key);
+class UserAddressWidget extends StatefulWidget {
+  const UserAddressWidget({Key? key}) : super(key: key);
 
   @override
-  State<UserAddress> createState() => _UserAddressState();
+  State<UserAddressWidget> createState() => _UserAddressState();
 }
 
-class _UserAddressState extends State<UserAddress>
+class _UserAddressState extends State<UserAddressWidget>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int selectedIndex = 0;
@@ -95,8 +95,10 @@ class _HomeAddress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthStore _authStore = context.read<AuthStore>();
+
     return SizedBox(
-      child: _authStore.isLoggedIn
+      child: _authStore.isLoggedIn &&
+              _authStore.userAddressStore.defaultAddress != null
           ? _DefaultAddress()
           : Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -141,12 +143,11 @@ class _HomeAddress extends StatelessWidget {
 
 class _DefaultAddress extends StatelessWidget {
   const _DefaultAddress({Key? key}) : super(key: key);
-  final address =
-      'Số nhà 5, ngõ 5, đường Trần Hưng Đạo, phường Tân Phú, quận 7, TP. HCM';
 
   @override
   Widget build(BuildContext context) {
     AuthStore _authStore = context.read<AuthStore>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
       child: ListView(shrinkWrap: true, children: [
@@ -170,7 +171,7 @@ class _DefaultAddress extends StatelessWidget {
             SizedBox(
               width: 10,
             ),
-            Text(_authStore.user!.fullName)
+            Text(_authStore.userAddressStore.defaultAddress!.fullName)
           ],
         ),
         SizedBox(
@@ -182,7 +183,7 @@ class _DefaultAddress extends StatelessWidget {
             SizedBox(
               width: 10,
             ),
-            Text(_authStore.user!.phoneNumber)
+            Text(_authStore.userAddressStore.defaultAddress!.phoneNumber)
           ],
         ),
         SizedBox(
@@ -195,7 +196,9 @@ class _DefaultAddress extends StatelessWidget {
             SizedBox(
               width: 10,
             ),
-            Expanded(child: Text(address))
+            Expanded(
+                child:
+                    Text(_authStore.userAddressStore.defaultAddress!.address))
           ],
         ),
       ]),

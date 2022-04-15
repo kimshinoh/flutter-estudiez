@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/stores/category/product_store.dart';
-import 'package:fruity/utils/money.dart';
+import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/gradient_text.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletons/skeletons.dart';

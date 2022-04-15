@@ -38,6 +38,15 @@ mixin _$CartStore on _CartStoreBase, Store {
               () => super.groupedItemsBySeller,
               name: '_CartStoreBase.groupedItemsBySeller'))
           .value;
+  Computed<Map<String, List<CartItem>>>? _$groupedItemsBySellerSelectedComputed;
+
+  @override
+  Map<String, List<CartItem>> get groupedItemsBySellerSelected =>
+      (_$groupedItemsBySellerSelectedComputed ??=
+              Computed<Map<String, List<CartItem>>>(
+                  () => super.groupedItemsBySellerSelected,
+                  name: '_CartStoreBase.groupedItemsBySellerSelected'))
+          .value;
   Computed<Map<String, double>>? _$totalPriceBySellerComputed;
 
   @override
@@ -141,6 +150,17 @@ mixin _$CartStore on _CartStoreBase, Store {
       ActionController(name: '_CartStoreBase');
 
   @override
+  void selectItem(CartItem item) {
+    final _$actionInfo = _$_CartStoreBaseActionController.startAction(
+        name: '_CartStoreBase.selectItem');
+    try {
+      return super.selectItem(item);
+    } finally {
+      _$_CartStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void validateQuantity(String quantity) {
     final _$actionInfo = _$_CartStoreBaseActionController.startAction(
         name: '_CartStoreBase.validateQuantity');
@@ -206,6 +226,7 @@ canIncreaseQuantity: ${canIncreaseQuantity},
 canDecreaseQuantity: ${canDecreaseQuantity},
 canAddToCart: ${canAddToCart},
 groupedItemsBySeller: ${groupedItemsBySeller},
+groupedItemsBySellerSelected: ${groupedItemsBySellerSelected},
 totalPriceBySeller: ${totalPriceBySeller},
 sellerIds: ${sellerIds}
     ''';

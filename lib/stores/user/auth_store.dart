@@ -7,6 +7,7 @@ import 'package:fruity/dto/user/user_request.dart';
 import 'package:fruity/dto/user/user_response.dart';
 import 'package:fruity/models/user/user.dart' as UserModel;
 import 'package:fruity/stores/user/form_login_store.dart';
+import 'package:fruity/stores/user_address/user_address_store.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +18,9 @@ class AuthStore = _AuthStoreBase with _$AuthStore;
 abstract class _AuthStoreBase with Store {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late SharedPreferences _prefs;
+
+  List<ReactionDisposer> _disposers = [];
+
   _AuthStoreBase() {
     init();
   }
@@ -30,6 +34,23 @@ abstract class _AuthStoreBase with Store {
   );
 
   FormLoginStore formLoginStore = FormLoginStore();
+
+  UserAddressStore userAddressStore = UserAddressStore();
+
+  void setupUpdateUser() {
+    _disposers.add(
+      reaction(
+        (_) => userId,
+        (String userId) {
+          if (userId.isNotEmpty) {
+            userAddressStore.getUserAddresses();
+          } else {
+            userAddressStore.clearUserAddresses();
+          }
+        },
+      ),
+    );
+  }
 
   @observable
   UserModel.User? user;
@@ -83,6 +104,11 @@ abstract class _AuthStoreBase with Store {
 
     UserLoginResponseDTO.clearPrefs(_prefs);
     formLoginStore.clear();
+  }
+
+  @computed
+  String get userId {
+    return user?.id ?? '';
   }
 
   @computed

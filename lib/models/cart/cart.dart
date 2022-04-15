@@ -12,26 +12,36 @@ class Cart {
   Map<String, dynamic> toJson() => _$CartToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CartItem {
-  CartItem(
-      {required this.id,
-      required this.productId,
-      required this.name,
-      required this.price,
-      required this.quantity,
-      required this.imageUrl,
-      required this.sellerId,
-      this.unit});
+  CartItem({
+    required this.id,
+    required this.productId,
+    required this.name,
+    required this.price,
+    required this.quantity,
+    required this.imageUrl,
+    required this.sellerId,
+    this.unit,
+  });
 
   String id;
+
+  @JsonKey(name: 'product_id')
   String productId;
   String name;
   double price;
+
+  @JsonKey(name: 'image_url')
   String imageUrl;
   int quantity;
   String? unit;
+
+  @JsonKey(name: 'seller_id')
   String sellerId;
+
+  @JsonKey(ignore: true)
+  bool isSelected = true;
 
   factory CartItem.fromJson(Map<String, dynamic> json) =>
       _$CartItemFromJson(json);

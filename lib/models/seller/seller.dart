@@ -29,20 +29,31 @@ class Seller {
   String type;
   String description;
 
-  @JsonKey(name: "head_quarter")
+  @JsonKey(name: 'head_quarter')
   String headQuarter;
   double rating;
 
-  @JsonKey(name: "total_vote")
+  @JsonKey(name: 'total_vote')
   int totalVote;
 
-  @JsonKey(name: "available_time")
+  @JsonKey(name: 'available_time')
   AvailableTime availableTime;
 
-  @JsonKey(name: "phone_number")
+  @JsonKey(name: 'phone_number')
   String? phoneNumber;
   String? note;
   String? email;
+
+  String getType() {
+    switch (type.toLowerCase()) {
+      case 'retailer':
+        return 'Nhà cung cấp';
+      case 'delivery':
+        return 'Nhà giao hàng';
+      default:
+        return type;
+    }
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -57,10 +68,10 @@ class AvailableTime {
       _$AvailableTimeFromJson(json);
   Map<String, dynamic> toJson() => _$AvailableTimeToJson(this);
 
-  @JsonKey(name: 'open_time', defaultValue: "08.00")
+  @JsonKey(name: 'open_time', defaultValue: '08.00')
   String openTime;
 
-  @JsonKey(name: 'close_time', defaultValue: "21.00")
+  @JsonKey(name: 'close_time', defaultValue: '21.00')
   String closeTime;
   List<Holiday>? holidays;
 }
@@ -79,8 +90,8 @@ class Holiday {
 
   String name;
 
-  @JsonKey(name: "start_date")
+  @JsonKey(name: 'start_date')
   DateTime startDate;
-  @JsonKey(name: "end_date")
+  @JsonKey(name: 'end_date')
   DateTime endDate;
 }
