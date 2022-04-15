@@ -15,13 +15,13 @@ Future<Database> getDatabase() async {
       batch.execute('''
       CREATE TABLE IF NOT EXISTS cart (
         id TEXT PRIMARY KEY,
-        productId TEXT,
+        product_id TEXT,
         name TEXT,
         price REAL,
-        imageUrl TEXT,
+        image_url TEXT,
         unit TEXT,
         quantity INTEGER,
-        sellerId TEXT
+        seller_id TEXT
       )
       ''');
       batch.execute(
