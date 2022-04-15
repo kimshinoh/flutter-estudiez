@@ -1,7 +1,7 @@
 import 'package:fruity/models/payment/payment.dart';
+import 'package:fruity/models/user_address/user_address.dart';
 import 'package:fruity/stores/order/create_order_store.dart';
 import 'package:fruity/utils/datetime_util.dart';
-import 'package:fruity/widgets/user_address.dart';
 import 'package:mobx/mobx.dart';
 
 part 'confirm_order_store.g.dart';
@@ -114,5 +114,10 @@ abstract class _OrderConfirmationStoreBase with Store {
     );
 
     createOrderStore.setReceivedAt(receivedAt);
+  }
+
+  @action
+  void dispose() {
+    _disposers.forEach((d) => d());
   }
 }

@@ -1,3 +1,7 @@
+import 'package:dio/dio.dart';
+import 'package:fruity/data/network/apis/order/order_api.dart';
+import 'package:fruity/data/network/dio_client.dart';
+import 'package:fruity/dto/order/order_request.dart';
 import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/models/payment/payment.dart';
 import 'package:fruity/models/seller/seller.dart';
@@ -9,6 +13,8 @@ part 'create_order_store.g.dart';
 class CreateOrderStore = _CreateOrderStoreBase with _$CreateOrderStore;
 
 abstract class _CreateOrderStoreBase with Store {
+  OrderAPI _orderAPI = OrderAPI(DioClient(Dio()));
+
   @observable
   DateTime receivedAt = DateTime.now().add(Duration(minutes: 30));
 
@@ -72,5 +78,21 @@ abstract class _CreateOrderStoreBase with Store {
   @action
   void setSeller(Seller seller) {
     this.seller = seller;
+  }
+
+  @action
+  Future<void> createOrder() async {
+    CreateOrderRequest request = CreateOrderRequest(
+      note: note,
+      userAddressId: userAddress != null ? userAddress!.id : null,
+      paymentId: payment != null
+          ? payment!.id
+          : "c99cc249-a712-4c75-9aca-ca33b94a9393",
+      orderItems: items,
+      receivedAt: receivedAt,
+      sellerId: seller != null ? seller!.id : "",
+    );
+
+    await _orderAPI.createOrder(request);
   }
 }

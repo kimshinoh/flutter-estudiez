@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/models/seller/seller.dart';
+import 'package:fruity/models/user_address/user_address.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
 import 'package:fruity/stores/order/confirm_order_store.dart';
+import 'package:fruity/stores/user/auth_store.dart';
+import 'package:fruity/ui/order/widgets/create_order_button.dart';
 import 'package:fruity/ui/order/widgets/list_cart_item.dart';
 import 'package:fruity/ui/order/widgets/select_received_time.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/user_address.dart';
+
 import 'package:provider/provider.dart';
 
 class ConfirmOrderAgruments {
@@ -25,8 +29,10 @@ class ConfirmOrderScreen extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as ConfirmOrderAgruments;
 
     CartStore cartStore = context.read<CartStore>();
+    AuthStore authStore = context.read<AuthStore>();
     List<CartItem>? items = cartStore.groupedItemsBySeller[args.sellerId];
     final Seller? seller = cartStore.sellerStore.sellersMap[args.sellerId];
+
     OrderConfirmationStore _orderConfirmationStore = OrderConfirmationStore();
     if (items != null) {
       _orderConfirmationStore.createOrderStore.setItems(items);
@@ -34,16 +40,21 @@ class ConfirmOrderScreen extends StatelessWidget {
     if (seller != null) {
       _orderConfirmationStore.createOrderStore.setSeller(seller);
     }
+    final UserAddress? userAddress = authStore.userAddressStore.defaultAddress;
 
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Xác nhận đơn hàng'),
-          centerTitle: true,
-        ),
-        body: Provider.value(
-          value: _orderConfirmationStore,
-          child: _body(),
-        ));
+    if (userAddress != null) {
+      _orderConfirmationStore.createOrderStore.setUserAddress(userAddress);
+    }
+
+    return Provider.value(
+        value: _orderConfirmationStore,
+        child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Xác nhận đơn hàng'),
+              centerTitle: true,
+            ),
+            bottomNavigationBar: BottomAppBar(child: ButtonCreateOrder()),
+            body: _body()));
   }
 
   Widget _body() {
@@ -58,7 +69,7 @@ class ConfirmOrderScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: Column(
                 children: [
-                  UserAddress(),
+                  UserAddressWidget(),
                   SizedBox(
                     height: 10,
                   ),

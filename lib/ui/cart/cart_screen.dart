@@ -5,7 +5,6 @@ import 'package:fruity/widgets/user_address.dart';
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +16,7 @@ class CartScreen extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: ListView(
             children: [
-              UserAddress(),
+              UserAddressWidget(),
               SizedBox(
                 height: 10,
               ),

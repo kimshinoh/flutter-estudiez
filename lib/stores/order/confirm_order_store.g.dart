@@ -171,6 +171,17 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
   }
 
   @override
+  void dispose() {
+    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
+        .startAction(name: '_OrderConfirmationStoreBase.dispose');
+    try {
+      return super.dispose();
+    } finally {
+      _$_OrderConfirmationStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 receivedAt: ${receivedAt},

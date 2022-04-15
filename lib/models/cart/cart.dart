@@ -12,7 +12,7 @@ class Cart {
   Map<String, dynamic> toJson() => _$CartToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class CartItem {
   CartItem({
     required this.id,
@@ -26,12 +26,18 @@ class CartItem {
   });
 
   String id;
+
+  @JsonKey(name: 'product_id')
   String productId;
   String name;
   double price;
+
+  @JsonKey(name: 'image_url')
   String imageUrl;
   int quantity;
   String? unit;
+
+  @JsonKey(name: 'seller_id')
   String sellerId;
 
   @JsonKey(ignore: true)

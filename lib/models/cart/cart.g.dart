@@ -17,22 +17,22 @@ Map<String, dynamic> _$CartToJson(Cart instance) => <String, dynamic>{
 
 CartItem _$CartItemFromJson(Map<String, dynamic> json) => CartItem(
       id: json['id'] as String,
-      productId: json['productId'] as String,
+      productId: json['product_id'] as String,
       name: json['name'] as String,
       price: (json['price'] as num).toDouble(),
       quantity: json['quantity'] as int,
-      imageUrl: json['imageUrl'] as String,
-      sellerId: json['sellerId'] as String,
+      imageUrl: json['image_url'] as String,
+      sellerId: json['seller_id'] as String,
       unit: json['unit'] as String?,
     );
 
 Map<String, dynamic> _$CartItemToJson(CartItem instance) => <String, dynamic>{
       'id': instance.id,
-      'productId': instance.productId,
+      'product_id': instance.productId,
       'name': instance.name,
       'price': instance.price,
-      'imageUrl': instance.imageUrl,
+      'image_url': instance.imageUrl,
       'quantity': instance.quantity,
       'unit': instance.unit,
-      'sellerId': instance.sellerId,
+      'seller_id': instance.sellerId,
     };
