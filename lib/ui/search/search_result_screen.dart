@@ -286,126 +286,128 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   Widget _buildSearchResult() {
     double cardWidth = MediaQuery.of(context).size.width / 3;
     double cardHeight = MediaQuery.of(context).size.height / 3.8;
-    return Center(
-      child: GridView.count(
-        shrinkWrap: true,
-        childAspectRatio: cardWidth / cardHeight,
-        padding: const EdgeInsets.all(10),
-        crossAxisCount: 2,
-        crossAxisSpacing: 2,
-        mainAxisSpacing: 4,
-        children: List.generate(4, (int index) {
-          return InkWell(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            onTap: () {},
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.only(right: 10),
-              color: Colors.white,
-              child: Stack(children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 130,
-                      width: 300,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(3),
-                        child: SizedBox.fromSize(
-                          child: Image.network(
-                            "https://images.f99.com.vn/images/3ee980bb-938c-4ff3-a91c-8622f57723ec.jpg?width=250&height=250",
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      "Dừa xiêm bến tre",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      "HOME FRUIT",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 13,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Row(
-                      children: const [
-                        RadiantGradientMask(
-                          firstColor: Colors.orange,
-                          secondColor: Colors.yellow,
-                          child: Icon(
-                            Icons.star,
-                            size: 20,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(width: 4),
-                        Text(
-                          '4.8',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    RichText(
-                      text: TextSpan(
-                        text: "123123₫",
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: ' / 1 quả',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.grey,
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: GridView.count(
+          shrinkWrap: true,
+          childAspectRatio: cardWidth / cardHeight,
+          crossAxisCount: 2,
+          crossAxisSpacing: 4,
+          mainAxisSpacing: 4,
+          children: List.generate(4, (int index) {
+            return InkWell(
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              onTap: () {},
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                color: Colors.white,
+                child: Stack(children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 130,
+                        width: 300,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(3),
+                          child: SizedBox.fromSize(
+                            child: Image.network(
+                              "https://images.f99.com.vn/images/3ee980bb-938c-4ff3-a91c-8622f57723ec.jpg?width=250&height=250",
+                              fit: BoxFit.fitWidth,
                             ),
                           ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        "Dừa xiêm bến tre",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "HOME FRUIT",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: TextStyle(
+                          fontSize: 13,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: const [
+                          RadiantGradientMask(
+                            firstColor: Colors.orange,
+                            secondColor: Colors.yellow,
+                            child: Icon(
+                              Icons.star,
+                              size: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                          SizedBox(width: 4),
+                          Text(
+                            '4.8',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey,
+                            ),
+                          )
                         ],
                       ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      "123123₫",
-                      style: const TextStyle(
-                        fontSize: 12,
-                        decoration: TextDecoration.lineThrough,
-                        color: Colors.grey,
+                      const SizedBox(height: 6),
+                      RichText(
+                        text: TextSpan(
+                          text: "123123₫",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: ' / 1 quả',
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.add_circle,
-                        size: 24,
-                        color: AppColors.palette.shade500,
+                      const SizedBox(height: 6),
+                      Text(
+                        "123123₫",
+                        style: const TextStyle(
+                          fontSize: 12,
+                          decoration: TextDecoration.lineThrough,
+                          color: Colors.grey,
+                        ),
                       ),
-                      onPressed: () {},
-                    ))
-              ]),
-            ),
-          );
-        }),
+                    ],
+                  ),
+                  Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.add_circle,
+                          size: 24,
+                          color: AppColors.palette.shade500,
+                        ),
+                        onPressed: () {},
+                      ))
+                ]),
+              ),
+            );
+          }),
+        ),
       ),
     );
   }
