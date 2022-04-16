@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/stores/user/auth_store.dart';
@@ -96,48 +97,51 @@ class _HomeAddress extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthStore _authStore = context.read<AuthStore>();
 
-    return SizedBox(
-      child: _authStore.isLoggedIn &&
-              _authStore.userAddressStore.defaultAddress != null
-          ? _DefaultAddress()
-          : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Column(children: const [
-                TextField(
-                  decoration: InputDecoration(
-                      labelText: 'Họ và tên',
-                      prefixIcon: Icon(Icons.person),
-                      contentPadding: EdgeInsets.all(8),
-                      border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey))),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.phone),
-                      contentPadding: EdgeInsets.all(8),
-                      labelText: 'Số điện thoại',
-                      border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey))),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      labelText: 'Địa chỉ',
-                      prefixIcon: Icon(Icons.location_on),
-                      contentPadding: EdgeInsets.all(8),
-                      border: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey))),
-                )
-              ]),
-            ),
-    );
+    return Observer(builder: (_) {
+      return SizedBox(
+        child: _authStore.isLoggedIn &&
+                _authStore.userAddressStore.defaultAddress != null
+            ? _DefaultAddress()
+            : Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Column(children: const [
+                  TextField(
+                    decoration: InputDecoration(
+                        labelText: 'Họ và tên',
+                        prefixIcon: Icon(Icons.person),
+                        contentPadding: EdgeInsets.all(8),
+                        border: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey))),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.phone),
+                        contentPadding: EdgeInsets.all(8),
+                        labelText: 'Số điện thoại',
+                        border: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey))),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  TextField(
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                        labelText: 'Địa chỉ',
+                        prefixIcon: Icon(Icons.location_on),
+                        contentPadding: EdgeInsets.all(8),
+                        border: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey))),
+                  )
+                ]),
+              ),
+      );
+    });
   }
 }
 

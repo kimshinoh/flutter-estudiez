@@ -9,9 +9,9 @@ class ButtonCreateOrder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrderConfirmationStore _orderConfirmationStore =
+    final OrderConfirmationStore _orderConfirmationStore =
         context.read<OrderConfirmationStore>();
-    CartStore _cartStore = context.read<CartStore>();
+    final CartStore _cartStore = context.read<CartStore>();
 
     return SizedBox(
       height: 60,

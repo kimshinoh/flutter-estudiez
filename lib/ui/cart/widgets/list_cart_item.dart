@@ -5,9 +5,11 @@ import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/models/seller/seller.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
+import 'package:fruity/stores/user/auth_store.dart';
 import 'package:fruity/ui/cart/widgets/cart_item.dart';
 import 'package:fruity/ui/order/order_confirm_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
+import 'package:fruity/widgets/login_button.dart';
 import 'package:provider/provider.dart';
 
 class ListCartItem extends StatefulWidget {
@@ -21,6 +23,8 @@ class _ListCartItemState extends State<ListCartItem> {
   @override
   Widget build(BuildContext context) {
     final CartStore _cartStore = context.read<CartStore>();
+    final AuthStore _authStore = context.read<AuthStore>();
+
     return Observer(builder: (_) {
       final Map<String, List<CartItem>> groupItemsBySeller =
           _cartStore.groupedItemsBySeller;
@@ -173,24 +177,29 @@ class _ListCartItemState extends State<ListCartItem> {
                             ),
                           ],
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            final List<CartItem>? _selectedItems = _cartStore
-                                .groupedItemsBySellerSelected[sellerId];
+                        _authStore.isLoggedIn
+                            ? ElevatedButton(
+                                onPressed: () {
+                                  final List<CartItem>? _selectedItems =
+                                      _cartStore.groupedItemsBySellerSelected[
+                                          sellerId];
 
-                            if (_selectedItems == null ||
-                                _selectedItems.isEmpty) {
-                              return;
-                            }
-                            Navigator.pushNamed(
-                              context,
-                              Routes.confirm_order,
-                              arguments:
-                                  ConfirmOrderAgruments(sellerId: sellerId),
-                            );
-                          },
-                          child: const Text('Chọn mua'),
-                        )
+                                  if (_selectedItems == null ||
+                                      _selectedItems.isEmpty) {
+                                    return;
+                                  }
+                                  Navigator.pushNamed(
+                                    context,
+                                    Routes.confirm_order,
+                                    arguments: ConfirmOrderAgruments(
+                                        sellerId: sellerId),
+                                  );
+                                },
+                                child: const Text('Chọn mua'),
+                              )
+                            : LoginButton(
+                                title: "Chọn mua",
+                              )
                       ],
                     ))
               ],
