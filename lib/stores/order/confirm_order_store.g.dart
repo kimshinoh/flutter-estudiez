@@ -9,7 +9,8 @@ part of 'confirm_order_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
-  final _$receivedAtAtom = Atom(name: '_OrderConfirmationStoreBase.receivedAt');
+  final Atom _$receivedAtAtom =
+      Atom(name: '_OrderConfirmationStoreBase.receivedAt');
 
   @override
   DateTime get receivedAt {
@@ -24,7 +25,7 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     });
   }
 
-  final _$timeAtom = Atom(name: '_OrderConfirmationStoreBase.time');
+  final Atom _$timeAtom = Atom(name: '_OrderConfirmationStoreBase.time');
 
   @override
   String get time {
@@ -39,7 +40,7 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     });
   }
 
-  final _$noteAtom = Atom(name: '_OrderConfirmationStoreBase.note');
+  final Atom _$noteAtom = Atom(name: '_OrderConfirmationStoreBase.note');
 
   @override
   String get note {
@@ -54,7 +55,7 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     });
   }
 
-  final _$userAddressAtom =
+  final Atom _$userAddressAtom =
       Atom(name: '_OrderConfirmationStoreBase.userAddress');
 
   @override
@@ -70,7 +71,7 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     });
   }
 
-  final _$paymentAtom = Atom(name: '_OrderConfirmationStoreBase.payment');
+  final Atom _$paymentAtom = Atom(name: '_OrderConfirmationStoreBase.payment');
 
   @override
   Payment? get payment {
@@ -85,7 +86,7 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     });
   }
 
-  final _$timesCanSelectAtom =
+  final Atom _$timesCanSelectAtom =
       Atom(name: '_OrderConfirmationStoreBase.timesCanSelect');
 
   @override
@@ -101,13 +102,14 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     });
   }
 
-  final _$_OrderConfirmationStoreBaseActionController =
+  final ActionController _$_OrderConfirmationStoreBaseActionController =
       ActionController(name: '_OrderConfirmationStoreBase');
 
   @override
   void setReceivedAt(DateTime receivedAt) {
-    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
-        .startAction(name: '_OrderConfirmationStoreBase.setReceivedAt');
+    final ActionRunInfo _$actionInfo =
+        _$_OrderConfirmationStoreBaseActionController.startAction(
+            name: '_OrderConfirmationStoreBase.setReceivedAt');
     try {
       return super.setReceivedAt(receivedAt);
     } finally {
@@ -117,8 +119,9 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
 
   @override
   void setTime(String time) {
-    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
-        .startAction(name: '_OrderConfirmationStoreBase.setTime');
+    final ActionRunInfo _$actionInfo =
+        _$_OrderConfirmationStoreBaseActionController.startAction(
+            name: '_OrderConfirmationStoreBase.setTime');
     try {
       return super.setTime(time);
     } finally {
@@ -128,8 +131,9 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
 
   @override
   void setNote(String note) {
-    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
-        .startAction(name: '_OrderConfirmationStoreBase.setNote');
+    final ActionRunInfo _$actionInfo =
+        _$_OrderConfirmationStoreBaseActionController.startAction(
+            name: '_OrderConfirmationStoreBase.setNote');
     try {
       return super.setNote(note);
     } finally {
@@ -139,8 +143,9 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
 
   @override
   void setUserAddress(UserAddress userAddress) {
-    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
-        .startAction(name: '_OrderConfirmationStoreBase.setUserAddress');
+    final ActionRunInfo _$actionInfo =
+        _$_OrderConfirmationStoreBaseActionController.startAction(
+            name: '_OrderConfirmationStoreBase.setUserAddress');
     try {
       return super.setUserAddress(userAddress);
     } finally {
@@ -150,8 +155,9 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
 
   @override
   void setPayment(Payment payment) {
-    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
-        .startAction(name: '_OrderConfirmationStoreBase.setPayment');
+    final ActionRunInfo _$actionInfo =
+        _$_OrderConfirmationStoreBaseActionController.startAction(
+            name: '_OrderConfirmationStoreBase.setPayment');
     try {
       return super.setPayment(payment);
     } finally {
@@ -161,8 +167,9 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
 
   @override
   dynamic confirmReceivedAt() {
-    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
-        .startAction(name: '_OrderConfirmationStoreBase.confirmReceivedAt');
+    final ActionRunInfo _$actionInfo =
+        _$_OrderConfirmationStoreBaseActionController.startAction(
+            name: '_OrderConfirmationStoreBase.confirmReceivedAt');
     try {
       return super.confirmReceivedAt();
     } finally {
@@ -172,8 +179,9 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
 
   @override
   void dispose() {
-    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
-        .startAction(name: '_OrderConfirmationStoreBase.dispose');
+    final ActionRunInfo _$actionInfo =
+        _$_OrderConfirmationStoreBaseActionController.startAction(
+            name: '_OrderConfirmationStoreBase.dispose');
     try {
       return super.dispose();
     } finally {

@@ -29,8 +29,10 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _navigate() async {
-    final SharedPreferences _preferences = await SharedPreferences.getInstance();
-    final UserLoginResponseDTO? res = UserLoginResponseDTO.fromPrefs(_preferences);
+    final SharedPreferences _preferences =
+        await SharedPreferences.getInstance();
+    final UserLoginResponseDTO? res =
+        UserLoginResponseDTO.fromPrefs(_preferences);
 
     if (res != null) {
       _store.setAuth(res);

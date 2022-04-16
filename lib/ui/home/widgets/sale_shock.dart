@@ -97,7 +97,7 @@ class _SaleShockState extends State<SaleShock> {
                                 fit: BoxFit.cover,
                               ),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
+                                  const BorderRadius.all(Radius.circular(10)),
                             ),
                           ),
                           Expanded(
@@ -120,7 +120,7 @@ class _SaleShockState extends State<SaleShock> {
                                     _product.seller.name,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 13,
                                     ),
                                   ),
@@ -150,9 +150,10 @@ class _SaleShockState extends State<SaleShock> {
                                   RichText(
                                     text: TextSpan(
                                       text: CurrencyHelper.withCommas(
-                                          value: _product.price,
-                                          removeDecimal: true),
-                                      style: TextStyle(
+                                        value: _product.price,
+                                        removeDecimal: true,
+                                      ),
+                                      style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
@@ -160,7 +161,7 @@ class _SaleShockState extends State<SaleShock> {
                                       children: [
                                         TextSpan(
                                           text: ' / ${_product.unit}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 11,
                                             color: Colors.grey,
                                           ),

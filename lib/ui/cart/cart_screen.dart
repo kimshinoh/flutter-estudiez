@@ -10,20 +10,21 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartStore _cartStore = context.read<CartStore>();
+    final CartStore _cartStore = context.read<CartStore>();
 
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text('Giỏ hàng'),
-        ),
-        body: Observer(builder: (context) {
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Giỏ hàng'),
+      ),
+      body: Observer(
+        builder: (BuildContext context) {
           return _cartStore.items.isEmpty
               ? _cartEmpty()
               : Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView(
-                    children: [
+                    children: const [
                       UserAddressWidget(),
                       SizedBox(
                         height: 10,
@@ -32,40 +33,44 @@ class CartScreen extends StatelessWidget {
                     ],
                   ),
                 );
-        }));
+        },
+      ),
+    );
   }
 }
 
 Widget _cartEmpty() {
-  return Builder(builder: (context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image(
-            image: AssetImage('assets/images/empty_cart.png'),
-            width: MediaQuery.of(context).size.width * 0.7,
-            height: MediaQuery.of(context).size.width * 0.5,
-            fit: BoxFit.cover,
-          ),
-          Text(
-            'Giỏ hàng trống',
-            style: TextStyle(fontSize: 20),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('Mua sắm ngay'),
+  return Builder(
+    builder: (BuildContext context) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(
+              image: const AssetImage('assets/images/empty_cart.png'),
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: MediaQuery.of(context).size.width * 0.5,
+              fit: BoxFit.cover,
             ),
-          ),
-        ],
-      ),
-    );
-  });
+            const Text(
+              'Giỏ hàng trống',
+              style: TextStyle(fontSize: 20),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Mua sắm ngay'),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

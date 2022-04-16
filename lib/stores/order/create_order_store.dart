@@ -13,10 +13,10 @@ part 'create_order_store.g.dart';
 class CreateOrderStore = _CreateOrderStoreBase with _$CreateOrderStore;
 
 abstract class _CreateOrderStoreBase with Store {
-  OrderAPI _orderAPI = OrderAPI(DioClient(Dio()));
+  final OrderAPI _orderAPI = OrderAPI(DioClient(Dio()));
 
   @observable
-  DateTime receivedAt = DateTime.now().add(Duration(minutes: 30));
+  DateTime receivedAt = DateTime.now().add(const Duration(minutes: 30));
 
   @observable
   String note = '';
@@ -47,8 +47,8 @@ abstract class _CreateOrderStoreBase with Store {
   }
 
   @computed
-  double get itemsPrice =>
-      items.fold(0, (sum, item) => sum + item.price * item.quantity);
+  double get itemsPrice => items.fold(
+      0, (double sum, CartItem item) => sum + item.price * item.quantity);
 
   @action
   void setItems(List<CartItem> items) {
@@ -82,15 +82,15 @@ abstract class _CreateOrderStoreBase with Store {
 
   @action
   Future<void> createOrder() async {
-    CreateOrderRequest request = CreateOrderRequest(
+    final CreateOrderRequest request = CreateOrderRequest(
       note: note,
       userAddressId: userAddress != null ? userAddress!.id : null,
       paymentId: payment != null
           ? payment!.id
-          : "c99cc249-a712-4c75-9aca-ca33b94a9393",
+          : 'c99cc249-a712-4c75-9aca-ca33b94a9393',
       orderItems: items,
       receivedAt: receivedAt,
-      sellerId: seller != null ? seller!.id : "",
+      sellerId: seller != null ? seller!.id : '',
     );
 
     await _orderAPI.createOrder(request);

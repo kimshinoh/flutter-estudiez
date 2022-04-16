@@ -12,26 +12,29 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
   Computed<double>? _$feeShippingComputed;
 
   @override
-  double get feeShipping =>
-      (_$feeShippingComputed ??= Computed<double>(() => super.feeShipping,
-              name: '_CreateOrderStoreBase.feeShipping'))
+  double get feeShipping => (_$feeShippingComputed ??= Computed<double>(
+        () => super.feeShipping,
+        name: '_CreateOrderStoreBase.feeShipping',
+      ))
           .value;
   Computed<double>? _$totalPriceComputed;
 
   @override
-  double get totalPrice =>
-      (_$totalPriceComputed ??= Computed<double>(() => super.totalPrice,
-              name: '_CreateOrderStoreBase.totalPrice'))
+  double get totalPrice => (_$totalPriceComputed ??= Computed<double>(
+        () => super.totalPrice,
+        name: '_CreateOrderStoreBase.totalPrice',
+      ))
           .value;
   Computed<double>? _$itemsPriceComputed;
 
   @override
-  double get itemsPrice =>
-      (_$itemsPriceComputed ??= Computed<double>(() => super.itemsPrice,
-              name: '_CreateOrderStoreBase.itemsPrice'))
+  double get itemsPrice => (_$itemsPriceComputed ??= Computed<double>(
+        () => super.itemsPrice,
+        name: '_CreateOrderStoreBase.itemsPrice',
+      ))
           .value;
 
-  final _$receivedAtAtom = Atom(name: '_CreateOrderStoreBase.receivedAt');
+  final Atom _$receivedAtAtom = Atom(name: '_CreateOrderStoreBase.receivedAt');
 
   @override
   DateTime get receivedAt {
@@ -46,7 +49,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$noteAtom = Atom(name: '_CreateOrderStoreBase.note');
+  final Atom _$noteAtom = Atom(name: '_CreateOrderStoreBase.note');
 
   @override
   String get note {
@@ -61,7 +64,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$userAddressAtom = Atom(name: '_CreateOrderStoreBase.userAddress');
+  final Atom _$userAddressAtom =
+      Atom(name: '_CreateOrderStoreBase.userAddress');
 
   @override
   UserAddress? get userAddress {
@@ -76,7 +80,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$paymentAtom = Atom(name: '_CreateOrderStoreBase.payment');
+  final Atom _$paymentAtom = Atom(name: '_CreateOrderStoreBase.payment');
 
   @override
   Payment? get payment {
@@ -91,7 +95,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$sellerAtom = Atom(name: '_CreateOrderStoreBase.seller');
+  final Atom _$sellerAtom = Atom(name: '_CreateOrderStoreBase.seller');
 
   @override
   Seller? get seller {
@@ -106,7 +110,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$itemsAtom = Atom(name: '_CreateOrderStoreBase.items');
+  final Atom _$itemsAtom = Atom(name: '_CreateOrderStoreBase.items');
 
   @override
   List<CartItem> get items {
@@ -121,7 +125,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$distanceAtom = Atom(name: '_CreateOrderStoreBase.distance');
+  final Atom _$distanceAtom = Atom(name: '_CreateOrderStoreBase.distance');
 
   @override
   double get distance {
@@ -136,7 +140,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$createOrderAsyncAction =
+  final AsyncAction _$createOrderAsyncAction =
       AsyncAction('_CreateOrderStoreBase.createOrder');
 
   @override
@@ -144,13 +148,15 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     return _$createOrderAsyncAction.run(() => super.createOrder());
   }
 
-  final _$_CreateOrderStoreBaseActionController =
+  final ActionController _$_CreateOrderStoreBaseActionController =
       ActionController(name: '_CreateOrderStoreBase');
 
   @override
   void setItems(List<CartItem> items) {
-    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
-        name: '_CreateOrderStoreBase.setItems');
+    final ActionRunInfo _$actionInfo =
+        _$_CreateOrderStoreBaseActionController.startAction(
+      name: '_CreateOrderStoreBase.setItems',
+    );
     try {
       return super.setItems(items);
     } finally {
@@ -160,8 +166,10 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
 
   @override
   void setReceivedAt(DateTime receivedAt) {
-    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
-        name: '_CreateOrderStoreBase.setReceivedAt');
+    final ActionRunInfo _$actionInfo =
+        _$_CreateOrderStoreBaseActionController.startAction(
+      name: '_CreateOrderStoreBase.setReceivedAt',
+    );
     try {
       return super.setReceivedAt(receivedAt);
     } finally {
@@ -171,8 +179,10 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
 
   @override
   void setNote(String note) {
-    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
-        name: '_CreateOrderStoreBase.setNote');
+    final ActionRunInfo _$actionInfo =
+        _$_CreateOrderStoreBaseActionController.startAction(
+      name: '_CreateOrderStoreBase.setNote',
+    );
     try {
       return super.setNote(note);
     } finally {
@@ -182,8 +192,10 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
 
   @override
   void setUserAddress(UserAddress userAddress) {
-    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
-        name: '_CreateOrderStoreBase.setUserAddress');
+    final ActionRunInfo _$actionInfo =
+        _$_CreateOrderStoreBaseActionController.startAction(
+      name: '_CreateOrderStoreBase.setUserAddress',
+    );
     try {
       return super.setUserAddress(userAddress);
     } finally {
@@ -193,8 +205,10 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
 
   @override
   void setPayment(Payment payment) {
-    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
-        name: '_CreateOrderStoreBase.setPayment');
+    final ActionRunInfo _$actionInfo =
+        _$_CreateOrderStoreBaseActionController.startAction(
+      name: '_CreateOrderStoreBase.setPayment',
+    );
     try {
       return super.setPayment(payment);
     } finally {
@@ -204,8 +218,10 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
 
   @override
   void setSeller(Seller seller) {
-    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
-        name: '_CreateOrderStoreBase.setSeller');
+    final ActionRunInfo _$actionInfo =
+        _$_CreateOrderStoreBaseActionController.startAction(
+      name: '_CreateOrderStoreBase.setSeller',
+    );
     try {
       return super.setSeller(seller);
     } finally {

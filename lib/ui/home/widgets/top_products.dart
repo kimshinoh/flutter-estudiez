@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/stores/category/product_store.dart';
 import 'package:fruity/utils/currency_util.dart';
@@ -29,13 +27,14 @@ class _TopProductsState extends State<TopProducts> {
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
     return Container(
-        width: width * 0.9,
-        height: 200,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(6)),
-        ),
-        child: _buildTopProducts());
+      width: width * 0.9,
+      height: 200,
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+      ),
+      child: _buildTopProducts(),
+    );
   }
 
   Widget _buildTopProducts() {
@@ -90,12 +89,13 @@ class _TopProductsState extends State<TopProducts> {
 
         Expanded(
           child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Skeleton(
-                isLoading: _productStore.loading,
-                skeleton: _TopProductSkeleton(),
-                child: _buildListProducts(),
-              )),
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: Skeleton(
+              isLoading: _productStore.loading,
+              skeleton: const _TopProductSkeleton(),
+              child: _buildListProducts(),
+            ),
+          ),
         ),
         // )
       ],
@@ -144,7 +144,7 @@ class _TopProductsState extends State<TopProducts> {
                             ),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(2),
+                            padding: const EdgeInsets.all(2),
                             child: Text(
                               '- ${product.percent.toInt()}%',
                               style: const TextStyle(
@@ -162,9 +162,10 @@ class _TopProductsState extends State<TopProducts> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  CurrencyHelper.withCommas(
-                          value: product.price, removeDecimal: true) +
-                      "₫",
+                  '${CurrencyHelper.withCommas(
+                    value: product.price,
+                    removeDecimal: true,
+                  )}₫',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
@@ -205,37 +206,42 @@ class _TopProductSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        padding: EdgeInsets.all(5),
-        scrollDirection: Axis.horizontal,
-        itemCount: 5,
-        itemBuilder: (BuildContext context, int index) {
-          return SizedBox(
-              width: 100,
-              child: Column(
-                children: [
-                  const SkeletonAvatar(
-                      style: SkeletonAvatarStyle(
-                    height: 80,
-                    width: 80,
-                  )),
-                  const SizedBox(height: 4),
-                  SkeletonParagraph(
-                      style: const SkeletonParagraphStyle(
-                    lines: 1,
-                    lineStyle: SkeletonLineStyle(
-                      height: 10,
-                    ),
-                  )),
-                  const SizedBox(height: 3),
-                  SkeletonParagraph(
-                      style: const SkeletonParagraphStyle(
-                    lines: 1,
-                    lineStyle: SkeletonLineStyle(
-                      height: 8,
-                    ),
-                  )),
-                ],
-              ));
-        });
+      padding: const EdgeInsets.all(5),
+      scrollDirection: Axis.horizontal,
+      itemCount: 5,
+      itemBuilder: (BuildContext context, int index) {
+        return SizedBox(
+          width: 100,
+          child: Column(
+            children: [
+              const SkeletonAvatar(
+                style: SkeletonAvatarStyle(
+                  height: 80,
+                  width: 80,
+                ),
+              ),
+              const SizedBox(height: 4),
+              SkeletonParagraph(
+                style: const SkeletonParagraphStyle(
+                  lines: 1,
+                  lineStyle: SkeletonLineStyle(
+                    height: 10,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 3),
+              SkeletonParagraph(
+                style: const SkeletonParagraphStyle(
+                  lines: 1,
+                  lineStyle: SkeletonLineStyle(
+                    height: 8,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

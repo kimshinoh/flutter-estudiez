@@ -17,7 +17,8 @@ Seller _$SellerFromJson(Map<String, dynamic> json) => Seller(
       rating: (json['rating'] as num).toDouble(),
       totalVote: json['total_vote'] as int,
       availableTime: AvailableTime.fromJson(
-          json['available_time'] as Map<String, dynamic>),
+        json['available_time'] as Map<String, dynamic>,
+      ),
       email: json['email'] as String?,
       phoneNumber: json['phone_number'] as String?,
       note: json['note'] as String?,
@@ -52,7 +53,7 @@ Map<String, dynamic> _$AvailableTimeToJson(AvailableTime instance) =>
     <String, dynamic>{
       'open_time': instance.openTime,
       'close_time': instance.closeTime,
-      'holidays': instance.holidays?.map((e) => e.toJson()).toList(),
+      'holidays': instance.holidays?.map((Holiday e) => e.toJson()).toList(),
     };
 
 Holiday _$HolidayFromJson(Map<String, dynamic> json) => Holiday(

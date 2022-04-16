@@ -27,7 +27,7 @@ abstract class _ProductStoreBase with Store {
   @observable
   List<Product> productsSaleOff = [];
 
-    @observable
+  @observable
   List<Product> productsSaleShock = [];
 
   @observable
@@ -53,6 +53,7 @@ abstract class _ProductStoreBase with Store {
       loading = false;
     }
   }
+
   @action
   Future<void> getProductsSaleShock(int limit) async {
     try {
@@ -71,6 +72,7 @@ abstract class _ProductStoreBase with Store {
       loading = false;
     }
   }
+
   @action
   Future<void> getProductsSaleOff(int limit) async {
     try {
@@ -109,6 +111,7 @@ abstract class _ProductStoreBase with Store {
       loading = false;
     }
   }
+
   @action
   void dispose() {
     products = [];

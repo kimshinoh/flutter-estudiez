@@ -3,7 +3,6 @@ import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/stores/category/product_store.dart';
 import 'package:fruity/utils/currency_util.dart';
-import 'package:fruity/widgets/add_to_cart_button.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletons/skeletons.dart';
@@ -100,14 +99,15 @@ class _SaleOffState extends State<SaleOff> {
             height: 15,
           ),
           Container(
-              padding: const EdgeInsets.fromLTRB(15, 0, 0, 15),
-              height: 310,
-              width: width,
-              child: Skeleton(
-                isLoading: _productStore.loading,
-                skeleton: _SaleOffSkeleton(),
-                child: _buildSaleOff(),
-              ))
+            padding: const EdgeInsets.fromLTRB(15, 0, 0, 15),
+            height: 310,
+            width: width,
+            child: Skeleton(
+              isLoading: _productStore.loading,
+              skeleton: const _SaleOffSkeleton(),
+              child: _buildSaleOff(),
+            ),
+          )
         ],
       ),
     );
@@ -166,101 +166,104 @@ class _SaleOffState extends State<SaleOff> {
         margin: const EdgeInsets.only(right: 10),
         color: Colors.white,
         width: 150,
-        child: Stack(children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                width: 125,
-                height: 125,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(3),
-                  child: SizedBox.fromSize(
-                    child: Image.network(
-                      product.imageUrl,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                product.name,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                product.seller.name,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 13,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Row(
-                children: const [
-                  RadiantGradientMask(
-                    firstColor: Colors.orange,
-                    secondColor: Colors.yellow,
-                    child: Icon(
-                      Icons.star,
-                      size: 20,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(width: 4),
-                  Text(
-                    '4.8',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(height: 6),
-              RichText(
-                text: TextSpan(
-                  text: CurrencyHelper.withCommas(
-                          value: product.price, removeDecimal: true) +
-                      "₫",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: ' / ${product.unit}',
-                      style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.grey,
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 125,
+                  height: 125,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(3),
+                    child: SizedBox.fromSize(
+                      child: Image.network(
+                        product.imageUrl,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 6),
-              if (product.oldPrice != null)
-                Text(
-                  CurrencyHelper.withCommas(
-                          value: product.oldPrice, removeDecimal: true) +
-                      "₫",
-                  style: const TextStyle(
-                    fontSize: 12,
-                    decoration: TextDecoration.lineThrough,
-                    color: Colors.grey,
                   ),
                 ),
-            ],
-          ),
-          Positioned(
+                const SizedBox(height: 10),
+                Text(
+                  product.name,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  product.seller.name,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: const TextStyle(
+                    fontSize: 13,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Row(
+                  children: const [
+                    RadiantGradientMask(
+                      firstColor: Colors.orange,
+                      secondColor: Colors.yellow,
+                      child: Icon(
+                        Icons.star,
+                        size: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(width: 4),
+                    Text(
+                      '4.8',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 6),
+                RichText(
+                  text: TextSpan(
+                    text: '${CurrencyHelper.withCommas(
+                      value: product.price,
+                      removeDecimal: true,
+                    )}₫',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    children: [
+                      TextSpan(
+                        text: ' / ${product.unit}',
+                        style: const TextStyle(
+                          fontSize: 11,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 6),
+                if (product.oldPrice != null)
+                  Text(
+                    '${CurrencyHelper.withCommas(
+                      value: product.oldPrice,
+                      removeDecimal: true,
+                    )}₫',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      decoration: TextDecoration.lineThrough,
+                      color: Colors.grey,
+                    ),
+                  ),
+              ],
+            ),
+            Positioned(
               right: 0,
               bottom: 0,
               child: IconButton(
@@ -270,8 +273,10 @@ class _SaleOffState extends State<SaleOff> {
                   color: AppColors.palette.shade500,
                 ),
                 onPressed: () {},
-              ))
-        ]),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -283,26 +288,30 @@ class _SaleOffSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: 5,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.only(right: 10),
-              color: Colors.white,
-              width: 150,
-              child: Column(
-                children: [
-                  SizedBox(
-                      width: 125,
-                      height: 125,
-                      child: SkeletonAvatar(
-                          style: SkeletonAvatarStyle(
-                        height: 50,
-                        width: 50,
-                      ))),
-                  const SizedBox(height: 10),
-                ],
-              ));
-        });
+      itemCount: 5,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(right: 10),
+          color: Colors.white,
+          width: 150,
+          child: Column(
+            children: const [
+              SizedBox(
+                width: 125,
+                height: 125,
+                child: SkeletonAvatar(
+                  style: SkeletonAvatarStyle(
+                    height: 50,
+                    width: 50,
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

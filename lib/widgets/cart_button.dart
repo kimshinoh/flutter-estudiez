@@ -19,29 +19,31 @@ class CartButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CartStore _cartStore = context.read<CartStore>();
+    final CartStore _cartStore = context.read<CartStore>();
     _cartStore.setupUpdateParent();
 
-    return Observer(builder: (_) {
-      return IconButton(
-        icon: Badge(
-          showBadge: _cartStore.items.isNotEmpty,
-          badgeColor: badgeColor,
-          badgeContent: _cartStore.items.isNotEmpty
-              ? Text(
-                  _cartStore.items.length.toString(),
-                  style: const TextStyle(color: Colors.white),
-                )
-              : null,
-          child: Icon(
-            Icons.local_mall_outlined,
-            color: iconColor,
+    return Observer(
+      builder: (_) {
+        return IconButton(
+          icon: Badge(
+            showBadge: _cartStore.items.isNotEmpty,
+            badgeColor: badgeColor,
+            badgeContent: _cartStore.items.isNotEmpty
+                ? Text(
+                    _cartStore.items.length.toString(),
+                    style: const TextStyle(color: Colors.white),
+                  )
+                : null,
+            child: Icon(
+              Icons.local_mall_outlined,
+              color: iconColor,
+            ),
           ),
-        ),
-        onPressed: () {
-          Navigator.of(context).pushNamed(Routes.cart);
-        },
-      );
-    });
+          onPressed: () {
+            Navigator.of(context).pushNamed(Routes.cart);
+          },
+        );
+      },
+    );
   }
 }

@@ -4,7 +4,7 @@ import 'package:fruity/dto/order/order_request.dart';
 import 'package:fruity/dto/order/order_response.dart';
 
 class OrderAPI {
-  DioClient _dioClient;
+  final DioClient _dioClient;
 
   OrderAPI(this._dioClient);
 

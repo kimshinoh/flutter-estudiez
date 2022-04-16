@@ -25,44 +25,46 @@ class _ListCartItemState extends State<ListCartItem> {
     final CartStore _cartStore = context.read<CartStore>();
     final AuthStore _authStore = context.read<AuthStore>();
 
-    return Observer(builder: (_) {
-      final Map<String, List<CartItem>> groupItemsBySeller =
-          _cartStore.groupedItemsBySeller;
-      final List<String> sellers = groupItemsBySeller.keys.toList();
+    return Observer(
+      builder: (_) {
+        final Map<String, List<CartItem>> groupItemsBySeller =
+            _cartStore.groupedItemsBySeller;
+        final List<String> sellers = groupItemsBySeller.keys.toList();
 
-      return ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        separatorBuilder: (BuildContext context, int index) => const Padding(
+        return ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          separatorBuilder: (BuildContext context, int index) => const Padding(
             padding: EdgeInsets.symmetric(horizontal: 10),
             child: SizedBox(
               height: 10,
-            )),
-        shrinkWrap: true,
-        itemCount: sellers.length,
-        itemBuilder: (BuildContext context, int index) {
-          final String sellerId = sellers[index];
-          final List<CartItem>? items = groupItemsBySeller[sellerId];
-
-          final Seller? seller = _cartStore.sellerStore.sellersMap[sellerId];
-
-          return Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8),
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 8,
-                  offset: Offset(0, 4),
-                ),
-              ],
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // ignore: prefer_if_elements_to_conditional_expressions
-                if (seller != null)
-                  Padding(
+          ),
+          shrinkWrap: true,
+          itemCount: sellers.length,
+          itemBuilder: (BuildContext context, int index) {
+            final String sellerId = sellers[index];
+            final List<CartItem>? items = groupItemsBySeller[sellerId];
+
+            final Seller? seller = _cartStore.sellerStore.sellersMap[sellerId];
+
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 8,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // ignore: prefer_if_elements_to_conditional_expressions
+                  if (seller != null)
+                    Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
@@ -71,14 +73,15 @@ class _ListCartItemState extends State<ListCartItem> {
                             children: [
                               ClipOval(
                                 child: SizedBox(
-                                    width: 40,
-                                    height: 40,
-                                    child: Image(
-                                      image: NetworkImage(seller.logo),
-                                      fit: BoxFit.cover,
-                                    )),
+                                  width: 40,
+                                  height: 40,
+                                  child: Image(
+                                    image: NetworkImage(seller.logo),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Expanded(
@@ -87,16 +90,19 @@ class _ListCartItemState extends State<ListCartItem> {
                                   children: [
                                     Text(
                                       seller.name,
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600),
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                     Text(
                                       'Giao từ: ${seller.headQuarter}',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: 14, color: Colors.grey),
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                      ),
                                     )
                                   ],
                                 ),
@@ -106,49 +112,51 @@ class _ListCartItemState extends State<ListCartItem> {
                           const SizedBox(
                             height: 10,
                           ),
-                          Divider(
+                          const Divider(
                             height: 1,
                             thickness: 1,
                           )
                         ],
-                      ))
-                else
-                  Container(),
-                Container(
-                  decoration: BoxDecoration(
+                      ),
+                    )
+                  else
+                    Container(),
+                  Container(
+                    decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(-10),
-                    bottomRight: Radius.circular(-10),
-                  )),
-                  child: ListView.separated(
-                    physics: const NeverScrollableScrollPhysics(),
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      child: Divider(
-                        thickness: 1,
-                        height: 1,
+                        bottomLeft: Radius.circular(-10),
+                        bottomRight: Radius.circular(-10),
                       ),
                     ),
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int subIndex) {
-                      return CartItemWidget(
-                        item: groupItemsBySeller[sellers[index]]![subIndex],
-                      );
-                    },
-                    itemCount: items!.length,
+                    child: ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Divider(
+                          thickness: 1,
+                          height: 1,
+                        ),
+                      ),
+                      shrinkWrap: true,
+                      itemBuilder: (BuildContext context, int subIndex) {
+                        return CartItemWidget(
+                          item: groupItemsBySeller[sellers[index]]![subIndex],
+                        );
+                      },
+                      itemCount: items!.length,
+                    ),
                   ),
-                ),
 
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Divider(
-                    thickness: 1,
-                    height: 1,
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Divider(
+                      thickness: 1,
+                      height: 1,
+                    ),
                   ),
-                ),
-                Padding(
-                    padding: EdgeInsets.all(8),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -156,57 +164,65 @@ class _ListCartItemState extends State<ListCartItem> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                                'Đã chọn ${items.length}/${items.length} sản phẩm'),
-                            SizedBox(height: 5),
+                              'Đã chọn ${items.length}/${items.length} sản phẩm',
+                            ),
+                            const SizedBox(height: 5),
                             RichText(
                               text: TextSpan(
-                                  text: 'Tổng: ',
-                                  style: TextStyle(
+                                text: 'Tổng: ',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text:
+                                        '${CurrencyHelper.withCommas(value: _cartStore.totalPriceBySeller[sellerId] ?? 0, removeDecimal: true)} ₫',
+                                    style: TextStyle(
                                       fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black),
-                                  children: [
-                                    TextSpan(
-                                        text:
-                                            '${CurrencyHelper.withCommas(value: _cartStore.totalPriceBySeller[sellerId] ?? 0, removeDecimal: true)} ₫',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            color: AppColors.palette.shade500)),
-                                  ]),
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.palette.shade500,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                        _authStore.isLoggedIn
-                            ? ElevatedButton(
-                                onPressed: () {
-                                  final List<CartItem>? _selectedItems =
-                                      _cartStore.groupedItemsBySellerSelected[
-                                          sellerId];
+                        if (_authStore.isLoggedIn)
+                          ElevatedButton(
+                            onPressed: () {
+                              final List<CartItem>? _selectedItems = _cartStore
+                                  .groupedItemsBySellerSelected[sellerId];
 
-                                  if (_selectedItems == null ||
-                                      _selectedItems.isEmpty) {
-                                    return;
-                                  }
-                                  Navigator.pushNamed(
-                                    context,
-                                    Routes.confirm_order,
-                                    arguments: ConfirmOrderAgruments(
-                                        sellerId: sellerId),
-                                  );
-                                },
-                                child: const Text('Chọn mua'),
-                              )
-                            : LoginButton(
-                                title: "Chọn mua",
-                              )
+                              if (_selectedItems == null ||
+                                  _selectedItems.isEmpty) {
+                                return;
+                              }
+                              Navigator.pushNamed(
+                                context,
+                                Routes.confirm_order,
+                                arguments: ConfirmOrderAgruments(
+                                  sellerId: sellerId,
+                                ),
+                              );
+                            },
+                            child: const Text('Chọn mua'),
+                          )
+                        else
+                          LoginButton(
+                            title: 'Chọn mua',
+                          )
                       ],
-                    ))
-              ],
-            ),
-          );
-        },
-      );
-    });
+                    ),
+                  )
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 }

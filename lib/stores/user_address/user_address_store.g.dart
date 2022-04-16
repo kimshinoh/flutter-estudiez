@@ -12,12 +12,15 @@ mixin _$UserAddressStore on _UserAddressStoreBase, Store {
   Computed<UserAddress?>? _$defaultAddressComputed;
 
   @override
-  UserAddress? get defaultAddress => (_$defaultAddressComputed ??=
-          Computed<UserAddress?>(() => super.defaultAddress,
-              name: '_UserAddressStoreBase.defaultAddress'))
-      .value;
+  UserAddress? get defaultAddress =>
+      (_$defaultAddressComputed ??= Computed<UserAddress?>(
+        () => super.defaultAddress,
+        name: '_UserAddressStoreBase.defaultAddress',
+      ))
+          .value;
 
-  final _$userAddressesAtom = Atom(name: '_UserAddressStoreBase.userAddresses');
+  final Atom _$userAddressesAtom =
+      Atom(name: '_UserAddressStoreBase.userAddresses');
 
   @override
   List<UserAddress> get userAddresses {
@@ -32,7 +35,7 @@ mixin _$UserAddressStore on _UserAddressStoreBase, Store {
     });
   }
 
-  final _$errorAtom = Atom(name: '_UserAddressStoreBase.error');
+  final Atom _$errorAtom = Atom(name: '_UserAddressStoreBase.error');
 
   @override
   String? get error {
@@ -47,7 +50,7 @@ mixin _$UserAddressStore on _UserAddressStoreBase, Store {
     });
   }
 
-  final _$loadingAtom = Atom(name: '_UserAddressStoreBase.loading');
+  final Atom _$loadingAtom = Atom(name: '_UserAddressStoreBase.loading');
 
   @override
   bool get loading {
@@ -62,7 +65,7 @@ mixin _$UserAddressStore on _UserAddressStoreBase, Store {
     });
   }
 
-  final _$getUserAddressesAsyncAction =
+  final AsyncAction _$getUserAddressesAsyncAction =
       AsyncAction('_UserAddressStoreBase.getUserAddresses');
 
   @override
@@ -70,13 +73,15 @@ mixin _$UserAddressStore on _UserAddressStoreBase, Store {
     return _$getUserAddressesAsyncAction.run(() => super.getUserAddresses());
   }
 
-  final _$_UserAddressStoreBaseActionController =
+  final ActionController _$_UserAddressStoreBaseActionController =
       ActionController(name: '_UserAddressStoreBase');
 
   @override
   void clearUserAddresses() {
-    final _$actionInfo = _$_UserAddressStoreBaseActionController.startAction(
-        name: '_UserAddressStoreBase.clearUserAddresses');
+    final ActionRunInfo _$actionInfo =
+        _$_UserAddressStoreBaseActionController.startAction(
+      name: '_UserAddressStoreBase.clearUserAddresses',
+    );
     try {
       return super.clearUserAddresses();
     } finally {

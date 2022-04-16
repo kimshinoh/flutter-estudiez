@@ -25,6 +25,7 @@ class ProductAPI {
       return ListProductsResponseDTO.withError(e.toString());
     }
   }
+
   Future<SaleOffProductResponseDTO> getSaleOffProducts(
       SaleOffProductRequestDTO req) async {
     try {
@@ -42,6 +43,7 @@ class ProductAPI {
       return SaleOffProductResponseDTO.withError(e.toString());
     }
   }
+
   Future<SaleShockReponseDTO> getSaleShockProducts(
       SaleShockRequestDTO req) async {
     try {

@@ -24,9 +24,10 @@ class ButtonCreateOrder extends StatelessWidget {
               onPressed: () async {
                 await _orderConfirmationStore.createOrderStore.createOrder();
                 await _cartStore.removeItems(
-                    _orderConfirmationStore.createOrderStore.items);
+                  _orderConfirmationStore.createOrderStore.items,
+                );
                 Future.delayed(Duration.zero, () {
-                  NotifyHelper.success(context, "Tạo đơn hàng thành công!");
+                  NotifyHelper.success(context, 'Tạo đơn hàng thành công!');
                 });
                 Navigator.pop(context);
               },
@@ -34,9 +35,10 @@ class ButtonCreateOrder extends StatelessWidget {
                 'Xác nhận',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),

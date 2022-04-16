@@ -25,15 +25,16 @@ class ConfirmOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final args =
+    final ConfirmOrderAgruments args =
         ModalRoute.of(context)!.settings.arguments as ConfirmOrderAgruments;
 
-    CartStore cartStore = context.read<CartStore>();
-    AuthStore authStore = context.read<AuthStore>();
-    List<CartItem>? items = cartStore.groupedItemsBySeller[args.sellerId];
+    final CartStore cartStore = context.read<CartStore>();
+    final AuthStore authStore = context.read<AuthStore>();
+    final List<CartItem>? items = cartStore.groupedItemsBySeller[args.sellerId];
     final Seller? seller = cartStore.sellerStore.sellersMap[args.sellerId];
 
-    OrderConfirmationStore _orderConfirmationStore = OrderConfirmationStore();
+    final OrderConfirmationStore _orderConfirmationStore =
+        OrderConfirmationStore();
     if (items != null) {
       _orderConfirmationStore.createOrderStore.setItems(items);
     }
@@ -47,72 +48,78 @@ class ConfirmOrderScreen extends StatelessWidget {
     }
 
     return Provider.value(
-        value: _orderConfirmationStore,
-        child: Scaffold(
-            appBar: AppBar(
-              title: const Text('Xác nhận đơn hàng'),
-              centerTitle: true,
-            ),
-            bottomNavigationBar: BottomAppBar(child: ButtonCreateOrder()),
-            body: _body()));
+      value: _orderConfirmationStore,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Xác nhận đơn hàng'),
+          centerTitle: true,
+        ),
+        bottomNavigationBar: const BottomAppBar(child: ButtonCreateOrder()),
+        body: _body(),
+      ),
+    );
   }
 
   Widget _body() {
-    return Builder(builder: (context) {
-      OrderConfirmationStore _orderConfirmationStore =
-          context.read<OrderConfirmationStore>();
-      return ListView(
-        children: [
-          Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: Column(
-                children: [
-                  UserAddressWidget(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  SelectReceivedTime()
-                ],
+    return Builder(
+      builder: (BuildContext context) {
+        final OrderConfirmationStore _orderConfirmationStore =
+            context.read<OrderConfirmationStore>();
+        return ListView(
+          children: [
+            Container(
+              color: Colors.white,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: Column(
+                  children: const [
+                    UserAddressWidget(),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SelectReceivedTime()
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              child: Column(
-                children: [
-                  _SellerInfo(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  ListCartItem(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _PriceInfo(),
-                ],
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              color: Colors.white,
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                child: Column(
+                  children: const [
+                    _SellerInfo(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ListCartItem(),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    _PriceInfo(),
+                  ],
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            color: Colors.white,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: _NoteInfo(),
+            const SizedBox(
+              height: 10,
             ),
-          ),
-        ],
-      );
-    });
+            Container(
+              color: Colors.white,
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: _NoteInfo(),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 
@@ -121,13 +128,13 @@ class _SellerInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrderConfirmationStore _orderConfirmationStore =
+    final OrderConfirmationStore _orderConfirmationStore =
         context.read<OrderConfirmationStore>();
 
     if (_orderConfirmationStore.createOrderStore.seller != null) {
       return Row(
         children: [
-          Container(
+          SizedBox(
             width: 50,
             height: 50,
             child: ClipOval(
@@ -147,11 +154,13 @@ class _SellerInfo extends StatelessWidget {
                 Text(
                   _orderConfirmationStore.createOrderStore.seller!.name,
                   style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
                   _orderConfirmationStore.createOrderStore.seller!.getType(),
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
                 ),
               ],
             ),
@@ -169,74 +178,81 @@ class _PriceInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrderConfirmationStore _orderConfirmationStore =
+    final OrderConfirmationStore _orderConfirmationStore =
         context.read<OrderConfirmationStore>();
     return Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Tổng tiền ${_orderConfirmationStore.createOrderStore.items.length} sản phẩm',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.grey),
+      color: Colors.white,
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Tổng tiền ${_orderConfirmationStore.createOrderStore.items.length} sản phẩm',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.grey,
                   ),
                 ),
-                Text(
-                  "${CurrencyHelper.withCommas(value: _orderConfirmationStore.createOrderStore.itemsPrice, removeDecimal: true)} ₫",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Phí giao hàng (${_orderConfirmationStore.createOrderStore.distance} km)',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.grey),
+              ),
+              Text(
+                '${CurrencyHelper.withCommas(value: _orderConfirmationStore.createOrderStore.itemsPrice, removeDecimal: true)} ₫',
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  'Phí giao hàng (${_orderConfirmationStore.createOrderStore.distance} km)',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.grey,
                   ),
                 ),
-                Text(
-                  "${CurrencyHelper.withCommas(value: _orderConfirmationStore.createOrderStore.feeShipping, removeDecimal: true)} ₫",
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Tổng tiền',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black),
-                  ),
-                ),
-                Text(
-                  "${CurrencyHelper.withCommas(value: _orderConfirmationStore.createOrderStore.totalPrice, removeDecimal: true)} ₫",
+              ),
+              Text(
+                '${CurrencyHelper.withCommas(value: _orderConfirmationStore.createOrderStore.feeShipping, removeDecimal: true)} ₫',
+                style:
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              const Expanded(
+                child: Text(
+                  'Tổng tiền',
                   style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.orange.shade700),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black,
+                  ),
                 ),
-              ],
-            ),
-          ],
-        ));
+              ),
+              Text(
+                '${CurrencyHelper.withCommas(value: _orderConfirmationStore.createOrderStore.totalPrice, removeDecimal: true)} ₫',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.orange.shade700,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -245,17 +261,21 @@ class _NoteInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrderConfirmationStore _orderConfirmationStore =
+    final OrderConfirmationStore _orderConfirmationStore =
         context.read<OrderConfirmationStore>();
-    TextEditingController _noteController = TextEditingController(
-        text: _orderConfirmationStore.createOrderStore.note);
+    final TextEditingController _noteController = TextEditingController(
+      text: _orderConfirmationStore.createOrderStore.note,
+    );
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Ghi chú',
           style: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black),
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
         ),
         Expanded(
           child: Padding(
@@ -264,17 +284,16 @@ class _NoteInfo extends StatelessWidget {
               controller: _noteController,
               textAlign: TextAlign.end,
               maxLines: 2,
-              onChanged: (value) {
+              onChanged: (String value) {
                 _orderConfirmationStore.createOrderStore.setNote(value);
               },
               textInputAction: TextInputAction.go,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Nhắn cho người bán',
                 hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
                 border: InputBorder.none,
                 isDense: true,
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                contentPadding: EdgeInsets.symmetric(),
               ),
             ),
           ),

@@ -19,7 +19,7 @@ abstract class _AuthStoreBase with Store {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   late SharedPreferences _prefs;
 
-  List<ReactionDisposer> _disposers = [];
+  final List<ReactionDisposer> _disposers = [];
 
   _AuthStoreBase() {
     init();

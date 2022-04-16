@@ -23,7 +23,8 @@ Map<String, dynamic> _$CreateOrderRequestToJson(CreateOrderRequest instance) =>
     <String, dynamic>{
       'seller_id': instance.sellerId,
       'payment_id': instance.paymentId,
-      'order_items': instance.orderItems.map((e) => e.toJson()).toList(),
+      'order_items':
+          instance.orderItems.map((CartItem e) => e.toJson()).toList(),
       'received_at':
           const CustomDateTimeConverter().toJson(instance.receivedAt),
       'user_address_id': instance.userAddressId,

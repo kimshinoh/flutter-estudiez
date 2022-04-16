@@ -11,5 +11,5 @@ class CustomDateTimeConverter implements JsonConverter<DateTime, String> {
 
   @override
   String toJson(DateTime json) =>
-      DateTimeHelper.formatDate(json, "yyyy-MM-dd HH:mm:ss");
+      DateTimeHelper.formatDate(json, 'yyyy-MM-dd HH:mm:ss');
 }

@@ -17,7 +17,7 @@ class _UserAddressState extends State<UserAddressWidget>
   late TabController _tabController;
   int selectedIndex = 0;
 
-  final List<Widget> _tabs = [_HomeAddress(), _StoreAddress()];
+  final List<Widget> _tabs = [const _HomeAddress(), const _StoreAddress()];
 
   @override
   void initState() {
@@ -25,7 +25,10 @@ class _UserAddressState extends State<UserAddressWidget>
     super.initState();
 
     _tabController = TabController(
-        vsync: this, length: _tabs.length, initialIndex: selectedIndex);
+      vsync: this,
+      length: _tabs.length,
+      initialIndex: selectedIndex,
+    );
   }
 
   @override
@@ -34,7 +37,7 @@ class _UserAddressState extends State<UserAddressWidget>
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 8,
@@ -57,7 +60,7 @@ class _UserAddressState extends State<UserAddressWidget>
             labelStyle:
                 const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             unselectedLabelColor: AppColors.palette.shade100,
-            unselectedLabelStyle: TextStyle(fontSize: 14),
+            unselectedLabelStyle: const TextStyle(fontSize: 14),
             tabs: const [
               Tab(
                 icon: Icon(Icons.home),
@@ -95,53 +98,63 @@ class _HomeAddress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthStore _authStore = context.read<AuthStore>();
+    final AuthStore _authStore = context.read<AuthStore>();
 
-    return Observer(builder: (_) {
-      return SizedBox(
-        child: _authStore.isLoggedIn &&
-                _authStore.userAddressStore.defaultAddress != null
-            ? _DefaultAddress()
-            : Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Column(children: const [
-                  TextField(
-                    decoration: InputDecoration(
-                        labelText: 'Họ và tên',
-                        prefixIcon: Icon(Icons.person),
-                        contentPadding: EdgeInsets.all(8),
-                        border: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey))),
+    return Observer(
+      builder: (_) {
+        return SizedBox(
+          child: _authStore.isLoggedIn &&
+                  _authStore.userAddressStore.defaultAddress != null
+              ? const _DefaultAddress()
+              : Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Column(
+                    children: const [
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'Họ và tên',
+                          prefixIcon: Icon(Icons.person),
+                          contentPadding: EdgeInsets.all(8),
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TextField(
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.phone),
+                          contentPadding: EdgeInsets.all(8),
+                          labelText: 'Số điện thoại',
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      TextField(
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          labelText: 'Địa chỉ',
+                          prefixIcon: Icon(Icons.location_on),
+                          contentPadding: EdgeInsets.all(8),
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.phone),
-                        contentPadding: EdgeInsets.all(8),
-                        labelText: 'Số điện thoại',
-                        border: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey))),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextField(
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                        labelText: 'Địa chỉ',
-                        prefixIcon: Icon(Icons.location_on),
-                        contentPadding: EdgeInsets.all(8),
-                        border: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey))),
-                  )
-                ]),
-              ),
-      );
-    });
+                ),
+        );
+      },
+    );
   }
 }
 
@@ -150,62 +163,68 @@ class _DefaultAddress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthStore _authStore = context.read<AuthStore>();
+    final AuthStore _authStore = context.read<AuthStore>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
-      child: ListView(shrinkWrap: true, children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              'Giao tới',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            TextButton(
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Giao tới',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              TextButton(
                 onPressed: () {},
-                child: Text('Thay đổi',
-                    style:
-                        TextStyle(color: Colors.blue.shade400, fontSize: 14)))
-          ],
-        ),
-        Row(
-          children: [
-            Icon(Icons.person_outline),
-            SizedBox(
-              width: 10,
-            ),
-            Text(_authStore.userAddressStore.defaultAddress!.fullName)
-          ],
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Row(
-          children: [
-            Icon(Icons.phone_outlined),
-            SizedBox(
-              width: 10,
-            ),
-            Text(_authStore.userAddressStore.defaultAddress!.phoneNumber)
-          ],
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Icon(Icons.location_on_outlined),
-            SizedBox(
-              width: 10,
-            ),
-            Expanded(
+                child: Text(
+                  'Thay đổi',
+                  style: TextStyle(color: Colors.blue.shade400, fontSize: 14),
+                ),
+              )
+            ],
+          ),
+          Row(
+            children: [
+              const Icon(Icons.person_outline),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(_authStore.userAddressStore.defaultAddress!.fullName)
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Row(
+            children: [
+              const Icon(Icons.phone_outlined),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(_authStore.userAddressStore.defaultAddress!.phoneNumber)
+            ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.location_on_outlined),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
                 child:
-                    Text(_authStore.userAddressStore.defaultAddress!.address))
-          ],
-        ),
-      ]),
+                    Text(_authStore.userAddressStore.defaultAddress!.address),
+              )
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -229,7 +248,7 @@ class _StoreAddress extends StatelessWidget {
               width: 45,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           const Expanded(

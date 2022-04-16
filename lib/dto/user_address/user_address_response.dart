@@ -13,7 +13,7 @@ class MyAddressesResponse {
   List<UserAddress> _userAddresses = [];
   String? _errorMessage;
 
-  @JsonKey(name: "user_addresses")
+  @JsonKey(name: 'user_addresses')
   List<UserAddress> get userAddresses => _userAddresses;
 
   @JsonKey(name: 'message')

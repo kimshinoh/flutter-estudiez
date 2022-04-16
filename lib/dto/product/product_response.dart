@@ -28,6 +28,7 @@ class ListProductsResponseDTO {
     );
   }
 }
+
 @JsonSerializable()
 class SaleOffProductResponseDTO {
   SaleOffProductResponseDTO(
@@ -53,10 +54,10 @@ class SaleOffProductResponseDTO {
     );
   }
 }
+
 @JsonSerializable()
 class SaleShockReponseDTO {
-  SaleShockReponseDTO(
-      {String? errorMessage, required List<Product> products}) {
+  SaleShockReponseDTO({String? errorMessage, required List<Product> products}) {
     _errorMessage = errorMessage;
     _products = products;
   }

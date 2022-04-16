@@ -15,6 +15,7 @@ class ListProductRequestDTO {
 
   int limit;
 }
+
 @JsonSerializable()
 class SaleOffProductRequestDTO {
   SaleOffProductRequestDTO({
@@ -25,8 +26,9 @@ class SaleOffProductRequestDTO {
       _$SaleOffProductRequestDTOFromJson(json);
 
   Map<String, dynamic> toJson() => _$SaleOffProductRequestDTOToJson(this);
-    int limit;
+  int limit;
 }
+
 @JsonSerializable()
 class SaleShockRequestDTO {
   SaleShockRequestDTO({
@@ -37,5 +39,5 @@ class SaleShockRequestDTO {
       _$SaleShockRequestDTOFromJson(json);
 
   Map<String, dynamic> toJson() => _$SaleShockRequestDTOToJson(this);
-    int limit;
+  int limit;
 }

@@ -9,8 +9,8 @@ class CreateOrderResponse {
     Order? order,
     String? message,
   }) {
-    this._order = order;
-    this._errorMessage = message;
+    _order = order;
+    _errorMessage = message;
   }
 
   factory CreateOrderResponse.fromJson(Map<String, dynamic> json) =>
@@ -18,12 +18,12 @@ class CreateOrderResponse {
   Map<String, dynamic> toJson() => _$CreateOrderResponseToJson(this);
 
   factory CreateOrderResponse.withError(String message) =>
-      CreateOrderResponse(order: null, message: message);
+      CreateOrderResponse(message: message);
 
   Order? _order;
   Order? get order => _order;
 
-  String? _errorMessage = null;
+  String? _errorMessage;
 
   @JsonKey(name: 'message')
   String? get errorMessage => _errorMessage;

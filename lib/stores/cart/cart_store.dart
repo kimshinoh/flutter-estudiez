@@ -94,10 +94,10 @@ abstract class _CartStoreBase with Store {
 
   @action
   Future<void> removeItems(List<CartItem> items) async {
-    items.forEach((CartItem item) {
+    for (final CartItem item in items) {
       this.items = this.items
         ..removeWhere((CartItem element) => element.id == item.id);
-    });
+    }
     await _cartDataSource.deleteMany(items);
   }
 
