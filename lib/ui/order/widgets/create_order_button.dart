@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fruity/stores/cart/cart_store.dart';
 import 'package:fruity/stores/order/confirm_order_store.dart';
+import 'package:fruity/utils/notify_util.dart';
 import 'package:provider/provider.dart';
 
 class ButtonCreateOrder extends StatelessWidget {
@@ -9,6 +11,7 @@ class ButtonCreateOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     OrderConfirmationStore _orderConfirmationStore =
         context.read<OrderConfirmationStore>();
+    CartStore _cartStore = context.read<CartStore>();
 
     return SizedBox(
       height: 60,
@@ -20,6 +23,11 @@ class ButtonCreateOrder extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () async {
                 await _orderConfirmationStore.createOrderStore.createOrder();
+                await _cartStore.removeItems(
+                    _orderConfirmationStore.createOrderStore.items);
+                Future.delayed(Duration.zero, () {
+                  NotifyHelper.success(context, "Tạo đơn hàng thành công!");
+                });
                 Navigator.pop(context);
               },
               child: const Text(

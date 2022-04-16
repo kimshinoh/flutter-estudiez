@@ -30,6 +30,10 @@ class CartDataSource {
     await db.delete('cart', where: 'id = ?', whereArgs: [item.id]);
   }
 
+  Future<void> deleteMany(List<CartItem> items) async {
+    Future.any(items.map((CartItem item) => delete(item)));
+  }
+
   Future<void> deleteAll() async {
     await db.delete('cart');
   }

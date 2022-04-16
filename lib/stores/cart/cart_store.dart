@@ -93,6 +93,15 @@ abstract class _CartStoreBase with Store {
   }
 
   @action
+  Future<void> removeItems(List<CartItem> items) async {
+    items.forEach((CartItem item) {
+      this.items = this.items
+        ..removeWhere((CartItem element) => element.id == item.id);
+    });
+    await _cartDataSource.deleteMany(items);
+  }
+
+  @action
   void validateQuantity(String quantity) {
     if (quantity.isEmpty) {
       qty = 0;
