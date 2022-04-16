@@ -1,10 +1,9 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/ui/search/search_screen.dart';
-import 'dart:math' as math;
-
-import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
 
 class SearchResultScreen extends StatefulWidget {
@@ -288,7 +287,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
     double cardHeight = MediaQuery.of(context).size.height / 3.8;
 
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Center(
         child: GridView.count(
           shrinkWrap: true,
