@@ -38,7 +38,7 @@ class _CategoryCarouselState extends State<CategoryCarousel> {
       Future<void>.delayed(Duration.zero, () {
         itemScrollController.scrollTo(
           index: index,
-          duration: Duration(milliseconds: 500),
+          duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
           alignment: 0.5,
         );

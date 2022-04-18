@@ -12,7 +12,8 @@ Future<Database> getDatabase() async {
 
     onCreate: (Database db, int version) async {
       final Batch batch = db.batch();
-      batch.execute('''
+      batch.execute(
+        '''
       CREATE TABLE IF NOT EXISTS cart (
         id TEXT PRIMARY KEY,
         product_id TEXT,
@@ -23,7 +24,8 @@ Future<Database> getDatabase() async {
         quantity INTEGER,
         seller_id TEXT
       )
-      ''');
+      ''',
+      );
       batch.execute(
         '''
        CREATE TABLE IF NOT EXISTS search (

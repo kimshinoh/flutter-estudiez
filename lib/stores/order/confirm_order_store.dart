@@ -11,9 +11,17 @@ class OrderConfirmationStore = _OrderConfirmationStoreBase
 
 abstract class _OrderConfirmationStoreBase with Store {
   DateTime endOfDay = DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 22, 00);
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+    22,
+  );
   DateTime startOfDay = DateTime(
-      DateTime.now().year, DateTime.now().month, DateTime.now().day, 9);
+    DateTime.now().year,
+    DateTime.now().month,
+    DateTime.now().day,
+    9,
+  );
 
   CreateOrderStore createOrderStore = CreateOrderStore();
 
@@ -51,7 +59,7 @@ abstract class _OrderConfirmationStoreBase with Store {
 
   _OrderConfirmationStoreBase() {
     timesCanSelect = updateSelectTimes();
-    if (timesCanSelect.length > 0) {
+    if (timesCanSelect.isNotEmpty) {
       time = timesCanSelect[0];
     }
   }
@@ -110,7 +118,7 @@ abstract class _OrderConfirmationStoreBase with Store {
   @action
   confirmReceivedAt() {
     final DateTime receivedAt = DateTime.parse(
-      '${DateTimeHelper.formatDate(this.receivedAt, "yyyy-MM-dd")} ${time}:00',
+      '${DateTimeHelper.formatDate(this.receivedAt, "yyyy-MM-dd")} $time:00',
     );
 
     createOrderStore.setReceivedAt(receivedAt);
@@ -118,6 +126,8 @@ abstract class _OrderConfirmationStoreBase with Store {
 
   @action
   void dispose() {
-    _disposers.forEach((d) => d());
+    for (final ReactionDisposer d in _disposers) {
+      d();
+    }
   }
 }

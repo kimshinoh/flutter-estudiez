@@ -66,31 +66,31 @@ class _HomeScreenState extends State<HomeScreen> {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     return Provider<ProductStore>(
-        create: (_) => ProductStore(),
-        child: Scaffold(
-          floatingActionButton:
-              !_store.isLoggedIn ? const LoginBottomSheet() : null,
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
-          body: CustomScrollView(
-            controller: _scrollController,
-            slivers: <Widget>[
-              SliverStack(
-                insetOnOverlap: true,
-                children: [
-                  SliverToBoxAdapter(child: _body(width, height)),
-                  SliverPersistentHeader(
-                    delegate: MyHomeHeader(
-                      minWidth: width * 0.75,
-                      searchBarMaxWidth: width * 0.94,
-                    ),
-                    pinned: true,
+      create: (_) => ProductStore(),
+      child: Scaffold(
+        floatingActionButton:
+            !_store.isLoggedIn ? const LoginBottomSheet() : null,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: CustomScrollView(
+          controller: _scrollController,
+          slivers: <Widget>[
+            SliverStack(
+              insetOnOverlap: true,
+              children: [
+                SliverToBoxAdapter(child: _body(width, height)),
+                SliverPersistentHeader(
+                  delegate: MyHomeHeader(
+                    minWidth: width * 0.75,
+                    searchBarMaxWidth: width * 0.94,
                   ),
-                ],
-              )
-            ],
-          ),
-        ));
+                  pinned: true,
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _body(double width, double height) {
@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             child: Column(
-              children: [
+              children: const [
                 GridCategory(),
                 SizedBox(height: 10),
                 SaleOff(),
@@ -213,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                TopProducts(),
+                const TopProducts(),
                 Container(
                   height: 100,
                   decoration: const BoxDecoration(color: Colors.transparent),

@@ -146,6 +146,13 @@ mixin _$CartStore on _CartStoreBase, Store {
     return _$removeItemAsyncAction.run(() => super.removeItem(item));
   }
 
+  final _$removeItemsAsyncAction = AsyncAction('_CartStoreBase.removeItems');
+
+  @override
+  Future<void> removeItems(List<CartItem> items) {
+    return _$removeItemsAsyncAction.run(() => super.removeItems(items));
+  }
+
   final _$_CartStoreBaseActionController =
       ActionController(name: '_CartStoreBase');
 

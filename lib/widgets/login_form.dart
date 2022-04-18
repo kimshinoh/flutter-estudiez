@@ -125,8 +125,9 @@ class _formLoginState extends State<LoginForm> {
                       ),
                       suffixStyle: const TextStyle(fontSize: 12),
                       suffixIconConstraints: const BoxConstraints(),
-                      suffixIcon: Observer(builder: (_) {
-                        return OutlinedButton(
+                      suffixIcon: Observer(
+                        builder: (_) {
+                          return OutlinedButton(
                             onPressed: () {
                               FocusScope.of(context).unfocus();
                               if (_store.canVerify) {
@@ -158,21 +159,26 @@ class _formLoginState extends State<LoginForm> {
                                 horizontal: 15,
                               ),
                             ),
-                            child: Observer(builder: (_) {
-                              return _store.isLoadingSentCode
-                                  ? SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator())
-                                  : const Text(
-                                      'Gửi mã',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    );
-                            }));
-                      }),
+                            child: Observer(
+                              builder: (_) {
+                                return _store.isLoadingSentCode
+                                    ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : const Text(
+                                        'Gửi mã',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      );
+                              },
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),

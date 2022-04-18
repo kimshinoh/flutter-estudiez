@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'payment.g.dart';
@@ -11,6 +12,7 @@ class Payment {
       required this.name,
       required this.accountNo,
       required this.status,
+      required this.isDefault,
       required this.logo});
 
   factory Payment.fromJson(Map<String, dynamic> json) =>
@@ -30,4 +32,25 @@ class Payment {
   String accountNo;
 
   String logo;
+
+  @JsonKey(name: 'is_default')
+  bool isDefault;
+
+  Widget paymentWidget() {
+    switch (provider) {
+      case "cash":
+        {
+          return Icon(Icons.price_change);
+        }
+      case "transfer":
+        {
+          return Icon(Icons.payment);
+        }
+
+      default:
+        {
+          return Icon(Icons.payment);
+        }
+    }
+  }
 }

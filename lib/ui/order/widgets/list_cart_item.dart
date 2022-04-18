@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fruity/constants/app_color.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/stores/order/confirm_order_store.dart';
 import 'package:fruity/utils/currency_util.dart';
@@ -10,24 +10,28 @@ class ListCartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrderConfirmationStore _orderConfirmationStore =
+    final OrderConfirmationStore _orderConfirmationStore =
         context.read<OrderConfirmationStore>();
 
-    return ListView.separated(
-        separatorBuilder: (context, index) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Divider(
-                thickness: 1,
-                height: 1,
-              ),
-            ),
-        physics: NeverScrollableScrollPhysics(),
+    return Observer(builder: (_) {
+      return ListView.separated(
+        separatorBuilder: (BuildContext context, int index) => const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Divider(
+            thickness: 1,
+            height: 1,
+          ),
+        ),
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemBuilder: (context, index) {
-          CartItem item = _orderConfirmationStore.createOrderStore.items[index];
+        itemBuilder: (BuildContext context, int index) {
+          final CartItem item =
+              _orderConfirmationStore.createOrderStore.items[index];
           return _CartItemWidget(item: item);
         },
-        itemCount: _orderConfirmationStore.createOrderStore.items.length);
+        itemCount: _orderConfirmationStore.createOrderStore.items.length,
+      );
+    });
   }
 }
 
@@ -97,10 +101,11 @@ class _CartItemWidget extends StatelessWidget {
                                 TextSpan(
                                   text:
                                       '${CurrencyHelper.withCommas(value: item.price, removeDecimal: true)}  ₫',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.black),
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
                                 ),
                                 TextSpan(
                                   text: '/ ${item.unit}',
@@ -127,7 +132,7 @@ class _CartItemWidget extends StatelessWidget {
                     ),
                     Text(
                       ' = ${CurrencyHelper.withCommas(value: item.price * item.quantity, removeDecimal: true)}  ₫',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         color: Colors.black,
@@ -145,9 +150,9 @@ class _CartItemWidget extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
-                    child: Text(
+                    child: const Text(
                       'Sửa',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
                         color: Colors.blue,

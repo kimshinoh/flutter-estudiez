@@ -126,11 +126,12 @@ class _SubcategoryCarouselSkeleton extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) => Align(
         child: SkeletonParagraph(
           style: const SkeletonParagraphStyle(
-              lines: 1,
-              lineStyle: SkeletonLineStyle(
-                height: 10,
-                padding: EdgeInsets.symmetric(vertical: 10),
-              ),),
+            lines: 1,
+            lineStyle: SkeletonLineStyle(
+              height: 10,
+              padding: EdgeInsets.symmetric(vertical: 10),
+            ),
+          ),
         ),
       ),
       itemCount: 15,

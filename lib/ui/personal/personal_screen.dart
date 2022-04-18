@@ -12,27 +12,31 @@ class PersonalScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Personal')),
-      body: Observer(builder: (_) {
-        return Center(
-          child: Observer(builder: (_) {
-            if (_store.isLoggedIn) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('Hello ${_store.user!.fullName}'),
-                  ElevatedButton(
-                    child: const Text('Logout'),
-                    onPressed: () {
-                      _store.removeAuth();
-                    },
-                  ),
-                ],
-              );
-            }
-            return Container();
-          },),
-        );
-      },),
+      body: Observer(
+        builder: (_) {
+          return Center(
+            child: Observer(
+              builder: (_) {
+                if (_store.isLoggedIn) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('Hello ${_store.user!.fullName}'),
+                      ElevatedButton(
+                        child: const Text('Logout'),
+                        onPressed: () {
+                          _store.removeAuth();
+                        },
+                      ),
+                    ],
+                  );
+                }
+                return Container();
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }

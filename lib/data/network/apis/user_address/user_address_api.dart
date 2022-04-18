@@ -4,7 +4,7 @@ import 'package:fruity/dto/user_address/user_address_request.dart';
 import 'package:fruity/dto/user_address/user_address_response.dart';
 
 class UserAddressAPI {
-  DioClient _dioClient;
+  final DioClient _dioClient;
   UserAddressAPI(this._dioClient);
 
   Future<MyAddressesResponse> getMyAddresses(MyAddressesRequest req) async {

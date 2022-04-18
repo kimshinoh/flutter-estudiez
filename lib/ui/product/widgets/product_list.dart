@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/extensions/string_extension.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/stores/category/category_store.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/add_to_cart_button.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletons/skeletons.dart';
-import 'package:fruity/extensions/string_extension.dart';
 
 class ProductList extends StatelessWidget {
   const ProductList({Key? key}) : super(key: key);
@@ -179,11 +179,12 @@ class _ProductItem extends StatelessWidget {
             ),
           ),
           Positioned(
-              bottom: 0,
-              right: 10,
-              child: AddToCartButton(
-                product: product,
-              ))
+            bottom: 0,
+            right: 10,
+            child: AddToCartButton(
+              product: product,
+            ),
+          )
         ],
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
 import 'package:fruity/stores/order/confirm_order_store.dart';
 import 'package:fruity/utils/notify_util.dart';
@@ -20,25 +21,41 @@ class ButtonCreateOrder extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: ElevatedButton(
-              onPressed: () async {
-                await _orderConfirmationStore.createOrderStore.createOrder();
-                await _cartStore.removeItems(
-                    _orderConfirmationStore.createOrderStore.items);
-                Future.delayed(Duration.zero, () {
-                  NotifyHelper.success(context, "Tạo đơn hàng thành công!");
-                });
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'Xác nhận',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
+            child: Observer(builder: (_) {
+              return ElevatedButton(
+                onPressed: () async {
+                  await _orderConfirmationStore.createOrderStore.createOrder();
+                  await _cartStore.removeItems(
+                    _orderConfirmationStore.createOrderStore.items,
+                  );
+                  _orderConfirmationStore.createOrderStore.clear();
+
+                  Navigator.pop(context);
+                  Future.delayed(Duration.zero, () {
+                    NotifyHelper.success(context, 'Tạo đơn hàng thành công!');
+                  });
+                },
+                child: Observer(builder: (_) {
+                  return _orderConfirmationStore.createOrderStore.isLoading
+                      ? const SizedBox(
+                          width: 15,
+                          height: 15,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text(
+                          'Xác nhận',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        );
+                }),
+              );
+            }),
           ),
         ),
       ),

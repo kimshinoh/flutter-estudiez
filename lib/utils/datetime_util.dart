@@ -1,6 +1,5 @@
 // ignore_for_file: unnecessary_brace_in_string_interps
 
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DateTimeHelper {
@@ -36,7 +35,8 @@ class DateTimeHelper {
     final int diffDate =
         DateTime(originDate.year, originDate.month, originDate.day)
             .difference(
-                DateTime(compareDate.year, compareDate.month, compareDate.day))
+              DateTime(compareDate.year, compareDate.month, compareDate.day),
+            )
             .inDays
             .abs();
     final bool originLess = originDate.isBefore(compareDate);

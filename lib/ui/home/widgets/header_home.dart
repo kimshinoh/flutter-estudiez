@@ -78,7 +78,7 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   CartButton(badgeColor: Colors.red),
-                  Icon(
+                  const Icon(
                     Icons.message_sharp,
                     color: Colors.white,
                   ),
@@ -103,46 +103,47 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
     final double top = minExtent - (rangeTop * percent) - 30;
 
     return Positioned(
-        top: top,
-        child: GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              Routes.search,
-            );
-          },
-          child: SizedBox(
-            width: getScaledWidth(searchBarMaxWidth, percent),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.greenAccent),
-                borderRadius: const BorderRadius.all(Radius.circular(6)),
-              ),
-              height: 35,
-              padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Expanded(
-                    child: SizedBox(
-                      child: Text(
-                        'Freeship toàn sàn - An tâm phòng dịch',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+      top: top,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            Routes.search,
+          );
+        },
+        child: SizedBox(
+          width: getScaledWidth(searchBarMaxWidth, percent),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Colors.greenAccent),
+              borderRadius: const BorderRadius.all(Radius.circular(6)),
+            ),
+            height: 35,
+            padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                Expanded(
+                  child: SizedBox(
+                    child: Text(
+                      'Freeship toàn sàn - An tâm phòng dịch',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
                   ),
-                  Icon(Icons.search, color: Colors.grey),
-                ],
-              ),
+                ),
+                Icon(Icons.search, color: Colors.grey),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   @override

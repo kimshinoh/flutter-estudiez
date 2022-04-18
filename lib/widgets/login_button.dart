@@ -32,7 +32,7 @@ class LoginButton extends StatelessWidget {
           builder: (BuildContext context) {
             return Padding(
               padding: MediaQuery.of(context).viewInsets,
-              child: Container(child: LoginForm()),
+              child: Container(child: const LoginForm()),
             );
           },
         );

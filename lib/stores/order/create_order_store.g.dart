@@ -31,6 +31,36 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
               name: '_CreateOrderStoreBase.itemsPrice'))
           .value;
 
+  final _$isLoadingAtom = Atom(name: '_CreateOrderStoreBase.isLoading');
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
+  final _$errorMessageAtom = Atom(name: '_CreateOrderStoreBase.errorMessage');
+
+  @override
+  String? get errorMessage {
+    _$errorMessageAtom.reportRead();
+    return super.errorMessage;
+  }
+
+  @override
+  set errorMessage(String? value) {
+    _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
+      super.errorMessage = value;
+    });
+  }
+
   final _$receivedAtAtom = Atom(name: '_CreateOrderStoreBase.receivedAt');
 
   @override
@@ -214,8 +244,21 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
   }
 
   @override
+  void clear() {
+    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
+        name: '_CreateOrderStoreBase.clear');
+    try {
+      return super.clear();
+    } finally {
+      _$_CreateOrderStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
+isLoading: ${isLoading},
+errorMessage: ${errorMessage},
 receivedAt: ${receivedAt},
 note: ${note},
 userAddress: ${userAddress},

@@ -70,9 +70,9 @@ class CartItemWidget extends StatelessWidget {
                         onPressed: () {
                           _cartStore.removeItem(item);
                         },
-                        icon: Icon(Icons.close, size: 20),
-                        constraints: BoxConstraints(),
-                        padding: EdgeInsets.only(left: 20),
+                        icon: const Icon(Icons.close, size: 20),
+                        constraints: const BoxConstraints(),
+                        padding: const EdgeInsets.only(left: 20),
                       )
                     ],
                   ),
@@ -130,40 +130,42 @@ class CartItemWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         IconButton(
-                          padding: EdgeInsets.only(right: 10),
-                          constraints: BoxConstraints(),
-                          icon: Icon(Icons.remove_circle,
-                              size: 24, color: AppColors.palette.shade500),
+                          padding: const EdgeInsets.only(right: 10),
+                          constraints: const BoxConstraints(),
+                          icon: Icon(
+                            Icons.remove_circle,
+                            size: 24,
+                            color: AppColors.palette.shade500,
+                          ),
                           onPressed: () {
                             if (item.quantity == 1) {
                               showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                        title: const Text(
-                                          'Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?',
-                                          style: TextStyle(fontSize: 15),
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            child: Text('Hủy'),
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.red,
-                                            ),
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                          ),
-                                          TextButton(
-                                            child: Text('Xóa'),
-                                            onPressed: () {
-                                              _cartStore.removeItem(item);
-                                              Navigator.pop(context);
-                                            },
-                                          ),
-                                        ],
-                                      ));
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: const Text(
+                                    'Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?',
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      style: TextButton.styleFrom(
+                                        primary: Colors.red,
+                                      ),
+                                      onPressed: () => Navigator.pop(context),
+                                      child: const Text('Hủy'),
+                                    ),
+                                    TextButton(
+                                      child: const Text('Xóa'),
+                                      onPressed: () {
+                                        _cartStore.removeItem(item);
+                                        Navigator.pop(context);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
                               return;
                             }
                             _cartStore.updateQuantity(item, item.quantity - 1);
@@ -178,10 +180,13 @@ class CartItemWidget extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          padding: EdgeInsets.only(left: 10),
-                          constraints: BoxConstraints(),
-                          icon: Icon(Icons.add_circle,
-                              size: 24, color: AppColors.palette.shade500),
+                          padding: const EdgeInsets.only(left: 10),
+                          constraints: const BoxConstraints(),
+                          icon: Icon(
+                            Icons.add_circle,
+                            size: 24,
+                            color: AppColors.palette.shade500,
+                          ),
                           onPressed: () {
                             _cartStore.updateQuantity(item, item.quantity + 1);
                           },

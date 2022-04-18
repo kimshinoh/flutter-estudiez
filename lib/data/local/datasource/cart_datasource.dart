@@ -17,8 +17,11 @@ class CartDataSource {
   }
 
   Future<void> insert(CartItem item) async {
-    await db.insert('cart', item.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
+    await db.insert(
+      'cart',
+      item.toJson(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
   }
 
   Future<void> update(CartItem item) async {
