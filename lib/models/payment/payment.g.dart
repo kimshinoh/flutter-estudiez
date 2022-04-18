@@ -13,6 +13,7 @@ Payment _$PaymentFromJson(Map<String, dynamic> json) => Payment(
       name: json['name'] as String,
       accountNo: json['account_no'] as String,
       status: json['status'] as String,
+      isDefault: json['is_default'] as bool,
       logo: json['logo'] as String,
     );
 
@@ -24,4 +25,5 @@ Map<String, dynamic> _$PaymentToJson(Payment instance) => <String, dynamic>{
       'status': instance.status,
       'account_no': instance.accountNo,
       'logo': instance.logo,
+      'is_default': instance.isDefault,
     };

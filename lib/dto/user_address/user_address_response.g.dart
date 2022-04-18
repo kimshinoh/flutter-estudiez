@@ -17,7 +17,6 @@ MyAddressesResponse _$MyAddressesResponseFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$MyAddressesResponseToJson(
         MyAddressesResponse instance) =>
     <String, dynamic>{
-      'user_addresses':
-          instance.userAddresses.map((UserAddress e) => e.toJson()).toList(),
+      'user_addresses': instance.userAddresses.map((e) => e.toJson()).toList(),
       'message': instance.errorMessage,
     };

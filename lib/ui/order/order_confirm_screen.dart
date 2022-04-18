@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/models/cart/cart.dart';
+import 'package:fruity/models/payment/payment.dart';
 import 'package:fruity/models/seller/seller.dart';
 import 'package:fruity/models/user_address/user_address.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
@@ -9,8 +10,8 @@ import 'package:fruity/ui/order/widgets/create_order_button.dart';
 import 'package:fruity/ui/order/widgets/list_cart_item.dart';
 import 'package:fruity/ui/order/widgets/select_received_time.dart';
 import 'package:fruity/utils/currency_util.dart';
-import 'package:fruity/widgets/user_address.dart';
-
+import 'package:fruity/widgets/payment_user_widget.dart';
+import 'package:fruity/widgets/user_address_widget.dart';
 import 'package:provider/provider.dart';
 
 class ConfirmOrderAgruments {
@@ -28,98 +29,118 @@ class ConfirmOrderScreen extends StatelessWidget {
     final ConfirmOrderAgruments args =
         ModalRoute.of(context)!.settings.arguments as ConfirmOrderAgruments;
 
-    final CartStore cartStore = context.read<CartStore>();
-    final AuthStore authStore = context.read<AuthStore>();
-    final List<CartItem>? items = cartStore.groupedItemsBySeller[args.sellerId];
-    final Seller? seller = cartStore.sellerStore.sellersMap[args.sellerId];
-
-    final OrderConfirmationStore _orderConfirmationStore =
-        OrderConfirmationStore();
-    if (items != null) {
-      _orderConfirmationStore.createOrderStore.setItems(items);
-    }
-    if (seller != null) {
-      _orderConfirmationStore.createOrderStore.setSeller(seller);
-    }
-    final UserAddress? userAddress = authStore.userAddressStore.defaultAddress;
-
-    if (userAddress != null) {
-      _orderConfirmationStore.createOrderStore.setUserAddress(userAddress);
-    }
-
-    return Provider.value(
-      value: _orderConfirmationStore,
-      child: Scaffold(
+    String sellerId = args.sellerId;
+    OrderConfirmationStore _orderConfirmationStore = OrderConfirmationStore();
+    return Scaffold(
         appBar: AppBar(
           title: const Text('Xác nhận đơn hàng'),
           centerTitle: true,
         ),
-        bottomNavigationBar: const BottomAppBar(child: ButtonCreateOrder()),
-        body: _body(),
-      ),
-    );
+        bottomNavigationBar: Provider.value(
+            value: _orderConfirmationStore, child: ButtonCreateOrder()),
+        body: Provider<OrderConfirmationStore>.value(
+          value: _orderConfirmationStore,
+          child: _body(sellerId: sellerId),
+        ));
   }
+}
 
-  Widget _body() {
-    return Builder(
-      builder: (BuildContext context) {
-        final OrderConfirmationStore _orderConfirmationStore =
-            context.read<OrderConfirmationStore>();
-        return ListView(
-          children: [
-            Container(
-              color: Colors.white,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: Column(
-                  children: const [
-                    UserAddressWidget(),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SelectReceivedTime()
-                  ],
-                ),
+class _body extends StatelessWidget {
+  String sellerId;
+  _body({Key? key, required this.sellerId}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    {
+      final CartStore cartStore = context.read<CartStore>();
+      final AuthStore authStore = context.read<AuthStore>();
+      final List<CartItem>? items = cartStore.groupedItemsBySeller[sellerId];
+      final Seller? seller = cartStore.sellerStore.sellersMap[sellerId];
+
+      final OrderConfirmationStore _orderConfirmationStore =
+          context.read<OrderConfirmationStore>();
+      if (items != null) {
+        _orderConfirmationStore.createOrderStore.setItems(items);
+      }
+      if (seller != null) {
+        _orderConfirmationStore.createOrderStore.setSeller(seller);
+      }
+      final UserAddress? userAddress =
+          authStore.userAddressStore.defaultAddress;
+      final Payment? defaultPayment = authStore.paymentStore.defaultPayment;
+
+      if (userAddress != null) {
+        _orderConfirmationStore.createOrderStore.setUserAddress(userAddress);
+      }
+
+      if (defaultPayment != null) {
+        _orderConfirmationStore.createOrderStore.setPayment(defaultPayment);
+      }
+
+      return ListView(
+        children: [
+          Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: Column(
+                children: const [
+                  UserAddressWidget(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  SelectReceivedTime()
+                ],
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              color: Colors.white,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: Column(
-                  children: const [
-                    _SellerInfo(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    ListCartItem(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _PriceInfo(),
-                  ],
-                ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+              child: Column(
+                children: const [
+                  _SellerInfo(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ListCartItem(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _PriceInfo(),
+                ],
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              color: Colors.white,
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: _NoteInfo(),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            color: Colors.white,
+            child: const Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 16,
               ),
+              child: _NoteInfo(),
             ),
-          ],
-        );
-      },
-    );
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            color: Colors.white,
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: PaymentSelectionWidget(),
+            ),
+          ),
+        ],
+      );
+    }
   }
 }
 
@@ -267,7 +288,6 @@ class _NoteInfo extends StatelessWidget {
       text: _orderConfirmationStore.createOrderStore.note,
     );
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
           'Ghi chú',
@@ -279,7 +299,10 @@ class _NoteInfo extends StatelessWidget {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(left: 30),
+            padding: const EdgeInsets.only(
+              top: 20,
+              left: 30,
+            ),
             child: TextFormField(
               controller: _noteController,
               textAlign: TextAlign.end,
@@ -293,7 +316,7 @@ class _NoteInfo extends StatelessWidget {
                 hintStyle: TextStyle(fontSize: 14, color: Colors.grey),
                 border: InputBorder.none,
                 isDense: true,
-                contentPadding: EdgeInsets.symmetric(),
+                contentPadding: EdgeInsets.zero,
               ),
             ),
           ),

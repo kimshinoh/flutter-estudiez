@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/stores/order/confirm_order_store.dart';
 import 'package:fruity/utils/currency_util.dart';
@@ -12,23 +13,25 @@ class ListCartItem extends StatelessWidget {
     final OrderConfirmationStore _orderConfirmationStore =
         context.read<OrderConfirmationStore>();
 
-    return ListView.separated(
-      separatorBuilder: (BuildContext context, int index) => const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Divider(
-          thickness: 1,
-          height: 1,
+    return Observer(builder: (_) {
+      return ListView.separated(
+        separatorBuilder: (BuildContext context, int index) => const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Divider(
+            thickness: 1,
+            height: 1,
+          ),
         ),
-      ),
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemBuilder: (BuildContext context, int index) {
-        final CartItem item =
-            _orderConfirmationStore.createOrderStore.items[index];
-        return _CartItemWidget(item: item);
-      },
-      itemCount: _orderConfirmationStore.createOrderStore.items.length,
-    );
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemBuilder: (BuildContext context, int index) {
+          final CartItem item =
+              _orderConfirmationStore.createOrderStore.items[index];
+          return _CartItemWidget(item: item);
+        },
+        itemCount: _orderConfirmationStore.createOrderStore.items.length,
+      );
+    });
   }
 }
 

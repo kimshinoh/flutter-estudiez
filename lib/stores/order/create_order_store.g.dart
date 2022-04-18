@@ -12,29 +12,56 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
   Computed<double>? _$feeShippingComputed;
 
   @override
-  double get feeShipping => (_$feeShippingComputed ??= Computed<double>(
-        () => super.feeShipping,
-        name: '_CreateOrderStoreBase.feeShipping',
-      ))
+  double get feeShipping =>
+      (_$feeShippingComputed ??= Computed<double>(() => super.feeShipping,
+              name: '_CreateOrderStoreBase.feeShipping'))
           .value;
   Computed<double>? _$totalPriceComputed;
 
   @override
-  double get totalPrice => (_$totalPriceComputed ??= Computed<double>(
-        () => super.totalPrice,
-        name: '_CreateOrderStoreBase.totalPrice',
-      ))
+  double get totalPrice =>
+      (_$totalPriceComputed ??= Computed<double>(() => super.totalPrice,
+              name: '_CreateOrderStoreBase.totalPrice'))
           .value;
   Computed<double>? _$itemsPriceComputed;
 
   @override
-  double get itemsPrice => (_$itemsPriceComputed ??= Computed<double>(
-        () => super.itemsPrice,
-        name: '_CreateOrderStoreBase.itemsPrice',
-      ))
+  double get itemsPrice =>
+      (_$itemsPriceComputed ??= Computed<double>(() => super.itemsPrice,
+              name: '_CreateOrderStoreBase.itemsPrice'))
           .value;
 
-  final Atom _$receivedAtAtom = Atom(name: '_CreateOrderStoreBase.receivedAt');
+  final _$isLoadingAtom = Atom(name: '_CreateOrderStoreBase.isLoading');
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
+  final _$errorMessageAtom = Atom(name: '_CreateOrderStoreBase.errorMessage');
+
+  @override
+  String? get errorMessage {
+    _$errorMessageAtom.reportRead();
+    return super.errorMessage;
+  }
+
+  @override
+  set errorMessage(String? value) {
+    _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
+      super.errorMessage = value;
+    });
+  }
+
+  final _$receivedAtAtom = Atom(name: '_CreateOrderStoreBase.receivedAt');
 
   @override
   DateTime get receivedAt {
@@ -49,7 +76,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final Atom _$noteAtom = Atom(name: '_CreateOrderStoreBase.note');
+  final _$noteAtom = Atom(name: '_CreateOrderStoreBase.note');
 
   @override
   String get note {
@@ -64,8 +91,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final Atom _$userAddressAtom =
-      Atom(name: '_CreateOrderStoreBase.userAddress');
+  final _$userAddressAtom = Atom(name: '_CreateOrderStoreBase.userAddress');
 
   @override
   UserAddress? get userAddress {
@@ -80,7 +106,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final Atom _$paymentAtom = Atom(name: '_CreateOrderStoreBase.payment');
+  final _$paymentAtom = Atom(name: '_CreateOrderStoreBase.payment');
 
   @override
   Payment? get payment {
@@ -95,7 +121,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final Atom _$sellerAtom = Atom(name: '_CreateOrderStoreBase.seller');
+  final _$sellerAtom = Atom(name: '_CreateOrderStoreBase.seller');
 
   @override
   Seller? get seller {
@@ -110,7 +136,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final Atom _$itemsAtom = Atom(name: '_CreateOrderStoreBase.items');
+  final _$itemsAtom = Atom(name: '_CreateOrderStoreBase.items');
 
   @override
   List<CartItem> get items {
@@ -125,7 +151,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final Atom _$distanceAtom = Atom(name: '_CreateOrderStoreBase.distance');
+  final _$distanceAtom = Atom(name: '_CreateOrderStoreBase.distance');
 
   @override
   double get distance {
@@ -140,7 +166,7 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final AsyncAction _$createOrderAsyncAction =
+  final _$createOrderAsyncAction =
       AsyncAction('_CreateOrderStoreBase.createOrder');
 
   @override
@@ -148,15 +174,13 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     return _$createOrderAsyncAction.run(() => super.createOrder());
   }
 
-  final ActionController _$_CreateOrderStoreBaseActionController =
+  final _$_CreateOrderStoreBaseActionController =
       ActionController(name: '_CreateOrderStoreBase');
 
   @override
   void setItems(List<CartItem> items) {
-    final ActionRunInfo _$actionInfo =
-        _$_CreateOrderStoreBaseActionController.startAction(
-      name: '_CreateOrderStoreBase.setItems',
-    );
+    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
+        name: '_CreateOrderStoreBase.setItems');
     try {
       return super.setItems(items);
     } finally {
@@ -166,10 +190,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
 
   @override
   void setReceivedAt(DateTime receivedAt) {
-    final ActionRunInfo _$actionInfo =
-        _$_CreateOrderStoreBaseActionController.startAction(
-      name: '_CreateOrderStoreBase.setReceivedAt',
-    );
+    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
+        name: '_CreateOrderStoreBase.setReceivedAt');
     try {
       return super.setReceivedAt(receivedAt);
     } finally {
@@ -179,10 +201,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
 
   @override
   void setNote(String note) {
-    final ActionRunInfo _$actionInfo =
-        _$_CreateOrderStoreBaseActionController.startAction(
-      name: '_CreateOrderStoreBase.setNote',
-    );
+    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
+        name: '_CreateOrderStoreBase.setNote');
     try {
       return super.setNote(note);
     } finally {
@@ -192,10 +212,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
 
   @override
   void setUserAddress(UserAddress userAddress) {
-    final ActionRunInfo _$actionInfo =
-        _$_CreateOrderStoreBaseActionController.startAction(
-      name: '_CreateOrderStoreBase.setUserAddress',
-    );
+    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
+        name: '_CreateOrderStoreBase.setUserAddress');
     try {
       return super.setUserAddress(userAddress);
     } finally {
@@ -205,10 +223,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
 
   @override
   void setPayment(Payment payment) {
-    final ActionRunInfo _$actionInfo =
-        _$_CreateOrderStoreBaseActionController.startAction(
-      name: '_CreateOrderStoreBase.setPayment',
-    );
+    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
+        name: '_CreateOrderStoreBase.setPayment');
     try {
       return super.setPayment(payment);
     } finally {
@@ -218,10 +234,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
 
   @override
   void setSeller(Seller seller) {
-    final ActionRunInfo _$actionInfo =
-        _$_CreateOrderStoreBaseActionController.startAction(
-      name: '_CreateOrderStoreBase.setSeller',
-    );
+    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
+        name: '_CreateOrderStoreBase.setSeller');
     try {
       return super.setSeller(seller);
     } finally {
@@ -230,8 +244,21 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
   }
 
   @override
+  void clear() {
+    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
+        name: '_CreateOrderStoreBase.clear');
+    try {
+      return super.clear();
+    } finally {
+      _$_CreateOrderStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
+isLoading: ${isLoading},
+errorMessage: ${errorMessage},
 receivedAt: ${receivedAt},
 note: ${note},
 userAddress: ${userAddress},

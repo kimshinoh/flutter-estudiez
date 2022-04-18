@@ -12,37 +12,31 @@ mixin _$CartStore on _CartStoreBase, Store {
   Computed<bool>? _$canIncreaseQuantityComputed;
 
   @override
-  bool get canIncreaseQuantity =>
-      (_$canIncreaseQuantityComputed ??= Computed<bool>(
-        () => super.canIncreaseQuantity,
-        name: '_CartStoreBase.canIncreaseQuantity',
-      ))
-          .value;
+  bool get canIncreaseQuantity => (_$canIncreaseQuantityComputed ??=
+          Computed<bool>(() => super.canIncreaseQuantity,
+              name: '_CartStoreBase.canIncreaseQuantity'))
+      .value;
   Computed<bool>? _$canDecreaseQuantityComputed;
 
   @override
-  bool get canDecreaseQuantity =>
-      (_$canDecreaseQuantityComputed ??= Computed<bool>(
-        () => super.canDecreaseQuantity,
-        name: '_CartStoreBase.canDecreaseQuantity',
-      ))
-          .value;
+  bool get canDecreaseQuantity => (_$canDecreaseQuantityComputed ??=
+          Computed<bool>(() => super.canDecreaseQuantity,
+              name: '_CartStoreBase.canDecreaseQuantity'))
+      .value;
   Computed<bool>? _$canAddToCartComputed;
 
   @override
-  bool get canAddToCart => (_$canAddToCartComputed ??= Computed<bool>(
-        () => super.canAddToCart,
-        name: '_CartStoreBase.canAddToCart',
-      ))
+  bool get canAddToCart =>
+      (_$canAddToCartComputed ??= Computed<bool>(() => super.canAddToCart,
+              name: '_CartStoreBase.canAddToCart'))
           .value;
   Computed<Map<String, List<CartItem>>>? _$groupedItemsBySellerComputed;
 
   @override
   Map<String, List<CartItem>> get groupedItemsBySeller =>
       (_$groupedItemsBySellerComputed ??= Computed<Map<String, List<CartItem>>>(
-        () => super.groupedItemsBySeller,
-        name: '_CartStoreBase.groupedItemsBySeller',
-      ))
+              () => super.groupedItemsBySeller,
+              name: '_CartStoreBase.groupedItemsBySeller'))
           .value;
   Computed<Map<String, List<CartItem>>>? _$groupedItemsBySellerSelectedComputed;
 
@@ -50,29 +44,26 @@ mixin _$CartStore on _CartStoreBase, Store {
   Map<String, List<CartItem>> get groupedItemsBySellerSelected =>
       (_$groupedItemsBySellerSelectedComputed ??=
               Computed<Map<String, List<CartItem>>>(
-        () => super.groupedItemsBySellerSelected,
-        name: '_CartStoreBase.groupedItemsBySellerSelected',
-      ))
+                  () => super.groupedItemsBySellerSelected,
+                  name: '_CartStoreBase.groupedItemsBySellerSelected'))
           .value;
   Computed<Map<String, double>>? _$totalPriceBySellerComputed;
 
   @override
   Map<String, double> get totalPriceBySeller =>
       (_$totalPriceBySellerComputed ??= Computed<Map<String, double>>(
-        () => super.totalPriceBySeller,
-        name: '_CartStoreBase.totalPriceBySeller',
-      ))
+              () => super.totalPriceBySeller,
+              name: '_CartStoreBase.totalPriceBySeller'))
           .value;
   Computed<List<String>>? _$sellerIdsComputed;
 
   @override
-  List<String> get sellerIds => (_$sellerIdsComputed ??= Computed<List<String>>(
-        () => super.sellerIds,
-        name: '_CartStoreBase.sellerIds',
-      ))
+  List<String> get sellerIds =>
+      (_$sellerIdsComputed ??= Computed<List<String>>(() => super.sellerIds,
+              name: '_CartStoreBase.sellerIds'))
           .value;
 
-  final Atom _$itemsAtom = Atom(name: '_CartStoreBase.items');
+  final _$itemsAtom = Atom(name: '_CartStoreBase.items');
 
   @override
   List<CartItem> get items {
@@ -87,7 +78,7 @@ mixin _$CartStore on _CartStoreBase, Store {
     });
   }
 
-  final Atom _$isLoadingAtom = Atom(name: '_CartStoreBase.isLoading');
+  final _$isLoadingAtom = Atom(name: '_CartStoreBase.isLoading');
 
   @override
   bool get isLoading {
@@ -102,7 +93,7 @@ mixin _$CartStore on _CartStoreBase, Store {
     });
   }
 
-  final Atom _$errorAtom = Atom(name: '_CartStoreBase.error');
+  final _$errorAtom = Atom(name: '_CartStoreBase.error');
 
   @override
   String get error {
@@ -117,7 +108,7 @@ mixin _$CartStore on _CartStoreBase, Store {
     });
   }
 
-  final Atom _$qtyAtom = Atom(name: '_CartStoreBase.qty');
+  final _$qtyAtom = Atom(name: '_CartStoreBase.qty');
 
   @override
   int get qty {
@@ -132,15 +123,14 @@ mixin _$CartStore on _CartStoreBase, Store {
     });
   }
 
-  final AsyncAction _$addItemAsyncAction =
-      AsyncAction('_CartStoreBase.addItem');
+  final _$addItemAsyncAction = AsyncAction('_CartStoreBase.addItem');
 
   @override
   Future<void> addItem(CartItem item) {
     return _$addItemAsyncAction.run(() => super.addItem(item));
   }
 
-  final AsyncAction _$updateQuantityAsyncAction =
+  final _$updateQuantityAsyncAction =
       AsyncAction('_CartStoreBase.updateQuantity');
 
   @override
@@ -149,31 +139,27 @@ mixin _$CartStore on _CartStoreBase, Store {
         .run(() => super.updateQuantity(item, quantty));
   }
 
-  final AsyncAction _$removeItemAsyncAction =
-      AsyncAction('_CartStoreBase.removeItem');
+  final _$removeItemAsyncAction = AsyncAction('_CartStoreBase.removeItem');
 
   @override
   Future<void> removeItem(CartItem item) {
     return _$removeItemAsyncAction.run(() => super.removeItem(item));
   }
 
-  final AsyncAction _$removeItemsAsyncAction =
-      AsyncAction('_CartStoreBase.removeItems');
+  final _$removeItemsAsyncAction = AsyncAction('_CartStoreBase.removeItems');
 
   @override
   Future<void> removeItems(List<CartItem> items) {
     return _$removeItemsAsyncAction.run(() => super.removeItems(items));
   }
 
-  final ActionController _$_CartStoreBaseActionController =
+  final _$_CartStoreBaseActionController =
       ActionController(name: '_CartStoreBase');
 
   @override
   void selectItem(CartItem item) {
-    final ActionRunInfo _$actionInfo =
-        _$_CartStoreBaseActionController.startAction(
-      name: '_CartStoreBase.selectItem',
-    );
+    final _$actionInfo = _$_CartStoreBaseActionController.startAction(
+        name: '_CartStoreBase.selectItem');
     try {
       return super.selectItem(item);
     } finally {
@@ -183,10 +169,8 @@ mixin _$CartStore on _CartStoreBase, Store {
 
   @override
   void validateQuantity(String quantity) {
-    final ActionRunInfo _$actionInfo =
-        _$_CartStoreBaseActionController.startAction(
-      name: '_CartStoreBase.validateQuantity',
-    );
+    final _$actionInfo = _$_CartStoreBaseActionController.startAction(
+        name: '_CartStoreBase.validateQuantity');
     try {
       return super.validateQuantity(quantity);
     } finally {
@@ -196,10 +180,8 @@ mixin _$CartStore on _CartStoreBase, Store {
 
   @override
   void clear() {
-    final ActionRunInfo _$actionInfo =
-        _$_CartStoreBaseActionController.startAction(
-      name: '_CartStoreBase.clear',
-    );
+    final _$actionInfo = _$_CartStoreBaseActionController.startAction(
+        name: '_CartStoreBase.clear');
     try {
       return super.clear();
     } finally {
@@ -209,10 +191,8 @@ mixin _$CartStore on _CartStoreBase, Store {
 
   @override
   void cleanQty() {
-    final ActionRunInfo _$actionInfo =
-        _$_CartStoreBaseActionController.startAction(
-      name: '_CartStoreBase.cleanQty',
-    );
+    final _$actionInfo = _$_CartStoreBaseActionController.startAction(
+        name: '_CartStoreBase.cleanQty');
     try {
       return super.cleanQty();
     } finally {
@@ -222,10 +202,8 @@ mixin _$CartStore on _CartStoreBase, Store {
 
   @override
   void decreaseQuantity() {
-    final ActionRunInfo _$actionInfo =
-        _$_CartStoreBaseActionController.startAction(
-      name: '_CartStoreBase.decreaseQuantity',
-    );
+    final _$actionInfo = _$_CartStoreBaseActionController.startAction(
+        name: '_CartStoreBase.decreaseQuantity');
     try {
       return super.decreaseQuantity();
     } finally {
@@ -235,10 +213,8 @@ mixin _$CartStore on _CartStoreBase, Store {
 
   @override
   void increaseQuantity() {
-    final ActionRunInfo _$actionInfo =
-        _$_CartStoreBaseActionController.startAction(
-      name: '_CartStoreBase.increaseQuantity',
-    );
+    final _$actionInfo = _$_CartStoreBaseActionController.startAction(
+        name: '_CartStoreBase.increaseQuantity');
     try {
       return super.increaseQuantity();
     } finally {

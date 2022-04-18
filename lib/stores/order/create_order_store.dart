@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fruity/data/network/apis/order/order_api.dart';
 import 'package:fruity/data/network/dio_client.dart';
+import 'package:fruity/data/network/exceptions/network_exceptions.dart';
 import 'package:fruity/dto/order/order_request.dart';
 import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/models/payment/payment.dart';
@@ -14,6 +15,12 @@ class CreateOrderStore = _CreateOrderStoreBase with _$CreateOrderStore;
 
 abstract class _CreateOrderStoreBase with Store {
   final OrderAPI _orderAPI = OrderAPI(DioClient(Dio()));
+
+  @observable
+  bool isLoading = false;
+
+  @observable
+  String? errorMessage = null;
 
   @observable
   DateTime receivedAt = DateTime.now().add(const Duration(minutes: 30));
@@ -81,18 +88,37 @@ abstract class _CreateOrderStoreBase with Store {
   }
 
   @action
+  void clear() {
+    items = [];
+    userAddress = null;
+    payment = null;
+    seller = null;
+    receivedAt = DateTime.now().add(const Duration(minutes: 30));
+    note = '';
+  }
+
+  @action
   Future<void> createOrder() async {
+    isLoading = true;
     final CreateOrderRequest request = CreateOrderRequest(
       note: note,
       userAddressId: userAddress != null ? userAddress!.id : null,
-      paymentId: payment != null
-          ? payment!.id
-          : 'c99cc249-a712-4c75-9aca-ca33b94a9393',
+      paymentId: payment != null ? payment!.id : '',
       orderItems: items,
       receivedAt: receivedAt,
       sellerId: seller != null ? seller!.id : '',
     );
 
-    await _orderAPI.createOrder(request);
+    try {
+      await _orderAPI.createOrder(request);
+    } catch (e) {
+      if (e is NetworkException) {
+        errorMessage = e.message;
+      } else {
+        errorMessage = e.toString();
+      }
+    } finally {
+      isLoading = false;
+    }
   }
 }

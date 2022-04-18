@@ -9,7 +9,7 @@ part of 'product_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ProductStore on _ProductStoreBase, Store {
-  final Atom _$productsAtom = Atom(name: '_ProductStoreBase.products');
+  final _$productsAtom = Atom(name: '_ProductStoreBase.products');
 
   @override
   List<Product> get products {
@@ -24,8 +24,7 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final Atom _$productsTopSaleAtom =
-      Atom(name: '_ProductStoreBase.productsTopSale');
+  final _$productsTopSaleAtom = Atom(name: '_ProductStoreBase.productsTopSale');
 
   @override
   List<Product> get productsTopSale {
@@ -40,8 +39,7 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final Atom _$productsSaleOffAtom =
-      Atom(name: '_ProductStoreBase.productsSaleOff');
+  final _$productsSaleOffAtom = Atom(name: '_ProductStoreBase.productsSaleOff');
 
   @override
   List<Product> get productsSaleOff {
@@ -56,7 +54,7 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final Atom _$productsSaleShockAtom =
+  final _$productsSaleShockAtom =
       Atom(name: '_ProductStoreBase.productsSaleShock');
 
   @override
@@ -72,7 +70,7 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final Atom _$loadingAtom = Atom(name: '_ProductStoreBase.loading');
+  final _$loadingAtom = Atom(name: '_ProductStoreBase.loading');
 
   @override
   bool get loading {
@@ -87,7 +85,7 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final Atom _$errorMessageAtom = Atom(name: '_ProductStoreBase.errorMessage');
+  final _$errorMessageAtom = Atom(name: '_ProductStoreBase.errorMessage');
 
   @override
   String? get errorMessage {
@@ -102,7 +100,7 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final AsyncAction _$getProductsTopSaleAsyncAction =
+  final _$getProductsTopSaleAsyncAction =
       AsyncAction('_ProductStoreBase.getProductsTopSale');
 
   @override
@@ -111,7 +109,7 @@ mixin _$ProductStore on _ProductStoreBase, Store {
         .run(() => super.getProductsTopSale(limit));
   }
 
-  final AsyncAction _$getProductsSaleShockAsyncAction =
+  final _$getProductsSaleShockAsyncAction =
       AsyncAction('_ProductStoreBase.getProductsSaleShock');
 
   @override
@@ -120,7 +118,7 @@ mixin _$ProductStore on _ProductStoreBase, Store {
         .run(() => super.getProductsSaleShock(limit));
   }
 
-  final AsyncAction _$getProductsSaleOffAsyncAction =
+  final _$getProductsSaleOffAsyncAction =
       AsyncAction('_ProductStoreBase.getProductsSaleOff');
 
   @override
@@ -129,23 +127,20 @@ mixin _$ProductStore on _ProductStoreBase, Store {
         .run(() => super.getProductsSaleOff(limit));
   }
 
-  final AsyncAction _$getProductsAsyncAction =
-      AsyncAction('_ProductStoreBase.getProducts');
+  final _$getProductsAsyncAction = AsyncAction('_ProductStoreBase.getProducts');
 
   @override
   Future<void> getProducts(String categoryId) {
     return _$getProductsAsyncAction.run(() => super.getProducts(categoryId));
   }
 
-  final ActionController _$_ProductStoreBaseActionController =
+  final _$_ProductStoreBaseActionController =
       ActionController(name: '_ProductStoreBase');
 
   @override
   void dispose() {
-    final ActionRunInfo _$actionInfo =
-        _$_ProductStoreBaseActionController.startAction(
-      name: '_ProductStoreBase.dispose',
-    );
+    final _$actionInfo = _$_ProductStoreBaseActionController.startAction(
+        name: '_ProductStoreBase.dispose');
     try {
       return super.dispose();
     } finally {
