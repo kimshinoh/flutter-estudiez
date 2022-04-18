@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/ui/search/search_screen.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 
 class SearchResultScreen extends StatefulWidget {
   final String search;
@@ -34,21 +35,27 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   }
 
   Widget _buildBody() {
-    return SingleChildScrollView(
-      child: Container(
-        decoration: const BoxDecoration(color: AppColors.backgroudGrey),
+    return CustomScrollView(slivers: <Widget>[
+      SliverPinnedHeader(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _header(),
             _buildFilter(),
+          ],
+        ),
+      ),
+      SliverToBoxAdapter(
+          child: Container(
+        decoration: const BoxDecoration(color: AppColors.backgroudGrey),
+        child: Column(
+          children: [
             const SizedBox(height: 5),
             _buildSeller(),
             _buildSearchResult()
           ],
         ),
-      ),
-    );
+      )),
+    ]);
   }
 
   Widget _header() {
@@ -124,15 +131,14 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
       color: Colors.white,
       height: 60,
       width: width,
-      padding: const EdgeInsets.symmetric(horizontal: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Row(
         children: [
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: SizedBox(
-              // padding: const EdgeInsets.symmetric(vertical: 3),
               width: width * 0.78,
-              height: 45,
+              height: 50,
               child: ListView.builder(
                 itemCount: _filters.length,
                 scrollDirection: Axis.horizontal,
@@ -148,9 +154,9 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                       });
                     },
                     child: Container(
-                      width: 73,
-                      margin: const EdgeInsets.all(5),
+                      margin: const EdgeInsets.all(8),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
                             _filters[index]['name']!.toString(),
@@ -158,18 +164,15 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
-                              color: _getColor(index),
+                              color: _getColor(index, Colors.grey),
                             ),
                           ),
-                          const SizedBox(height: 10),
-                          if (_filters[index]['selected'] == true)
-                            const Divider(
-                              color: AppColors.primary,
-                              height: 1,
-                              thickness: 3,
-                              indent: 20,
-                              endIndent: 20,
-                            )
+                          Container(
+                            height: 2,
+                            width: 30,
+                            color: _getColor(index, Colors.transparent),
+                            margin: const EdgeInsets.only(top: 6),
+                          )
                         ],
                       ),
                     ),
@@ -185,44 +188,41 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
             endIndent: 15,
             color: Colors.grey,
           ),
-          Container(
-            child: Row(
-              children: [
-                Text(
-                  'Giá',
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: _sort == 0 ? Colors.grey : Colors.orange,
-                  ),
+          GestureDetector(
+              onTap: () {
+                setState(() {
+                  _sort = _sortTypes[
+                      (_sortTypes.indexOf(_sort) + 1) % _sortTypes.length];
+                });
+              },
+              child: Container(
+                child: Row(
+                  children: [
+                    Text(
+                      'Giá',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: _sort == 0 ? Colors.grey : Colors.orange,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: _getIcon(),
+                    ),
+                  ],
                 ),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  onPressed: () {
-                    setState(() {
-                      _sort = _sortTypes[
-                          (_sortTypes.indexOf(_sort) + 1) % _sortTypes.length];
-                    });
-                  },
-                  icon: SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: _getIcon(),
-                  ),
-                )
-              ],
-            ),
-          )
+              ))
         ],
       ),
     );
   }
 
-  Color _getColor(int index) {
+  Color _getColor(int index, Color defaultColor) {
     return _filters[index]['selected'] == true
         ? AppColors.primary
-        : Colors.grey;
+        : defaultColor;
   }
 
   Widget _getIcon() {
@@ -313,6 +313,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Center(
         child: GridView.count(
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           childAspectRatio: cardWidth / cardHeight,
           crossAxisCount: 2,
@@ -328,6 +329,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                 child: Stack(
                   children: [
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
                           height: 130,
