@@ -34,6 +34,6 @@ ListProductsByCategoryResponse _$ListProductsByCategoryResponseFromJson(
 Map<String, dynamic> _$ListProductsByCategoryResponseToJson(
         ListProductsByCategoryResponse instance) =>
     <String, dynamic>{
-      'products': instance.products.map((Product e) => e.toJson()).toList(),
+      'products': instance.products.map((e) => e.toJson()).toList(),
       'message': instance.errorMessage,
     };

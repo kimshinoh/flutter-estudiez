@@ -9,8 +9,7 @@ part of 'parent_categories_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ParentCategoryStore on _ParentCategoryStoreBase, Store {
-  final Atom _$categoriesAtom =
-      Atom(name: '_ParentCategoryStoreBase.categories');
+  final _$categoriesAtom = Atom(name: '_ParentCategoryStoreBase.categories');
 
   @override
   List<Category> get categories {
@@ -25,7 +24,7 @@ mixin _$ParentCategoryStore on _ParentCategoryStoreBase, Store {
     });
   }
 
-  final Atom _$loadingAtom = Atom(name: '_ParentCategoryStoreBase.loading');
+  final _$loadingAtom = Atom(name: '_ParentCategoryStoreBase.loading');
 
   @override
   bool get loading {
@@ -40,7 +39,7 @@ mixin _$ParentCategoryStore on _ParentCategoryStoreBase, Store {
     });
   }
 
-  final Atom _$errorMessageAtom =
+  final _$errorMessageAtom =
       Atom(name: '_ParentCategoryStoreBase.errorMessage');
 
   @override
@@ -56,7 +55,7 @@ mixin _$ParentCategoryStore on _ParentCategoryStoreBase, Store {
     });
   }
 
-  final AsyncAction _$getCategoriesAsyncAction =
+  final _$getCategoriesAsyncAction =
       AsyncAction('_ParentCategoryStoreBase.getCategories');
 
   @override

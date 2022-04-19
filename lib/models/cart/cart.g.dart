@@ -12,7 +12,7 @@ Cart _$CartFromJson(Map<String, dynamic> json) => Cart()
       .toList();
 
 Map<String, dynamic> _$CartToJson(Cart instance) => <String, dynamic>{
-      'items': instance.items.map((CartItem e) => e.toJson()).toList(),
+      'items': instance.items.map((e) => e.toJson()).toList(),
     };
 
 CartItem _$CartItemFromJson(Map<String, dynamic> json) => CartItem(

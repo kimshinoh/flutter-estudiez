@@ -58,6 +58,9 @@ dependencies:
   collection: ^1.15.0
   flutter_svg: ^1.0.3
   flutter_staggered_animations: ^1.0.0
+  firebase_messaging: ^11.2.13
+  firebase_analytics: ^9.1.5
+  flutter_local_notifications: ^9.4.0
 
 dev_dependencies:
   flutter_test:

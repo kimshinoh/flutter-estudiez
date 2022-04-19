@@ -17,3 +17,14 @@ class UserLoginRequestDTO {
   String phoneNumber;
   String idToken;
 }
+
+@JsonSerializable()
+class UpdateFCMTokenRequest {
+  UpdateFCMTokenRequest({required this.token});
+
+  factory UpdateFCMTokenRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateFCMTokenRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$UpdateFCMTokenRequestToJson(this);
+
+  String token;
+}

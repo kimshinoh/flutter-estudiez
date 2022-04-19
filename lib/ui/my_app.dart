@@ -9,21 +9,36 @@ import 'package:fruity/stores/cart/cart_store.dart';
 import 'package:fruity/stores/search_history/search_history_store.dart';
 import 'package:fruity/stores/user/auth_store.dart';
 import 'package:fruity/ui/splash/splash.dart';
+import 'package:fruity/utils/fcm.dart';
 import 'package:provider/provider.dart';
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FCMService.init();
+  }
 
   @override
   Widget build(BuildContext context) {
     final AuthStore _authStore = AuthStore();
+    final CartStore _cartStore = CartStore(getIt<CartDataSource>());
 
+    _cartStore.setupUpdateParent();
     _authStore.setupUpdateUser();
 
     return MultiProvider(
       providers: [
         Provider<AuthStore>(create: (_) => _authStore),
-        Provider<CartStore>(create: (_) => CartStore(getIt<CartDataSource>())),
+        Provider<CartStore>(create: (_) => _cartStore),
         Provider<SearchHistoryStore>(
           create: (_) => SearchHistoryStore(getIt<SearchHistoryDataSource>()),
         ),

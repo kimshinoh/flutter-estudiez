@@ -18,3 +18,15 @@ Map<String, dynamic> _$UserLoginRequestDTOToJson(
       'phoneNumber': instance.phoneNumber,
       'idToken': instance.idToken,
     };
+
+UpdateFCMTokenRequest _$UpdateFCMTokenRequestFromJson(
+        Map<String, dynamic> json) =>
+    UpdateFCMTokenRequest(
+      token: json['token'] as String,
+    );
+
+Map<String, dynamic> _$UpdateFCMTokenRequestToJson(
+        UpdateFCMTokenRequest instance) =>
+    <String, dynamic>{
+      'token': instance.token,
+    };

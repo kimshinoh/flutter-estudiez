@@ -20,7 +20,6 @@ class CartButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CartStore _cartStore = context.read<CartStore>();
-    _cartStore.setupUpdateParent();
 
     return Observer(
       builder: (_) {

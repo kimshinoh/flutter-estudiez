@@ -9,6 +9,7 @@ import 'package:fruity/models/user/user.dart' as UserModel;
 import 'package:fruity/stores/payment/payment_store.dart';
 import 'package:fruity/stores/user/form_login_store.dart';
 import 'package:fruity/stores/user_address/user_address_store.dart';
+import 'package:fruity/utils/fcm.dart';
 import 'package:mobx/mobx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,6 +48,7 @@ abstract class _AuthStoreBase with Store {
           if (userId.isNotEmpty) {
             paymentStore.getMyPayments();
             userAddressStore.getUserAddresses();
+            FCMService.updateToken();
           } else {
             paymentStore.clearPayments();
             userAddressStore.clearUserAddresses();

@@ -12,14 +12,12 @@ mixin _$SellerStore on _SellerStoreBase, Store {
   Computed<Map<String, Seller>>? _$sellersMapComputed;
 
   @override
-  Map<String, Seller> get sellersMap =>
-      (_$sellersMapComputed ??= Computed<Map<String, Seller>>(
-        () => super.sellersMap,
-        name: '_SellerStoreBase.sellersMap',
-      ))
-          .value;
+  Map<String, Seller> get sellersMap => (_$sellersMapComputed ??=
+          Computed<Map<String, Seller>>(() => super.sellersMap,
+              name: '_SellerStoreBase.sellersMap'))
+      .value;
 
-  final Atom _$sellersAtom = Atom(name: '_SellerStoreBase.sellers');
+  final _$sellersAtom = Atom(name: '_SellerStoreBase.sellers');
 
   @override
   List<Seller> get sellers {
@@ -34,7 +32,7 @@ mixin _$SellerStore on _SellerStoreBase, Store {
     });
   }
 
-  final Atom _$loadingAtom = Atom(name: '_SellerStoreBase.loading');
+  final _$loadingAtom = Atom(name: '_SellerStoreBase.loading');
 
   @override
   bool get loading {
@@ -49,7 +47,7 @@ mixin _$SellerStore on _SellerStoreBase, Store {
     });
   }
 
-  final Atom _$errorAtom = Atom(name: '_SellerStoreBase.error');
+  final _$errorAtom = Atom(name: '_SellerStoreBase.error');
 
   @override
   String get error {
@@ -64,8 +62,7 @@ mixin _$SellerStore on _SellerStoreBase, Store {
     });
   }
 
-  final AsyncAction _$getSellersAsyncAction =
-      AsyncAction('_SellerStoreBase.getSellers');
+  final _$getSellersAsyncAction = AsyncAction('_SellerStoreBase.getSellers');
 
   @override
   Future<void> getSellers(List<String> ids) {

@@ -12,14 +12,12 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
   Computed<String>? _$transformPhoneNumberComputed;
 
   @override
-  String get transformPhoneNumber =>
-      (_$transformPhoneNumberComputed ??= Computed<String>(
-        () => super.transformPhoneNumber,
-        name: '_FormLoginStoreBase.transformPhoneNumber',
-      ))
-          .value;
+  String get transformPhoneNumber => (_$transformPhoneNumberComputed ??=
+          Computed<String>(() => super.transformPhoneNumber,
+              name: '_FormLoginStoreBase.transformPhoneNumber'))
+      .value;
 
-  final Atom _$phoneNumberAtom = Atom(name: '_FormLoginStoreBase.phoneNumber');
+  final _$phoneNumberAtom = Atom(name: '_FormLoginStoreBase.phoneNumber');
 
   @override
   String get phoneNumber {
@@ -34,7 +32,7 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
     });
   }
 
-  final Atom _$smsCodeAtom = Atom(name: '_FormLoginStoreBase.smsCode');
+  final _$smsCodeAtom = Atom(name: '_FormLoginStoreBase.smsCode');
 
   @override
   String get smsCode {
@@ -49,8 +47,7 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
     });
   }
 
-  final Atom _$formErrorStoreAtom =
-      Atom(name: '_FormLoginStoreBase.formErrorStore');
+  final _$formErrorStoreAtom = Atom(name: '_FormLoginStoreBase.formErrorStore');
 
   @override
   FormErrorStore get formErrorStore {
@@ -65,15 +62,13 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
     });
   }
 
-  final ActionController _$_FormLoginStoreBaseActionController =
+  final _$_FormLoginStoreBaseActionController =
       ActionController(name: '_FormLoginStoreBase');
 
   @override
   void setPhoneNumber(String phoneNumber) {
-    final ActionRunInfo _$actionInfo =
-        _$_FormLoginStoreBaseActionController.startAction(
-      name: '_FormLoginStoreBase.setPhoneNumber',
-    );
+    final _$actionInfo = _$_FormLoginStoreBaseActionController.startAction(
+        name: '_FormLoginStoreBase.setPhoneNumber');
     try {
       return super.setPhoneNumber(phoneNumber);
     } finally {
@@ -83,10 +78,8 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
 
   @override
   void validatePhoneNumber(String value) {
-    final ActionRunInfo _$actionInfo =
-        _$_FormLoginStoreBaseActionController.startAction(
-      name: '_FormLoginStoreBase.validatePhoneNumber',
-    );
+    final _$actionInfo = _$_FormLoginStoreBaseActionController.startAction(
+        name: '_FormLoginStoreBase.validatePhoneNumber');
     try {
       return super.validatePhoneNumber(value);
     } finally {
@@ -96,10 +89,8 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
 
   @override
   void validateSMSCode(String value) {
-    final ActionRunInfo _$actionInfo =
-        _$_FormLoginStoreBaseActionController.startAction(
-      name: '_FormLoginStoreBase.validateSMSCode',
-    );
+    final _$actionInfo = _$_FormLoginStoreBaseActionController.startAction(
+        name: '_FormLoginStoreBase.validateSMSCode');
     try {
       return super.validateSMSCode(value);
     } finally {
@@ -109,10 +100,8 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
 
   @override
   dynamic dispose() {
-    final ActionRunInfo _$actionInfo =
-        _$_FormLoginStoreBaseActionController.startAction(
-      name: '_FormLoginStoreBase.dispose',
-    );
+    final _$actionInfo = _$_FormLoginStoreBaseActionController.startAction(
+        name: '_FormLoginStoreBase.dispose');
     try {
       return super.dispose();
     } finally {
@@ -122,10 +111,8 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
 
   @override
   void clear() {
-    final ActionRunInfo _$actionInfo =
-        _$_FormLoginStoreBaseActionController.startAction(
-      name: '_FormLoginStoreBase.clear',
-    );
+    final _$actionInfo = _$_FormLoginStoreBaseActionController.startAction(
+        name: '_FormLoginStoreBase.clear');
     try {
       return super.clear();
     } finally {
@@ -149,20 +136,18 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
 
   @override
   bool get hasErrorsInLogin => (_$hasErrorsInLoginComputed ??= Computed<bool>(
-        () => super.hasErrorsInLogin,
-        name: '_FormErrorStore.hasErrorsInLogin',
-      ))
-          .value;
+          () => super.hasErrorsInLogin,
+          name: '_FormErrorStore.hasErrorsInLogin'))
+      .value;
   Computed<bool>? _$hasErrorsInVerifyComputed;
 
   @override
   bool get hasErrorsInVerify => (_$hasErrorsInVerifyComputed ??= Computed<bool>(
-        () => super.hasErrorsInVerify,
-        name: '_FormErrorStore.hasErrorsInVerify',
-      ))
-          .value;
+          () => super.hasErrorsInVerify,
+          name: '_FormErrorStore.hasErrorsInVerify'))
+      .value;
 
-  final Atom _$phoneNumberAtom = Atom(name: '_FormErrorStore.phoneNumber');
+  final _$phoneNumberAtom = Atom(name: '_FormErrorStore.phoneNumber');
 
   @override
   String? get phoneNumber {
@@ -177,7 +162,7 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     });
   }
 
-  final Atom _$smsCodeAtom = Atom(name: '_FormErrorStore.smsCode');
+  final _$smsCodeAtom = Atom(name: '_FormErrorStore.smsCode');
 
   @override
   String? get smsCode {
@@ -192,15 +177,13 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     });
   }
 
-  final ActionController _$_FormErrorStoreActionController =
+  final _$_FormErrorStoreActionController =
       ActionController(name: '_FormErrorStore');
 
   @override
   void clear() {
-    final ActionRunInfo _$actionInfo =
-        _$_FormErrorStoreActionController.startAction(
-      name: '_FormErrorStore.clear',
-    );
+    final _$actionInfo = _$_FormErrorStoreActionController.startAction(
+        name: '_FormErrorStore.clear');
     try {
       return super.clear();
     } finally {
