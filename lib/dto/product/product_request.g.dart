@@ -40,3 +40,17 @@ Map<String, dynamic> _$SaleShockRequestDTOToJson(
     <String, dynamic>{
       'limit': instance.limit,
     };
+
+SearchProductRequestDTO _$SearchProductRequestDTOFromJson(
+        Map<String, dynamic> json) =>
+    SearchProductRequestDTO(
+      limit: json['limit'] as int?,
+      keyword: json['keyword'] as String,
+    );
+
+Map<String, dynamic> _$SearchProductRequestDTOToJson(
+        SearchProductRequestDTO instance) =>
+    <String, dynamic>{
+      'limit': instance.limit,
+      'keyword': instance.keyword,
+    };

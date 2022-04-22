@@ -52,3 +52,18 @@ Map<String, dynamic> _$SaleShockReponseDTOToJson(
       'products': instance.products,
       'message': instance.errorMessage,
     };
+
+SearchProductResponseDTO _$SearchProductResponseDTOFromJson(
+        Map<String, dynamic> json) =>
+    SearchProductResponseDTO(
+      errorMessage: json['message'] as String?,
+      productSearch:
+          ProductSearch.fromJson(json['productSearch'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$SearchProductResponseDTOToJson(
+        SearchProductResponseDTO instance) =>
+    <String, dynamic>{
+      'productSearch': instance.productSearch,
+      'message': instance.errorMessage,
+    };

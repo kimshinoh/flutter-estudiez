@@ -1,9 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/models/search/product_simplify.dart';
+import 'package:fruity/stores/search/search.dart';
 import 'package:fruity/stores/search_history/search_history_store.dart';
 import 'package:fruity/ui/search/search_result_screen.dart';
+import 'package:fruity/utils/currency_util.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -15,6 +20,8 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   late SearchHistoryStore _store;
+  final SearchProductStore _searchStore = SearchProductStore();
+  Timer? _debounce;
   final List<String> _hotSearch = [
     'Dừa',
     'Cà chua',
@@ -24,6 +31,11 @@ class _SearchScreenState extends State<SearchScreen> {
     'Cà tỏi'
   ];
   final TextEditingController _searchController = TextEditingController();
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +51,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _header(),
+                    _searchProducts(),
                     _historySearch(),
                     _populateSearch(),
                   ],
@@ -51,7 +64,139 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
+  Widget _searchProducts() {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+    if (_searchStore.keyword.isEmpty) {
+      return Container();
+    }
+    int itemCount = _searchStore.products.length;
+    return Padding(
+        padding: const EdgeInsets.all(10),
+        child: _searchStore.loading
+            ? Container(
+                height: height,
+                child: const Align(
+                  alignment: Alignment.topCenter,
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : Container(
+                height: height,
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: itemCount,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    final ProductSimplify _product =
+                        _searchStore.products[index];
+                    return InkWell(
+                      onTap: () {},
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            child: Row(
+                              children: [
+                                Container(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                                  height: width * 0.3,
+                                  width: width * 0.3,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        _product.imageUrl ??
+                                            "https://atpsoftware.vn/wp-content/uploads//2019/06/depositphotos_58810529-stock-illustration-product-concept.jpg",
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10)),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(15, 10, 5, 0),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          _product.name,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 8),
+                                        RichText(
+                                          text: TextSpan(
+                                            text: CurrencyHelper.withCommas(
+                                              value: _product.price,
+                                              removeDecimal: true,
+                                            ),
+                                            style: const TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
+                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text: ' / ${_product.unit}',
+                                                style: const TextStyle(
+                                                  fontSize: 11,
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: const [
+                                            Text(
+                                              'Đã bán 230',
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            Icon(
+                                              Icons.add_circle,
+                                              size: 30,
+                                              color: AppColors.primary,
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (index < _searchStore.products.length - 1)
+                            const Divider(
+                              height: 1,
+                              thickness: 1,
+                              color: AppColors.backgroudGrey,
+                            )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ));
+  }
+
   Widget _historySearch() {
+    if (_searchStore.keyword.isEmpty == false) {
+      return Container();
+    }
     final List<String> searchHistory = _store.searchs;
     if (searchHistory.isEmpty) {
       return Container();
@@ -78,7 +223,6 @@ class _SearchScreenState extends State<SearchScreen> {
                         maxLines: 1,
                       ),
                       onTap: () {
-                        _searchController.text = search;
                         _search();
                       },
                       trailing: IconButton(
@@ -117,6 +261,9 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget _populateSearch() {
+    if (_searchStore.keyword.isEmpty == false) {
+      return Container();
+    }
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       height: 250,
@@ -161,7 +308,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: FlipAnimation(
                             child: GestureDetector(
                               onTap: () {
-                                _searchController.text = _hotSearch[index];
+                                _searchStore.keyword = _hotSearch[index];
                                 _search();
                               },
                               child: Container(
@@ -243,10 +390,24 @@ class _SearchScreenState extends State<SearchScreen> {
                                 color: Colors.grey,
                               ),
                               onPressed: () {
+                                _searchStore.keyword = '';
                                 _searchController.clear();
                               },
                             ),
                           ),
+                          onChanged: (String value) {
+                            if(value == _searchStore.keyword) {
+                              return;
+                            }
+                            _searchStore.keyword = value;
+                            if (_debounce?.isActive ?? false) {
+                              _debounce!.cancel();
+                            }
+                            _debounce =
+                                Timer(const Duration(milliseconds: 500), () {
+                              _searchStore.searchProduct(5);
+                            });
+                          },
                           onSubmitted: (String value) {
                             _search();
                           },
@@ -277,7 +438,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void _search() {
-    final String search = _searchController.text;
+    final String search = _searchStore.keyword;
     if (search.isEmpty) {
       return;
     }
@@ -286,7 +447,7 @@ class _SearchScreenState extends State<SearchScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => SearchResultScreen(search: search),
+        builder: (BuildContext context) => SearchResultScreen(),
       ),
     );
   }

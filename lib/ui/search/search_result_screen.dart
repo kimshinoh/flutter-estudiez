@@ -2,19 +2,20 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/stores/search/search.dart';
 import 'package:fruity/ui/search/search_screen.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class SearchResultScreen extends StatefulWidget {
-  final String search;
-  const SearchResultScreen({Key? key, required this.search}) : super(key: key);
+  const SearchResultScreen({Key? key}) : super(key: key);
 
   @override
   _SearchResultScreenState createState() => _SearchResultScreenState();
 }
 
 class _SearchResultScreenState extends State<SearchResultScreen> {
+  final SearchProductStore _searchProductStore = SearchProductStore();
   final List<Map<String, dynamic>> _filters = [
     {'id': 'uytin', 'name': 'Uy tín', 'selected': true},
     {'id': 'banchay', 'name': 'Bán chạy'},
@@ -104,7 +105,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                       Expanded(
                         child: SizedBox(
                           child: Text(
-                            widget.search,
+                            _searchProductStore.keyword,
                             style: const TextStyle(
                               fontSize: 13,
                               color: Colors.black,

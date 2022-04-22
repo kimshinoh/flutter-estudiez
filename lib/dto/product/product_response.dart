@@ -1,4 +1,5 @@
 import 'package:fruity/models/product/product.dart';
+import 'package:fruity/models/search/product_search.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'product_response.g.dart';
@@ -77,5 +78,32 @@ class SaleShockReponseDTO {
       errorMessage: errorMessage,
       products: [],
     );
+  }
+}
+
+@JsonSerializable()
+class SearchProductResponseDTO {
+  SearchProductResponseDTO(
+      {String? errorMessage, required ProductSearch productSearch}) {
+    _errorMessage = errorMessage;
+    _productSearch = productSearch;
+  }
+
+  late ProductSearch _productSearch;
+  String? _errorMessage;
+
+  ProductSearch get productSearch => _productSearch;
+
+  @JsonKey(name: 'message')
+  String? get errorMessage => _errorMessage;
+  factory SearchProductResponseDTO.fromJson(Map<String, dynamic> json) =>
+      SearchProductResponseDTO(
+        errorMessage: json['message'] as String?,
+        productSearch: ProductSearch.fromJson(json),
+      );
+  Map<String, dynamic> toJson() => _$SearchProductResponseDTOToJson(this);
+  factory SearchProductResponseDTO.withError(String errorMessage) {
+    return SearchProductResponseDTO(
+        errorMessage: errorMessage, productSearch: ProductSearch(products: []));
   }
 }
