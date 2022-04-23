@@ -41,6 +41,7 @@ class SaleShockRequestDTO {
   Map<String, dynamic> toJson() => _$SaleShockRequestDTOToJson(this);
   int limit;
 }
+
 @JsonSerializable()
 class SearchProductRequestDTO {
   SearchProductRequestDTO({
@@ -54,4 +55,15 @@ class SearchProductRequestDTO {
   Map<String, dynamic> toJson() => _$SearchProductRequestDTOToJson(this);
   int? limit;
   String keyword;
+}
+
+@JsonSerializable()
+class ProductsByIdsRequestDTO {
+  ProductsByIdsRequestDTO({required this.ids});
+
+  factory ProductsByIdsRequestDTO.fromJson(Map<String, dynamic> json) =>
+      _$ProductsByIdsRequestDTOFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductsByIdsRequestDTOToJson(this);
+  List<String> ids;
 }

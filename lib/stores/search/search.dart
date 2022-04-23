@@ -26,7 +26,7 @@ abstract class _SearchProductStoreBase with Store {
 
   @action
   Future<void> searchProduct(int limit) async {
-    if(keyword == '') return;
+    if (keyword == '') return;
     try {
       loading = true;
       final SearchProductResponseDTO res = await _searchAPI.searchProducts(
@@ -45,6 +45,7 @@ abstract class _SearchProductStoreBase with Store {
 
   @action
   void dispose() {
+    keyword = "";
     products = [];
     loading = true;
     errorMessage = null;

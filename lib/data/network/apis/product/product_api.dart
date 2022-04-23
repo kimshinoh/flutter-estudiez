@@ -61,4 +61,22 @@ class ProductAPI {
       return SaleShockReponseDTO.withError(e.toString());
     }
   }
+
+  Future<ProductsByIdsResponseDTO> getProductsByIds(
+      ProductsByIdsRequestDTO req) async {
+    try {
+      final Map<String, dynamic> response = await _dioClient.get(
+        '/products/get-by-ids',
+        queryParameters: req.toJson(),
+      );
+      return ProductsByIdsResponseDTO.fromJson(response);
+    } catch (e) {
+      if (e is NetworkException) {
+        return ProductsByIdsResponseDTO.withError(
+          e.message ?? 'Có lỗi xảy ra',
+        );
+      }
+      return ProductsByIdsResponseDTO.withError(e.toString());
+    }
+  }
 }
