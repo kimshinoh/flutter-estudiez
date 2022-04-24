@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'form_create_user_address_store.dart';
+part of 'form_update_user_address_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,16 +8,16 @@ part of 'form_create_user_address_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
+mixin _$FormUpdateUserAddressStore on _FormUpdateUserAddressStoreBase, Store {
   Computed<bool>? _$isValidComputed;
 
   @override
   bool get isValid => (_$isValidComputed ??= Computed<bool>(() => super.isValid,
-          name: '_FormCreateUserAddressStoreBase.isValid'))
+          name: '_FormUpdateUserAddressStoreBase.isValid'))
       .value;
 
   final _$isLoadingAtom =
-      Atom(name: '_FormCreateUserAddressStoreBase.isLoading');
+      Atom(name: '_FormUpdateUserAddressStoreBase.isLoading');
 
   @override
   bool get isLoading {
@@ -33,7 +33,7 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
   }
 
   final _$errorMessageAtom =
-      Atom(name: '_FormCreateUserAddressStoreBase.errorMessage');
+      Atom(name: '_FormUpdateUserAddressStoreBase.errorMessage');
 
   @override
   String? get errorMessage {
@@ -48,7 +48,22 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
     });
   }
 
-  final _$fullNameAtom = Atom(name: '_FormCreateUserAddressStoreBase.fullName');
+  final _$idAtom = Atom(name: '_FormUpdateUserAddressStoreBase.id');
+
+  @override
+  String get id {
+    _$idAtom.reportRead();
+    return super.id;
+  }
+
+  @override
+  set id(String value) {
+    _$idAtom.reportWrite(value, super.id, () {
+      super.id = value;
+    });
+  }
+
+  final _$fullNameAtom = Atom(name: '_FormUpdateUserAddressStoreBase.fullName');
 
   @override
   String get fullName {
@@ -64,7 +79,7 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
   }
 
   final _$phoneNumberAtom =
-      Atom(name: '_FormCreateUserAddressStoreBase.phoneNumber');
+      Atom(name: '_FormUpdateUserAddressStoreBase.phoneNumber');
 
   @override
   String get phoneNumber {
@@ -79,7 +94,7 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
     });
   }
 
-  final _$noteAtom = Atom(name: '_FormCreateUserAddressStoreBase.note');
+  final _$noteAtom = Atom(name: '_FormUpdateUserAddressStoreBase.note');
 
   @override
   String get note {
@@ -94,7 +109,7 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
     });
   }
 
-  final _$addressAtom = Atom(name: '_FormCreateUserAddressStoreBase.address');
+  final _$addressAtom = Atom(name: '_FormUpdateUserAddressStoreBase.address');
 
   @override
   Address get address {
@@ -110,7 +125,7 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
   }
 
   final _$isDefaultAtom =
-      Atom(name: '_FormCreateUserAddressStoreBase.isDefault');
+      Atom(name: '_FormUpdateUserAddressStoreBase.isDefault');
 
   @override
   bool get isDefault {
@@ -125,58 +140,76 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
     });
   }
 
-  final _$saveUserAddressAsyncAction =
-      AsyncAction('_FormCreateUserAddressStoreBase.saveUserAddress');
+  final _$getUserAddressAsyncAction =
+      AsyncAction('_FormUpdateUserAddressStoreBase.getUserAddress');
 
   @override
-  Future<void> saveUserAddress() {
-    return _$saveUserAddressAsyncAction.run(() => super.saveUserAddress());
+  Future<void> getUserAddress() {
+    return _$getUserAddressAsyncAction.run(() => super.getUserAddress());
   }
 
-  final _$_FormCreateUserAddressStoreBaseActionController =
-      ActionController(name: '_FormCreateUserAddressStoreBase');
+  final _$updateUserAddressAsyncAction =
+      AsyncAction('_FormUpdateUserAddressStoreBase.updateUserAddress');
+
+  @override
+  Future<void> updateUserAddress(String userId) {
+    return _$updateUserAddressAsyncAction
+        .run(() => super.updateUserAddress(userId));
+  }
+
+  final _$removeUserAddressAsyncAction =
+      AsyncAction('_FormUpdateUserAddressStoreBase.removeUserAddress');
+
+  @override
+  Future<void> removeUserAddress(String userId) {
+    return _$removeUserAddressAsyncAction
+        .run(() => super.removeUserAddress(userId));
+  }
+
+  final _$_FormUpdateUserAddressStoreBaseActionController =
+      ActionController(name: '_FormUpdateUserAddressStoreBase');
 
   @override
   void setFullName(String fullName) {
-    final _$actionInfo = _$_FormCreateUserAddressStoreBaseActionController
-        .startAction(name: '_FormCreateUserAddressStoreBase.setFullName');
+    final _$actionInfo = _$_FormUpdateUserAddressStoreBaseActionController
+        .startAction(name: '_FormUpdateUserAddressStoreBase.setFullName');
     try {
       return super.setFullName(fullName);
     } finally {
-      _$_FormCreateUserAddressStoreBaseActionController.endAction(_$actionInfo);
+      _$_FormUpdateUserAddressStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void setPhoneNumber(String phoneNumber) {
-    final _$actionInfo = _$_FormCreateUserAddressStoreBaseActionController
-        .startAction(name: '_FormCreateUserAddressStoreBase.setPhoneNumber');
+    final _$actionInfo = _$_FormUpdateUserAddressStoreBaseActionController
+        .startAction(name: '_FormUpdateUserAddressStoreBase.setPhoneNumber');
     try {
       return super.setPhoneNumber(phoneNumber);
     } finally {
-      _$_FormCreateUserAddressStoreBaseActionController.endAction(_$actionInfo);
+      _$_FormUpdateUserAddressStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void setNote(String note) {
-    final _$actionInfo = _$_FormCreateUserAddressStoreBaseActionController
-        .startAction(name: '_FormCreateUserAddressStoreBase.setNote');
+    final _$actionInfo = _$_FormUpdateUserAddressStoreBaseActionController
+        .startAction(name: '_FormUpdateUserAddressStoreBase.setNote');
     try {
       return super.setNote(note);
     } finally {
-      _$_FormCreateUserAddressStoreBaseActionController.endAction(_$actionInfo);
+      _$_FormUpdateUserAddressStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void setIsDefault() {
-    final _$actionInfo = _$_FormCreateUserAddressStoreBaseActionController
-        .startAction(name: '_FormCreateUserAddressStoreBase.setIsDefault');
+    final _$actionInfo = _$_FormUpdateUserAddressStoreBaseActionController
+        .startAction(name: '_FormUpdateUserAddressStoreBase.setIsDefault');
     try {
       return super.setIsDefault();
     } finally {
-      _$_FormCreateUserAddressStoreBaseActionController.endAction(_$actionInfo);
+      _$_FormUpdateUserAddressStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
@@ -185,6 +218,7 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
     return '''
 isLoading: ${isLoading},
 errorMessage: ${errorMessage},
+id: ${id},
 fullName: ${fullName},
 phoneNumber: ${phoneNumber},
 note: ${note},
@@ -195,17 +229,17 @@ isValid: ${isValid}
   }
 }
 
-mixin _$FormCreateUserAddressValidation
-    on FormCreateUserAddressValidationBase, Store {
+mixin _$FormUpdateUserAddressValidation
+    on FormUpdateUserAddressValidationBase, Store {
   Computed<bool>? _$isValidComputed;
 
   @override
   bool get isValid => (_$isValidComputed ??= Computed<bool>(() => super.isValid,
-          name: 'FormCreateUserAddressValidationBase.isValid'))
+          name: 'FormUpdateUserAddressValidationBase.isValid'))
       .value;
 
   final _$fullNameErrorAtom =
-      Atom(name: 'FormCreateUserAddressValidationBase.fullNameError');
+      Atom(name: 'FormUpdateUserAddressValidationBase.fullNameError');
 
   @override
   String? get fullNameError {
@@ -221,7 +255,7 @@ mixin _$FormCreateUserAddressValidation
   }
 
   final _$phoneNumberErrorAtom =
-      Atom(name: 'FormCreateUserAddressValidationBase.phoneNumberError');
+      Atom(name: 'FormUpdateUserAddressValidationBase.phoneNumberError');
 
   @override
   String? get phoneNumberError {
@@ -236,18 +270,18 @@ mixin _$FormCreateUserAddressValidation
     });
   }
 
-  final _$FormCreateUserAddressValidationBaseActionController =
-      ActionController(name: 'FormCreateUserAddressValidationBase');
+  final _$FormUpdateUserAddressValidationBaseActionController =
+      ActionController(name: 'FormUpdateUserAddressValidationBase');
 
   @override
   dynamic setFullNameError(String? fullNameError) {
     final _$actionInfo =
-        _$FormCreateUserAddressValidationBaseActionController.startAction(
-            name: 'FormCreateUserAddressValidationBase.setFullNameError');
+        _$FormUpdateUserAddressValidationBaseActionController.startAction(
+            name: 'FormUpdateUserAddressValidationBase.setFullNameError');
     try {
       return super.setFullNameError(fullNameError);
     } finally {
-      _$FormCreateUserAddressValidationBaseActionController
+      _$FormUpdateUserAddressValidationBaseActionController
           .endAction(_$actionInfo);
     }
   }
@@ -255,12 +289,12 @@ mixin _$FormCreateUserAddressValidation
   @override
   dynamic setPhoneNumberError(String? phoneNumberError) {
     final _$actionInfo =
-        _$FormCreateUserAddressValidationBaseActionController.startAction(
-            name: 'FormCreateUserAddressValidationBase.setPhoneNumberError');
+        _$FormUpdateUserAddressValidationBaseActionController.startAction(
+            name: 'FormUpdateUserAddressValidationBase.setPhoneNumberError');
     try {
       return super.setPhoneNumberError(phoneNumberError);
     } finally {
-      _$FormCreateUserAddressValidationBaseActionController
+      _$FormUpdateUserAddressValidationBaseActionController
           .endAction(_$actionInfo);
     }
   }

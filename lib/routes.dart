@@ -7,6 +7,7 @@ import 'package:fruity/ui/search/search_screen.dart';
 import 'package:fruity/ui/splash/splash.dart';
 import 'package:fruity/ui/user_address/create_user_address_screen.dart';
 import 'package:fruity/ui/user_address/list_user_address_screen.dart';
+import 'package:fruity/ui/user_address/update_user_address_screen.dart';
 
 class Routes {
   Routes._();
@@ -14,15 +15,16 @@ class Routes {
   //static variables
   static const String splash = '/splash';
   static const String home = '/home';
-  static const String todo = '/todo';
+
   static const String product = '/product';
   static const String cart = '/cart';
   static const String confirm_order = '/confirm_order';
   static const String search = '/search';
+
+  // user address
   static const String list_user_addressres = '/list_user_addressres';
   static const String create_user_address = '/create_user_address';
-
-  static const String search_address = '/search_address';
+  static const String update_user_address = '/update_user_address';
 
   static final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => const SplashScreen(),
@@ -35,5 +37,7 @@ class Routes {
         const ListUserAddressScreen(),
     create_user_address: (BuildContext context) =>
         const CreateUserAddressScreen(),
+    update_user_address: (BuildContext context) =>
+        const UpdateUserAddressScreen()
   };
 }

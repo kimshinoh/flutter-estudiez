@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/env.dart';
 import 'package:fruity/stores/location/location.dart';
 import 'package:fruity/stores/user_address/form_create_user_address_store.dart';
+import 'package:fruity/stores/user_address/user_address_store.dart';
 import 'package:fruity/ui/user_address/widgets/save_user_address_button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_place_picker_mb/google_maps_place_picker.dart';
@@ -203,6 +204,7 @@ class _FormAddressInfo extends StatelessWidget {
                         _locationStore.position.longitude,
                       ),
                       useCurrentLocation: true,
+                      selectInitialPosition: true,
                     ),
                   ),
                 );

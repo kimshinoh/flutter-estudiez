@@ -11,16 +11,31 @@ abstract class _LocationStoreBase with Store {
     updatePosition();
   }
 
+  List<ReactionDisposer> _disposers = [];
+
+  void setupListener() {
+    _disposers.add(
+      reaction(
+        (_) => position,
+        (Position position) async {
+          if (position != null) {
+            final String _address =
+                await LocationHelper.determineAddress(position);
+            address = _address;
+          }
+        },
+      ),
+    );
+  }
+
   @action
   Future<void> updatePosition() async {
     final Position position = await LocationHelper.myLocation();
     this.position = position;
   }
 
-  @computed
-  Future<String> get addressStr async {
-    return "";
-  }
+  @observable
+  String address = "";
 
   @observable
   Position position = Position(

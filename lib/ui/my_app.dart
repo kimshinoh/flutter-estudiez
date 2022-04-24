@@ -35,6 +35,7 @@ class _MyAppState extends State<MyApp> {
     final LocationStore _locationStore = LocationStore();
     _cartStore.setupUpdateParent();
     _authStore.setupUpdateUser();
+    _locationStore.setupListener();
 
     return MultiProvider(
       providers: [

@@ -36,3 +36,47 @@ Map<String, dynamic> _$CreateUserAddressResponseToJson(
       'message': instance.errorMessage,
       'user_address': instance.userAddress,
     };
+
+GetUserAddressResponse _$GetUserAddressResponseFromJson(
+        Map<String, dynamic> json) =>
+    GetUserAddressResponse(
+      errorMessage: json['message'] as String?,
+      userAddress: json['user_address'] == null
+          ? null
+          : UserAddress.fromJson(json['user_address'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$GetUserAddressResponseToJson(
+        GetUserAddressResponse instance) =>
+    <String, dynamic>{
+      'message': instance.errorMessage,
+      'user_address': instance.userAddress?.toJson(),
+    };
+
+UpdateUserAddressResponse _$UpdateUserAddressResponseFromJson(
+        Map<String, dynamic> json) =>
+    UpdateUserAddressResponse(
+      errorMessage: json['message'] as String?,
+      userAddress: json['user_address'] == null
+          ? null
+          : UserAddress.fromJson(json['user_address'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$UpdateUserAddressResponseToJson(
+        UpdateUserAddressResponse instance) =>
+    <String, dynamic>{
+      'message': instance.errorMessage,
+      'user_address': instance.userAddress,
+    };
+
+RemoveUserAddressResponse _$RemoveUserAddressResponseFromJson(
+        Map<String, dynamic> json) =>
+    RemoveUserAddressResponse(
+      errorMessage: json['message'] as String?,
+    );
+
+Map<String, dynamic> _$RemoveUserAddressResponseToJson(
+        RemoveUserAddressResponse instance) =>
+    <String, dynamic>{
+      'message': instance.errorMessage,
+    };

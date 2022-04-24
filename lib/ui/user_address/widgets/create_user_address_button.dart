@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/routes.dart';
+import 'package:fruity/ui/user_address/create_user_address_screen.dart';
 
 class ButtonCreateUserAddress extends StatelessWidget {
   const ButtonCreateUserAddress({Key? key}) : super(key: key);
@@ -15,7 +16,11 @@ class ButtonCreateUserAddress extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(
                   onPressed: () async {
-                    Navigator.pushNamed(context, Routes.create_user_address);
+                    Navigator.pushNamed(
+                      context,
+                      Routes.create_user_address,
+                      arguments: CreateUserAddressAgruments(isDefault: false),
+                    );
                   },
                   child: const Text(
                     'Thêm địa chỉ mới',

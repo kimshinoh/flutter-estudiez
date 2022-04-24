@@ -102,9 +102,6 @@ class _HomeAddress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AuthStore _authStore = context.read<AuthStore>();
-    final TextEditingController _nameController = TextEditingController();
-    final TextEditingController _phoneController = TextEditingController();
-    final TextEditingController _addressController = TextEditingController();
 
     return Observer(
       builder: (_) {
@@ -116,21 +113,32 @@ class _HomeAddress extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Chưa có địa chỉ nào được chọn'),
-                      TextButton(
-                        onPressed: () {
-                          if (_authStore.isLoggedIn) {
-                            Navigator.of(context).pushNamed(
-                              Routes.create_user_address,
-                            );
-                          } else {
-                            ShowButtomSheetLogin(context);
-                          }
-                        },
-                        child: Text(
-                          'Thêm địa chỉ',
-                          style: const TextStyle(color: Colors.blue),
+                      Expanded(child: Text('Chưa có địa chỉ nào được chọn')),
+                      Expanded(
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            minimumSize: Size.zero,
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          onPressed: () {
+                            if (_authStore.isLoggedIn) {
+                              Navigator.of(context).pushNamed(
+                                Routes.create_user_address,
+                                arguments: CreateUserAddressAgruments(
+                                  isDefault: true,
+                                ),
+                              );
+                            } else {
+                              ShowButtomSheetLogin(context);
+                            }
+                          },
+                          child: const Text(
+                            'Thêm địa chỉ',
+                            style: TextStyle(color: Colors.blue),
+                          ),
                         ),
                       ),
                     ],

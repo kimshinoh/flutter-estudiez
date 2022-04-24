@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/user_address/user_address.dart';
+import 'package:fruity/routes.dart';
+import 'package:fruity/ui/user_address/update_user_address_screen.dart';
 
 class UserAddressItemWidget extends StatelessWidget {
   UserAddress userAddress;
@@ -41,8 +43,14 @@ class UserAddressItemWidget extends StatelessWidget {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       onPressed: () {
-                        // Navigator.pushNamed(context, Routes,
-                        //     arguments: userAddress);
+                        Navigator.pushNamed(
+                          context,
+                          Routes.update_user_address,
+                          arguments: UpdateUserAddressAgruments(
+                            isDefault: false,
+                            userAddressId: userAddress.id,
+                          ),
+                        );
                       },
                       child: const Text(
                         'Sửa',

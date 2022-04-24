@@ -5,22 +5,26 @@ import 'package:fruity/data/network/apis/user_address/user_address_api.dart';
 import 'package:fruity/data/network/dio_client.dart';
 import 'package:fruity/data/network/exceptions/network_exceptions.dart';
 import 'package:fruity/dto/user_address/user_address_request.dart';
+import 'package:fruity/dto/user_address/user_address_response.dart';
+import 'package:fruity/models/user_address/user_address.dart';
 import 'package:mobx/mobx.dart';
 
 import 'user_address_store.dart';
 
-part 'form_create_user_address_store.g.dart';
+part 'form_update_user_address_store.g.dart';
 
-class FormCreateUserAddressStore = _FormCreateUserAddressStoreBase
-    with _$FormCreateUserAddressStore;
+class FormUpdateUserAddressStore = _FormUpdateUserAddressStoreBase
+    with _$FormUpdateUserAddressStore;
 
-abstract class _FormCreateUserAddressStoreBase with Store {
-  FormCreateUserAddressValidation validation =
-      FormCreateUserAddressValidation();
+abstract class _FormUpdateUserAddressStoreBase with Store {
+  FormUpdateUserAddressValidation validation =
+      FormUpdateUserAddressValidation();
 
   UserAddressAPI _userAddressAPI = UserAddressAPI(DioClient(Dio()));
 
   List<ReactionDisposer> _disposer = [];
+
+  _FormUpdateUserAddressStoreBase(this.id);
 
   void setupListener() {
     _disposer.add(
@@ -48,11 +52,47 @@ abstract class _FormCreateUserAddressStoreBase with Store {
     );
   }
 
+  @action
+  Future<void> getUserAddress() async {
+    try {
+      final GetUserAddressResponse res =
+          await _userAddressAPI.getUserAddress(GetUserAddressRequest(id));
+
+      final UserAddress? _address = res.userAddress;
+
+      if (res.errorMessage != null) {
+        errorMessage = res.errorMessage;
+      } else if (_address == null) {
+        errorMessage = 'Địa chỉ không tồn tại';
+      } else {
+        fullName = _address.fullName;
+        phoneNumber = _address.phoneNumber;
+        isDefault = _address.isDefault;
+        note = _address.note ?? "";
+        address = Address(
+            address: _address.address,
+            latitude: _address.latitude,
+            longitude: _address.longitude);
+      }
+    } catch (e) {
+      if (e is NetworkException) {
+        errorMessage = e.message;
+      } else {
+        errorMessage = 'Đã có lỗi xảy ra';
+      }
+    } finally {
+      isLoading = false;
+    }
+  }
+
   @observable
-  bool isLoading = false;
+  bool isLoading = true;
 
   @observable
   String? errorMessage;
+
+  @observable
+  String id = "";
 
   @observable
   String fullName = '';
@@ -99,10 +139,11 @@ abstract class _FormCreateUserAddressStoreBase with Store {
   }
 
   @action
-  Future<void> saveUserAddress() async {
+  Future<void> updateUserAddress(String userId) async {
     try {
       isLoading = true;
-      CreateUserAddressRequest request = CreateUserAddressRequest(
+      final UpdateUserAddressRequest request = UpdateUserAddressRequest(
+        id: id,
         fullName: fullName,
         phoneNumber: phoneNumber,
         address: address.address,
@@ -110,9 +151,12 @@ abstract class _FormCreateUserAddressStoreBase with Store {
         longitude: address.longitude,
         isDefault: isDefault,
         note: note,
+        userId: userId,
       );
 
-      await _userAddressAPI.createUserAddress(request);
+      print(request.toJson());
+
+      await _userAddressAPI.updateUserAddress(request);
     } catch (e) {
       if (e is NetworkException) {
         errorMessage = e.message;
@@ -123,12 +167,25 @@ abstract class _FormCreateUserAddressStoreBase with Store {
       isLoading = false;
     }
   }
+
+  @action
+  Future<void> removeUserAddress(String userId) async {
+    try {
+      isLoading = true;
+      await _userAddressAPI
+          .removeUserAddress(RemoveUserAddressRequest(id, userId));
+    } on NetworkException catch (e) {
+      errorMessage = e.message;
+    } finally {
+      isLoading = false;
+    }
+  }
 }
 
-class FormCreateUserAddressValidation = FormCreateUserAddressValidationBase
-    with _$FormCreateUserAddressValidation;
+class FormUpdateUserAddressValidation = FormUpdateUserAddressValidationBase
+    with _$FormUpdateUserAddressValidation;
 
-abstract class FormCreateUserAddressValidationBase with Store {
+abstract class FormUpdateUserAddressValidationBase with Store {
   @observable
   String? fullNameError;
   @action

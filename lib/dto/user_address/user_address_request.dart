@@ -26,16 +26,78 @@ class CreateUserAddressRequest {
       _$CreateUserAddressRequestFromJson(json);
   Map<String, dynamic> toJson() => _$CreateUserAddressRequestToJson(this);
 
-  @JsonKey(name: "full_name")
+  @JsonKey(name: 'full_name')
   String fullName;
 
-  @JsonKey(name: "phone_number")
+  @JsonKey(name: 'phone_number')
   String phoneNumber;
   String address;
   double latitude;
   double longitude;
   String? note;
 
-  @JsonKey(name: "is_default")
+  @JsonKey(name: 'is_default')
   bool isDefault;
+}
+
+@JsonSerializable()
+class GetUserAddressRequest {
+  GetUserAddressRequest(this.id);
+  factory GetUserAddressRequest.fromJson(Map<String, dynamic> json) =>
+      _$GetUserAddressRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$GetUserAddressRequestToJson(this);
+
+  @JsonKey(name: 'id')
+  String id;
+}
+
+@JsonSerializable()
+class UpdateUserAddressRequest {
+  UpdateUserAddressRequest(
+      {required this.id,
+      required this.fullName,
+      required this.phoneNumber,
+      required this.address,
+      required this.latitude,
+      required this.longitude,
+      required this.isDefault,
+      required this.userId,
+      this.note});
+
+  factory UpdateUserAddressRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateUserAddressRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$UpdateUserAddressRequestToJson(this);
+
+  @JsonKey(name: 'id')
+  String id;
+
+  @JsonKey(name: 'full_name')
+  String fullName;
+
+  @JsonKey(name: 'phone_number')
+  String phoneNumber;
+  String address;
+  double latitude;
+  double longitude;
+  String? note;
+
+  @JsonKey(name: 'user_id')
+  String userId;
+
+  @JsonKey(name: 'is_default')
+  bool isDefault;
+}
+
+@JsonSerializable()
+class RemoveUserAddressRequest {
+  RemoveUserAddressRequest(this.id, this.userId);
+  factory RemoveUserAddressRequest.fromJson(Map<String, dynamic> json) =>
+      _$RemoveUserAddressRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$RemoveUserAddressRequestToJson(this);
+
+  @JsonKey(name: 'id')
+  String id;
+
+  @JsonKey(name: 'user_id')
+  String userId;
 }

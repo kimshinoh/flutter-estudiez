@@ -6,6 +6,7 @@ import 'package:fruity/data/network/exceptions/network_exceptions.dart';
 import 'package:fruity/dto/user_address/user_address_request.dart';
 import 'package:fruity/dto/user_address/user_address_response.dart';
 import 'package:fruity/models/user_address/user_address.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:mobx/mobx.dart';
 
 part 'user_address_store.g.dart';
@@ -65,4 +66,22 @@ abstract class _UserAddressStoreBase with Store {
       loading = false;
     }
   }
+}
+
+@JsonSerializable()
+class Address {
+  double latitude;
+  double longitude;
+  String address;
+
+  Address({
+    required this.address,
+    required this.latitude,
+    required this.longitude,
+  });
+
+  factory Address.fromJson(Map<String, dynamic> json) =>
+      _$AddressFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AddressToJson(this);
 }

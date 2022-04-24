@@ -3,6 +3,22 @@
 part of 'user_address_store.dart';
 
 // **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Address _$AddressFromJson(Map<String, dynamic> json) => Address(
+      address: json['address'] as String,
+      latitude: (json['latitude'] as num).toDouble(),
+      longitude: (json['longitude'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$AddressToJson(Address instance) => <String, dynamic>{
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+      'address': instance.address,
+    };
+
+// **************************************************************************
 // StoreGenerator
 // **************************************************************************
 
