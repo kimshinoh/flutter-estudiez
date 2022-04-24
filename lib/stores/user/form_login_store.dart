@@ -37,9 +37,10 @@ abstract class _FormLoginStoreBase with Store {
 
   @action
   void validatePhoneNumber(String value) {
+    final RegExp regex = RegExp(r'^\d{10}$');
     if (value.isEmpty) {
       formErrorStore.phoneNumber = 'Vui lòng nhập số điện thoại';
-    } else if (value.length < 10) {
+    } else if (value.length < 10 || !regex.hasMatch(value)) {
       formErrorStore.phoneNumber = 'Số điện thoại không hợp lệ';
     } else {
       formErrorStore.phoneNumber = null;
