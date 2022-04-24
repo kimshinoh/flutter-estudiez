@@ -29,6 +29,16 @@ abstract class _UserAddressStoreBase with Store {
         (UserAddress address) => address.isDefault,
       );
 
+  @computed
+  List<UserAddress> get nonDefaultAddresses => userAddresses
+      .where(
+        (UserAddress address) => !address.isDefault,
+      )
+      .toList();
+
+  @computed
+  bool get hasNonDefaultAddress => nonDefaultAddresses.isNotEmpty;
+
   @action
   void clearUserAddresses() {
     userAddresses = [];

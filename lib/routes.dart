@@ -5,6 +5,8 @@ import 'package:fruity/ui/order/order_confirm_screen.dart';
 import 'package:fruity/ui/product/product_screen.dart';
 import 'package:fruity/ui/search/search_screen.dart';
 import 'package:fruity/ui/splash/splash.dart';
+import 'package:fruity/ui/user_address/create_user_address_screen.dart';
+import 'package:fruity/ui/user_address/list_user_address_screen.dart';
 
 class Routes {
   Routes._();
@@ -17,6 +19,10 @@ class Routes {
   static const String cart = '/cart';
   static const String confirm_order = '/confirm_order';
   static const String search = '/search';
+  static const String list_user_addressres = '/list_user_addressres';
+  static const String create_user_address = '/create_user_address';
+
+  static const String search_address = '/search_address';
 
   static final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => const SplashScreen(),
@@ -25,5 +31,9 @@ class Routes {
     cart: (BuildContext context) => const CartScreen(),
     confirm_order: (BuildContext context) => const ConfirmOrderScreen(),
     search: (BuildContext context) => const SearchScreen(),
+    list_user_addressres: (BuildContext context) =>
+        const ListUserAddressScreen(),
+    create_user_address: (BuildContext context) =>
+        const CreateUserAddressScreen(),
   };
 }

@@ -30,3 +30,32 @@ class MyAddressesResponse {
     );
   }
 }
+
+@JsonSerializable()
+class CreateUserAddressResponse {
+  CreateUserAddressResponse({String? errorMessage, UserAddress? userAddress}) {
+    _errorMessage = errorMessage;
+    _userAddress = userAddress;
+  }
+
+  factory CreateUserAddressResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateUserAddressResponseFromJson(json);
+
+  factory CreateUserAddressResponse.withError(String errorMessage) {
+    return CreateUserAddressResponse(
+      errorMessage: errorMessage,
+      userAddress: null,
+    );
+  }
+
+  Map<String, dynamic> toJson() => _$CreateUserAddressResponseToJson(this);
+
+  UserAddress? _userAddress;
+  String? _errorMessage;
+
+  @JsonKey(name: 'message')
+  String? get errorMessage => _errorMessage;
+
+  @JsonKey(name: 'user_address')
+  UserAddress? get userAddress => userAddress;
+}

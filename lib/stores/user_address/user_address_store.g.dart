@@ -16,6 +16,21 @@ mixin _$UserAddressStore on _UserAddressStoreBase, Store {
           Computed<UserAddress?>(() => super.defaultAddress,
               name: '_UserAddressStoreBase.defaultAddress'))
       .value;
+  Computed<List<UserAddress>>? _$nonDefaultAddressesComputed;
+
+  @override
+  List<UserAddress> get nonDefaultAddresses =>
+      (_$nonDefaultAddressesComputed ??= Computed<List<UserAddress>>(
+              () => super.nonDefaultAddresses,
+              name: '_UserAddressStoreBase.nonDefaultAddresses'))
+          .value;
+  Computed<bool>? _$hasNonDefaultAddressComputed;
+
+  @override
+  bool get hasNonDefaultAddress => (_$hasNonDefaultAddressComputed ??=
+          Computed<bool>(() => super.hasNonDefaultAddress,
+              name: '_UserAddressStoreBase.hasNonDefaultAddress'))
+      .value;
 
   final _$userAddressesAtom = Atom(name: '_UserAddressStoreBase.userAddresses');
 
@@ -90,7 +105,9 @@ mixin _$UserAddressStore on _UserAddressStoreBase, Store {
 userAddresses: ${userAddresses},
 error: ${error},
 loading: ${loading},
-defaultAddress: ${defaultAddress}
+defaultAddress: ${defaultAddress},
+nonDefaultAddresses: ${nonDefaultAddresses},
+hasNonDefaultAddress: ${hasNonDefaultAddress}
     ''';
   }
 }

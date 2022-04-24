@@ -20,3 +20,19 @@ Map<String, dynamic> _$MyAddressesResponseToJson(
       'user_addresses': instance.userAddresses.map((e) => e.toJson()).toList(),
       'message': instance.errorMessage,
     };
+
+CreateUserAddressResponse _$CreateUserAddressResponseFromJson(
+        Map<String, dynamic> json) =>
+    CreateUserAddressResponse(
+      errorMessage: json['message'] as String?,
+      userAddress: json['user_address'] == null
+          ? null
+          : UserAddress.fromJson(json['user_address'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$CreateUserAddressResponseToJson(
+        CreateUserAddressResponse instance) =>
+    <String, dynamic>{
+      'message': instance.errorMessage,
+      'user_address': instance.userAddress,
+    };

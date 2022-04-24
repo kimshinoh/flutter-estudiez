@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/user/auth_store.dart';
+import 'package:fruity/ui/user_address/create_user_address_screen.dart';
+import 'package:fruity/widgets/login_button.dart';
 import 'package:provider/provider.dart';
 
 class UserAddressWidget extends StatefulWidget {
@@ -99,6 +102,9 @@ class _HomeAddress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AuthStore _authStore = context.read<AuthStore>();
+    final TextEditingController _nameController = TextEditingController();
+    final TextEditingController _phoneController = TextEditingController();
+    final TextEditingController _addressController = TextEditingController();
 
     return Observer(
       builder: (_) {
@@ -109,49 +115,26 @@ class _HomeAddress extends StatelessWidget {
               : Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Column(
-                    children: const [
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Họ và tên',
-                          prefixIcon: Icon(Icons.person),
-                          contentPadding: EdgeInsets.all(8),
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
+                  child: Row(
+                    children: [
+                      const Text('Chưa có địa chỉ nào được chọn'),
+                      TextButton(
+                        onPressed: () {
+                          if (_authStore.isLoggedIn) {
+                            Navigator.of(context).pushNamed(
+                              Routes.create_user_address,
+                            );
+                          } else {
+                            ShowButtomSheetLogin(context);
+                          }
+                        },
+                        child: Text(
+                          'Thêm địa chỉ',
+                          style: const TextStyle(color: Colors.blue),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextField(
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.phone),
-                          contentPadding: EdgeInsets.all(8),
-                          labelText: 'Số điện thoại',
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextField(
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: 'Địa chỉ',
-                          prefixIcon: Icon(Icons.location_on),
-                          contentPadding: EdgeInsets.all(8),
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                        ),
-                      )
                     ],
-                  ),
-                ),
+                  )),
         );
       },
     );
@@ -178,7 +161,9 @@ class _DefaultAddress extends StatelessWidget {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.list_user_addressres);
+                },
                 child: Text(
                   'Thay đổi',
                   style: TextStyle(color: Colors.blue.shade400, fontSize: 14),
