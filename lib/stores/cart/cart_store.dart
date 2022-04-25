@@ -176,7 +176,9 @@ abstract class _CartStoreBase with Store {
     return groupedItemsBySeller.map((String key, List<CartItem> value) {
       double totalPrice = 0;
       for (final CartItem item in value) {
-        totalPrice += item.price * item.quantity;
+        if (item.isSelected) {
+          totalPrice += item.price * item.quantity;
+        }
       }
       return MapEntry(key, totalPrice);
     });

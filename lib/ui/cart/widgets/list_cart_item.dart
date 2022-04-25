@@ -163,9 +163,16 @@ class _ListCartItemState extends State<ListCartItem> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Đã chọn ${items.length}/${items.length} sản phẩm',
-                            ),
+                            Observer(builder: (_) {
+                              final List<CartItem>? selectedItems = _cartStore
+                                  .groupedItemsBySellerSelected[sellerId];
+                              final int selectedCount =
+                                  selectedItems?.length ?? 0;
+
+                              return Text(
+                                'Đã chọn ${selectedCount}/${items.length} sản phẩm',
+                              );
+                            }),
                             const SizedBox(height: 5),
                             RichText(
                               text: TextSpan(
