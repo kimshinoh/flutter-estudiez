@@ -9,6 +9,14 @@ part of 'search.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SearchProductStore on _SearchProductStoreBase, Store {
+  Computed<List<String>>? _$productIdsComputed;
+
+  @override
+  List<String> get productIds =>
+      (_$productIdsComputed ??= Computed<List<String>>(() => super.productIds,
+              name: '_SearchProductStoreBase.productIds'))
+          .value;
+
   final _$productsAtom = Atom(name: '_SearchProductStoreBase.products');
 
   @override
@@ -97,7 +105,8 @@ mixin _$SearchProductStore on _SearchProductStoreBase, Store {
 products: ${products},
 loading: ${loading},
 keyword: ${keyword},
-errorMessage: ${errorMessage}
+errorMessage: ${errorMessage},
+productIds: ${productIds}
     ''';
   }
 }

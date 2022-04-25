@@ -42,6 +42,8 @@ abstract class _SearchProductStoreBase with Store {
       loading = false;
     }
   }
+  @computed
+  List<String> get productIds => products.map((e) => e.id).toList();
 
   @action
   void dispose() {

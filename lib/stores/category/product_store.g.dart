@@ -100,6 +100,21 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
+  final _$idLoadingAtom = Atom(name: '_ProductStoreBase.idLoading');
+
+  @override
+  bool get idLoading {
+    _$idLoadingAtom.reportRead();
+    return super.idLoading;
+  }
+
+  @override
+  set idLoading(bool value) {
+    _$idLoadingAtom.reportWrite(value, super.idLoading, () {
+      super.idLoading = value;
+    });
+  }
+
   final _$errorMessageAtom = Atom(name: '_ProductStoreBase.errorMessage');
 
   @override
@@ -180,6 +195,7 @@ productsSaleOff: ${productsSaleOff},
 productsSaleShock: ${productsSaleShock},
 productsByIds: ${productsByIds},
 loading: ${loading},
+idLoading: ${idLoading},
 errorMessage: ${errorMessage}
     ''';
   }

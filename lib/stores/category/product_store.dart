@@ -35,12 +35,14 @@ abstract class _ProductStoreBase with Store {
   @observable
   bool loading = true;
   @observable
+  bool idLoading = true;
+  @observable
   String? errorMessage;
 
   @action
   Future<void> getProductsByIds(List<String> ids) async {
     try {
-      loading = true;
+      idLoading = true;
       final ProductsByIdsResponseDTO res =
           await _productAPI.getProductsByIds(ProductsByIdsRequestDTO(ids: ids));
       if (res.errorMessage != null) {
@@ -51,7 +53,7 @@ abstract class _ProductStoreBase with Store {
     } catch (err) {
       errorMessage = err.toString();
     } finally {
-      loading = false;
+      idLoading = false;
     }
   }
 
@@ -137,7 +139,9 @@ abstract class _ProductStoreBase with Store {
     products = [];
     productsTopSale = [];
     productsSaleOff = [];
+    productsByIds = [];
     loading = true;
+    // idLoading = true;
     errorMessage = null;
   }
 }

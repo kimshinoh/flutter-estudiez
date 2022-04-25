@@ -110,14 +110,15 @@ class SearchProductResponseDTO {
 
 @JsonSerializable()
 class ProductsByIdsResponseDTO {
-  ProductsByIdsResponseDTO({String? errorMessage, required List<Product> products}) {
+  ProductsByIdsResponseDTO(
+      {String? errorMessage, required List<Product> products}) {
     _errorMessage = errorMessage;
     _products = products;
   }
 
   List<Product> _products = [];
   String? _errorMessage;
-
+  @JsonKey(name: 'products')
   List<Product> get products => _products;
 
   @JsonKey(name: 'message')
