@@ -154,8 +154,6 @@ abstract class _FormUpdateUserAddressStoreBase with Store {
         userId: userId,
       );
 
-      print(request.toJson());
-
       await _userAddressAPI.updateUserAddress(request);
     } catch (e) {
       if (e is NetworkException) {

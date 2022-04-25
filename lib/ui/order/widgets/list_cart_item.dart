@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/models/cart/cart.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/order/confirm_order_store.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:provider/provider.dart';
@@ -143,7 +144,7 @@ class _CartItemWidget extends StatelessWidget {
                 Expanded(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.of(context).pushReplacementNamed(Routes.cart);
                     },
                     style: TextButton.styleFrom(
                       minimumSize: Size.zero,

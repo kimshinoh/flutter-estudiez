@@ -28,7 +28,7 @@ abstract class _SellerStoreBase with Store {
       loading = true;
       final ListSellerResponse response =
           await _sellerApi.getSellers(ListSellerRequest(ids: ids));
-
+      await Future.delayed(Duration(seconds: 2));
       if (response.errorMessage != null) {
         error = response.errorMessage!;
         sellers = [];

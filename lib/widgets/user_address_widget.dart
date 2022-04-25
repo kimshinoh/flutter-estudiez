@@ -185,7 +185,12 @@ class _DefaultAddress extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              Text(_authStore.userAddressStore.defaultAddress!.fullName)
+              Expanded(
+                child: Text(
+                  _authStore.userAddressStore.defaultAddress!.fullName,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
             ],
           ),
           const SizedBox(

@@ -5,7 +5,6 @@ import 'package:fruity/data/network/exceptions/network_exceptions.dart';
 import 'package:fruity/dto/order/order_request.dart';
 import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/models/payment/payment.dart';
-import 'package:fruity/models/seller/seller.dart';
 import 'package:fruity/models/user_address/user_address.dart';
 import 'package:mobx/mobx.dart';
 
@@ -29,13 +28,10 @@ abstract class _CreateOrderStoreBase with Store {
   String note = '';
 
   @observable
-  UserAddress? userAddress;
-
-  @observable
   Payment? payment;
 
   @observable
-  Seller? seller;
+  String? sellerId;
 
   @observable
   List<CartItem> items = [];
@@ -73,40 +69,39 @@ abstract class _CreateOrderStoreBase with Store {
   }
 
   @action
-  void setUserAddress(UserAddress userAddress) {
-    this.userAddress = userAddress;
-  }
-
-  @action
   void setPayment(Payment payment) {
     this.payment = payment;
   }
 
   @action
-  void setSeller(Seller seller) {
-    this.seller = seller;
+  void setSellerId(String sellerId) {
+    this.sellerId = sellerId;
   }
 
   @action
   void clear() {
     items = [];
-    userAddress = null;
     payment = null;
-    seller = null;
+    sellerId = null;
     receivedAt = DateTime.now().add(const Duration(minutes: 30));
     note = '';
   }
 
+  @computed
+  bool get canCreateOrder {
+    return items.isNotEmpty && payment != null && sellerId != null;
+  }
+
   @action
-  Future<void> createOrder() async {
+  Future<void> createOrder(UserAddress userAddress) async {
     isLoading = true;
     final CreateOrderRequest request = CreateOrderRequest(
       note: note,
-      userAddressId: userAddress != null ? userAddress!.id : null,
+      userAddressId: userAddress.id,
       paymentId: payment != null ? payment!.id : '',
       orderItems: items,
       receivedAt: receivedAt,
-      sellerId: seller != null ? seller!.id : '',
+      sellerId: sellerId ?? '',
     );
 
     try {

@@ -30,6 +30,13 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
       (_$itemsPriceComputed ??= Computed<double>(() => super.itemsPrice,
               name: '_CreateOrderStoreBase.itemsPrice'))
           .value;
+  Computed<bool>? _$canCreateOrderComputed;
+
+  @override
+  bool get canCreateOrder =>
+      (_$canCreateOrderComputed ??= Computed<bool>(() => super.canCreateOrder,
+              name: '_CreateOrderStoreBase.canCreateOrder'))
+          .value;
 
   final _$isLoadingAtom = Atom(name: '_CreateOrderStoreBase.isLoading');
 
@@ -91,21 +98,6 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$userAddressAtom = Atom(name: '_CreateOrderStoreBase.userAddress');
-
-  @override
-  UserAddress? get userAddress {
-    _$userAddressAtom.reportRead();
-    return super.userAddress;
-  }
-
-  @override
-  set userAddress(UserAddress? value) {
-    _$userAddressAtom.reportWrite(value, super.userAddress, () {
-      super.userAddress = value;
-    });
-  }
-
   final _$paymentAtom = Atom(name: '_CreateOrderStoreBase.payment');
 
   @override
@@ -121,18 +113,18 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$sellerAtom = Atom(name: '_CreateOrderStoreBase.seller');
+  final _$sellerIdAtom = Atom(name: '_CreateOrderStoreBase.sellerId');
 
   @override
-  Seller? get seller {
-    _$sellerAtom.reportRead();
-    return super.seller;
+  String? get sellerId {
+    _$sellerIdAtom.reportRead();
+    return super.sellerId;
   }
 
   @override
-  set seller(Seller? value) {
-    _$sellerAtom.reportWrite(value, super.seller, () {
-      super.seller = value;
+  set sellerId(String? value) {
+    _$sellerIdAtom.reportWrite(value, super.sellerId, () {
+      super.sellerId = value;
     });
   }
 
@@ -170,8 +162,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
       AsyncAction('_CreateOrderStoreBase.createOrder');
 
   @override
-  Future<void> createOrder() {
-    return _$createOrderAsyncAction.run(() => super.createOrder());
+  Future<void> createOrder(UserAddress userAddress) {
+    return _$createOrderAsyncAction.run(() => super.createOrder(userAddress));
   }
 
   final _$_CreateOrderStoreBaseActionController =
@@ -211,17 +203,6 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
   }
 
   @override
-  void setUserAddress(UserAddress userAddress) {
-    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
-        name: '_CreateOrderStoreBase.setUserAddress');
-    try {
-      return super.setUserAddress(userAddress);
-    } finally {
-      _$_CreateOrderStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void setPayment(Payment payment) {
     final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
         name: '_CreateOrderStoreBase.setPayment');
@@ -233,11 +214,11 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
   }
 
   @override
-  void setSeller(Seller seller) {
+  void setSellerId(String sellerId) {
     final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
-        name: '_CreateOrderStoreBase.setSeller');
+        name: '_CreateOrderStoreBase.setSellerId');
     try {
-      return super.setSeller(seller);
+      return super.setSellerId(sellerId);
     } finally {
       _$_CreateOrderStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -261,14 +242,14 @@ isLoading: ${isLoading},
 errorMessage: ${errorMessage},
 receivedAt: ${receivedAt},
 note: ${note},
-userAddress: ${userAddress},
 payment: ${payment},
-seller: ${seller},
+sellerId: ${sellerId},
 items: ${items},
 distance: ${distance},
 feeShipping: ${feeShipping},
 totalPrice: ${totalPrice},
-itemsPrice: ${itemsPrice}
+itemsPrice: ${itemsPrice},
+canCreateOrder: ${canCreateOrder}
     ''';
   }
 }
