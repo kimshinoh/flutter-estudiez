@@ -29,3 +29,24 @@ Map<String, dynamic> _$CreateOrderRequestToJson(CreateOrderRequest instance) =>
       'user_address_id': instance.userAddressId,
       'note': instance.note,
     };
+
+MyOrdersRequest _$MyOrdersRequestFromJson(Map<String, dynamic> json) =>
+    MyOrdersRequest(
+      status: json['status'] as String,
+    );
+
+Map<String, dynamic> _$MyOrdersRequestToJson(MyOrdersRequest instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+    };
+
+GetOrderByIdRequest _$GetOrderByIdRequestFromJson(Map<String, dynamic> json) =>
+    GetOrderByIdRequest(
+      orderId: json['order_id'] as String,
+    );
+
+Map<String, dynamic> _$GetOrderByIdRequestToJson(
+        GetOrderByIdRequest instance) =>
+    <String, dynamic>{
+      'order_id': instance.orderId,
+    };

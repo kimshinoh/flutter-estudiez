@@ -11,6 +11,7 @@ import 'package:fruity/ui/order/widgets/list_cart_item.dart';
 import 'package:fruity/ui/order/widgets/select_received_time.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/payment_user_widget.dart';
+import 'package:fruity/widgets/seller_logo.dart';
 import 'package:fruity/widgets/user_address_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -152,16 +153,9 @@ class _SellerInfo extends StatelessWidget {
       return seller != null
           ? Row(
               children: [
-                SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: ClipOval(
-                    child: SizedBox.fromSize(
-                        child: Image.network(
-                      seller.logo,
-                      fit: BoxFit.cover,
-                    )),
-                  ),
+                SellerLogo(size: Size(50, 50), logoUrl: seller.logo),
+                const SizedBox(
+                  width: 10,
                 ),
                 const SizedBox(width: 10),
                 Expanded(

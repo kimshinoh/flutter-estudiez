@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/ui/home/home.dart';
+import 'package:fruity/ui/order/orders_screen.dart';
 import 'package:fruity/ui/personal/personal_screen.dart';
 import 'package:fruity/ui/product/product_screen.dart';
 
@@ -29,10 +30,7 @@ class _MyBottombarState extends State<MyBottombar> {
       'Index 2: School',
       style: optionStyle,
     ),
-    Text(
-      'Index 3: School',
-      style: optionStyle,
-    ),
+    OrdersScreen(),
     PersonalScreen()
   ];
 

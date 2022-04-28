@@ -87,6 +87,24 @@ class _CartItemWidget extends StatelessWidget {
                         ),
                       ),
                     ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed(Routes.cart);
+                      },
+                      style: TextButton.styleFrom(
+                        minimumSize: Size.zero,
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text(
+                        'Sửa',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    )
                   ],
                 ),
                 const SizedBox(height: 5),
@@ -141,26 +159,6 @@ class _CartItemWidget extends StatelessWidget {
                     )
                   ],
                 ),
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pushReplacementNamed(Routes.cart);
-                    },
-                    style: TextButton.styleFrom(
-                      minimumSize: Size.zero,
-                      padding: EdgeInsets.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: const Text(
-                      'Sửa',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           ),

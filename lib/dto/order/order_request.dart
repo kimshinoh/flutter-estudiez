@@ -37,3 +37,31 @@ class CreateOrderRequest {
   @JsonKey(name: 'note')
   String? note;
 }
+
+@JsonSerializable()
+class MyOrdersRequest {
+  MyOrdersRequest({
+    required this.status,
+  });
+
+  factory MyOrdersRequest.fromJson(Map<String, dynamic> json) =>
+      _$MyOrdersRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$MyOrdersRequestToJson(this);
+
+  @JsonKey(name: 'status')
+  String status;
+}
+
+@JsonSerializable()
+class GetOrderByIdRequest {
+  GetOrderByIdRequest({
+    required this.orderId,
+  });
+
+  factory GetOrderByIdRequest.fromJson(Map<String, dynamic> json) =>
+      _$GetOrderByIdRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$GetOrderByIdRequestToJson(this);
+
+  @JsonKey(name: 'order_id')
+  String orderId;
+}

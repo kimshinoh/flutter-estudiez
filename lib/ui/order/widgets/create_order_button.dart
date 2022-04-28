@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/user_address/user_address.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
 import 'package:fruity/stores/order/confirm_order_store.dart';
 import 'package:fruity/stores/user/auth_store.dart';
@@ -48,7 +49,7 @@ class ButtonCreateOrder extends StatelessWidget {
                         );
                         _orderConfirmationStore.createOrderStore.clear();
 
-                        Navigator.pop(context);
+                        Navigator.popAndPushNamed(context, Routes.orders);
                         Future.delayed(Duration.zero, () {
                           NotifyHelper.success(
                               context, 'Tạo đơn hàng thành công!');

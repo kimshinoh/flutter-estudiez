@@ -83,27 +83,31 @@ class CartItemWidget extends StatelessWidget {
                       Expanded(
                         child: Row(
                           children: [
-                            RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text:
-                                        '${CurrencyHelper.withCommas(value: item.price, removeDecimal: true)} ₫',
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.palette.shade500,
+                            Expanded(
+                              child: RichText(
+                                overflow: TextOverflow.ellipsis,
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text:
+                                          '${CurrencyHelper.withCommas(value: item.price, removeDecimal: true)} ₫',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.palette.shade500,
+                                      ),
                                     ),
-                                  ),
-                                  TextSpan(
-                                    text: '/ ${item.unit}',
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.grey,
+                                    TextSpan(
+                                      text: '/ ${item.unit}',
+                                      style: const TextStyle(
+                                        overflow: TextOverflow.ellipsis,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.normal,
+                                        color: Colors.grey,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                             const SizedBox(width: 5),

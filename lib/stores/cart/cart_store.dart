@@ -64,6 +64,17 @@ abstract class _CartStoreBase with Store {
   }
 
   @action
+  Future<void> addItems(List<CartItem> items) async {
+    try {
+      isLoading = true;
+      await Future.delayed(Duration(microseconds: 500));
+      await Future.any(items.map((item) => addItem(item)));
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  @action
   void selectItem(CartItem item) {
     final int index = items.indexWhere(
       (CartItem cartItem) => cartItem.id == item.id,

@@ -23,4 +23,37 @@ class OrderAPI {
       return CreateOrderResponse.withError(e.toString());
     }
   }
+
+  Future<MyOrdersResponse> getMyOrders(MyOrdersRequest request) async {
+    try {
+      final Map<String, dynamic> response =
+          await _dioClient.get('/orders', queryParameters: request.toJson());
+
+      return MyOrdersResponse.fromJson(response);
+    } catch (e) {
+      if (e is NetworkException) {
+        return MyOrdersResponse.withError(
+          e.message ?? 'Có lỗi xảy ra',
+        );
+      }
+      return MyOrdersResponse.withError(e.toString());
+    }
+  }
+
+  Future<GetOrderByIdResponse> getOrderById(GetOrderByIdRequest request) async {
+    try {
+      final Map<String, dynamic> response = await _dioClient.get(
+        '/orders/${request.orderId}',
+      );
+
+      return GetOrderByIdResponse.fromJson(response);
+    } catch (e) {
+      if (e is NetworkException) {
+        return GetOrderByIdResponse.withError(
+          e.message ?? 'Có lỗi xảy ra',
+        );
+      }
+      return GetOrderByIdResponse.withError(e.toString());
+    }
+  }
 }
