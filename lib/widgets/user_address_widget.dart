@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/user/auth_store.dart';
+import 'package:fruity/ui/user_address/create_user_address_screen.dart';
+import 'package:fruity/widgets/login_button.dart';
 import 'package:provider/provider.dart';
 
 class UserAddressWidget extends StatefulWidget {
@@ -109,49 +112,37 @@ class _HomeAddress extends StatelessWidget {
               : Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Column(
-                    children: const [
-                      TextField(
-                        decoration: InputDecoration(
-                          labelText: 'Họ và tên',
-                          prefixIcon: Icon(Icons.person),
-                          contentPadding: EdgeInsets.all(8),
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(child: Text('Chưa có địa chỉ nào được chọn')),
+                      Expanded(
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            minimumSize: Size.zero,
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          ),
+                          onPressed: () {
+                            if (_authStore.isLoggedIn) {
+                              Navigator.of(context).pushNamed(
+                                Routes.create_user_address,
+                                arguments: CreateUserAddressAgruments(
+                                  isDefault: true,
+                                ),
+                              );
+                            } else {
+                              ShowButtomSheetLogin(context);
+                            }
+                          },
+                          child: const Text(
+                            'Thêm địa chỉ',
+                            style: TextStyle(color: Colors.blue),
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextField(
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.phone),
-                          contentPadding: EdgeInsets.all(8),
-                          labelText: 'Số điện thoại',
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextField(
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: 'Địa chỉ',
-                          prefixIcon: Icon(Icons.location_on),
-                          contentPadding: EdgeInsets.all(8),
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.grey),
-                          ),
-                        ),
-                      )
                     ],
-                  ),
-                ),
+                  )),
         );
       },
     );
@@ -178,7 +169,9 @@ class _DefaultAddress extends StatelessWidget {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, Routes.list_user_addressres);
+                },
                 child: Text(
                   'Thay đổi',
                   style: TextStyle(color: Colors.blue.shade400, fontSize: 14),
@@ -192,7 +185,12 @@ class _DefaultAddress extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              Text(_authStore.userAddressStore.defaultAddress!.fullName)
+              Expanded(
+                child: Text(
+                  _authStore.userAddressStore.defaultAddress!.fullName,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
             ],
           ),
           const SizedBox(

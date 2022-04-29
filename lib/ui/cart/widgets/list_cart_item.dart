@@ -10,6 +10,7 @@ import 'package:fruity/ui/cart/widgets/cart_item.dart';
 import 'package:fruity/ui/order/order_confirm_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/login_button.dart';
+import 'package:fruity/widgets/seller_logo.dart';
 import 'package:provider/provider.dart';
 
 class ListCartItem extends StatefulWidget {
@@ -71,16 +72,8 @@ class _ListCartItemState extends State<ListCartItem> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ClipOval(
-                                child: SizedBox(
-                                  width: 40,
-                                  height: 40,
-                                  child: Image(
-                                    image: NetworkImage(seller.logo),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
+                              SellerLogo(
+                                  size: Size(40, 40), logoUrl: seller.logo),
                               const SizedBox(
                                 width: 10,
                               ),
@@ -163,9 +156,16 @@ class _ListCartItemState extends State<ListCartItem> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Đã chọn ${items.length}/${items.length} sản phẩm',
-                            ),
+                            Observer(builder: (_) {
+                              final List<CartItem>? selectedItems = _cartStore
+                                  .groupedItemsBySellerSelected[sellerId];
+                              final int selectedCount =
+                                  selectedItems?.length ?? 0;
+
+                              return Text(
+                                'Đã chọn ${selectedCount}/${items.length} sản phẩm',
+                              );
+                            }),
                             const SizedBox(height: 5),
                             RichText(
                               text: TextSpan(

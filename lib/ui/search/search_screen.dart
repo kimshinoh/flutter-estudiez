@@ -360,70 +360,75 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              height: 36.0,
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0),
-                  border: Border.all(
-                    color: Colors.grey.withOpacity(0.5),
-                  ),
-                  color: Colors.white,
-                ),
-                child: Container(
-                  padding: const EdgeInsets.only(left: 10),
-                  width: width * 0.8,
-                  child: Row(
-                    children: <Widget>[
-                      const Icon(
-                        Icons.search,
-                        color: Colors.grey,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: SizedBox(
+                  height: 36.0,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0),
+                      border: Border.all(
+                        color: Colors.grey.withOpacity(0.5),
                       ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: TextField(
-                          controller: _searchController,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Tìm tên sản phẩm, nhà cung cấp',
-                            hintStyle: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 15,
-                            ),
-                            suffixIcon: IconButton(
-                              constraints: const BoxConstraints(),
-                              padding: EdgeInsets.zero,
-                              icon: const Icon(
-                                Icons.cancel_sharp,
-                                color: Colors.grey,
+                      color: Colors.white,
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 10),
+                      width: width * 0.8,
+                      child: Row(
+                        children: <Widget>[
+                          const Icon(
+                            Icons.search,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Expanded(
+                            child: TextField(
+                              controller: _searchController,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Tìm tên sản phẩm, nhà cung cấp',
+                                hintStyle: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15,
+                                ),
+                                suffixIcon: IconButton(
+                                  constraints: const BoxConstraints(),
+                                  padding: EdgeInsets.zero,
+                                  icon: const Icon(
+                                    Icons.cancel_sharp,
+                                    color: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    _searchStore.keyword = '';
+                                    _searchController.clear();
+                                  },
+                                ),
                               ),
-                              onPressed: () {
-                                _searchStore.keyword = '';
-                                _searchController.clear();
+                              onChanged: (String value) {
+                                if (value == _searchStore.keyword) {
+                                  return;
+                                }
+                                _searchStore.keyword = value;
+                                if (_debounce?.isActive ?? false) {
+                                  _debounce!.cancel();
+                                }
+                                _debounce = Timer(
+                                    const Duration(milliseconds: 500), () {
+                                  _searchStore.searchProduct(5);
+                                });
+                              },
+                              onSubmitted: (String value) {
+                                _search(value);
                               },
                             ),
                           ),
-                          onChanged: (String value) {
-                            if (value == _searchStore.keyword) {
-                              return;
-                            }
-                            _searchStore.keyword = value;
-                            if (_debounce?.isActive ?? false) {
-                              _debounce!.cancel();
-                            }
-                            _debounce =
-                                Timer(const Duration(milliseconds: 500), () {
-                              _searchStore.searchProduct(10);
-                            });
-                          },
-                          onSubmitted: (String value) {
-                            _search(null);
-                          },
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),

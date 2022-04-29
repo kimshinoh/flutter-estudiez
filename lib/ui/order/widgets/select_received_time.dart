@@ -29,25 +29,25 @@ class SelectReceivedTime extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                const Icon(
-                  Icons.access_time,
-                  size: 20,
-                  color: Colors.grey,
-                ),
-                const SizedBox(width: 5),
-                Observer(
-                  builder: (_) {
-                    return Text(
-                      'Giao ngay lúc ${DateTimeHelper.formatDate(_orderConfirmationStore.createOrderStore.receivedAt, "HH:mm")}, ${DateTimeHelper.getVietnameseAdverbsOfTime(DateTime.now(), _orderConfirmationStore.createOrderStore.receivedAt).capitalize()}',
-                      style: const TextStyle(fontSize: 16),
-                    );
-                  },
-                ),
-              ],
+            Expanded(
+              flex: 2,
+              child: Observer(
+                builder: (_) {
+                  return Text(
+                    'Giao ngay lúc ${DateTimeHelper.formatDate(_orderConfirmationStore.createOrderStore.receivedAt, "HH:mm")}, ${DateTimeHelper.getVietnameseAdverbsOfTime(DateTime.now(), _orderConfirmationStore.createOrderStore.receivedAt).capitalize()}',
+                    style: const TextStyle(fontSize: 14),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  );
+                },
+              ),
             ),
             TextButton(
+              style: TextButton.styleFrom(
+                padding: EdgeInsets.zero,
+                minimumSize: Size.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              ),
               child: const Text(
                 'Thay đổi',
                 style: TextStyle(fontSize: 14, color: Colors.blue),

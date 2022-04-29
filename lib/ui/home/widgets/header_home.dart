@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/routes.dart';
+import 'package:fruity/stores/location/location.dart';
 import 'package:fruity/widgets/cart_button.dart';
+import 'package:provider/provider.dart';
 
 class MyHomeHeader extends SliverPersistentHeaderDelegate {
   MyHomeHeader({
@@ -40,6 +43,7 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
 
   Widget _buildAddressAndIcons(double shrinkOffset, BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
+    LocationStore _locationStore = context.read<LocationStore>();
 
     return Align(
       alignment: Alignment.topCenter,
@@ -59,15 +63,28 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
                   ),
                   SizedBox(
                     width: width * 0.7,
-                    child: const Text(
-                      '102 Nguyễn Đổng Chi, Cầu Diễn, Nam Từ Liêm, Hà Nội',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    child: TextButton(
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        Routes.list_user_addressres,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: Observer(builder: (_) {
+                        return Text(
+                          _locationStore.address,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        );
+                      }),
                     ),
                   )
                 ],

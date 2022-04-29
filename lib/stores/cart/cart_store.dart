@@ -64,6 +64,17 @@ abstract class _CartStoreBase with Store {
   }
 
   @action
+  Future<void> addItems(List<CartItem> items) async {
+    try {
+      isLoading = true;
+      await Future.delayed(Duration(microseconds: 500));
+      await Future.any(items.map((item) => addItem(item)));
+    } finally {
+      isLoading = false;
+    }
+  }
+
+  @action
   void selectItem(CartItem item) {
     final int index = items.indexWhere(
       (CartItem cartItem) => cartItem.id == item.id,
@@ -176,7 +187,9 @@ abstract class _CartStoreBase with Store {
     return groupedItemsBySeller.map((String key, List<CartItem> value) {
       double totalPrice = 0;
       for (final CartItem item in value) {
-        totalPrice += item.price * item.quantity;
+        if (item.isSelected) {
+          totalPrice += item.price * item.quantity;
+        }
       }
       return MapEntry(key, totalPrice);
     });

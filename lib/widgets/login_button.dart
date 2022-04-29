@@ -16,27 +16,31 @@ class LoginButton extends StatelessWidget {
       ),
       child: Text(title),
       onPressed: () {
-        showModalBottomSheet<void>(
-          // border top corner
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-          ),
-
-          // close button in top right corn
-
-          isScrollControlled: true,
-          context: context,
-          builder: (BuildContext context) {
-            return Padding(
-              padding: MediaQuery.of(context).viewInsets,
-              child: Container(child: const LoginForm()),
-            );
-          },
-        );
+        ShowButtomSheetLogin(context);
       },
     );
   }
+}
+
+void ShowButtomSheetLogin(BuildContext context) {
+  showModalBottomSheet<void>(
+    // border top corner
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(10),
+        topRight: Radius.circular(10),
+      ),
+    ),
+
+    // close button in top right corn
+
+    isScrollControlled: true,
+    context: context,
+    builder: (BuildContext context) {
+      return Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: Container(child: const LoginForm()),
+      );
+    },
+  );
 }

@@ -1,17 +1,15 @@
-import 'dart:convert';
-
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fruity/constants/env.dart';
 
 class Endpoints {
   Endpoints._();
 
   // base url
-  static String baseUrl = dotenv.get('BASE_URL');
+  static String baseUrl = Env.baseUrl;
 
   // ElasticSearch
-  static String elasticSearchUrl = dotenv.get('ES_URL');
+  static String elasticSearchUrl = Env.esUrl;
 
-  static String authHeader = 'Apikey ${dotenv.get('ES_TOKEN')}';
+  static String authHeader = 'Apikey ${Env.esToken}';
 
   // receiveTimeout
   static const int receiveTimeout = 15000;

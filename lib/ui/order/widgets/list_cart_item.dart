@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/models/cart/cart.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/order/confirm_order_store.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:provider/provider.dart';
@@ -86,6 +87,24 @@ class _CartItemWidget extends StatelessWidget {
                         ),
                       ),
                     ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacementNamed(Routes.cart);
+                      },
+                      style: TextButton.styleFrom(
+                        minimumSize: Size.zero,
+                        padding: EdgeInsets.zero,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text(
+                        'Sửa',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.blue,
+                        ),
+                      ),
+                    )
                   ],
                 ),
                 const SizedBox(height: 5),
@@ -140,26 +159,6 @@ class _CartItemWidget extends StatelessWidget {
                     )
                   ],
                 ),
-                Expanded(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    style: TextButton.styleFrom(
-                      minimumSize: Size.zero,
-                      padding: EdgeInsets.zero,
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: const Text(
-                      'Sửa',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.blue,
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           ),

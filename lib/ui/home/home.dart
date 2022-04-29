@@ -213,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                const TopProducts(),
+                TopProducts(),
                 Container(
                   height: 100,
                   decoration: const BoxDecoration(color: Colors.transparent),

@@ -1,9 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fruity/di/setup_di.dart';
 import 'package:fruity/ui/my_app.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'firebase_options.dart';
 
@@ -25,6 +27,10 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   await setupDI();
+
+  if (defaultTargetPlatform == TargetPlatform.android) {
+    AndroidGoogleMapsFlutter.useAndroidViewSurface = true;
+  }
 
   runApp(const MyApp());
 }

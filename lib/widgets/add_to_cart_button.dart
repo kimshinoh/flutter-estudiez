@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/product/product.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
+import 'package:fruity/ui/order/order_confirm_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:provider/provider.dart';
 
@@ -295,7 +297,22 @@ class _AddToCartForm extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.only(left: 10, right: 10),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      if (_cartStore.canAddToCart) {
+                        await _cartStore.addItem(
+                          product.toCartItem(quantity: _cartStore.qty),
+                        );
+
+                        Navigator.pop(context);
+                        Navigator.pushNamed(
+                          context,
+                          Routes.confirm_order,
+                          arguments: ConfirmOrderAgruments(
+                            sellerId: product.sellerId,
+                          ),
+                        );
+                      }
+                    },
                     child: const Text(
                       'Mua ngay',
                       style: TextStyle(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/models/payment/payment.dart';
 import 'package:fruity/models/seller/seller.dart';
-import 'package:fruity/models/user_address/user_address.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
 import 'package:fruity/stores/order/confirm_order_store.dart';
 import 'package:fruity/stores/user/auth_store.dart';
@@ -11,6 +11,7 @@ import 'package:fruity/ui/order/widgets/list_cart_item.dart';
 import 'package:fruity/ui/order/widgets/select_received_time.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/payment_user_widget.dart';
+import 'package:fruity/widgets/seller_logo.dart';
 import 'package:fruity/widgets/user_address_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -55,23 +56,16 @@ class _body extends StatelessWidget {
       final CartStore cartStore = context.read<CartStore>();
       final AuthStore authStore = context.read<AuthStore>();
       final List<CartItem>? items = cartStore.groupedItemsBySeller[sellerId];
-      final Seller? seller = cartStore.sellerStore.sellersMap[sellerId];
 
       final OrderConfirmationStore _orderConfirmationStore =
           context.read<OrderConfirmationStore>();
       if (items != null) {
         _orderConfirmationStore.createOrderStore.setItems(items);
       }
-      if (seller != null) {
-        _orderConfirmationStore.createOrderStore.setSeller(seller);
-      }
-      final UserAddress? userAddress =
-          authStore.userAddressStore.defaultAddress;
-      final Payment? defaultPayment = authStore.paymentStore.defaultPayment;
 
-      if (userAddress != null) {
-        _orderConfirmationStore.createOrderStore.setUserAddress(userAddress);
-      }
+      _orderConfirmationStore.createOrderStore.setSellerId(sellerId);
+
+      final Payment? defaultPayment = authStore.paymentStore.defaultPayment;
 
       if (defaultPayment != null) {
         _orderConfirmationStore.createOrderStore.setPayment(defaultPayment);
@@ -151,46 +145,42 @@ class _SellerInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final OrderConfirmationStore _orderConfirmationStore =
         context.read<OrderConfirmationStore>();
+    CartStore cartStore = context.read<CartStore>();
 
-    if (_orderConfirmationStore.createOrderStore.seller != null) {
-      return Row(
-        children: [
-          SizedBox(
-            width: 50,
-            height: 50,
-            child: ClipOval(
-              child: SizedBox.fromSize(
-                child: Image.network(
-                  _orderConfirmationStore.createOrderStore.seller!.logo,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Observer(builder: (_) {
+      final Seller? seller = cartStore.sellerStore
+          .sellersMap[_orderConfirmationStore.createOrderStore.sellerId];
+      return seller != null
+          ? Row(
               children: [
-                Text(
-                  _orderConfirmationStore.createOrderStore.seller!.name,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                SellerLogo(size: Size(50, 50), logoUrl: seller.logo),
+                const SizedBox(
+                  width: 10,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        seller.name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        seller.getType(),
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                    ],
                   ),
                 ),
-                Text(
-                  _orderConfirmationStore.createOrderStore.seller!.getType(),
-                  style: const TextStyle(fontSize: 14, color: Colors.grey),
-                ),
               ],
-            ),
-          ),
-        ],
-      );
-    } else {
-      return Container();
-    }
+            )
+          : Container();
+    });
   }
 }
 
