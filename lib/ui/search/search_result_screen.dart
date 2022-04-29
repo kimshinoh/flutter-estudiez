@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/product/product.dart';
-import 'package:fruity/stores/category/product_store.dart';
+import 'package:fruity/stores/category/search_product_store.dart';
 import 'package:fruity/stores/search/search.dart';
 import 'package:fruity/ui/search/search_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
@@ -20,8 +20,8 @@ class SearchResultScreen extends StatefulWidget {
 }
 
 class _SearchResultScreenState extends State<SearchResultScreen> {
-  late SearchProductStore _searchProductStore;
-  late ProductStore _productStore = ProductStore();
+  late SearchStore _searchStore;
+  final SearchProductStore _searchProductStore = SearchProductStore();
   final List<Map<String, dynamic>> _filters = [
     {'id': 'uytin', 'name': 'Uy tín', 'selected': true},
     {'id': 'banchay', 'name': 'Bán chạy'},
@@ -31,18 +31,18 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
 
   // 0 is none, 1 is asc, 2 is desc
   final List<int> _sortTypes = [0, 1, 2];
-  int _sort = 0;
+  late int _sort;
   @override
   void initState() {
-    _searchProductStore = context.read<SearchProductStore>();
-    _searchProductStore.searchProduct(20);
+    _searchStore = context.read<SearchStore>();
+    _searchStore.searchProduct(20);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Provider<ProductStore>(
-        create: (_) => _productStore,
+    return Provider<SearchProductStore>(
+        create: (_) => _searchProductStore,
         child: SafeArea(
             child: Scaffold(
           body: _buildBody(),
@@ -50,6 +50,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   }
 
   Widget _buildBody() {
+    _sort = _searchProductStore.searchType;
     return CustomScrollView(slivers: <Widget>[
       SliverPinnedHeader(
         child: Column(
@@ -119,7 +120,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                       Expanded(
                         child: SizedBox(
                           child: Text(
-                            _searchProductStore.keyword,
+                            _searchStore.keyword,
                             style: const TextStyle(
                               fontSize: 13,
                               color: Colors.black,
@@ -206,7 +207,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
           GestureDetector(
               onTap: () {
                 setState(() {
-                  _sort = _sortTypes[
+                  _searchProductStore.searchType = _sortTypes[
                       (_sortTypes.indexOf(_sort) + 1) % _sortTypes.length];
                 });
               },
@@ -325,7 +326,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Center(
-            child: _searchProductStore.loading
+            child: _searchStore.loading
                 ? SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
@@ -335,7 +336,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                       ),
                     ),
                   )
-                : _searchProductStore.products.isEmpty
+                : _searchStore.products.isEmpty
                     ? Container(
                         height: MediaQuery.of(context).size.height,
                         child: const Align(
@@ -351,139 +352,142 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   Widget _gridProducts() {
     final double cardWidth = MediaQuery.of(context).size.width / 3;
     final double cardHeight = MediaQuery.of(context).size.height / 3.8;
-    _productStore.getProductsByIds(_searchProductStore.productIds);
-    return _productStore.idLoading
-        ? SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          )
-        : GridView.count(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            childAspectRatio: cardWidth / cardHeight,
-            crossAxisCount: 2,
-            crossAxisSpacing: 4,
-            mainAxisSpacing: 4,
-            children:
-                List.generate(_productStore.productsByIds.length, (int index) {
-              final Product product = _productStore.productsByIds[index];
-              return InkWell(
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                onTap: () {},
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  color: Colors.white,
-                  child: Stack(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+    _searchProductStore.getProductsByIds(_searchStore.productIds);
+    return Observer(
+        builder: (_) => _searchProductStore.loading
+            ? SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                childAspectRatio: cardWidth / cardHeight,
+                crossAxisCount: 2,
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 4,
+                children: List.generate(
+                    _searchProductStore.products.length, (int index) {
+                  final Product product =
+                      _searchProductStore.products[index];
+                  return InkWell(
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    onTap: () {},
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      color: Colors.white,
+                      child: Stack(
                         children: [
-                          SizedBox(
-                            height: 130,
-                            width: 300,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(3),
-                              child: SizedBox.fromSize(
-                                child: Image.network(
-                                  product.imageUrl,
-                                  fit: BoxFit.fitWidth,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            product.name,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            product.seller.name,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            style: const TextStyle(
-                              fontSize: 13,
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          Row(
-                            children: const [
-                              RadiantGradientMask(
-                                firstColor: Colors.orange,
-                                secondColor: Colors.yellow,
-                                child: Icon(
-                                  Icons.star,
-                                  size: 20,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              SizedBox(width: 4),
-                              Text(
-                                '4.8',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey,
-                                ),
-                              )
-                            ],
-                          ),
-                          const SizedBox(height: 6),
-                          RichText(
-                            text: TextSpan(
-                              text: CurrencyHelper.withCommas(
-                                  value: product.price),
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: ' / 1 ${product.unit}',
-                                  style: const TextStyle(
-                                    fontSize: 11,
-                                    color: Colors.grey,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 130,
+                                width: 300,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(3),
+                                  child: SizedBox.fromSize(
+                                    child: Image.network(
+                                      product.imageUrl,
+                                      fit: BoxFit.fitWidth,
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                product.name,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                product.seller.name,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                children: const [
+                                  RadiantGradientMask(
+                                    firstColor: Colors.orange,
+                                    secondColor: Colors.yellow,
+                                    child: Icon(
+                                      Icons.star,
+                                      size: 20,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(width: 4),
+                                  Text(
+                                    '4.8',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              RichText(
+                                text: TextSpan(
+                                  text: CurrencyHelper.withCommas(
+                                      value: product.price),
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: ' / 1 ${product.unit}',
+                                      style: const TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Text(
+                                CurrencyHelper.withCommas(
+                                    value: product.oldPrice),
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  decoration: TextDecoration.lineThrough,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 6),
-                          Text(
-                            CurrencyHelper.withCommas(value: product.oldPrice),
-                            style: const TextStyle(
-                              fontSize: 12,
-                              decoration: TextDecoration.lineThrough,
-                              color: Colors.grey,
+                          Positioned(
+                            right: 0,
+                            bottom: 0,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.add_circle,
+                                size: 24,
+                                color: AppColors.palette.shade500,
+                              ),
+                              onPressed: () {},
                             ),
-                          ),
+                          )
                         ],
                       ),
-                      Positioned(
-                        right: 0,
-                        bottom: 0,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.add_circle,
-                            size: 24,
-                            color: AppColors.palette.shade500,
-                          ),
-                          onPressed: () {},
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            }),
-          );
+                    ),
+                  );
+                }),
+              ));
   }
 }

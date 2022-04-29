@@ -9,9 +9,9 @@ import 'package:mobx/mobx.dart';
 
 part 'search.g.dart';
 
-class SearchProductStore = _SearchProductStoreBase with _$SearchProductStore;
+class SearchStore = _SearchStoreBase with _$SearchStore;
 
-abstract class _SearchProductStoreBase with Store {
+abstract class _SearchStoreBase with Store {
   final SearchAPI _searchAPI = SearchAPI(SearchDioClient(Dio()));
 
   @observable

@@ -31,31 +31,10 @@ abstract class _ProductStoreBase with Store {
   List<Product> productsSaleShock = [];
 
   @observable
-  List<Product> productsByIds = [];
-  @observable
   bool loading = true;
-  @observable
-  bool idLoading = true;
   @observable
   String? errorMessage;
 
-  @action
-  Future<void> getProductsByIds(List<String> ids) async {
-    try {
-      idLoading = true;
-      final ProductsByIdsResponseDTO res =
-          await _productAPI.getProductsByIds(ProductsByIdsRequestDTO(ids: ids));
-      if (res.errorMessage != null) {
-        errorMessage = res.errorMessage;
-      } else {
-        productsByIds = res.products;
-      }
-    } catch (err) {
-      errorMessage = err.toString();
-    } finally {
-      idLoading = false;
-    }
-  }
 
   @action
   Future<void> getProductsTopSale(int limit) async {
@@ -139,7 +118,6 @@ abstract class _ProductStoreBase with Store {
     products = [];
     productsTopSale = [];
     productsSaleOff = [];
-    productsByIds = [];
     loading = true;
     // idLoading = true;
     errorMessage = null;

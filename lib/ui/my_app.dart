@@ -32,7 +32,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final AuthStore _authStore = AuthStore();
     final CartStore _cartStore = CartStore(getIt<CartDataSource>());
-    final SearchProductStore _searchProductStore = SearchProductStore();
+    final SearchStore _searchStore = SearchStore();
     _cartStore.setupUpdateParent();
     _authStore.setupUpdateUser();
 
@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
         Provider<SearchHistoryStore>(
           create: (_) => SearchHistoryStore(getIt<SearchHistoryDataSource>()),
         ),
-        Provider<SearchProductStore>(create: (_) => _searchProductStore)
+        Provider<SearchStore>(create: (_) => _searchStore)
       ],
       child: MaterialApp(
         theme: themeData,

@@ -70,21 +70,6 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final _$productsByIdsAtom = Atom(name: '_ProductStoreBase.productsByIds');
-
-  @override
-  List<Product> get productsByIds {
-    _$productsByIdsAtom.reportRead();
-    return super.productsByIds;
-  }
-
-  @override
-  set productsByIds(List<Product> value) {
-    _$productsByIdsAtom.reportWrite(value, super.productsByIds, () {
-      super.productsByIds = value;
-    });
-  }
-
   final _$loadingAtom = Atom(name: '_ProductStoreBase.loading');
 
   @override
@@ -97,21 +82,6 @@ mixin _$ProductStore on _ProductStoreBase, Store {
   set loading(bool value) {
     _$loadingAtom.reportWrite(value, super.loading, () {
       super.loading = value;
-    });
-  }
-
-  final _$idLoadingAtom = Atom(name: '_ProductStoreBase.idLoading');
-
-  @override
-  bool get idLoading {
-    _$idLoadingAtom.reportRead();
-    return super.idLoading;
-  }
-
-  @override
-  set idLoading(bool value) {
-    _$idLoadingAtom.reportWrite(value, super.idLoading, () {
-      super.idLoading = value;
     });
   }
 
@@ -128,14 +98,6 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
       super.errorMessage = value;
     });
-  }
-
-  final _$getProductsByIdsAsyncAction =
-      AsyncAction('_ProductStoreBase.getProductsByIds');
-
-  @override
-  Future<void> getProductsByIds(List<String> ids) {
-    return _$getProductsByIdsAsyncAction.run(() => super.getProductsByIds(ids));
   }
 
   final _$getProductsTopSaleAsyncAction =
@@ -193,9 +155,7 @@ products: ${products},
 productsTopSale: ${productsTopSale},
 productsSaleOff: ${productsSaleOff},
 productsSaleShock: ${productsSaleShock},
-productsByIds: ${productsByIds},
 loading: ${loading},
-idLoading: ${idLoading},
 errorMessage: ${errorMessage}
     ''';
   }

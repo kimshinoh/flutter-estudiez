@@ -21,7 +21,7 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   late SearchHistoryStore _store;
-  late SearchProductStore _searchStore;
+  late SearchStore _searchStore;
   late FocusScopeNode currentFocus;
   Timer? _debounce;
   final List<String> _hotSearch = [
@@ -42,7 +42,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     _store = context.read<SearchHistoryStore>();
-    _searchStore = context.read<SearchProductStore>();
+    _searchStore = context.read<SearchStore>();
     if (_searchStore.keyword.isNotEmpty) {
       _searchController.text = _searchStore.keyword;
     }
