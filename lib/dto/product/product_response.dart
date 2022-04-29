@@ -107,3 +107,29 @@ class SearchProductResponseDTO {
         errorMessage: errorMessage, productSearch: ProductSearch(products: []));
   }
 }
+
+@JsonSerializable()
+class ProductsByIdsResponseDTO {
+  ProductsByIdsResponseDTO(
+      {String? errorMessage, required List<Product> products}) {
+    _errorMessage = errorMessage;
+    _products = products;
+  }
+
+  List<Product> _products = [];
+  String? _errorMessage;
+  @JsonKey(name: 'products')
+  List<Product> get products => _products;
+
+  @JsonKey(name: 'message')
+  String? get errorMessage => _errorMessage;
+  factory ProductsByIdsResponseDTO.fromJson(Map<String, dynamic> json) =>
+      _$ProductsByIdsResponseDTOFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductsByIdsResponseDTOToJson(this);
+  factory ProductsByIdsResponseDTO.withError(String errorMessage) {
+    return ProductsByIdsResponseDTO(
+      errorMessage: errorMessage,
+      products: [],
+    );
+  }
+}

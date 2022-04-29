@@ -9,9 +9,9 @@ import 'package:mobx/mobx.dart';
 
 part 'search.g.dart';
 
-class SearchProductStore = _SearchProductStoreBase with _$SearchProductStore;
+class SearchStore = _SearchStoreBase with _$SearchStore;
 
-abstract class _SearchProductStoreBase with Store {
+abstract class _SearchStoreBase with Store {
   final SearchAPI _searchAPI = SearchAPI(SearchDioClient(Dio()));
 
   @observable
@@ -26,7 +26,7 @@ abstract class _SearchProductStoreBase with Store {
 
   @action
   Future<void> searchProduct(int limit) async {
-    if(keyword == '') return;
+    if (keyword == '') return;
     try {
       loading = true;
       final SearchProductResponseDTO res = await _searchAPI.searchProducts(
@@ -42,9 +42,12 @@ abstract class _SearchProductStoreBase with Store {
       loading = false;
     }
   }
+  @computed
+  List<String> get productIds => products.map((e) => e.id).toList();
 
   @action
   void dispose() {
+    keyword = "";
     products = [];
     loading = true;
     errorMessage = null;

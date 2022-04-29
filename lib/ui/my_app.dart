@@ -6,6 +6,7 @@ import 'package:fruity/data/local/datasource/search_history_datasource.dart';
 import 'package:fruity/di/setup_di.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
+import 'package:fruity/stores/search/search.dart';
 import 'package:fruity/stores/location/location.dart';
 import 'package:fruity/stores/search_history/search_history_store.dart';
 import 'package:fruity/stores/user/auth_store.dart';
@@ -32,6 +33,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final AuthStore _authStore = AuthStore();
     final CartStore _cartStore = CartStore(getIt<CartDataSource>());
+    final SearchStore _searchStore = SearchStore();
     final LocationStore _locationStore = LocationStore();
     _cartStore.setupUpdateParent();
     _authStore.setupUpdateUser();
@@ -44,6 +46,7 @@ class _MyAppState extends State<MyApp> {
         Provider<SearchHistoryStore>(
           create: (_) => SearchHistoryStore(getIt<SearchHistoryDataSource>()),
         ),
+        Provider<SearchStore>(create: (_) => _searchStore),
         Provider<LocationStore>(
           create: (_) => _locationStore,
         ),

@@ -67,3 +67,19 @@ Map<String, dynamic> _$SearchProductResponseDTOToJson(
       'productSearch': instance.productSearch,
       'message': instance.errorMessage,
     };
+
+ProductsByIdsResponseDTO _$ProductsByIdsResponseDTOFromJson(
+        Map<String, dynamic> json) =>
+    ProductsByIdsResponseDTO(
+      errorMessage: json['message'] as String?,
+      products: (json['products'] as List<dynamic>)
+          .map((e) => Product.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$ProductsByIdsResponseDTOToJson(
+        ProductsByIdsResponseDTO instance) =>
+    <String, dynamic>{
+      'products': instance.products,
+      'message': instance.errorMessage,
+    };

@@ -54,3 +54,15 @@ Map<String, dynamic> _$SearchProductRequestDTOToJson(
       'limit': instance.limit,
       'keyword': instance.keyword,
     };
+
+ProductsByIdsRequestDTO _$ProductsByIdsRequestDTOFromJson(
+        Map<String, dynamic> json) =>
+    ProductsByIdsRequestDTO(
+      ids: (json['ids'] as List<dynamic>).map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$ProductsByIdsRequestDTOToJson(
+        ProductsByIdsRequestDTO instance) =>
+    <String, dynamic>{
+      'ids': instance.ids,
+    };

@@ -130,6 +130,13 @@ mixin _$CartStore on _CartStoreBase, Store {
     return _$addItemAsyncAction.run(() => super.addItem(item));
   }
 
+  final _$addItemsAsyncAction = AsyncAction('_CartStoreBase.addItems');
+
+  @override
+  Future<void> addItems(List<CartItem> items) {
+    return _$addItemsAsyncAction.run(() => super.addItems(items));
+  }
+
   final _$updateQuantityAsyncAction =
       AsyncAction('_CartStoreBase.updateQuantity');
 

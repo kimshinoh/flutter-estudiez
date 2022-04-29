@@ -35,6 +35,7 @@ abstract class _ProductStoreBase with Store {
   @observable
   String? errorMessage;
 
+
   @action
   Future<void> getProductsTopSale(int limit) async {
     try {
@@ -118,6 +119,7 @@ abstract class _ProductStoreBase with Store {
     productsTopSale = [];
     productsSaleOff = [];
     loading = true;
+    // idLoading = true;
     errorMessage = null;
   }
 }

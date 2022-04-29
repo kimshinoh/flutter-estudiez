@@ -8,8 +8,16 @@ part of 'search.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$SearchProductStore on _SearchProductStoreBase, Store {
-  final _$productsAtom = Atom(name: '_SearchProductStoreBase.products');
+mixin _$SearchStore on _SearchStoreBase, Store {
+  Computed<List<String>>? _$productIdsComputed;
+
+  @override
+  List<String> get productIds =>
+      (_$productIdsComputed ??= Computed<List<String>>(() => super.productIds,
+              name: '_SearchStoreBase.productIds'))
+          .value;
+
+  final _$productsAtom = Atom(name: '_SearchStoreBase.products');
 
   @override
   List<ProductSimplify> get products {
@@ -24,7 +32,7 @@ mixin _$SearchProductStore on _SearchProductStoreBase, Store {
     });
   }
 
-  final _$loadingAtom = Atom(name: '_SearchProductStoreBase.loading');
+  final _$loadingAtom = Atom(name: '_SearchStoreBase.loading');
 
   @override
   bool get loading {
@@ -39,7 +47,7 @@ mixin _$SearchProductStore on _SearchProductStoreBase, Store {
     });
   }
 
-  final _$keywordAtom = Atom(name: '_SearchProductStoreBase.keyword');
+  final _$keywordAtom = Atom(name: '_SearchStoreBase.keyword');
 
   @override
   String get keyword {
@@ -54,7 +62,7 @@ mixin _$SearchProductStore on _SearchProductStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: '_SearchProductStoreBase.errorMessage');
+  final _$errorMessageAtom = Atom(name: '_SearchStoreBase.errorMessage');
 
   @override
   String? get errorMessage {
@@ -70,24 +78,24 @@ mixin _$SearchProductStore on _SearchProductStoreBase, Store {
   }
 
   final _$searchProductAsyncAction =
-      AsyncAction('_SearchProductStoreBase.searchProduct');
+      AsyncAction('_SearchStoreBase.searchProduct');
 
   @override
   Future<void> searchProduct(int limit) {
     return _$searchProductAsyncAction.run(() => super.searchProduct(limit));
   }
 
-  final _$_SearchProductStoreBaseActionController =
-      ActionController(name: '_SearchProductStoreBase');
+  final _$_SearchStoreBaseActionController =
+      ActionController(name: '_SearchStoreBase');
 
   @override
   void dispose() {
-    final _$actionInfo = _$_SearchProductStoreBaseActionController.startAction(
-        name: '_SearchProductStoreBase.dispose');
+    final _$actionInfo = _$_SearchStoreBaseActionController.startAction(
+        name: '_SearchStoreBase.dispose');
     try {
       return super.dispose();
     } finally {
-      _$_SearchProductStoreBaseActionController.endAction(_$actionInfo);
+      _$_SearchStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
@@ -97,7 +105,8 @@ mixin _$SearchProductStore on _SearchProductStoreBase, Store {
 products: ${products},
 loading: ${loading},
 keyword: ${keyword},
-errorMessage: ${errorMessage}
+errorMessage: ${errorMessage},
+productIds: ${productIds}
     ''';
   }
 }
