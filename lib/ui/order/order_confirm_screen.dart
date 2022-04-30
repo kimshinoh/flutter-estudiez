@@ -9,9 +9,9 @@ import 'package:fruity/stores/user/auth_store.dart';
 import 'package:fruity/ui/order/widgets/create_order_button.dart';
 import 'package:fruity/ui/order/widgets/list_cart_item.dart';
 import 'package:fruity/ui/order/widgets/select_received_time.dart';
+import 'package:fruity/ui/order/widgets/seller_info_widget.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/payment_user_widget.dart';
-import 'package:fruity/widgets/seller_logo.dart';
 import 'package:fruity/widgets/user_address_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -96,8 +96,17 @@ class _body extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: Column(
-                children: const [
-                  _SellerInfo(),
+                children: [
+                  Observer(
+                    builder: (_) {
+                      final Seller? seller = cartStore.sellerStore.sellersMap[
+                          _orderConfirmationStore.createOrderStore.sellerId];
+                      if (seller == null) {
+                        return Container();
+                      }
+                      return SellerInfoWidget(seller: seller);
+                    },
+                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -135,52 +144,6 @@ class _body extends StatelessWidget {
         ],
       );
     }
-  }
-}
-
-class _SellerInfo extends StatelessWidget {
-  const _SellerInfo({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final OrderConfirmationStore _orderConfirmationStore =
-        context.read<OrderConfirmationStore>();
-    CartStore cartStore = context.read<CartStore>();
-
-    return Observer(builder: (_) {
-      final Seller? seller = cartStore.sellerStore
-          .sellersMap[_orderConfirmationStore.createOrderStore.sellerId];
-      return seller != null
-          ? Row(
-              children: [
-                SellerLogo(size: Size(50, 50), logoUrl: seller.logo),
-                const SizedBox(
-                  width: 10,
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        seller.name,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        seller.getType(),
-                        style:
-                            const TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            )
-          : Container();
-    });
   }
 }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fruity/ui/cart/cart_screen.dart';
 import 'package:fruity/ui/home/home.dart';
 import 'package:fruity/ui/order/order_confirm_screen.dart';
+import 'package:fruity/ui/order/order_detail_screen.dart';
 import 'package:fruity/ui/order/orders_screen.dart';
 import 'package:fruity/ui/product/product_screen.dart';
 import 'package:fruity/ui/search/search_screen.dart';
@@ -41,7 +42,7 @@ class Routes {
     //order
 
     orders: (BuildContext context) => const OrdersScreen(),
-    view_order: (BuildContext context) => const OrdersScreen(),
+    view_order: (BuildContext context) => OrderDetailScreen(),
     confirm_order: (BuildContext context) => const ConfirmOrderScreen(),
 
     // user address
