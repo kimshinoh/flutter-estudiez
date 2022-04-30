@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/models/payment/payment.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/models/seller/seller.dart';
@@ -119,6 +119,16 @@ class Order {
 
   @JsonKey(name: 'total_price')
   double? totalPrice;
+
+  @JsonKey(name: 'shipping_fee', defaultValue: 0)
+  double shippingFee = 0;
+
+  @JsonKey(name: 'shipping_distance', defaultValue: 0)
+  double shippingDistance = 0;
+
+  double get totalPriceWithShippingFee {
+    return totalPrice ?? 0 + shippingFee;
+  }
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -147,12 +157,94 @@ class OrderItem {
   int quantity;
   double price;
   String? note;
+
+  CartItem toCartItem() {
+    return CartItem(
+      id: id,
+      imageUrl: product.imageUrl,
+      name: product.name,
+      productId: productId,
+      sellerId: product.sellerId,
+      unit: product.unit,
+      quantity: quantity,
+      price: price,
+    );
+  }
 }
 
 @JsonSerializable()
 class Track {
-  Track();
+  Track(
+      {required this.id,
+      required this.createdAt,
+      required this.status,
+      required this.orderId,
+      required this.time,
+      this.note});
 
   factory Track.fromJson(Map<String, dynamic> json) => _$TrackFromJson(json);
   Map<String, dynamic> toJson() => _$TrackToJson(this);
+
+  @JsonKey(name: 'id')
+  String id;
+
+  @JsonKey(name: 'created_at')
+  DateTime createdAt;
+
+  @JsonKey(name: 'order_id')
+  String orderId;
+
+  @JsonKey(name: 'status')
+  String status;
+
+  @JsonKey(name: 'time')
+  DateTime time;
+
+  @JsonKey(name: 'note')
+  String? note;
+
+  Color get statusColor {
+    switch (status) {
+      case 'processing':
+        return AppColors.palette.shade500;
+      case 'shipping':
+        return Colors.orange;
+      case 'delivered':
+        return Colors.blue;
+      case 'cancelled':
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  Color get statusColorOverlay {
+    switch (status) {
+      case 'processing':
+        return AppColors.palette.shade200;
+      case 'shipping':
+        return Colors.orange.shade200;
+      case 'delivered':
+        return Colors.blue.shade200;
+      case 'cancelled':
+        return Colors.red.shade200;
+      default:
+        return Colors.grey.shade200;
+    }
+  }
+
+  String get statusText {
+    switch (status) {
+      case 'processing':
+        return 'Đang xử lý';
+      case 'shipping':
+        return 'Đang giao';
+      case 'delivered':
+        return 'Đã giao';
+      case 'cancelled':
+        return 'Đã hủy';
+      default:
+        return 'Không xác định';
+    }
+  }
 }
