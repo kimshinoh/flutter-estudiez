@@ -51,4 +51,6 @@ class User {
   @JsonKey(name: 'phone_number')
   String phoneNumber;
   String? email;
+
+  String avatarUrl = 'https://i.imgur.com/EYdQnGt.jpeg';
 }

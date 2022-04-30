@@ -23,7 +23,7 @@ class _MyBottombarState extends State<MyBottombar> {
     });
   }
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     ProductScreen(),
     Text(
@@ -31,7 +31,7 @@ class _MyBottombarState extends State<MyBottombar> {
       style: optionStyle,
     ),
     OrdersScreen(),
-    PersonalScreen()
+    PersonalScreen(),
   ];
 
   @override

@@ -66,6 +66,7 @@ dependencies:
   geocoding: ^2.0.4
   google_maps_place_picker_mb: ^2.0.0-mb.16
   flutter_html: ^2.2.1
+  url_launcher: ^6.1.0
 
 
 dev_dependencies:
