@@ -79,4 +79,20 @@ class ProductAPI {
       return ProductsByIdsResponseDTO.withError(e.toString());
     }
   }
+
+  Future<GetProductByIdResponse> getProductById(String id) async {
+    try {
+      final Map<String, dynamic> response = await _dioClient.get(
+        '/products/$id',
+      );
+      return GetProductByIdResponse.fromJson(response);
+    } catch (e) {
+      if (e is NetworkException) {
+        return GetProductByIdResponse.withError(
+          e.message ?? 'Có lỗi xảy ra',
+        );
+      }
+      return GetProductByIdResponse.withError(e.toString());
+    }
+  }
 }

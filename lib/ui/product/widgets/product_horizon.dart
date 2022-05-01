@@ -1,26 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/models/product/product.dart';
 import 'package:fruity/utils/currency_util.dart';
+import 'package:fruity/widgets/add_to_cart_button.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
 
 class ProductHorizon extends StatelessWidget {
-  final String imageLink;
-  final String name;
-  final String sellerName;
-  final double price;
-  final String unit;
-  final int sold;
-
-  const ProductHorizon(
-      {Key? key,
-      required this.imageLink,
-      required this.name,
-      required this.sellerName,
-      required this.price,
-      required this.sold,
-      required this.unit})
-      : super(key: key);
+  Product product;
+  ProductHorizon({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +25,7 @@ class ProductHorizon extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                      imageLink,
+                      product.imageUrl,
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -51,7 +39,7 @@ class ProductHorizon extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        name,
+                        product.name,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: const TextStyle(
@@ -61,7 +49,7 @@ class ProductHorizon extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        sellerName,
+                        product.seller.name,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
                         style: const TextStyle(
@@ -93,7 +81,7 @@ class ProductHorizon extends StatelessWidget {
                       const SizedBox(height: 6),
                       RichText(
                         text: TextSpan(
-                          text: CurrencyHelper.withCommas(value: price),
+                          text: CurrencyHelper.withCommas(value: product.price),
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -101,7 +89,7 @@ class ProductHorizon extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(
-                              text: ' / ${unit}',
+                              text: ' / ${product.unit}',
                               style: const TextStyle(
                                 fontSize: 11,
                                 color: Colors.grey,
@@ -114,17 +102,13 @@ class ProductHorizon extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Đã bán ${sold.toString()}',
+                            'Đã bán ${30.toString()}',
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.grey,
                             ),
                           ),
-                          const Icon(
-                            Icons.add_circle,
-                            size: 30,
-                            color: AppColors.primary,
-                          )
+                          AddToCartButton(product: product)
                         ],
                       )
                     ],

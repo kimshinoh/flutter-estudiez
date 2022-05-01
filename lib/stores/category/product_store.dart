@@ -35,7 +35,6 @@ abstract class _ProductStoreBase with Store {
   @observable
   String? errorMessage;
 
-
   @action
   Future<void> getProductsTopSale(int limit) async {
     try {
@@ -46,7 +45,6 @@ abstract class _ProductStoreBase with Store {
       if (res.errorMessage != null) {
         errorMessage = res.errorMessage;
       } else {
-        print(loading);
         productsTopSale = res.products;
       }
     } catch (err) {

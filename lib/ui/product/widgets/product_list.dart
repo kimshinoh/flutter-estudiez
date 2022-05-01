@@ -3,7 +3,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/extensions/string_extension.dart';
 import 'package:fruity/models/product/product.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/category/category_store.dart';
+import 'package:fruity/ui/product/product_detail_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/add_to_cart_button.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +64,8 @@ class _ProductItem extends StatelessWidget {
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(10)),
       onTap: () {
-        print('navigate to product dettail');
+        Navigator.pushNamed(context, Routes.product_detail,
+            arguments: ProductDetailAgruments(product.id));
       },
       child: Stack(
         children: [
