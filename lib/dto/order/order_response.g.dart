@@ -42,5 +42,5 @@ GetOrderByIdResponse _$GetOrderByIdResponseFromJson(
 Map<String, dynamic> _$GetOrderByIdResponseToJson(
         GetOrderByIdResponse instance) =>
     <String, dynamic>{
-      'order': instance.order,
+      'order': instance.order?.toJson(),
     };

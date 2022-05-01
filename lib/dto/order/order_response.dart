@@ -56,7 +56,7 @@ class MyOrdersResponse {
   String? get errorMessage => _errorMessage;
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class GetOrderByIdResponse {
   GetOrderByIdResponse({
     Order? order,

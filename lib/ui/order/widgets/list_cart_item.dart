@@ -28,7 +28,7 @@ class ListCartItem extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final CartItem item =
               _orderConfirmationStore.createOrderStore.items[index];
-          return _CartItemWidget(item: item);
+          return CartItemWidget(item: item);
         },
         itemCount: _orderConfirmationStore.createOrderStore.items.length,
       );
@@ -36,10 +36,11 @@ class ListCartItem extends StatelessWidget {
   }
 }
 
-class _CartItemWidget extends StatelessWidget {
+class CartItemWidget extends StatelessWidget {
   CartItem item;
-
-  _CartItemWidget({Key? key, required this.item}) : super(key: key);
+  bool isEditting;
+  CartItemWidget({Key? key, required this.item, this.isEditting = true})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,24 +88,28 @@ class _CartItemWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pushReplacementNamed(Routes.cart);
-                      },
-                      style: TextButton.styleFrom(
-                        minimumSize: Size.zero,
-                        padding: EdgeInsets.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      ),
-                      child: const Text(
-                        'Sửa',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.blue,
+                    if (isEditting)
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context)
+                              .pushReplacementNamed(Routes.cart);
+                        },
+                        style: TextButton.styleFrom(
+                          minimumSize: Size.zero,
+                          padding: EdgeInsets.zero,
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                      ),
-                    )
+                        child: const Text(
+                          'Sửa',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      )
+                    else
+                      SizedBox.shrink()
                   ],
                 ),
                 const SizedBox(height: 5),

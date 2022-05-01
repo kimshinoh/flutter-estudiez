@@ -28,7 +28,9 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       userId: json['user_id'] as String,
       note: json['note'] as String?,
       totalPrice: (json['total_price'] as num?)?.toDouble(),
-    );
+    )
+      ..shippingFee = (json['shipping_fee'] as num?)?.toDouble() ?? 0
+      ..shippingDistance = (json['shipping_distance'] as num?)?.toDouble() ?? 0;
 
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'id': instance.id,
@@ -47,6 +49,8 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'user_address': instance.userAddress.toJson(),
       'note': instance.note,
       'total_price': instance.totalPrice,
+      'shipping_fee': instance.shippingFee,
+      'shipping_distance': instance.shippingDistance,
     };
 
 OrderItem _$OrderItemFromJson(Map<String, dynamic> json) => OrderItem(
@@ -67,6 +71,20 @@ Map<String, dynamic> _$OrderItemToJson(OrderItem instance) => <String, dynamic>{
       'note': instance.note,
     };
 
-Track _$TrackFromJson(Map<String, dynamic> json) => Track();
+Track _$TrackFromJson(Map<String, dynamic> json) => Track(
+      id: json['id'] as String,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      status: json['status'] as String,
+      orderId: json['order_id'] as String,
+      time: DateTime.parse(json['time'] as String),
+      note: json['note'] as String?,
+    );
 
-Map<String, dynamic> _$TrackToJson(Track instance) => <String, dynamic>{};
+Map<String, dynamic> _$TrackToJson(Track instance) => <String, dynamic>{
+      'id': instance.id,
+      'created_at': instance.createdAt.toIso8601String(),
+      'order_id': instance.orderId,
+      'status': instance.status,
+      'time': instance.time.toIso8601String(),
+      'note': instance.note,
+    };
