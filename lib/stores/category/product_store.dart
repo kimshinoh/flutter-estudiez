@@ -46,6 +46,7 @@ abstract class _ProductStoreBase with Store {
       if (res.errorMessage != null) {
         errorMessage = res.errorMessage;
       } else {
+        print(loading);
         productsTopSale = res.products;
       }
     } catch (err) {
