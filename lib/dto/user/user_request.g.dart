@@ -30,3 +30,19 @@ Map<String, dynamic> _$UpdateFCMTokenRequestToJson(
     <String, dynamic>{
       'token': instance.token,
     };
+
+UpdateProfileRequest _$UpdateProfileRequestFromJson(
+        Map<String, dynamic> json) =>
+    UpdateProfileRequest(
+      fullName: json['full_name'] as String,
+      email: json['email'] as String,
+      avatar: json['avatar'] as String,
+    );
+
+Map<String, dynamic> _$UpdateProfileRequestToJson(
+        UpdateProfileRequest instance) =>
+    <String, dynamic>{
+      'full_name': instance.fullName,
+      'avatar': instance.avatar,
+      'email': instance.email,
+    };

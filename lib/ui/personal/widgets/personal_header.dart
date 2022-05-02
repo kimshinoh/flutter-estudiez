@@ -101,26 +101,40 @@ class UserAvatar extends StatelessWidget {
       builder: (_) {
         User? user = _store.user;
         if (_store.isLoggedIn && user != null) {
-          return Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.white,
-              ),
-              image: DecorationImage(
-                image: NetworkImage(user.avatar.isNotEmpty
-                    ? user.avatar
-                    : 'https://i.imgur.com/EYdQnGt.jpeg'),
-                fit: BoxFit.cover,
-              ),
-            ),
+          return Avatar(
+            imageUrl: user.avatar,
           );
         }
 
         return Container();
       },
+    );
+  }
+}
+
+class Avatar extends StatelessWidget {
+  String imageUrl;
+  Size size;
+  Avatar({Key? key, required this.imageUrl, this.size = const Size(60, 60)})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size.width,
+      height: size.height,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: Colors.white,
+        ),
+        image: DecorationImage(
+          image: NetworkImage(imageUrl.isNotEmpty
+              ? imageUrl
+              : 'https://i.imgur.com/EYdQnGt.jpeg'),
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 }

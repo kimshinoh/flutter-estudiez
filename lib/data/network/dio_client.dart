@@ -9,12 +9,12 @@ class DioClient {
   final Dio _dio;
 
   // injecting dio instance
-  DioClient(this._dio) {
+  DioClient(this._dio, {String contentType = 'application/json'}) {
     _dio.options.baseUrl = Endpoints.baseUrl;
     _dio.options.connectTimeout = 5000;
     _dio.options.receiveTimeout = 5000;
     _dio.options.headers = {
-      'Content-Type': 'application/json',
+      'Content-Type': contentType,
       'Accept': 'application/json',
     };
     _dio.options.validateStatus = (int? status) {
@@ -64,6 +64,7 @@ class DioClient {
   Future<Map<String, dynamic>> post(
     String uri, {
     Map<String, dynamic>? data,
+    FormData? formData,
     Map<String, dynamic>? queryParameters,
     Options? options,
     CancelToken? cancelToken,
@@ -73,7 +74,7 @@ class DioClient {
     return _dio
         .post(
           uri,
-          data: data,
+          data: data ?? formData,
           queryParameters: queryParameters,
           options: options,
           cancelToken: cancelToken,

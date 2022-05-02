@@ -158,7 +158,10 @@ class PersonalScreen extends StatelessWidget {
                           ),
                           Text(
                             _versionStore.version,
-                            style: TextStyle(color: AppColors.palette.shade500),
+                            style: TextStyle(
+                              color: AppColors.palette.shade500,
+                              fontWeight: FontWeight.w500,
+                            ),
                           )
                         ],
                       ),

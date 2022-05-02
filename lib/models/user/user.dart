@@ -12,6 +12,7 @@ class User {
       {required this.id,
       required this.fullName,
       required this.phoneNumber,
+      this.email,
       required this.avatar});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -31,6 +32,7 @@ class User {
       fullName: _userJson['fullName'].toString(),
       phoneNumber: _userJson['phoneNumber'].toString(),
       avatar: _userJson['avatar'].toString(),
+      email: _userJson['email'].toString(),
     );
   }
 
@@ -42,6 +44,7 @@ class User {
     user['fullName'] = fullName;
     user['phoneNumber'] = phoneNumber;
     user['avatar'] = avatar;
+    user['email'] = email ?? '';
     if (user.isNotEmpty) {
       prefs.setString(Preferences.user, json.encode(user));
     }
