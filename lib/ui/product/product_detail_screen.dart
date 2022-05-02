@@ -566,10 +566,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         return Container(
           padding: const EdgeInsets.all(15),
           color: Colors.white,
-          height: 130,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             children: [
               Text(
                 product.name.capitalize(),
@@ -580,6 +579,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 overflow: TextOverflow.ellipsis,
                 text: TextSpan(
                   children: [
+                    if (product.oldPrice != null && product.oldPrice! > 0)
+                      TextSpan(
+                        text:
+                            '${CurrencyHelper.withCommas(value: product.oldPrice, removeDecimal: true)} ₫ ',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
                     TextSpan(
                       text:
                           '${CurrencyHelper.withCommas(value: product.price, removeDecimal: true)} ₫',
@@ -602,7 +611,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
