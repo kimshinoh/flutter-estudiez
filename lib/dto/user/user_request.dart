@@ -28,3 +28,18 @@ class UpdateFCMTokenRequest {
 
   String token;
 }
+
+@JsonSerializable()
+class UpdateProfileRequest {
+  UpdateProfileRequest(
+      {required this.fullName, required this.email, required this.avatar});
+
+  factory UpdateProfileRequest.fromJson(Map<String, dynamic> json) =>
+      _$UpdateProfileRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$UpdateProfileRequestToJson(this);
+
+  @JsonKey(name: 'full_name')
+  String fullName;
+  String avatar;
+  String email;
+}

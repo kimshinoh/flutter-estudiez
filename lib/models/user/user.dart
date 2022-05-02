@@ -8,7 +8,12 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class User {
-  User({required this.id, required this.fullName, required this.phoneNumber});
+  User(
+      {required this.id,
+      required this.fullName,
+      required this.phoneNumber,
+      this.email,
+      required this.avatar});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -26,6 +31,8 @@ class User {
       id: _userJson['id'].toString(),
       fullName: _userJson['fullName'].toString(),
       phoneNumber: _userJson['phoneNumber'].toString(),
+      avatar: _userJson['avatar'].toString(),
+      email: _userJson['email'].toString(),
     );
   }
 
@@ -36,6 +43,8 @@ class User {
     user['id'] = id;
     user['fullName'] = fullName;
     user['phoneNumber'] = phoneNumber;
+    user['avatar'] = avatar;
+    user['email'] = email ?? '';
     if (user.isNotEmpty) {
       prefs.setString(Preferences.user, json.encode(user));
     }
@@ -51,4 +60,7 @@ class User {
   @JsonKey(name: 'phone_number')
   String phoneNumber;
   String? email;
+
+  @JsonKey(name: 'avatar', defaultValue: 'https://i.imgur.com/EYdQnGt.jpeg')
+  String avatar;
 }

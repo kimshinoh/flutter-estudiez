@@ -92,12 +92,11 @@ class MyHomeHeader extends SliverPersistentHeaderDelegate {
             ),
             Expanded(
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  CartButton(badgeColor: Colors.red),
-                  const Icon(
-                    Icons.message_sharp,
-                    color: Colors.white,
+                  CartButton(
+                    badgeColor: Colors.red,
                   ),
                 ],
               ),

@@ -6,10 +6,11 @@ import 'package:fruity/data/local/datasource/search_history_datasource.dart';
 import 'package:fruity/di/setup_di.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
-import 'package:fruity/stores/search/search.dart';
 import 'package:fruity/stores/location/location.dart';
+import 'package:fruity/stores/search/search.dart';
 import 'package:fruity/stores/search_history/search_history_store.dart';
 import 'package:fruity/stores/user/auth_store.dart';
+import 'package:fruity/stores/version/version_store.dart';
 import 'package:fruity/ui/splash/splash.dart';
 import 'package:fruity/utils/fcm.dart';
 import 'package:provider/provider.dart';
@@ -35,9 +36,11 @@ class _MyAppState extends State<MyApp> {
     final CartStore _cartStore = CartStore(getIt<CartDataSource>());
     final SearchStore _searchStore = SearchStore();
     final LocationStore _locationStore = LocationStore();
+    final VersionStore _versionStore = VersionStore();
     _cartStore.setupUpdateParent();
     _authStore.setupUpdateUser();
     _locationStore.setupListener();
+    _versionStore.init();
 
     return MultiProvider(
       providers: [
@@ -50,6 +53,7 @@ class _MyAppState extends State<MyApp> {
         Provider<LocationStore>(
           create: (_) => _locationStore,
         ),
+        Provider<VersionStore>(create: (_) => _versionStore),
       ],
       child: MaterialApp(
         theme: themeData,

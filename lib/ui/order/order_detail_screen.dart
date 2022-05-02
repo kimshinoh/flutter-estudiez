@@ -84,7 +84,7 @@ class _orderDetail extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
               child: Center(
                 child: SizedBox(
-                    height: 100,
+                    height: 120,
                     child: Observer(builder: (_) {
                       Track lastTrack = _orderDetailStore.order!.tracks.last;
 

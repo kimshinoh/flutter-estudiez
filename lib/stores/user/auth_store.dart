@@ -85,6 +85,12 @@ abstract class _AuthStoreBase with Store {
   bool isSuccess = false;
 
   @action
+  setUser(UserModel.User user) async {
+    this.user = user;
+    user.saveToPrefs(_prefs);
+  }
+
+  @action
   void setErrorMessage(String errorMessage) {
     this.errorMessage = errorMessage;
   }

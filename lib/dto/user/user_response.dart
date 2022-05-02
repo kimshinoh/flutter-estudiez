@@ -54,3 +54,28 @@ class UserLoginResponseDTO {
   late int? expiredAt;
   late String? error;
 }
+
+@JsonSerializable(explicitToJson: true)
+class UpdateProfileResponse {
+  UpdateProfileResponse({
+    User? user,
+    String? errorMessage,
+  }) {
+    _user = user;
+    _errorMessage = errorMessage;
+  }
+
+  factory UpdateProfileResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateProfileResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$UpdateProfileResponseToJson(this);
+
+  factory UpdateProfileResponse.withError(String errorMessage) =>
+      UpdateProfileResponse(errorMessage: errorMessage);
+
+  User? _user;
+
+  String? _errorMessage;
+
+  User? get user => _user;
+  String? get errorMessage => _errorMessage;
+}

@@ -158,6 +158,13 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
+  final _$setUserAsyncAction = AsyncAction('_AuthStoreBase.setUser');
+
+  @override
+  Future setUser(UserModel.User user) {
+    return _$setUserAsyncAction.run(() => super.setUser(user));
+  }
+
   final _$handleRequestOTPAsyncAction =
       AsyncAction('_AuthStoreBase.handleRequestOTP');
 
