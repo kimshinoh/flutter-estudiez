@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fruity/models/user/user.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/user/auth_store.dart';
+import 'package:fruity/widgets/login_button.dart';
 import 'package:provider/provider.dart';
 
 AppBar PersonalAppBar() {
@@ -9,25 +11,45 @@ AppBar PersonalAppBar() {
     toolbarHeight: 100, // Set this height
     title: Builder(
       builder: (BuildContext context) {
-        return GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              Routes.user_profile,
-            );
-          },
-          child: SizedBox(
-            child: Row(
-              children: [
-                const UserAvatar(),
-                const SizedBox(
-                  width: 10,
+        AuthStore _store = context.read<AuthStore>();
+        return Observer(builder: (_) {
+          if (!_store.isLoggedIn) {
+            return TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.white,
+                  padding: EdgeInsets.zero,
+                  minimumSize: Size.zero,
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
-                const UserTextInfo()
-              ],
+                onPressed: () {
+                  ShowButtomSheetLogin(context);
+                },
+                child: Text(
+                  "Đăng ký/Đăng nhập",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ));
+          }
+
+          return GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(
+                context,
+                Routes.user_profile,
+              );
+            },
+            child: SizedBox(
+              child: Row(
+                children: [
+                  UserAvatar(),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const UserTextInfo()
+                ],
+              ),
             ),
-          ),
-        );
+          );
+        });
       },
     ),
   );
@@ -69,7 +91,7 @@ class UserTextInfo extends StatelessWidget {
 }
 
 class UserAvatar extends StatelessWidget {
-  const UserAvatar({Key? key}) : super(key: key);
+  UserAvatar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +99,8 @@ class UserAvatar extends StatelessWidget {
 
     return Observer(
       builder: (_) {
-        if (_store.isLoggedIn) {
+        User? user = _store.user;
+        if (_store.isLoggedIn && user != null) {
           return Container(
             width: 60,
             height: 60,
@@ -87,7 +110,9 @@ class UserAvatar extends StatelessWidget {
                 color: Colors.white,
               ),
               image: DecorationImage(
-                image: NetworkImage(_store.user!.avatarUrl),
+                image: NetworkImage(user.avatar.isNotEmpty
+                    ? user.avatar
+                    : 'https://i.imgur.com/EYdQnGt.jpeg'),
                 fit: BoxFit.cover,
               ),
             ),

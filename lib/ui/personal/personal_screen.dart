@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/user/auth_store.dart';
+import 'package:fruity/stores/version/version_store.dart';
 import 'package:fruity/ui/personal/widgets/personal_header.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -13,6 +15,7 @@ class PersonalScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AuthStore _store = context.read<AuthStore>();
+    final VersionStore _versionStore = context.read<VersionStore>();
 
     return Scaffold(
       appBar: PersonalAppBar(),
@@ -50,7 +53,7 @@ class PersonalScreen extends StatelessWidget {
                             'Địa chỉ nhận hàng',
                             style: TextStyle(
                               fontSize: 14,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
@@ -64,7 +67,7 @@ class PersonalScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.pushNamed(
                           context,
-                          Routes.list_user_addressres,
+                          Routes.setting,
                         );
                       },
                       child: SizedBox(
@@ -82,7 +85,7 @@ class PersonalScreen extends StatelessWidget {
                               'Cài đặt',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
@@ -109,7 +112,7 @@ class PersonalScreen extends StatelessWidget {
                               'Hotline',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -124,6 +127,39 @@ class PersonalScreen extends StatelessWidget {
                                 launchUrlString(url);
                               },
                               child: Text(SUPPORT_PHONE_NUMBER))
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Divider(
+                    color: Colors.white,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.app_shortcut_rounded,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          const Expanded(
+                            child: Text(
+                              'Phiên bản ứng dụng',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            _versionStore.version,
+                            style: TextStyle(color: AppColors.palette.shade500),
+                          )
                         ],
                       ),
                     ),

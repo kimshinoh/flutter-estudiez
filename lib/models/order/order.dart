@@ -37,9 +37,9 @@ class Order {
       case 'processing':
         return 'Đang xử lý';
       case 'shipping':
-        return 'Đang giao hàng';
+        return 'Đang giao';
       case 'delivered':
-        return 'Đã giao hàng';
+        return 'Đã giao';
       case 'cancelled':
         return 'Đã hủy';
       default:

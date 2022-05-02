@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 class CartButton extends StatelessWidget {
   Color badgeColor;
   Color iconColor;
-  int iconSize;
+  double iconSize;
 
   CartButton({
     Key? key,
@@ -36,6 +36,7 @@ class CartButton extends StatelessWidget {
             child: Icon(
               Icons.local_mall_outlined,
               color: iconColor,
+              size: iconSize,
             ),
           ),
           onPressed: () {

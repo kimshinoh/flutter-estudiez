@@ -4,6 +4,7 @@ import 'package:fruity/ui/home/home.dart';
 import 'package:fruity/ui/order/order_confirm_screen.dart';
 import 'package:fruity/ui/order/order_detail_screen.dart';
 import 'package:fruity/ui/order/orders_screen.dart';
+import 'package:fruity/ui/personal/setting_screen.dart';
 import 'package:fruity/ui/personal/user_profile_screen.dart';
 import 'package:fruity/ui/product/product_detail_screen.dart';
 import 'package:fruity/ui/product/product_screen.dart';
@@ -29,6 +30,7 @@ class Routes {
 
   // user
   static const String user_profile = '/user_profile';
+  static const String setting = '/setting';
 
   // order
   static const String confirm_order = '/confirm_order';
@@ -66,5 +68,6 @@ class Routes {
 
     // user
     user_profile: (BuildContext context) => const UserProfileScreen(),
+    setting: (BuildContext context) => const SettingScreen(),
   };
 }
