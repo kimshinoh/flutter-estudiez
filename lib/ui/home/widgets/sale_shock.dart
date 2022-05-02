@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/stores/category/product_store.dart';
 import 'package:fruity/ui/product/widgets/product_horizon.dart';
-import 'package:fruity/utils/currency_util.dart';
-import 'package:fruity/widgets/rediant-gradient.dart';
 import 'package:provider/provider.dart';
 
 class SaleShock extends StatefulWidget {
@@ -82,12 +79,7 @@ class _SaleShockState extends State<SaleShock> {
               return InkWell(
                   onTap: () {},
                   child: ProductHorizon(
-                    imageLink: _product.imageUrl,
-                    name: _product.name,
-                    price: _product.price,
-                    sellerName: "Chúa mới bít",
-                    sold: 55,
-                    unit: _product.unit!,
+                    product: _product,
                   ));
             },
           )

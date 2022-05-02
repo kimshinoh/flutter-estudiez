@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'product.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class Product {
   Product(
       {required this.id,

@@ -83,3 +83,19 @@ Map<String, dynamic> _$ProductsByIdsResponseDTOToJson(
       'products': instance.products,
       'message': instance.errorMessage,
     };
+
+GetProductByIdResponse _$GetProductByIdResponseFromJson(
+        Map<String, dynamic> json) =>
+    GetProductByIdResponse(
+      errorMessage: json['message'] as String?,
+      product: json['product'] == null
+          ? null
+          : Product.fromJson(json['product'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$GetProductByIdResponseToJson(
+        GetProductByIdResponse instance) =>
+    <String, dynamic>{
+      'product': instance.product?.toJson(),
+      'message': instance.errorMessage,
+    };

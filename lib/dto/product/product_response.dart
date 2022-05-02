@@ -133,3 +133,33 @@ class ProductsByIdsResponseDTO {
     );
   }
 }
+
+@JsonSerializable(explicitToJson: true)
+class GetProductByIdResponse {
+  GetProductByIdResponse({
+    String? errorMessage,
+    Product? product,
+  }) {
+    _errorMessage = errorMessage;
+    _product = product;
+  }
+
+  factory GetProductByIdResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetProductByIdResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$GetProductByIdResponseToJson(this);
+
+  factory GetProductByIdResponse.withError(String errorMessage) {
+    return GetProductByIdResponse(
+      errorMessage: errorMessage,
+      product: null,
+    );
+  }
+
+  String? _errorMessage;
+  Product? _product;
+
+  Product? get product => _product;
+
+  @JsonKey(name: 'message')
+  String? get errorMessage => _errorMessage;
+}
