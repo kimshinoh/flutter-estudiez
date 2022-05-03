@@ -9,6 +9,7 @@ import 'package:fruity/ui/personal/user_profile_screen.dart';
 import 'package:fruity/ui/product/product_detail_screen.dart';
 import 'package:fruity/ui/product/product_screen.dart';
 import 'package:fruity/ui/search/search_screen.dart';
+import 'package:fruity/ui/seller/seller_detail_screen.dart';
 import 'package:fruity/ui/splash/splash.dart';
 import 'package:fruity/ui/user_address/create_user_address_screen.dart';
 import 'package:fruity/ui/user_address/list_user_address_screen.dart';
@@ -42,6 +43,9 @@ class Routes {
   static const String create_user_address = '/create_user_address';
   static const String update_user_address = '/update_user_address';
 
+  // seller
+  static const String seller_detail = '/seller_detail';
+
   static final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => const SplashScreen(),
     home: (BuildContext context) => const HomeScreen(),
@@ -69,5 +73,8 @@ class Routes {
     // user
     user_profile: (BuildContext context) => const UserProfileScreen(),
     setting: (BuildContext context) => const SettingScreen(),
+
+    // seller
+    seller_detail: (BuildContext context) => const SellerDetailScreen(),
   };
 }

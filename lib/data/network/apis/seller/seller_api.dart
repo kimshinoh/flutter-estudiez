@@ -12,6 +12,7 @@ class SellerAPI {
     try {
       final Map<String, dynamic> response =
           await _dioClient.get('/sellers', queryParameters: req.toJson());
+
       return ListSellerResponse.fromJson(response);
     } catch (e) {
       if (e is NetworkException) {
@@ -20,6 +21,40 @@ class SellerAPI {
         );
       }
       return ListSellerResponse.withError(e.toString());
+    }
+  }
+
+  Future<SellerResponse> getSeller(String id) async {
+    try {
+      final Map<String, dynamic> response =
+          await _dioClient.get('/sellers/$id');
+
+      return SellerResponse.fromJson(response);
+    } catch (e) {
+      if (e is NetworkException) {
+        return SellerResponse.withError(
+          e.message ?? 'Có lỗi xảy ra',
+        );
+      }
+      return SellerResponse.withError(e.toString());
+    }
+  }
+
+  Future<ListProductsBySellerResponse> getProductsBySeller(
+    String sellerId,
+  ) async {
+    try {
+      final Map<String, dynamic> response =
+          await _dioClient.get('/sellers/$sellerId/products');
+
+      return ListProductsBySellerResponse.fromJson(response);
+    } catch (e) {
+      if (e is NetworkException) {
+        return ListProductsBySellerResponse.withError(
+          e.message ?? 'Có lỗi xảy ra',
+        );
+      }
+      return ListProductsBySellerResponse.withError(e.toString());
     }
   }
 }

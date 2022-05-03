@@ -5,13 +5,16 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/extensions/string_extension.dart';
 import 'package:fruity/models/product/product.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/location/location.dart';
 import 'package:fruity/stores/product/product_detail_store.dart';
 import 'package:fruity/ui/product/widgets/product_horizon.dart';
+import 'package:fruity/ui/seller/seller_detail_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/utils/datetime_util.dart';
 import 'package:fruity/widgets/cart_button.dart';
 import 'package:fruity/widgets/gradient_icon.dart';
+import 'package:fruity/widgets/seller_logo.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailAgruments {
@@ -167,10 +170,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           _divider(),
           _deliveryInfo(),
           _divider(),
+          _seller(),
+          _divider(),
           _description(),
           _divider(),
           // _reviews(),
-          // _divider(),
           _similarProducts(),
         ],
       ),
@@ -315,6 +319,71 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 }),
               ),
             ],
+          ),
+        );
+      });
+    });
+  }
+
+  Widget _seller() {
+    return Builder(builder: (context) {
+      ProductDetailStore _store = context.read<ProductDetailStore>();
+      return Observer(builder: (_) {
+        Product? product = _store.product;
+        if (product == null) {
+          return Container();
+        }
+
+        return GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.seller_detail,
+                arguments: SellerDetailAgruments(sellerId: product.sellerId));
+          },
+          child: Container(
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Nhà cung cấp',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SellerLogo(
+                        size: const Size(25, 25), logoUrl: product.seller.logo),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            product.seller.name,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            product.seller.headQuarter,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              color: Colors.grey,
+                            ),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         );
       });

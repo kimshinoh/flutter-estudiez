@@ -12,3 +12,14 @@ class ListSellerRequest {
 
   List<String>? ids = [];
 }
+
+@JsonSerializable(explicitToJson: true)
+class ListProductsBySellerRequest {
+  ListProductsBySellerRequest();
+
+  factory ListProductsBySellerRequest.fromJson(Map<String, dynamic> json) =>
+      _$ListProductsBySellerRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$ListProductsBySellerRequestToJson(this);
+
+  String? sellerId;
+}

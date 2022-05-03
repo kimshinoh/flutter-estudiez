@@ -90,7 +90,7 @@ class OrderItemWidget extends StatelessWidget {
                       child: Row(
                         children: [
                           SellerLogo(
-                              size: const Size(40, 40),
+                              size: const Size(20, 20),
                               logoUrl: order.seller.logo),
                           const SizedBox(
                             width: 10,
@@ -212,7 +212,7 @@ class _reOrderForm extends StatelessWidget {
             padding: const EdgeInsets.all(12),
             child: Row(
               children: [
-                SellerLogo(size: Size(40, 40), logoUrl: order.seller.logo),
+                SellerLogo(size: Size(20, 20), logoUrl: order.seller.logo),
                 const SizedBox(width: 10),
                 Expanded(
                   child: Text(
