@@ -41,6 +41,10 @@ class SettingScreen extends StatelessWidget {
                               TextButton(
                                 onPressed: () {
                                   _store.removeAuth();
+                                  Future.delayed(Duration.zero, () {
+                                    Navigator.pop(context);
+                                  });
+
                                   Navigator.pop(context);
                                 },
                                 child: const Text('Đăng xuất'),

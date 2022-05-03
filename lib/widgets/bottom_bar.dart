@@ -26,10 +26,6 @@ class _MyBottombarState extends State<MyBottombar> {
   static List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     ProductScreen(),
-    Text(
-      'Index 2: School',
-      style: optionStyle,
-    ),
     OrdersScreen(),
     PersonalScreen(),
   ];
@@ -53,11 +49,11 @@ class _MyBottombarState extends State<MyBottombar> {
             activeIcon: Icon(Icons.widgets),
             label: 'Sản phẩm',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_outlined),
-            activeIcon: Icon(Icons.notifications),
-            label: 'Thông báo',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.notifications_outlined),
+          //   activeIcon: Icon(Icons.notifications),
+          //   label: 'Thông báo',
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_basket_outlined),
             activeIcon: Icon(Icons.shopping_basket),
