@@ -1,13 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/category/product_store.dart';
+import 'package:fruity/stores/location/location.dart';
 import 'package:fruity/stores/user/auth_store.dart';
+import 'package:fruity/ui/home/widgets/custom_header/custom_header.dart';
 import 'package:fruity/ui/home/widgets/grid_categories.dart';
-import 'package:fruity/ui/home/widgets/header_home.dart';
 import 'package:fruity/ui/home/widgets/sale_off.dart';
 import 'package:fruity/ui/home/widgets/sale_shock.dart';
 import 'package:fruity/ui/home/widgets/top_products.dart';
+import 'package:fruity/widgets/cart_button.dart';
 import 'package:fruity/widgets/login_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:sliver_tools/sliver_tools.dart';
@@ -63,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    LocationStore _locationStore = context.read<LocationStore>();
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
     return Provider<ProductStore>(
@@ -79,11 +84,114 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 SliverToBoxAdapter(child: _body(width, height)),
                 SliverPersistentHeader(
-                  delegate: MyHomeHeader(
-                    minWidth: width * 0.75,
-                    searchBarMaxWidth: width * 0.94,
-                  ),
+                  floating: true,
                   pinned: true,
+                  delegate: FlexibleHeaderDelegate(
+                    statusBarHeight: MediaQuery.of(context).padding.top,
+                    expandedHeight: 130,
+                    background: const MutableBackground(
+                      collapsedColor: AppColors.primary,
+                      expandedColor: Colors.transparent,
+                    ),
+                    builderAction: (context, progress) {
+                      return Container(
+                          width: width,
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              // crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Opacity(
+                                    opacity: 1 - progress,
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.location_on,
+                                          color: Colors.white,
+                                          size: 12,
+                                        ),
+                                        SizedBox(
+                                          width: width * 0.7,
+                                          child: TextButton(
+                                            onPressed: () =>
+                                                Navigator.pushNamed(
+                                              context,
+                                              Routes.list_user_addressres,
+                                            ),
+                                            style: TextButton.styleFrom(
+                                              padding: EdgeInsets.zero,
+                                              minimumSize: Size.zero,
+                                              tapTargetSize:
+                                                  MaterialTapTargetSize
+                                                      .shrinkWrap,
+                                            ),
+                                            child: Observer(builder: (_) {
+                                              return Text(
+                                                _locationStore.address,
+                                                style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                              );
+                                            }),
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                                Align(
+                                  alignment: Alignment.topCenter,
+                                  child: CartButton(
+                                    badgeColor: Colors.red,
+                                  ),
+                                )
+                              ]));
+                    },
+                    child: FlexibleHeaderItem(
+                      expandedAlignment: Alignment.topCenter,
+                      expandedPadding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                      collapsedPadding: const EdgeInsets.fromLTRB(10, 0, 60, 0),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            Routes.search,
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.greenAccent),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(6)),
+                          ),
+                          height: 35,
+                          padding: const EdgeInsets.fromLTRB(15, 0, 10, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: const [
+                              Expanded(
+                                child: SizedBox(
+                                  child: Text(
+                                    'Freeship toàn sàn - An tâm phòng dịch',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.grey,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ),
+                              Icon(Icons.search, color: Colors.grey),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             )
