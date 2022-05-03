@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fruity/constants/app_color.dart';
 
 class SellerLogo extends StatelessWidget {
   Size size;
@@ -9,13 +10,11 @@ class SellerLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipOval(
-      child: SizedBox(
-        width: size.width,
-        height: size.height,
-        child: Image(
-          image: NetworkImage(logoUrl),
-          fit: BoxFit.cover,
-        ),
+      child: CircleAvatar(
+        backgroundColor: AppColors.palette.shade500,
+        radius: size.width,
+        child: CircleAvatar(
+            backgroundImage: NetworkImage(logoUrl), radius: size.width - 2),
       ),
     );
   }

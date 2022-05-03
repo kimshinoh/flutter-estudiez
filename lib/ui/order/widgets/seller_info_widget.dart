@@ -10,7 +10,7 @@ class SellerInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SellerLogo(size: Size(50, 50), logoUrl: seller.logo),
+        SellerLogo(size: Size(25, 25), logoUrl: seller.logo),
         const SizedBox(
           width: 10,
         ),

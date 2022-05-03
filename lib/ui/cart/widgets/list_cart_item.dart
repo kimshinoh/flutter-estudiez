@@ -73,7 +73,7 @@ class _ListCartItemState extends State<ListCartItem> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SellerLogo(
-                                  size: Size(40, 40), logoUrl: seller.logo),
+                                  size: Size(20, 20), logoUrl: seller.logo),
                               const SizedBox(
                                 width: 10,
                               ),
