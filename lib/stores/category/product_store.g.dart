@@ -9,6 +9,29 @@ part of 'product_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ProductStore on _ProductStoreBase, Store {
+  Computed<List<Product>>? _$sortedProductsComputed;
+
+  @override
+  List<Product> get sortedProducts => (_$sortedProductsComputed ??=
+          Computed<List<Product>>(() => super.sortedProducts,
+              name: '_ProductStoreBase.sortedProducts'))
+      .value;
+
+  final _$sortProductAtom = Atom(name: '_ProductStoreBase.sortProduct');
+
+  @override
+  SortProduct get sortProduct {
+    _$sortProductAtom.reportRead();
+    return super.sortProduct;
+  }
+
+  @override
+  set sortProduct(SortProduct value) {
+    _$sortProductAtom.reportWrite(value, super.sortProduct, () {
+      super.sortProduct = value;
+    });
+  }
+
   final _$productsAtom = Atom(name: '_ProductStoreBase.products');
 
   @override
@@ -138,6 +161,17 @@ mixin _$ProductStore on _ProductStoreBase, Store {
       ActionController(name: '_ProductStoreBase');
 
   @override
+  void setSortProduct(SortProduct sortProduct) {
+    final _$actionInfo = _$_ProductStoreBaseActionController.startAction(
+        name: '_ProductStoreBase.setSortProduct');
+    try {
+      return super.setSortProduct(sortProduct);
+    } finally {
+      _$_ProductStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void dispose() {
     final _$actionInfo = _$_ProductStoreBaseActionController.startAction(
         name: '_ProductStoreBase.dispose');
@@ -151,12 +185,14 @@ mixin _$ProductStore on _ProductStoreBase, Store {
   @override
   String toString() {
     return '''
+sortProduct: ${sortProduct},
 products: ${products},
 productsTopSale: ${productsTopSale},
 productsSaleOff: ${productsSaleOff},
 productsSaleShock: ${productsSaleShock},
 loading: ${loading},
-errorMessage: ${errorMessage}
+errorMessage: ${errorMessage},
+sortedProducts: ${sortedProducts}
     ''';
   }
 }

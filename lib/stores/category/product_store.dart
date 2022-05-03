@@ -18,8 +18,54 @@ abstract class _ProductStoreBase with Store {
 
   final ProductAPI _productAPI = ProductAPI(DioClient(Dio()));
 
+  List<SortProduct> sortProducts = [
+    SortProduct(
+      name: 'A - Z',
+      value: 'name',
+    ),
+    SortProduct(
+      name: 'Z - A',
+      value: '-name',
+    ),
+    SortProduct(
+      name: 'Giá cao nhất',
+      value: 'price',
+    ),
+    SortProduct(
+      name: 'Giá thấp nhất',
+      value: '-price',
+    ),
+  ];
+
+  @observable
+  SortProduct sortProduct = SortProduct(name: 'A - Z', value: 'name');
+
+  @action
+  void setSortProduct(SortProduct sortProduct) {
+    this.sortProduct = sortProduct;
+  }
+
   @observable
   List<Product> products = [];
+
+  @computed
+  List<Product> get sortedProducts {
+    return products
+      ..sort((a, b) {
+        switch (sortProduct.value) {
+          case 'name':
+            return a.name.compareTo(b.name);
+          case '-name':
+            return b.name.compareTo(a.name);
+          case 'price':
+            return b.price.compareTo(a.price);
+          case '-price':
+            return a.price.compareTo(b.price);
+          default:
+            return a.name.compareTo(b.name);
+        }
+      });
+  }
 
   @observable
   List<Product> productsTopSale = [];
@@ -121,4 +167,11 @@ abstract class _ProductStoreBase with Store {
     // idLoading = true;
     errorMessage = null;
   }
+}
+
+class SortProduct {
+  final String name;
+  final String value;
+
+  SortProduct({required this.name, required this.value});
 }

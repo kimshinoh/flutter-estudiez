@@ -5,6 +5,7 @@ import 'package:fruity/extensions/string_extension.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/category/category_store.dart';
+import 'package:fruity/stores/category/product_store.dart';
 import 'package:fruity/ui/product/product_detail_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/add_to_cart_button.dart';
@@ -20,35 +21,93 @@ class ProductList extends StatelessWidget {
 
     return Observer(
       builder: (BuildContext context) {
-        return Container(
-          margin: const EdgeInsets.only(left: 1),
-          decoration: BoxDecoration(
-            border: Border(
-              left: BorderSide(
-                color: Colors.grey.shade300,
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              alignment: Alignment.topLeft,
+              color: Colors.white,
+              margin: const EdgeInsets.only(left: 1),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          "${_categoryStore.productStore.products.length} sản phẩm"),
+                      PopupMenuButton(
+                          child: Row(
+                            children: [
+                              Text(
+                                _categoryStore.productStore.sortProduct.name,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              const Icon(
+                                Icons.swap_vert,
+                                size: 15,
+                                color: Colors.grey,
+                              )
+                            ],
+                          ),
+                          onSelected: (SortProduct result) {
+                            _categoryStore.productStore.setSortProduct(result);
+                          },
+                          itemBuilder: (BuildContext context) {
+                            return List.generate(
+                                _categoryStore.productStore.sortProducts.length,
+                                (int index) {
+                              SortProduct sortProduct = _categoryStore
+                                  .productStore.sortProducts[index];
+
+                              return PopupMenuItem(
+                                value: sortProduct,
+                                child: Text(sortProduct.name),
+                              );
+                            });
+                          })
+                    ]),
               ),
             ),
-          ),
-          child: Skeleton(
-            isLoading: _categoryStore.productStore.loading,
-            skeleton: const _ProductListSkeleton(),
-            child: ListView.separated(
-              separatorBuilder: (BuildContext context, int index) =>
-                  const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Divider(
-                  thickness: 1,
-                  height: 1,
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.only(left: 1),
+                decoration: BoxDecoration(
+                  border: Border(
+                    left: BorderSide(
+                      color: Colors.grey.shade300,
+                    ),
+                  ),
+                ),
+                child: Skeleton(
+                  isLoading: _categoryStore.productStore.loading,
+                  skeleton: const _ProductListSkeleton(),
+                  child: ListView.separated(
+                    physics: const ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Divider(
+                        thickness: 1,
+                        height: 1,
+                      ),
+                    ),
+                    itemCount:
+                        _categoryStore.productStore.sortedProducts.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Product product =
+                          _categoryStore.productStore.sortedProducts[index];
+                      return _ProductItem(product: product);
+                    },
+                  ),
                 ),
               ),
-              itemCount: _categoryStore.productStore.products.length,
-              itemBuilder: (BuildContext context, int index) {
-                final Product product =
-                    _categoryStore.productStore.products[index];
-                return _ProductItem(product: product);
-              },
-            ),
-          ),
+            )
+          ],
         );
       },
     );
@@ -100,7 +159,7 @@ class _ProductItem extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              product.name.trim(),
+                              product.name.trim().capitalize(),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
