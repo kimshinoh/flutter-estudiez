@@ -73,7 +73,6 @@ abstract class _SellerDetailStoreBase with Store {
   @action
   Future<void> getProductsBySeller(String id) async {
     try {
-      loading = true;
       final ListProductsBySellerResponse response =
           await _sellerApi.getProductsBySeller(id);
       if (response.errorMessage != null) {
@@ -88,9 +87,7 @@ abstract class _SellerDetailStoreBase with Store {
       } else {
         errorMessage = e.toString();
       }
-    } finally {
-      loading = false;
-    }
+    } finally {}
   }
 
   @observable
