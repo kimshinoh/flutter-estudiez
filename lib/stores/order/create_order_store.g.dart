@@ -9,12 +9,12 @@ part of 'create_order_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
-  Computed<double>? _$feeShippingComputed;
+  Computed<double>? _$shippingFeeComputed;
 
   @override
-  double get feeShipping =>
-      (_$feeShippingComputed ??= Computed<double>(() => super.feeShipping,
-              name: '_CreateOrderStoreBase.feeShipping'))
+  double get shippingFee =>
+      (_$shippingFeeComputed ??= Computed<double>(() => super.shippingFee,
+              name: '_CreateOrderStoreBase.shippingFee'))
           .value;
   Computed<double>? _$totalPriceComputed;
 
@@ -128,6 +128,21 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
+  final _$sellerAtom = Atom(name: '_CreateOrderStoreBase.seller');
+
+  @override
+  Seller? get seller {
+    _$sellerAtom.reportRead();
+    return super.seller;
+  }
+
+  @override
+  set seller(Seller? value) {
+    _$sellerAtom.reportWrite(value, super.seller, () {
+      super.seller = value;
+    });
+  }
+
   final _$itemsAtom = Atom(name: '_CreateOrderStoreBase.items');
 
   @override
@@ -140,6 +155,21 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
   set items(List<CartItem> value) {
     _$itemsAtom.reportWrite(value, super.items, () {
       super.items = value;
+    });
+  }
+
+  final _$addressAtom = Atom(name: '_CreateOrderStoreBase.address');
+
+  @override
+  UserAddress? get address {
+    _$addressAtom.reportRead();
+    return super.address;
+  }
+
+  @override
+  set address(UserAddress? value) {
+    _$addressAtom.reportWrite(value, super.address, () {
+      super.address = value;
     });
   }
 
@@ -156,6 +186,14 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     _$distanceAtom.reportWrite(value, super.distance, () {
       super.distance = value;
     });
+  }
+
+  final _$calcDistanceAsyncAction =
+      AsyncAction('_CreateOrderStoreBase.calcDistance');
+
+  @override
+  Future<void> calcDistance() {
+    return _$calcDistanceAsyncAction.run(() => super.calcDistance());
   }
 
   final _$createOrderAsyncAction =
@@ -225,6 +263,28 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
   }
 
   @override
+  void setSeller(Seller seller) {
+    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
+        name: '_CreateOrderStoreBase.setSeller');
+    try {
+      return super.setSeller(seller);
+    } finally {
+      _$_CreateOrderStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setAddress(UserAddress? address) {
+    final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
+        name: '_CreateOrderStoreBase.setAddress');
+    try {
+      return super.setAddress(address);
+    } finally {
+      _$_CreateOrderStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void clear() {
     final _$actionInfo = _$_CreateOrderStoreBaseActionController.startAction(
         name: '_CreateOrderStoreBase.clear');
@@ -244,9 +304,11 @@ receivedAt: ${receivedAt},
 note: ${note},
 payment: ${payment},
 sellerId: ${sellerId},
+seller: ${seller},
 items: ${items},
+address: ${address},
 distance: ${distance},
-feeShipping: ${feeShipping},
+shippingFee: ${shippingFee},
 totalPrice: ${totalPrice},
 itemsPrice: ${itemsPrice},
 canCreateOrder: ${canCreateOrder}

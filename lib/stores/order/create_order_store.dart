@@ -5,7 +5,11 @@ import 'package:fruity/data/network/exceptions/network_exceptions.dart';
 import 'package:fruity/dto/order/order_request.dart';
 import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/models/payment/payment.dart';
+import 'package:fruity/models/seller/seller.dart';
 import 'package:fruity/models/user_address/user_address.dart';
+import 'package:fruity/utils/location_util.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mobx/mobx.dart';
 
 part 'create_order_store.g.dart';
@@ -14,6 +18,18 @@ class CreateOrderStore = _CreateOrderStoreBase with _$CreateOrderStore;
 
 abstract class _CreateOrderStoreBase with Store {
   final OrderAPI _orderAPI = OrderAPI(DioClient(Dio()));
+
+  List<ReactionDisposer> _disposers = [];
+
+  void setupUpdateAddress() {
+    _disposers = [
+      reaction((_) => address, (_) {
+        if (address != null) {
+          calcDistance();
+        }
+      }),
+    ];
+  }
 
   @observable
   bool isLoading = false;
@@ -34,24 +50,32 @@ abstract class _CreateOrderStoreBase with Store {
   String? sellerId;
 
   @observable
+  Seller? seller;
+
+  @observable
   List<CartItem> items = [];
+
+  @observable
+  UserAddress? address;
 
   @observable
   double distance = 2;
 
   @computed
-  double get feeShipping {
+  double get shippingFee {
     return distance * 6000;
   }
 
   @computed
   double get totalPrice {
-    return itemsPrice + feeShipping;
+    return itemsPrice + shippingFee;
   }
 
   @computed
   double get itemsPrice => items.fold(
-      0, (double sum, CartItem item) => sum + item.price * item.quantity);
+        0,
+        (double sum, CartItem item) => sum + item.price * item.quantity,
+      );
 
   @action
   void setItems(List<CartItem> items) {
@@ -79,6 +103,16 @@ abstract class _CreateOrderStoreBase with Store {
   }
 
   @action
+  void setSeller(Seller seller) {
+    this.seller = seller;
+  }
+
+  @action
+  void setAddress(UserAddress? address) {
+    this.address = address;
+  }
+
+  @action
   void clear() {
     items = [];
     payment = null;
@@ -93,6 +127,24 @@ abstract class _CreateOrderStoreBase with Store {
   }
 
   @action
+  Future<void> calcDistance() async {
+    if (seller == null) {
+      return;
+    }
+    final Location _location =
+        await LocationHelper.determineLocation(seller!.headQuarter);
+
+    distance = double.parse(
+      LocationHelper.calculateDistance(
+        address!.latitude,
+        address!.longitude,
+        _location.latitude,
+        _location.longitude,
+      ).toStringAsFixed(1),
+    );
+  }
+
+  @action
   Future<void> createOrder(UserAddress userAddress) async {
     isLoading = true;
     final CreateOrderRequest request = CreateOrderRequest(
@@ -102,6 +154,8 @@ abstract class _CreateOrderStoreBase with Store {
       orderItems: items,
       receivedAt: receivedAt,
       sellerId: sellerId ?? '',
+      shippingFee: shippingFee,
+      shippingDistance: distance,
     );
 
     try {

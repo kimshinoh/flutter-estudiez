@@ -32,15 +32,17 @@ class ConfirmOrderScreen extends StatelessWidget {
 
     String sellerId = args.sellerId;
     OrderConfirmationStore _orderConfirmationStore = OrderConfirmationStore();
+    _orderConfirmationStore.createOrderStore.setupUpdateAddress();
     return Scaffold(
         appBar: AppBar(
           title: const Text('Xác nhận đơn hàng'),
           centerTitle: true,
         ),
-        bottomNavigationBar: Provider.value(
-            value: _orderConfirmationStore, child: ButtonCreateOrder()),
-        body: Provider<OrderConfirmationStore>.value(
-          value: _orderConfirmationStore,
+        bottomNavigationBar: Provider(
+            create: (_) => _orderConfirmationStore,
+            child: const ButtonCreateOrder()),
+        body: Provider(
+          create: (_) => _orderConfirmationStore,
           child: _body(sellerId: sellerId),
         ));
   }
@@ -55,6 +57,7 @@ class _body extends StatelessWidget {
     {
       final CartStore cartStore = context.read<CartStore>();
       final AuthStore authStore = context.read<AuthStore>();
+
       final List<CartItem>? items = cartStore.groupedItemsBySeller[sellerId];
 
       final OrderConfirmationStore _orderConfirmationStore =
@@ -70,6 +73,16 @@ class _body extends StatelessWidget {
       if (defaultPayment != null) {
         _orderConfirmationStore.createOrderStore.setPayment(defaultPayment);
       }
+      Seller? seller = cartStore.sellerStore.sellersMap[sellerId];
+
+      if (seller != null) {
+        _orderConfirmationStore.createOrderStore.setSeller(seller);
+      }
+
+      if (authStore.userAddressStore.defaultAddress != null) {
+        _orderConfirmationStore.createOrderStore
+            .setAddress(authStore.userAddressStore.defaultAddress);
+      }
 
       return ListView(
         children: [
@@ -78,12 +91,16 @@ class _body extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: Column(
-                children: const [
-                  UserAddressWidget(),
-                  SizedBox(
+                children: [
+                  Observer(builder: (_) {
+                    _orderConfirmationStore.createOrderStore
+                        .setAddress(authStore.userAddressStore.defaultAddress);
+                    return const UserAddressWidget();
+                  }),
+                  const SizedBox(
                     height: 10,
                   ),
-                  SelectReceivedTime()
+                  const SelectReceivedTime()
                 ],
               ),
             ),
@@ -97,24 +114,18 @@ class _body extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               child: Column(
                 children: [
-                  Observer(
-                    builder: (_) {
-                      final Seller? seller = cartStore.sellerStore.sellersMap[
-                          _orderConfirmationStore.createOrderStore.sellerId];
-                      if (seller == null) {
-                        return Container();
-                      }
-                      return SellerInfoWidget(seller: seller);
-                    },
-                  ),
-                  SizedBox(
+                  if (seller != null)
+                    SellerInfoWidget(seller: seller)
+                  else
+                    Container(),
+                  const SizedBox(
                     height: 20,
                   ),
-                  ListCartItem(),
-                  SizedBox(
+                  const ListCartItem(),
+                  const SizedBox(
                     height: 20,
                   ),
-                  _PriceInfo(),
+                  const _PriceInfo(),
                 ],
               ),
             ),
@@ -183,20 +194,24 @@ class _PriceInfo extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Text(
-                  'Phí giao hàng (${_orderConfirmationStore.createOrderStore.distance} km)',
+                child: Observer(builder: (_) {
+                  return Text(
+                    'Phí giao hàng (${_orderConfirmationStore.createOrderStore.distance} km)',
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.grey,
+                    ),
+                  );
+                }),
+              ),
+              Observer(builder: (_) {
+                return Text(
+                  '${CurrencyHelper.withCommas(value: _orderConfirmationStore.createOrderStore.shippingFee, removeDecimal: true)} ₫',
                   style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.grey,
-                  ),
-                ),
-              ),
-              Text(
-                '${CurrencyHelper.withCommas(value: _orderConfirmationStore.createOrderStore.feeShipping, removeDecimal: true)} ₫',
-                style:
-                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-              ),
+                      fontSize: 14, fontWeight: FontWeight.w600),
+                );
+              }),
             ],
           ),
           const SizedBox(

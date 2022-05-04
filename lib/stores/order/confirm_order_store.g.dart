@@ -39,52 +39,6 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     });
   }
 
-  final _$noteAtom = Atom(name: '_OrderConfirmationStoreBase.note');
-
-  @override
-  String get note {
-    _$noteAtom.reportRead();
-    return super.note;
-  }
-
-  @override
-  set note(String value) {
-    _$noteAtom.reportWrite(value, super.note, () {
-      super.note = value;
-    });
-  }
-
-  final _$userAddressAtom =
-      Atom(name: '_OrderConfirmationStoreBase.userAddress');
-
-  @override
-  UserAddress? get userAddress {
-    _$userAddressAtom.reportRead();
-    return super.userAddress;
-  }
-
-  @override
-  set userAddress(UserAddress? value) {
-    _$userAddressAtom.reportWrite(value, super.userAddress, () {
-      super.userAddress = value;
-    });
-  }
-
-  final _$paymentAtom = Atom(name: '_OrderConfirmationStoreBase.payment');
-
-  @override
-  Payment? get payment {
-    _$paymentAtom.reportRead();
-    return super.payment;
-  }
-
-  @override
-  set payment(Payment? value) {
-    _$paymentAtom.reportWrite(value, super.payment, () {
-      super.payment = value;
-    });
-  }
-
   final _$timesCanSelectAtom =
       Atom(name: '_OrderConfirmationStoreBase.timesCanSelect');
 
@@ -127,39 +81,6 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
   }
 
   @override
-  void setNote(String note) {
-    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
-        .startAction(name: '_OrderConfirmationStoreBase.setNote');
-    try {
-      return super.setNote(note);
-    } finally {
-      _$_OrderConfirmationStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setUserAddress(UserAddress userAddress) {
-    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
-        .startAction(name: '_OrderConfirmationStoreBase.setUserAddress');
-    try {
-      return super.setUserAddress(userAddress);
-    } finally {
-      _$_OrderConfirmationStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setPayment(Payment payment) {
-    final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
-        .startAction(name: '_OrderConfirmationStoreBase.setPayment');
-    try {
-      return super.setPayment(payment);
-    } finally {
-      _$_OrderConfirmationStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   dynamic confirmReceivedAt() {
     final _$actionInfo = _$_OrderConfirmationStoreBaseActionController
         .startAction(name: '_OrderConfirmationStoreBase.confirmReceivedAt');
@@ -186,9 +107,6 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     return '''
 receivedAt: ${receivedAt},
 time: ${time},
-note: ${note},
-userAddress: ${userAddress},
-payment: ${payment},
 timesCanSelect: ${timesCanSelect}
     ''';
   }

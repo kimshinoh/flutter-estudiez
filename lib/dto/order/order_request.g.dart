@@ -15,6 +15,8 @@ CreateOrderRequest _$CreateOrderRequestFromJson(Map<String, dynamic> json) =>
           .toList(),
       receivedAt: const CustomDateTimeConverter()
           .fromJson(json['received_at'] as String),
+      shippingDistance: (json['shipping_distance'] as num?)?.toDouble() ?? 0,
+      shippingFee: (json['shipping_fee'] as num?)?.toDouble() ?? 0,
       userAddressId: json['user_address_id'] as String?,
       note: json['note'] as String?,
     );
@@ -27,6 +29,8 @@ Map<String, dynamic> _$CreateOrderRequestToJson(CreateOrderRequest instance) =>
       'received_at':
           const CustomDateTimeConverter().toJson(instance.receivedAt),
       'user_address_id': instance.userAddressId,
+      'shipping_fee': instance.shippingFee,
+      'shipping_distance': instance.shippingDistance,
       'note': instance.note,
     };
 

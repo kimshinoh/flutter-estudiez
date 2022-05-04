@@ -283,7 +283,7 @@ class _PriceInfo extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'Phí giao hàng (${order.shippingDistance} km)',
+                    'Phí giao hàng (${order.shippingDistance}km)',
                     style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.normal,

@@ -158,71 +158,73 @@ class _DefaultAddress extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
-      child: ListView(
-        shrinkWrap: true,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Giao tới',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.list_user_addressres);
-                },
-                child: Text(
-                  'Thay đổi',
-                  style: TextStyle(color: Colors.blue.shade400, fontSize: 14),
+      child: Observer(builder: (_) {
+        return ListView(
+          shrinkWrap: true,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Giao tới',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-              )
-            ],
-          ),
-          Row(
-            children: [
-              const Icon(Icons.person_outline),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Text(
-                  _authStore.userAddressStore.defaultAddress!.fullName,
-                  overflow: TextOverflow.ellipsis,
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.list_user_addressres);
+                  },
+                  child: Text(
+                    'Thay đổi',
+                    style: TextStyle(color: Colors.blue.shade400, fontSize: 14),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                const Icon(Icons.person_outline),
+                const SizedBox(
+                  width: 10,
                 ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            children: [
-              const Icon(Icons.phone_outlined),
-              const SizedBox(
-                width: 10,
-              ),
-              Text(_authStore.userAddressStore.defaultAddress!.phoneNumber)
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Icon(Icons.location_on_outlined),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child:
-                    Text(_authStore.userAddressStore.defaultAddress!.address),
-              )
-            ],
-          ),
-        ],
-      ),
+                Expanded(
+                  child: Text(
+                    _authStore.userAddressStore.defaultAddress!.fullName,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Row(
+              children: [
+                const Icon(Icons.phone_outlined),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(_authStore.userAddressStore.defaultAddress!.phoneNumber)
+              ],
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.location_on_outlined),
+                const SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child:
+                      Text(_authStore.userAddressStore.defaultAddress!.address),
+                )
+              ],
+            ),
+          ],
+        );
+      }),
     );
   }
 }

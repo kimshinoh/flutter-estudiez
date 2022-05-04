@@ -267,7 +267,7 @@ class _sellerInfo extends StatelessWidget {
                       Row(
                         children: [
                           Icon(
-                            Icons.motorcycle,
+                            Icons.watch_later,
                             size: 20,
                             color: Colors.yellow.shade700,
                           ),

@@ -12,6 +12,8 @@ class CreateOrderRequest {
       required this.paymentId,
       required this.orderItems,
       required this.receivedAt,
+      required this.shippingDistance,
+      required this.shippingFee,
       this.userAddressId,
       this.note});
 
@@ -33,6 +35,12 @@ class CreateOrderRequest {
 
   @JsonKey(name: 'user_address_id')
   String? userAddressId;
+
+  @JsonKey(name: 'shipping_fee', defaultValue: 0)
+  double shippingFee;
+
+  @JsonKey(name: 'shipping_distance', defaultValue: 0)
+  double shippingDistance;
 
   @JsonKey(name: 'note')
   String? note;

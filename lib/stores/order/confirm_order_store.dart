@@ -71,14 +71,6 @@ abstract class _OrderConfirmationStoreBase with Store {
   String time = DateTimeHelper.formatDate(DateTime.now(), 'HH:mm');
 
   @observable
-  String note = '';
-  @observable
-  UserAddress? userAddress;
-
-  @observable
-  Payment? payment;
-
-  @observable
   List<String> timesCanSelect = [];
 
   List<DateTime> get getDatesCanSelect {
@@ -98,21 +90,6 @@ abstract class _OrderConfirmationStoreBase with Store {
   @action
   void setTime(String time) {
     this.time = time;
-  }
-
-  @action
-  void setNote(String note) {
-    this.note = note;
-  }
-
-  @action
-  void setUserAddress(UserAddress userAddress) {
-    this.userAddress = userAddress;
-  }
-
-  @action
-  void setPayment(Payment payment) {
-    this.payment = payment;
   }
 
   @action

@@ -589,7 +589,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             const SizedBox(height: 10),
             Container(
-              height: 70,
               padding: const EdgeInsets.all(10),
               width: MediaQuery.of(context).size.width * 0.9,
               decoration: BoxDecoration(
@@ -608,10 +607,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       color: AppColors.primary,
                     ),
                   ),
-                  const Text(
-                    '99.999₫ (*Chỉ giao hàng tại Hà Nội)',
-                    style: TextStyle(fontSize: 13, color: Colors.black),
-                  )
                 ],
               ),
             )
