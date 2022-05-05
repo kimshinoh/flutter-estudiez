@@ -275,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _underHeader(double width, double height) {
     return Container(
-      constraints: BoxConstraints(minHeight: height * 2.5),
+      constraints: BoxConstraints(minHeight: height * 3),
       child: Stack(
         children: [
           CarouselSlider(

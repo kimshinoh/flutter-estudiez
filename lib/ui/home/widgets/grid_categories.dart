@@ -42,8 +42,9 @@ class _body extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
             child: Align(
+              alignment: Alignment.center,
               child: Wrap(
-                alignment: WrapAlignment.spaceBetween,
+                alignment: WrapAlignment.start,
                 children: [
                   ..._parentCategoryStore.categories.map((category) {
                     return Padding(
@@ -84,10 +85,14 @@ class _categoryItem extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          Text(
-            category.name,
-            style: TextStyle(
-              fontSize: textSize,
+          SizedBox(
+            width: 70,
+            child: Text(
+              category.name,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: textSize,
+              ),
             ),
           ),
         ],
