@@ -93,6 +93,55 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
+  final _$productsTopSaleBigAtom =
+      Atom(name: '_ProductStoreBase.productsTopSaleBig');
+
+  @override
+  List<Product> get productsTopSaleBig {
+    _$productsTopSaleBigAtom.reportRead();
+    return super.productsTopSaleBig;
+  }
+
+  @override
+  set productsTopSaleBig(List<Product> value) {
+    _$productsTopSaleBigAtom.reportWrite(value, super.productsTopSaleBig, () {
+      super.productsTopSaleBig = value;
+    });
+  }
+
+  final _$productsSaleOffBigAtom =
+      Atom(name: '_ProductStoreBase.productsSaleOffBig');
+
+  @override
+  List<Product> get productsSaleOffBig {
+    _$productsSaleOffBigAtom.reportRead();
+    return super.productsSaleOffBig;
+  }
+
+  @override
+  set productsSaleOffBig(List<Product> value) {
+    _$productsSaleOffBigAtom.reportWrite(value, super.productsSaleOffBig, () {
+      super.productsSaleOffBig = value;
+    });
+  }
+
+  final _$productsSaleShockBigAtom =
+      Atom(name: '_ProductStoreBase.productsSaleShockBig');
+
+  @override
+  List<Product> get productsSaleShockBig {
+    _$productsSaleShockBigAtom.reportRead();
+    return super.productsSaleShockBig;
+  }
+
+  @override
+  set productsSaleShockBig(List<Product> value) {
+    _$productsSaleShockBigAtom.reportWrite(value, super.productsSaleShockBig,
+        () {
+      super.productsSaleShockBig = value;
+    });
+  }
+
   final _$loadingAtom = Atom(name: '_ProductStoreBase.loading');
 
   @override
@@ -183,6 +232,17 @@ mixin _$ProductStore on _ProductStoreBase, Store {
   }
 
   @override
+  void disposeBig() {
+    final _$actionInfo = _$_ProductStoreBaseActionController.startAction(
+        name: '_ProductStoreBase.disposeBig');
+    try {
+      return super.disposeBig();
+    } finally {
+      _$_ProductStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 sortProduct: ${sortProduct},
@@ -190,6 +250,9 @@ products: ${products},
 productsTopSale: ${productsTopSale},
 productsSaleOff: ${productsSaleOff},
 productsSaleShock: ${productsSaleShock},
+productsTopSaleBig: ${productsTopSaleBig},
+productsSaleOffBig: ${productsSaleOffBig},
+productsSaleShockBig: ${productsSaleShockBig},
 loading: ${loading},
 errorMessage: ${errorMessage},
 sortedProducts: ${sortedProducts}

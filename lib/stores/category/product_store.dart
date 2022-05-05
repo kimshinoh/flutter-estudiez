@@ -75,6 +75,14 @@ abstract class _ProductStoreBase with Store {
 
   @observable
   List<Product> productsSaleShock = [];
+  @observable
+  List<Product> productsTopSaleBig = [];
+
+  @observable
+  List<Product> productsSaleOffBig = [];
+
+  @observable
+  List<Product> productsSaleShockBig = [];
 
   @observable
   bool loading = true;
@@ -91,7 +99,11 @@ abstract class _ProductStoreBase with Store {
       if (res.errorMessage != null) {
         errorMessage = res.errorMessage;
       } else {
-        productsTopSale = res.products;
+        if (limit > 20) {
+          productsTopSaleBig = res.products;
+        } else {
+          productsTopSale = res.products;
+        }
       }
     } catch (err) {
       errorMessage = err.toString();
@@ -110,7 +122,11 @@ abstract class _ProductStoreBase with Store {
       if (res.errorMessage != null) {
         errorMessage = res.errorMessage;
       } else {
-        productsSaleShock = res.products;
+        if (limit > 20) {
+          productsSaleShockBig = res.products;
+        } else {
+          productsSaleShock = res.products;
+        }
       }
     } catch (err) {
       errorMessage = err.toString();
@@ -129,7 +145,11 @@ abstract class _ProductStoreBase with Store {
       if (res.errorMessage != null) {
         errorMessage = res.errorMessage;
       } else {
-        productsSaleOff = res.products;
+        if (limit > 20) {
+          productsSaleOffBig = res.products;
+        } else {
+          productsSaleOff = res.products;
+        }
       }
     } catch (err) {
       errorMessage = err.toString();
@@ -166,6 +186,18 @@ abstract class _ProductStoreBase with Store {
     loading = true;
     // idLoading = true;
     errorMessage = null;
+    productsSaleOffBig = [];
+    productsSaleShockBig = [];
+    productsTopSaleBig = [];
+  }
+
+  @action
+  void disposeBig() {
+    loading = true;
+    errorMessage = null;
+    productsSaleOffBig = [];
+    productsSaleShockBig = [];
+    productsTopSaleBig = [];
   }
 }
 

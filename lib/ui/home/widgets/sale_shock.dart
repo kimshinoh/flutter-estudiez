@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/category/product_store.dart';
+import 'package:fruity/ui/home/watch_more.dart';
 import 'package:fruity/ui/product/product_detail_screen.dart';
 import 'package:fruity/ui/product/widgets/product_horizon.dart';
 import 'package:provider/provider.dart';
@@ -44,23 +45,34 @@ class _SaleShockState extends State<SaleShock> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      Row(
-                        children: const <Widget>[
-                          Text(
-                            'Xem thêm',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: 15,
-                            color: Colors.grey,
-                          )
-                        ],
-                      )
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => WatchMore(
+                                  type: "shock",
+                                ),
+                              ),
+                            );
+                          },
+                          child: Row(
+                            children: const <Widget>[
+                              Text(
+                                'Xem thêm',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 15,
+                                color: Colors.grey,
+                              )
+                            ],
+                          ))
                     ],
                   ),
                   const SizedBox(

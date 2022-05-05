@@ -4,6 +4,7 @@ import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/category/product_store.dart';
+import 'package:fruity/ui/home/watch_more.dart';
 import 'package:fruity/ui/product/product_detail_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
@@ -48,23 +49,34 @@ class _SaleOffState extends State<SaleOff> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                Row(
-                  children: const <Widget>[
-                    Text(
-                      'Xem thêm',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 15,
-                      color: Colors.grey,
-                    )
-                  ],
-                )
+                GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => WatchMore(
+                            type: "off",
+                          ),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: const <Widget>[
+                        Text(
+                          'Xem thêm',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 15,
+                          color: Colors.grey,
+                        )
+                      ],
+                    ))
               ],
             ),
           ),
@@ -131,33 +143,44 @@ class _SaleOffState extends State<SaleOff> {
   }
 
   Widget _watchMore(BuildContext context) {
-    return SizedBox(
-      width: 150,
-      height: 325,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Icon(
-              Icons.arrow_circle_right_rounded,
-              size: 40,
-              color: AppColors.primary,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Xem thêm',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
+    return InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WatchMore(
+                type: "off",
               ),
             ),
-          ],
-        ),
-      ),
-    );
+          );
+        },
+        child: SizedBox(
+          width: 150,
+          height: 325,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const <Widget>[
+                Icon(
+                  Icons.arrow_circle_right_rounded,
+                  size: 40,
+                  color: AppColors.primary,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  'Xem thêm',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 
   Widget _builderItem(BuildContext context, int index) {

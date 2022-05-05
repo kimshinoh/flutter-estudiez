@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fruity/models/product/product.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/category/product_store.dart';
+import 'package:fruity/ui/home/watch_more.dart';
 import 'package:fruity/ui/product/product_detail_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/gradient_text.dart';
@@ -68,23 +69,32 @@ class _TopProductsState extends State<TopProducts> {
                   ),
                 ],
               ),
-              Row(
-                children: const [
-                  Text(
-                    'Xem thêm',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: 15,
-                    color: Colors.grey,
-                  )
-                ],
-              )
+              GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WatchMore(type: "top",),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    children: const [
+                      Text(
+                        'Xem thêm',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 15,
+                        color: Colors.grey,
+                      )
+                    ],
+                  ))
             ],
           ),
         ),
