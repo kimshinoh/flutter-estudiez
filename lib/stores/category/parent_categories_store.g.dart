@@ -9,6 +9,21 @@ part of 'parent_categories_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ParentCategoryStore on _ParentCategoryStoreBase, Store {
+  final _$categoryIdAtom = Atom(name: '_ParentCategoryStoreBase.categoryId');
+
+  @override
+  String? get categoryId {
+    _$categoryIdAtom.reportRead();
+    return super.categoryId;
+  }
+
+  @override
+  set categoryId(String? value) {
+    _$categoryIdAtom.reportWrite(value, super.categoryId, () {
+      super.categoryId = value;
+    });
+  }
+
   final _$categoriesAtom = Atom(name: '_ParentCategoryStoreBase.categories');
 
   @override
@@ -63,9 +78,24 @@ mixin _$ParentCategoryStore on _ParentCategoryStoreBase, Store {
     return _$getCategoriesAsyncAction.run(() => super.getCategories());
   }
 
+  final _$_ParentCategoryStoreBaseActionController =
+      ActionController(name: '_ParentCategoryStoreBase');
+
+  @override
+  void setCategoryId(String? categoryId) {
+    final _$actionInfo = _$_ParentCategoryStoreBaseActionController.startAction(
+        name: '_ParentCategoryStoreBase.setCategoryId');
+    try {
+      return super.setCategoryId(categoryId);
+    } finally {
+      _$_ParentCategoryStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
+categoryId: ${categoryId},
 categories: ${categories},
 loading: ${loading},
 errorMessage: ${errorMessage}

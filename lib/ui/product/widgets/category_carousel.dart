@@ -7,23 +7,58 @@ import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:skeletons/skeletons.dart';
 
-class CategoryCarousel extends StatefulWidget {
-  const CategoryCarousel({Key? key}) : super(key: key);
-
+class CategoryCarousel extends StatelessWidget {
   @override
-  State<CategoryCarousel> createState() => _CategoryCarouselState();
+  Widget build(BuildContext context) {
+    final CategoryStore _categoryStore = context.read<CategoryStore>();
+    return SizedBox(
+      height: 100,
+      child: Observer(
+        builder: (_) {
+          return Skeleton(
+              isLoading: _categoryStore.parentCategoryStore.loading,
+              skeleton: const _CategoryListSkeleton(),
+              child: _categoryList());
+        },
+      ),
+    );
+  }
 }
 
-class _CategoryCarouselState extends State<CategoryCarousel> {
-  late CategoryStore _categoryStore;
+class _categoryList extends StatefulWidget {
+  _categoryList({Key? key}) : super(key: key);
+
+  @override
+  State<_categoryList> createState() => _categoryListState();
+}
+
+class _categoryListState extends State<_categoryList> {
   late ItemScrollController itemScrollController;
+  late CategoryStore _categoryStore;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    itemScrollController = ItemScrollController();
+
     _categoryStore = context.read<CategoryStore>();
+    final String? categoryId = _categoryStore.parentCategoryStore.categoryId;
+    itemScrollController = ItemScrollController();
+
+    final Category? selectedCategory = _categoryStore.selectedCategory;
+
+    if (selectedCategory != null) {
+      final int index = _categoryStore.parentCategoryStore.categories
+          .indexOf(selectedCategory);
+      Future<void>.delayed(Duration.zero, () {
+        itemScrollController.scrollTo(
+          index: index,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+          alignment: 0.5,
+        );
+      });
+    }
   }
 
   @override
@@ -47,36 +82,20 @@ class _CategoryCarouselState extends State<CategoryCarousel> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 100,
-      child: Observer(
-        builder: (_) {
-          return Skeleton(
-            isLoading: _categoryStore.parentCategoryStore.loading,
-            skeleton: const _CategoryListSkeleton(),
-            child: ScrollablePositionedList.builder(
-              itemCount: _categoryStore.parentCategoryStore.categories.length,
-              itemScrollController: itemScrollController,
-              padding: EdgeInsets.zero,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) => _CategoryItem(
-                category: _categoryStore.parentCategoryStore.categories[index],
-                scrollTo: () {
-                  itemScrollController.scrollTo(
-                    index: index,
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeInOut,
-                    alignment: 0.5,
-                  );
-                },
-              ),
-            ),
+    return ScrollablePositionedList.builder(
+      itemCount: _categoryStore.parentCategoryStore.categories.length,
+      itemScrollController: itemScrollController,
+      padding: EdgeInsets.zero,
+      scrollDirection: Axis.horizontal,
+      itemBuilder: (BuildContext context, int index) => _CategoryItem(
+        category: _categoryStore.parentCategoryStore.categories[index],
+        scrollTo: () {
+          itemScrollController.scrollTo(
+            index: index,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            alignment: 0.5,
           );
         },
       ),

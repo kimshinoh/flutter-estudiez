@@ -40,7 +40,9 @@ abstract class _CategoryStoreBase with Store {
   }
 
   @action
-  Future<void> init(String? categoryId) async {
+  Future<void> init() async {
+    final String? categoryId = parentCategoryStore.categoryId;
+
     if (parentCategoryStore.categories.isEmpty) {
       await parentCategoryStore.getCategories();
       if (parentCategoryStore.categories.isNotEmpty) {

@@ -1,191 +1,93 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fruity/models/category/category.dart';
+import 'package:fruity/routes.dart';
+import 'package:fruity/stores/category/parent_categories_store.dart';
+import 'package:fruity/ui/product/product_screen.dart';
+import 'package:provider/provider.dart';
 
 class GridCategory extends StatelessWidget {
   const GridCategory({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ParentCategoryStore _parentCategoryStore = ParentCategoryStore();
+    _parentCategoryStore.getCategories();
+
+    return Provider(
+      create: (_) => _parentCategoryStore,
+      child: _body(),
+    );
+  }
+}
+
+class _body extends StatelessWidget {
+  const _body({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    ParentCategoryStore _parentCategoryStore =
+        Provider.of<ParentCategoryStore>(context);
+
+    return Observer(
+      builder: (_) {
+        if (_parentCategoryStore.loading) {
+          return Container();
+        }
+
+        return Container(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+            ),
+            child: Align(
+              child: Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                children: [
+                  ..._parentCategoryStore.categories.map((category) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: _categoryItem(category: category),
+                    );
+                  }).toList()
+                ],
+              ),
+            ));
+      },
+    );
+  }
+}
+
+class _categoryItem extends StatelessWidget {
+  Category category;
+
+  _categoryItem({Key? key, required this.category}) : super(key: key);
   final double heightIcon = 50;
   final double widthIcon = 50;
   final double textSize = 13;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 30),
-      height: 230,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-      ),
-      child: GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-        ),
-        scrollDirection: Axis.horizontal,
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, Routes.product,
+            arguments: ProductScreenAgruments(categoryId: category.id));
+      },
+      child: Column(
         children: [
-          Container(
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/meat.png',
-                  width: widthIcon,
-                  height: heightIcon,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Thịt',
-                  style: TextStyle(
-                    fontSize: textSize,
-                  ),
-                ),
-              ],
-            ),
+          Image.network(
+            category.imageUrl ?? "https://via.placeholder.com/150",
+            width: widthIcon,
+            height: heightIcon,
+            fit: BoxFit.cover,
           ),
-          Container(
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/fruit.png',
-                  width: widthIcon,
-                  height: heightIcon,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Hoa quả',
-                  style: TextStyle(
-                    fontSize: textSize,
-                  ),
-                ),
-              ],
-            ),
+          const SizedBox(
+            height: 10,
           ),
-          Container(
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/fruit2.png',
-                  width: widthIcon,
-                  height: heightIcon,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Rau củ',
-                  style: TextStyle(
-                    fontSize: textSize,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/cook.png',
-                  width: widthIcon,
-                  height: heightIcon,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Chế biến',
-                  style: TextStyle(
-                    fontSize: textSize,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/sale.png',
-                  width: widthIcon,
-                  height: heightIcon,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Giá shock',
-                  style: TextStyle(
-                    fontSize: textSize,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/seed.png',
-                  width: widthIcon,
-                  height: heightIcon,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Hạt giống',
-                  style: TextStyle(
-                    fontSize: textSize,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/seafood.png',
-                  width: widthIcon,
-                  height: heightIcon,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Thuỷ - Hải sản',
-                  style: TextStyle(
-                    fontSize: textSize,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Column(
-              children: [
-                Image.asset(
-                  'assets/images/snack.png',
-                  width: widthIcon,
-                  height: heightIcon,
-                  fit: BoxFit.cover,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Đồ ăn vặt',
-                  style: TextStyle(
-                    fontSize: textSize,
-                  ),
-                ),
-              ],
+          Text(
+            category.name,
+            style: TextStyle(
+              fontSize: textSize,
             ),
           ),
         ],

@@ -6,6 +6,14 @@ import 'package:fruity/ui/product/widgets/product_list.dart';
 import 'package:fruity/ui/product/widgets/subcategory_carousel.dart';
 import 'package:provider/provider.dart';
 
+class ProductScreenAgruments {
+  final String categoryId;
+
+  ProductScreenAgruments({
+    required this.categoryId,
+  });
+}
+
 class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key}) : super(key: key);
 
@@ -37,13 +45,28 @@ class _ProductScreenBody extends StatefulWidget {
 class __ProductScreenBodyState extends State<_ProductScreenBody> {
   late CategoryStore _categoryStore;
 
+  ProductScreenAgruments? _arguments;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _categoryStore = context.read<CategoryStore>();
-    _categoryStore.init(null);
     _categoryStore.setupUpdateParent();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+
+    _arguments =
+        ModalRoute.of(context)!.settings.arguments as ProductScreenAgruments?;
+
+    if (_arguments != null) {
+      _categoryStore.parentCategoryStore.setCategoryId(_arguments!.categoryId);
+    }
+    _categoryStore.init();
   }
 
   @override
@@ -57,7 +80,7 @@ class __ProductScreenBodyState extends State<_ProductScreenBody> {
     return SafeArea(
       child: Column(
         children: [
-          const CategoryCarousel(),
+          CategoryCarousel(),
           Expanded(
             child: Row(
               children: const <Widget>[

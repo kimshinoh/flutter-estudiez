@@ -45,8 +45,8 @@ mixin _$CategoryStore on _CategoryStoreBase, Store {
   final _$initAsyncAction = AsyncAction('_CategoryStoreBase.init');
 
   @override
-  Future<void> init(String? categoryId) {
-    return _$initAsyncAction.run(() => super.init(categoryId));
+  Future<void> init() {
+    return _$initAsyncAction.run(() => super.init());
   }
 
   final _$_CategoryStoreBaseActionController =
