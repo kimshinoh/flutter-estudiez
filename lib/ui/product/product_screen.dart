@@ -42,7 +42,7 @@ class __ProductScreenBodyState extends State<_ProductScreenBody> {
     // TODO: implement initState
     super.initState();
     _categoryStore = context.read<CategoryStore>();
-    _categoryStore.init();
+    _categoryStore.init(null);
     _categoryStore.setupUpdateParent();
   }
 

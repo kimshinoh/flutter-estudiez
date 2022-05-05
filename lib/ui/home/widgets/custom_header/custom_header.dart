@@ -1,5 +1,3 @@
-library sliver_flutter;
-
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -25,6 +23,7 @@ class FlexibleHeaderDelegate extends SliverPersistentHeaderDelegate {
     this.leading,
     this.statusBarHeight = 0,
     this.builderAction,
+    this.myOffset = 0,
     // this.leadingWidth = 56,
   });
 
@@ -42,6 +41,7 @@ class FlexibleHeaderDelegate extends SliverPersistentHeaderDelegate {
   // final double leadingWidth;
   final FlexibleBuilder? builderAction;
   final double statusBarHeight;
+  final double myOffset;
 
   @override
   Widget build(
@@ -49,20 +49,15 @@ class FlexibleHeaderDelegate extends SliverPersistentHeaderDelegate {
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    final offset = min(shrinkOffset, maxExtent - minExtent);
-    final progress = offset / (maxExtent - minExtent);
-    final visibleMainHeight = max(maxExtent - shrinkOffset, minExtent);
-
+    double progress = myOffset / (maxExtent - minExtent);
+    progress = progress > 1 ? 1 : progress;
+    final visibleMainHeight = max(maxExtent - myOffset, minExtent);
     return Material(
       elevation: progress < 1 ? expandedElevation : collapsedElevation,
       color: Colors.transparent,
       child: Stack(
         children: [
           if (background != null) background!.transform(progress),
-          Container(
-              height: visibleMainHeight,
-              padding: EdgeInsets.only(top: statusBarHeight),
-              child: child!.transform(progress)),
           AppBar(
             automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
@@ -73,6 +68,10 @@ class FlexibleHeaderDelegate extends SliverPersistentHeaderDelegate {
             title: title,
             elevation: 0,
           ),
+          Container(
+              height: visibleMainHeight,
+              padding: EdgeInsets.only(top: statusBarHeight),
+              child: child!.transform(progress)),
         ],
       ),
     );

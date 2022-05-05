@@ -20,6 +20,7 @@ class HeaderItemWidget extends StatelessWidget {
       margin: _item!.marginValue(_progress),
       alignment: _item!.alignmentValue(_progress),
       child: _item!.child != null ? _wrapWithOpacity() : const SizedBox(),
+      
     );
   }
 

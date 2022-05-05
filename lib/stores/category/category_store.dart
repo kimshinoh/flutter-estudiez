@@ -40,12 +40,17 @@ abstract class _CategoryStoreBase with Store {
   }
 
   @action
-  Future<void> init() async {
+  Future<void> init(String? categoryId) async {
+    print("CategoryId: $categoryId");
     if (parentCategoryStore.categories.isEmpty) {
       await parentCategoryStore.getCategories();
       if (parentCategoryStore.categories.isNotEmpty) {
-        selectedCategory = parentCategoryStore.categories.first;
-        selectedChildCategory = parentCategoryStore.categories.first;
+        final Category category = categoryId != null
+            ? parentCategoryStore.categories
+                .firstWhere((c) => c.id == categoryId)
+            : parentCategoryStore.categories.first;
+        selectedCategory = category;
+        selectedChildCategory = category;
       }
     }
   }

@@ -49,11 +49,9 @@ abstract class _SearchProductStoreBase with Store {
       case 0:
         return productsByIds;
       case 1:
-        // sort asc price
         productsByIds.sort((a, b) => a.price.compareTo(b.price));
         return productsByIds;
       case 2:
-        // sort desc price
         productsByIds.sort((a, b) => b.price.compareTo(a.price));
         return productsByIds;
       default:

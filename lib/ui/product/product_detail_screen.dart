@@ -503,6 +503,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   void showModalBottom(String html) {
     showModalBottomSheet<void>(
+      constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.9),
       // border top corner
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

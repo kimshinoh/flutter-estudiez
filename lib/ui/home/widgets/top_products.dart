@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fruity/models/product/product.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/category/product_store.dart';
+import 'package:fruity/ui/product/product_detail_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/gradient_text.dart';
 import 'package:provider/provider.dart';
@@ -109,7 +111,11 @@ class _TopProductsState extends State<TopProducts> {
       itemBuilder: (BuildContext context, int index) {
         final Product product = _productStore.productsTopSale[index];
         return InkWell(
-          onTap: () {},
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          onTap: () {
+            Navigator.pushNamed(context, Routes.product_detail,
+                arguments: ProductDetailAgruments(product.id));
+          },
           child: SizedBox(
             width: 100,
             child: Column(

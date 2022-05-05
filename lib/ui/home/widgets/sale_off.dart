@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/product/product.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/category/product_store.dart';
+import 'package:fruity/ui/product/product_detail_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
 import 'package:provider/provider.dart';
@@ -98,16 +101,17 @@ class _SaleOffState extends State<SaleOff> {
           const SizedBox(
             height: 15,
           ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(15, 0, 0, 15),
-            height: 310,
-            width: width,
-            child: Skeleton(
-              isLoading: _productStore.loading,
-              skeleton: const _SaleOffSkeleton(),
-              child: _buildSaleOff(),
-            ),
-          )
+          Observer(
+              builder: (_) => Container(
+                    padding: const EdgeInsets.fromLTRB(15, 0, 0, 15),
+                    height: 310,
+                    width: width,
+                    child: Skeleton(
+                      isLoading: _productStore.loading,
+                      skeleton: const _SaleOffSkeleton(),
+                      child: _buildSaleOff(),
+                    ),
+                  ))
         ],
       ),
     );
@@ -160,7 +164,10 @@ class _SaleOffState extends State<SaleOff> {
     final Product product = _productStore.productsSaleOff[index];
     return InkWell(
       borderRadius: const BorderRadius.all(Radius.circular(10)),
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, Routes.product_detail,
+            arguments: ProductDetailAgruments(product.id));
+      },
       child: Container(
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.only(right: 10),

@@ -80,13 +80,13 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: _scrollController,
           slivers: <Widget>[
             SliverStack(
-              insetOnOverlap: true,
+              insetOnOverlap: false,
               children: [
                 SliverToBoxAdapter(child: _body(width, height)),
                 SliverPersistentHeader(
-                  floating: true,
                   pinned: true,
                   delegate: FlexibleHeaderDelegate(
+                    myOffset: offset,
                     statusBarHeight: MediaQuery.of(context).padding.top,
                     expandedHeight: 130,
                     background: const MutableBackground(
@@ -113,11 +113,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(
                                           width: width * 0.7,
                                           child: TextButton(
-                                            onPressed: () =>
-                                                Navigator.pushNamed(
-                                              context,
-                                              Routes.list_user_addressres,
-                                            ),
+                                            onPressed: () => 1 - progress == 0
+                                                ? null
+                                                : Navigator.pushNamed(
+                                                    context,
+                                                    Routes.list_user_addressres,
+                                                  ),
                                             style: TextButton.styleFrom(
                                               padding: EdgeInsets.zero,
                                               minimumSize: Size.zero,
@@ -209,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
           end: Alignment.bottomLeft,
           colors: [
             AppColors.primary,
-            AppColors.palette.shade400,
+            AppColors.primary.withOpacity(.2),
           ],
         ),
       ),
@@ -274,7 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _underHeader(double width, double height) {
     return Container(
-      constraints: BoxConstraints(minHeight: height * 3),
+      constraints: BoxConstraints(minHeight: height * 2.5),
       child: Stack(
         children: [
           CarouselSlider(
