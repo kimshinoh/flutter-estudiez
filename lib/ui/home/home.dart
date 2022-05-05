@@ -73,9 +73,10 @@ class _HomeScreenState extends State<HomeScreen> {
     return Provider<ProductStore>(
       create: (_) => ProductStore(),
       child: Scaffold(
-        floatingActionButton:
-            !_store.isLoggedIn ? const LoginBottomSheet() : null,
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: LoginBottomSheet(),
+        floatingActionButtonLocation: !_store.isLoggedIn
+            ? FloatingActionButtonLocation.centerFloat
+            : null,
         body: CustomScrollView(
           controller: _scrollController,
           slivers: <Widget>[
