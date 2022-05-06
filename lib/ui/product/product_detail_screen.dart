@@ -503,7 +503,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   void showModalBottom(String html) {
     showModalBottomSheet<void>(
-      constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.9),
+      constraints:
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.9),
       // border top corner
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -629,7 +630,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         }
 
         return Container(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.only(bottom: 15, left: 15, right: 15),
           color: Colors.white,
           child: ListView(
             shrinkWrap: true,

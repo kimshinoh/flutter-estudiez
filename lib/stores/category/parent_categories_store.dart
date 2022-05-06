@@ -14,6 +14,14 @@ abstract class _ParentCategoryStoreBase with Store {
   final CategoryAPI _categoryAPI = CategoryAPI(DioClient(Dio()));
 
   @observable
+  String? categoryId;
+
+  @action
+  void setCategoryId(String? categoryId) {
+    this.categoryId = categoryId;
+  }
+
+  @observable
   List<Category> categories = [];
 
   @observable

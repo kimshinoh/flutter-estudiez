@@ -7,6 +7,7 @@ import 'package:fruity/stores/category/product_store.dart';
 import 'package:fruity/ui/home/watch_more.dart';
 import 'package:fruity/ui/product/product_detail_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
+import 'package:fruity/widgets/add_to_cart_button.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
 import 'package:provider/provider.dart';
 import 'package:skeletons/skeletons.dart';
@@ -294,17 +295,11 @@ class _SaleOffState extends State<SaleOff> {
               ],
             ),
             Positioned(
-              right: 0,
-              bottom: 0,
-              child: IconButton(
-                icon: Icon(
-                  Icons.add_circle,
-                  size: 24,
-                  color: AppColors.palette.shade500,
-                ),
-                onPressed: () {},
-              ),
-            )
+                right: 0,
+                bottom: 0,
+                child: AddToCartButton(
+                  product: product,
+                ))
           ],
         ),
       ),

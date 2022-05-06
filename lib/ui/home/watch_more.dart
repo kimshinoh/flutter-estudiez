@@ -20,17 +20,17 @@ class WatchMore extends StatefulWidget {
 class _WatchMoreState extends State<WatchMore> {
   final ProductStore _productStore = ProductStore();
   final Map<String, String> types = {
-    "top": "Top sản phẩm",
-    "off": "Sale Off",
-    "shock": "Sale Shock"
+    'top': 'Top sản phẩm',
+    'off': 'Sale Off',
+    'shock': 'Sale Shock'
   };
   @override
   void initState() {
-    if (widget.type == "top") {
+    if (widget.type == 'top') {
       _productStore.getProductsTopSale(50);
-    } else if (widget.type == "off") {
+    } else if (widget.type == 'off') {
       _productStore.getProductsSaleOff(50);
-    } else if (widget.type == "shock") {
+    } else if (widget.type == 'shock') {
       _productStore.getProductsSaleShock(50);
     }
     super.initState();
@@ -64,6 +64,7 @@ class _WatchMoreState extends State<WatchMore> {
                   child: _productStore.loading
                       ? Container(
                           height: height,
+                          margin: const EdgeInsets.only(top: 20),
                           child: const Align(
                             alignment: Alignment.topCenter,
                             child: CircularProgressIndicator(),
@@ -75,11 +76,11 @@ class _WatchMoreState extends State<WatchMore> {
 
   Widget _buildListProducts() {
     List<Product> products = [];
-    if (widget.type == "top") {
+    if (widget.type == 'top') {
       products = _productStore.productsTopSaleBig;
-    } else if (widget.type == "off") {
+    } else if (widget.type == 'off') {
       products = _productStore.productsSaleOffBig;
-    } else if (widget.type == "shock") {
+    } else if (widget.type == 'shock') {
       products = _productStore.productsSaleShockBig;
     }
     return ListView.builder(
