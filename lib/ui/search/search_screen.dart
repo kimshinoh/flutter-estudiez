@@ -5,8 +5,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/search/product_simplify.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/search/search.dart';
 import 'package:fruity/stores/search_history/search_history_store.dart';
+import 'package:fruity/ui/product/product_detail_screen.dart';
 import 'package:fruity/ui/search/search_result_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:provider/provider.dart';
@@ -119,7 +121,10 @@ class _SearchScreenState extends State<SearchScreen> {
                         final ProductSimplify _product =
                             _searchStore.products[index];
                         return InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushNamed(context, Routes.product_detail,
+                                arguments: ProductDetailAgruments(_product.id));
+                          },
                           child: Column(
                             children: [
                               SizedBox(
@@ -128,8 +133,8 @@ class _SearchScreenState extends State<SearchScreen> {
                                     Container(
                                       padding: const EdgeInsets.fromLTRB(
                                           0, 15, 0, 15),
-                                      height: width * 0.3,
-                                      width: width * 0.3,
+                                      height: 110,
+                                      width: 110,
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
                                           image: NetworkImage(
@@ -162,10 +167,11 @@ class _SearchScreenState extends State<SearchScreen> {
                                             const SizedBox(height: 8),
                                             RichText(
                                               text: TextSpan(
-                                                text: CurrencyHelper.withCommas(
+                                                text:
+                                                    '${CurrencyHelper.withCommas(
                                                   value: _product.price,
                                                   removeDecimal: true,
-                                                ),
+                                                )}₫',
                                                 style: const TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.bold,
@@ -189,11 +195,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                   ],
                                 ),
                               ),
+                              const SizedBox(height: 10),
                               if (index < _searchStore.products.length - 1)
                                 const Divider(
                                   height: 1,
                                   thickness: 1,
-                                  color: AppColors.backgroudGrey,
+                                  color: Colors.grey,
                                 )
                             ],
                           ),
