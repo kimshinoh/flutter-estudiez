@@ -57,20 +57,23 @@ class _WatchMoreState extends State<WatchMore> {
             )
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Observer(
-              builder: (_) => SingleChildScrollView(
-                  child: _productStore.loading
-                      ? Container(
-                          height: height,
-                          margin: const EdgeInsets.only(top: 20),
-                          child: const Align(
-                            alignment: Alignment.topCenter,
-                            child: CircularProgressIndicator(),
-                          ),
-                        )
-                      : _buildListProducts())),
+        body: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Observer(
+                builder: (_) => SingleChildScrollView(
+                    child: _productStore.loading
+                        ? Container(
+                            height: height,
+                            margin: const EdgeInsets.only(top: 20),
+                            child: const Align(
+                              alignment: Alignment.topCenter,
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : _buildListProducts())),
+          ),
         ));
   }
 
@@ -83,13 +86,14 @@ class _WatchMoreState extends State<WatchMore> {
     } else if (widget.type == 'shock') {
       products = _productStore.productsSaleShockBig;
     }
-    return ListView.builder(
+    return ListView.separated(
+      separatorBuilder: (_, __) => const Divider(),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: products.length,
       itemBuilder: (BuildContext context, int index) {
         final Product _product = products[index];
-        return InkWell(
+        return GestureDetector(
             onTap: () {
               Navigator.pushNamed(context, Routes.product_detail,
                   arguments: ProductDetailAgruments(_product.id));

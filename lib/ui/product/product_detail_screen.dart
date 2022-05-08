@@ -207,7 +207,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Product product = _productDetailStore.relateProducts[index];
                   return InkWell(
                     onTap: () {
-                      _productDetailStore.getProductDetail(product.id);
+                      Navigator.pushNamed(
+                        context,
+                        Routes.product_detail,
+                        arguments: ProductDetailAgruments(product.id),
+                      );
                     },
                     child: ProductHorizon(
                       product: product,

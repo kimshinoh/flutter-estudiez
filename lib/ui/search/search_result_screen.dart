@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/models/product/product.dart';
+import 'package:fruity/models/seller/seller.dart';
+import 'package:fruity/routes.dart';
 import 'package:fruity/stores/category/search_product_store.dart';
 import 'package:fruity/stores/search/search.dart';
 import 'package:fruity/ui/search/search_screen.dart';
+import 'package:fruity/ui/seller/seller_detail_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/widgets/rediant-gradient.dart';
 import 'package:provider/provider.dart';
@@ -260,65 +263,78 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   }
 
   Widget _buildSeller() {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: [
-          Row(
+    return Observer(builder: (_) {
+      if (_searchProductStore.products.isEmpty) {
+        return Container();
+      }
+
+      final Seller seller = _searchProductStore.products[0].seller;
+      return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+        width: MediaQuery.of(context).size.width,
+        child: GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.seller_detail,
+                arguments: SellerDetailAgruments(sellerId: seller.id));
+          },
+          child: Column(
             children: [
-              Image.asset(
-                'assets/images/fruit2.png',
-                width: 50,
-                height: 50,
+              Row(
+                children: [
+                  Image.network(
+                    seller.logo,
+                    width: 50,
+                    height: 50,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          seller.name.toUpperCase(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 5),
+                        Text(
+                          seller.headQuarter,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 13, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Vua dừa xiêm bến tre'.toUpperCase(),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                          fontSize: 15, fontWeight: FontWeight.bold),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const <Widget>[
+                  Text(
+                    'Nhà bán khác',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
                     ),
-                    const SizedBox(height: 5),
-                    const Text(
-                      '888 Đường Láng. Láng Thượng, Đống Đa, Hà Nội',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontSize: 13, color: Colors.grey),
-                    ),
-                  ],
-                ),
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.blue,
+                    size: 15,
+                  )
+                ],
               )
             ],
           ),
-          const SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const <Widget>[
-              Text(
-                'Nhà bán khác',
-                style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
-              ),
-              Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.blue,
-                size: 15,
-              )
-            ],
-          )
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 
   Widget _buildSearchResult() {
@@ -369,10 +385,9 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 4,
                 mainAxisSpacing: 4,
-                children: List.generate(
-                    _searchProductStore.products.length, (int index) {
-                  final Product product =
-                      _searchProductStore.products[index];
+                children: List.generate(_searchProductStore.products.length,
+                    (int index) {
+                  final Product product = _searchProductStore.products[index];
                   return InkWell(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
                     onTap: () {},

@@ -89,125 +89,123 @@ class _SearchScreenState extends State<SearchScreen> {
       return Container();
     }
     int itemCount = _searchStore.products.length;
-    return Padding(
-        padding: const EdgeInsets.all(10),
-        child: _searchStore.loading
-            ? Container(
-                height: height,
-                child: const Align(
-                  alignment: Alignment.topCenter,
-                  child: CircularProgressIndicator(),
-                ),
-              )
-            : _searchStore.products.isEmpty
-                ? Container(
-                    height: height,
-                    child: const Align(
-                      alignment: Alignment.topCenter,
-                      child: Text('Không tìm thấy sản phẩm nào'),
-                    ),
-                  )
-                : SingleChildScrollView(
-                    child: ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const SizedBox(
-                          height: 10,
-                        );
-                      },
-                      itemCount: itemCount,
-                      shrinkWrap: true,
-                      itemBuilder: (BuildContext context, int index) {
-                        final ProductSimplify _product =
-                            _searchStore.products[index];
-                        return InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, Routes.product_detail,
-                                arguments: ProductDetailAgruments(_product.id));
-                          },
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 15, 0, 15),
-                                      height: 110,
-                                      width: 110,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                            _product.imageUrl ??
-                                                "https://atpsoftware.vn/wp-content/uploads//2019/06/depositphotos_58810529-stock-illustration-product-concept.jpg",
+    return Container(
+      color: Colors.white,
+      child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: _searchStore.loading
+              ? Container(
+                  height: height,
+                  child: const Align(
+                    alignment: Alignment.topCenter,
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : _searchStore.products.isEmpty
+                  ? _emptySearch()
+                  : SingleChildScrollView(
+                      child: ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        separatorBuilder: (BuildContext context, int index) {
+                          return Divider();
+                        },
+                        itemCount: itemCount,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          final ProductSimplify _product =
+                              _searchStore.products[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, Routes.product_detail,
+                                  arguments:
+                                      ProductDetailAgruments(_product.id));
+                            },
+                            child: Container(
+                              color: Colors.white,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              0, 15, 0, 15),
+                                          height: 80,
+                                          width: 80,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                _product.imageUrl ??
+                                                    "https://atpsoftware.vn/wp-content/uploads//2019/06/depositphotos_58810529-stock-illustration-product-concept.jpg",
+                                              ),
+                                              fit: BoxFit.cover,
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10)),
                                           ),
-                                          fit: BoxFit.cover,
                                         ),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(10)),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        padding: const EdgeInsets.fromLTRB(
-                                            15, 10, 5, 0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              _product.name,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 8),
-                                            RichText(
-                                              text: TextSpan(
-                                                text:
-                                                    '${CurrencyHelper.withCommas(
-                                                  value: _product.price,
-                                                  removeDecimal: true,
-                                                )}₫',
-                                                style: const TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                ),
-                                                children: [
-                                                  TextSpan(
-                                                    text: ' / ${_product.unit}',
-                                                    style: const TextStyle(
-                                                      fontSize: 11,
-                                                      color: Colors.grey,
-                                                    ),
+                                        Expanded(
+                                          child: Container(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                15, 10, 5, 0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  _product.name,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  style: const TextStyle(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                                const SizedBox(height: 8),
+                                                RichText(
+                                                  text: TextSpan(
+                                                    text:
+                                                        '${CurrencyHelper.withCommas(
+                                                      value: _product.price,
+                                                      removeDecimal: true,
+                                                    )}₫',
+                                                    style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black,
+                                                    ),
+                                                    children: [
+                                                      TextSpan(
+                                                        text:
+                                                            ' / ${_product.unit}',
+                                                        style: const TextStyle(
+                                                          fontSize: 11,
+                                                          color: Colors.grey,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ],
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  const SizedBox(height: 10),
+                                ],
                               ),
-                              const SizedBox(height: 10),
-                              if (index < _searchStore.products.length - 1)
-                                const Divider(
-                                  height: 1,
-                                  thickness: 1,
-                                  color: Colors.grey,
-                                )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ));
+                            ),
+                          );
+                        },
+                      ),
+                    )),
+    );
   }
 
   Widget _historySearch() {
@@ -473,6 +471,37 @@ class _SearchScreenState extends State<SearchScreen> {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) => SearchResultScreen(),
+      ),
+    );
+  }
+}
+
+class _emptySearch extends StatelessWidget {
+  const _emptySearch({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(
+              image: const AssetImage('assets/images/empty_search.png'),
+              width: MediaQuery.of(context).size.width * 0.7,
+              height: MediaQuery.of(context).size.width * 0.5,
+              fit: BoxFit.cover,
+            ),
+            const Text(
+              'Không tìm thấy sản phẩm',
+              style: TextStyle(fontSize: 20),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
       ),
     );
   }
