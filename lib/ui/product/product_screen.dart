@@ -26,7 +26,7 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: ProductScreenAppBar(),
+      appBar: ProductScreenAppBar(context),
       body: Provider<CategoryStore>(
         create: (_) => CategoryStore(),
         child: const _ProductScreenBody(),

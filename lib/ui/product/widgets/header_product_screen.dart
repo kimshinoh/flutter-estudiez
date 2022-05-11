@@ -3,8 +3,11 @@ import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/widgets/cart_button.dart';
 
-AppBar ProductScreenAppBar() {
+AppBar ProductScreenAppBar(BuildContext context) {
   return AppBar(
+    leading: Navigator.canPop(context)
+        ? const BackButton(color: Colors.black)
+        : null,
     backgroundColor: Colors.white,
     elevation: 0,
     title: Builder(
