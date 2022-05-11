@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/models/order/order.dart';
 import 'package:fruity/stores/order/order_detail_store.dart';
+import 'package:fruity/ui/order/widgets/cancel_order_button.dart';
 import 'package:fruity/ui/order/widgets/list_order_item.dart';
 import 'package:fruity/ui/order/widgets/seller_info_widget.dart';
 import 'package:fruity/utils/currency_util.dart';
@@ -33,6 +34,10 @@ class OrderDetailScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Chi tiết đơn hàng'),
           centerTitle: true,
+        ),
+        bottomNavigationBar: Provider(
+          create: (_) => _orderDetailStore,
+          child: ButtonOrderCancel(),
         ),
         body: Provider(
           create: (_) => _orderDetailStore,

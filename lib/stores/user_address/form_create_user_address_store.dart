@@ -27,8 +27,8 @@ abstract class _FormCreateUserAddressStoreBase with Store {
       reaction(
         (_) => fullName,
         (String fullName) {
-          if (fullName.length > 100) {
-            validation.setFullNameError('Họ và tên không được quá 50 ký tự');
+          if (fullName.isEmpty) {
+            validation.setFullNameError('Vui lòng nhập họ và tên');
           } else {
             validation.setFullNameError(null);
           }
