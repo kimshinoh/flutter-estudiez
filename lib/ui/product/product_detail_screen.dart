@@ -8,6 +8,7 @@ import 'package:fruity/models/product/product.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/location/location.dart';
 import 'package:fruity/stores/product/product_detail_store.dart';
+import 'package:fruity/ui/product/widgets/button_add_to_cart.dart';
 import 'package:fruity/ui/product/widgets/product_horizon.dart';
 import 'package:fruity/ui/seller/seller_detail_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
@@ -76,6 +77,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: Provider(
+        create: (_) => _productDetailStore,
+        child: AddToCartBottomBar(),
+      ),
       body:
           Provider(create: (context) => _productDetailStore, child: _layout()),
       floatingActionButton: AnimatedOpacity(

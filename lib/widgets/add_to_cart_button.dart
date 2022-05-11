@@ -24,28 +24,33 @@ class AddToCartButton extends StatelessWidget {
         color: AppColors.palette.shade500,
       ),
       onPressed: () {
-        showModalBottomSheet<void>(
-          // border top corner
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10),
-              topRight: Radius.circular(10),
-            ),
-          ),
-
-          isScrollControlled: true,
-          context: context,
-
-          builder: (BuildContext context) {
-            return Padding(
-              padding: MediaQuery.of(context).viewInsets,
-              child: _AddToCartForm(product: product),
-            );
-          },
-        ).whenComplete(() => cartStore.cleanQty());
+        addToCart(context, product);
       },
     );
   }
+}
+
+void addToCart(BuildContext context, Product product) {
+  final CartStore cartStore = context.read<CartStore>();
+  showModalBottomSheet<void>(
+    // border top corner
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(10),
+        topRight: Radius.circular(10),
+      ),
+    ),
+
+    isScrollControlled: true,
+    context: context,
+
+    builder: (BuildContext context) {
+      return Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: _AddToCartForm(product: product),
+      );
+    },
+  ).whenComplete(() => cartStore.cleanQty());
 }
 
 class _AddToCartForm extends StatelessWidget {
