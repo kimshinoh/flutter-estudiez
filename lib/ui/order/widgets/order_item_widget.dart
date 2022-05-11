@@ -5,6 +5,7 @@ import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/models/order/order.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
+import 'package:fruity/stores/order/orders_store.dart';
 import 'package:fruity/ui/order/order_detail_screen.dart';
 import 'package:fruity/utils/currency_util.dart';
 import 'package:fruity/utils/datetime_util.dart';
@@ -18,10 +19,18 @@ class OrderItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    OrdersStore _ordersStore = context.read<OrdersStore>();
+
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, Routes.view_order,
-            arguments: OrderDetailAgruments(order.id));
+                arguments: OrderDetailAgruments(order.id))
+            .then((value) {
+          final result = value as Map<String, String>?;
+          if (result != null && result['action'] == 'reload') {
+            _ordersStore.getMyOrders('');
+          }
+        });
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),

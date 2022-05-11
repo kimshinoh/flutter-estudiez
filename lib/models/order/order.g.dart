@@ -11,6 +11,7 @@ Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       textId: json['text_id'] as String,
       seller: Seller.fromJson(json['seller'] as Map<String, dynamic>),
       createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
       status: json['status'] as String,
       payment: Payment.fromJson(json['payment'] as Map<String, dynamic>),
       orderItems: (json['order_items'] as List<dynamic>)
@@ -36,6 +37,7 @@ Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'id': instance.id,
       'text_id': instance.textId,
       'created_at': instance.createdAt.toIso8601String(),
+      'updated_at': instance.updatedAt.toIso8601String(),
       'user_id': instance.userId,
       'status': instance.status,
       'seller_id': instance.sellerId,

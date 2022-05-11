@@ -54,3 +54,16 @@ Map<String, dynamic> _$GetOrderByIdRequestToJson(
     <String, dynamic>{
       'order_id': instance.orderId,
     };
+
+CancelOrderRequest _$CancelOrderRequestFromJson(Map<String, dynamic> json) =>
+    CancelOrderRequest(
+      orderId: json['order_id'] as String,
+      note: json['note'] as String,
+    )..status = json['status'] as String;
+
+Map<String, dynamic> _$CancelOrderRequestToJson(CancelOrderRequest instance) =>
+    <String, dynamic>{
+      'order_id': instance.orderId,
+      'note': instance.note,
+      'status': instance.status,
+    };

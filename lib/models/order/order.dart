@@ -16,6 +16,7 @@ class Order {
       required this.textId,
       required this.seller,
       required this.createdAt,
+      required this.updatedAt,
       required this.status,
       required this.payment,
       required this.orderItems,
@@ -84,6 +85,9 @@ class Order {
 
   @JsonKey(name: 'created_at')
   DateTime createdAt;
+
+  @JsonKey(name: 'updated_at')
+  DateTime updatedAt;
 
   @JsonKey(name: 'user_id')
   String userId;

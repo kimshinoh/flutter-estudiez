@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/models/order/order.dart';
+import 'package:fruity/stores/order/cancel_order_store.dart';
 import 'package:fruity/stores/order/order_detail_store.dart';
 import 'package:fruity/ui/order/widgets/cancel_order_button.dart';
 import 'package:fruity/ui/order/widgets/list_order_item.dart';
@@ -27,20 +28,38 @@ class OrderDetailScreen extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as OrderDetailAgruments;
 
     OrderDetailStore _orderDetailStore = OrderDetailStore();
+    CancelOrderStore _cancelOrderStore = CancelOrderStore();
+
     String orderId = args.orderId;
-    _orderDetailStore.getOrderDetail(args.orderId);
+    _orderDetailStore
+        .getOrderDetail(args.orderId)
+        .then((value) => {_cancelOrderStore.setOrderId(orderId)});
 
     return Scaffold(
         appBar: AppBar(
           title: const Text('Chi tiết đơn hàng'),
           centerTitle: true,
         ),
-        bottomNavigationBar: Provider(
-          create: (_) => _orderDetailStore,
+        bottomNavigationBar: MultiProvider(
+          providers: [
+            Provider(
+              create: (_) => _orderDetailStore,
+            ),
+            Provider(
+              create: (_) => _cancelOrderStore,
+            ),
+          ],
           child: ButtonOrderCancel(),
         ),
-        body: Provider(
-          create: (_) => _orderDetailStore,
+        body: MultiProvider(
+          providers: [
+            Provider(
+              create: (_) => _orderDetailStore,
+            ),
+            Provider(
+              create: (_) => _cancelOrderStore,
+            ),
+          ],
           child: _body(orderId: orderId),
         ));
   }
@@ -72,31 +91,38 @@ class _orderDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     OrderDetailStore _orderDetailStore = context.read<OrderDetailStore>();
+    return Observer(
+      builder: (_) {
+        Order? order = _orderDetailStore.order;
+        if (order == null) {
+          return SizedBox.shrink();
+        }
 
-    return SizedBox(
-      width: double.infinity,
-      child: ListView(
-        shrinkWrap: true,
-        children: [
-          MapView(
-            location: LatLng(_orderDetailStore.order!.userAddress.latitude,
-                _orderDetailStore.order!.userAddress.longitude),
-          ),
-          Container(
-            color: Colors.white,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
-              child: Center(
-                child: SizedBox(
-                    height: 120,
-                    child: Observer(builder: (_) {
-                      Track lastTrack = _orderDetailStore.order!.tracks.last;
+        final Track lastTrack = order.tracks.last;
 
-                      return Column(
+        return SizedBox(
+          width: double.infinity,
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              MapView(
+                location: LatLng(_orderDetailStore.order!.userAddress.latitude,
+                    _orderDetailStore.order!.userAddress.longitude),
+              ),
+              Container(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 8.0, vertical: 16.0),
+                  child: Center(
+                    child: SizedBox(child: Observer(builder: (_) {
+                      return ListView(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
                         children: [
                           Text(
                             'Đơn hàng ${lastTrack.statusText.toLowerCase()}',
+                            textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w500,
@@ -107,67 +133,84 @@ class _orderDetail extends StatelessWidget {
                           ),
                           _tracksWidget(
                             tracks: _orderDetailStore.order!.tracks,
-                          )
+                          ),
                         ],
                       );
                     })),
+                  ),
+                ),
               ),
-            ),
+              if (lastTrack.status == 'cancelled')
+                Container(
+                    decoration: BoxDecoration(
+                        color: Colors.red.shade500,
+                        border: Border.all(
+                          color: Colors.red.shade600,
+                        )),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Lý do hủy: ${lastTrack.note != '' ? lastTrack.note : 'Không có'}',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ))
+              else
+                SizedBox(
+                  height: 10,
+                ),
+              Container(
+                color: Colors.white,
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SellerInfoWidget(
+                          seller: _orderDetailStore.order!.seller,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        ListOrderItem(),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const _PriceInfo(),
+                      ],
+                    )),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                color: Colors.white,
+                child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: _AddressInfo()),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                color: Colors.white,
+                child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: _TimeInfo()),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                color: Colors.white,
+                child: const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                    child: _OrderInfo()),
+              )
+            ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            color: Colors.white,
-            child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SellerInfoWidget(
-                      seller: _orderDetailStore.order!.seller,
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ListOrderItem(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const _PriceInfo(),
-                  ],
-                )),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            color: Colors.white,
-            child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: _AddressInfo()),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            color: Colors.white,
-            child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: _TimeInfo()),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            color: Colors.white,
-            child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                child: _OrderInfo()),
-          )
-        ],
-      ),
+        );
+      },
     );
   }
 }

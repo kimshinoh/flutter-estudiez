@@ -31,12 +31,16 @@ abstract class _OrdersStoreBase with Store {
       .toList();
 
   @computed
-  List<Order> get completedOrders => orders
-      .where(
-        (Order order) =>
-            order.status == 'delivered' || order.status == 'cancelled',
-      )
-      .toList();
+  List<Order> get completedOrders {
+    List<Order> _orders = orders
+        .where(
+          (Order order) =>
+              order.status == 'delivered' || order.status == 'cancelled',
+        )
+        .toList();
+    _orders.sort((Order a, Order b) => b.updatedAt.compareTo(a.updatedAt));
+    return _orders;
+  }
 
   @action
   Future<void> getMyOrders(String status) async {

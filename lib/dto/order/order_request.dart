@@ -73,3 +73,17 @@ class GetOrderByIdRequest {
   @JsonKey(name: 'order_id')
   String orderId;
 }
+
+@JsonSerializable()
+class CancelOrderRequest {
+  CancelOrderRequest({required this.orderId, required this.note});
+
+  factory CancelOrderRequest.fromJson(Map<String, dynamic> json) =>
+      _$CancelOrderRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$CancelOrderRequestToJson(this);
+
+  @JsonKey(name: 'order_id')
+  String orderId;
+  String note;
+  String status = 'cancelled';
+}

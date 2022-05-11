@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/models/order/order.dart';
+import 'package:fruity/stores/order/cancel_order_store.dart';
 import 'package:fruity/stores/order/order_detail_store.dart';
 import 'package:provider/provider.dart';
 
 class ButtonOrderCancel extends StatelessWidget {
   const ButtonOrderCancel({Key? key}) : super(key: key);
 
-  void _showConfirmDialog(BuildContext context) {
-    showDialog(
+  Future<void> _showConfirmDialog(BuildContext context) async {
+    final CancelOrderStore _cancelOrderStore = context.read<CancelOrderStore>();
+    await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -16,10 +18,14 @@ class ButtonOrderCancel extends StatelessWidget {
             'Bạn có chắc chắn muốn hủy đơn hàng?',
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
-          content: const TextField(
+          content: TextFormField(
+              textInputAction: TextInputAction.done,
+              onChanged: (String note) {
+                _cancelOrderStore.setNote(note);
+              },
               decoration: InputDecoration(
-            labelText: 'Lý do hủy',
-          )),
+                labelText: 'Lý do hủy',
+              )),
           actions: <Widget>[
             TextButton(
               child: const Text('Hủy'),
@@ -29,8 +35,9 @@ class ButtonOrderCancel extends StatelessWidget {
             ),
             TextButton(
               child: const Text('Đồng ý'),
-              onPressed: () {
+              onPressed: () async {
                 Navigator.of(context).pop();
+                await _cancelOrderStore.cancelOrder();
               },
             ),
           ],
@@ -42,7 +49,7 @@ class ButtonOrderCancel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final OrderDetailStore _orderDetailStore = context.read<OrderDetailStore>();
-
+    final CancelOrderStore _cancelOrderStore = context.read<CancelOrderStore>();
     return Observer(
       builder: (_) {
         Order? order = _orderDetailStore.order;
@@ -65,10 +72,16 @@ class ButtonOrderCancel extends StatelessWidget {
                       return ElevatedButton(
                         style: ElevatedButton.styleFrom(primary: Colors.red),
                         onPressed: () async {
-                          _showConfirmDialog(context);
+                          await _showConfirmDialog(context);
+
+                          Future.delayed(const Duration(milliseconds: 500), () {
+                            Navigator.pop(context, {
+                              'action': 'reload',
+                            });
+                          });
                         },
                         child: Observer(builder: (_) {
-                          return _orderDetailStore.isLoading
+                          return _cancelOrderStore.isLoading
                               ? const SizedBox(
                                   width: 15,
                                   height: 15,

@@ -56,4 +56,13 @@ class OrderAPI {
       return GetOrderByIdResponse.withError(e.toString());
     }
   }
+
+  Future<void> cancelOrder(CancelOrderRequest request) async {
+    try {
+      await _dioClient.put('/orders/${request.orderId}/change-status',
+          data: request.toJson());
+    } catch (e) {
+      throw e;
+    }
+  }
 }
