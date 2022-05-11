@@ -74,7 +74,9 @@ class _TopProductsState extends State<TopProducts> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => WatchMore(type: "top",),
+                        builder: (context) => WatchMore(
+                          type: "top",
+                        ),
                       ),
                     );
                   },
@@ -152,7 +154,7 @@ class _TopProductsState extends State<TopProducts> {
                           decoration: BoxDecoration(
                             color: Colors.red.shade100,
                             border: Border.all(
-                              color: Colors.red,
+                              color: Colors.red.shade200,
                               width: 1.2,
                             ),
                             borderRadius: const BorderRadius.all(
@@ -179,6 +181,18 @@ class _TopProductsState extends State<TopProducts> {
                 const SizedBox(height: 8),
                 Text(
                   '${CurrencyHelper.withCommas(
+                    value: product.oldPrice,
+                    removeDecimal: true,
+                  )}₫',
+                  style: TextStyle(
+                    decoration: TextDecoration.lineThrough,
+                    fontSize: 10,
+                    fontWeight: FontWeight.normal,
+                    color: Colors.grey,
+                  ),
+                ),
+                Text(
+                  '${CurrencyHelper.withCommas(
                     value: product.price,
                     removeDecimal: true,
                   )}₫',
@@ -189,24 +203,6 @@ class _TopProductsState extends State<TopProducts> {
                   ),
                 ),
                 const SizedBox(height: 3),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.person_rounded,
-                      color: Colors.grey,
-                      size: 16,
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      '20',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey,
-                      ),
-                    )
-                  ],
-                ),
               ],
             ),
           ),
