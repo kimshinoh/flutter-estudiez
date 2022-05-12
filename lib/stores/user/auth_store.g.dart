@@ -22,7 +22,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
           Computed<bool>(() => super.canLogin, name: '_AuthStoreBase.canLogin'))
       .value;
 
-  final _$userAtom = Atom(name: '_AuthStoreBase.user');
+  late final _$userAtom = Atom(name: '_AuthStoreBase.user', context: context);
 
   @override
   UserModel.User? get user {
@@ -37,7 +37,7 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$tokenAtom = Atom(name: '_AuthStoreBase.token');
+  late final _$tokenAtom = Atom(name: '_AuthStoreBase.token', context: context);
 
   @override
   String? get token {
@@ -52,7 +52,8 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$expiredAtAtom = Atom(name: '_AuthStoreBase.expiredAt');
+  late final _$expiredAtAtom =
+      Atom(name: '_AuthStoreBase.expiredAt', context: context);
 
   @override
   int? get expiredAt {
@@ -67,7 +68,8 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$verificationIdAtom = Atom(name: '_AuthStoreBase.verificationId');
+  late final _$verificationIdAtom =
+      Atom(name: '_AuthStoreBase.verificationId', context: context);
 
   @override
   String get verificationId {
@@ -82,7 +84,8 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$isLoadingAtom = Atom(name: '_AuthStoreBase.isLoading');
+  late final _$isLoadingAtom =
+      Atom(name: '_AuthStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -97,8 +100,8 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$isLoadingSentCodeAtom =
-      Atom(name: '_AuthStoreBase.isLoadingSentCode');
+  late final _$isLoadingSentCodeAtom =
+      Atom(name: '_AuthStoreBase.isLoadingSentCode', context: context);
 
   @override
   bool get isLoadingSentCode {
@@ -113,7 +116,8 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$isLoggedInAtom = Atom(name: '_AuthStoreBase.isLoggedIn');
+  late final _$isLoggedInAtom =
+      Atom(name: '_AuthStoreBase.isLoggedIn', context: context);
 
   @override
   bool get isLoggedIn {
@@ -128,7 +132,8 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: '_AuthStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: '_AuthStoreBase.errorMessage', context: context);
 
   @override
   String get errorMessage {
@@ -143,7 +148,8 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$isSuccessAtom = Atom(name: '_AuthStoreBase.isSuccess');
+  late final _$isSuccessAtom =
+      Atom(name: '_AuthStoreBase.isSuccess', context: context);
 
   @override
   bool get isSuccess {
@@ -158,38 +164,40 @@ mixin _$AuthStore on _AuthStoreBase, Store {
     });
   }
 
-  final _$setUserAsyncAction = AsyncAction('_AuthStoreBase.setUser');
+  late final _$setUserAsyncAction =
+      AsyncAction('_AuthStoreBase.setUser', context: context);
 
   @override
   Future setUser(UserModel.User user) {
     return _$setUserAsyncAction.run(() => super.setUser(user));
   }
 
-  final _$handleRequestOTPAsyncAction =
-      AsyncAction('_AuthStoreBase.handleRequestOTP');
+  late final _$handleRequestOTPAsyncAction =
+      AsyncAction('_AuthStoreBase.handleRequestOTP', context: context);
 
   @override
   Future<void> handleRequestOTP() {
     return _$handleRequestOTPAsyncAction.run(() => super.handleRequestOTP());
   }
 
-  final _$handleVerifyOTPAsyncAction =
-      AsyncAction('_AuthStoreBase.handleVerifyOTP');
+  late final _$handleVerifyOTPAsyncAction =
+      AsyncAction('_AuthStoreBase.handleVerifyOTP', context: context);
 
   @override
   Future<void> handleVerifyOTP() {
     return _$handleVerifyOTPAsyncAction.run(() => super.handleVerifyOTP());
   }
 
-  final _$handleLoginAsyncAction = AsyncAction('_AuthStoreBase.handleLogin');
+  late final _$handleLoginAsyncAction =
+      AsyncAction('_AuthStoreBase.handleLogin', context: context);
 
   @override
   Future<void> handleLogin(AuthCredential credential) {
     return _$handleLoginAsyncAction.run(() => super.handleLogin(credential));
   }
 
-  final _$_AuthStoreBaseActionController =
-      ActionController(name: '_AuthStoreBase');
+  late final _$_AuthStoreBaseActionController =
+      ActionController(name: '_AuthStoreBase', context: context);
 
   @override
   void setErrorMessage(String errorMessage) {

@@ -9,7 +9,8 @@ part of 'version_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$VersionStore on _VersionStoreBase, Store {
-  final _$versionAtom = Atom(name: '_VersionStoreBase.version');
+  late final _$versionAtom =
+      Atom(name: '_VersionStoreBase.version', context: context);
 
   @override
   String get version {
@@ -24,7 +25,8 @@ mixin _$VersionStore on _VersionStoreBase, Store {
     });
   }
 
-  final _$buildNumberAtom = Atom(name: '_VersionStoreBase.buildNumber');
+  late final _$buildNumberAtom =
+      Atom(name: '_VersionStoreBase.buildNumber', context: context);
 
   @override
   String get buildNumber {
@@ -39,7 +41,8 @@ mixin _$VersionStore on _VersionStoreBase, Store {
     });
   }
 
-  final _$initAsyncAction = AsyncAction('_VersionStoreBase.init');
+  late final _$initAsyncAction =
+      AsyncAction('_VersionStoreBase.init', context: context);
 
   @override
   Future<void> init() {

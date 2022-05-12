@@ -16,8 +16,8 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
           name: '_FormCreateUserAddressStoreBase.isValid'))
       .value;
 
-  final _$isLoadingAtom =
-      Atom(name: '_FormCreateUserAddressStoreBase.isLoading');
+  late final _$isLoadingAtom =
+      Atom(name: '_FormCreateUserAddressStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -32,8 +32,8 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom =
-      Atom(name: '_FormCreateUserAddressStoreBase.errorMessage');
+  late final _$errorMessageAtom = Atom(
+      name: '_FormCreateUserAddressStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -48,7 +48,8 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
     });
   }
 
-  final _$fullNameAtom = Atom(name: '_FormCreateUserAddressStoreBase.fullName');
+  late final _$fullNameAtom =
+      Atom(name: '_FormCreateUserAddressStoreBase.fullName', context: context);
 
   @override
   String get fullName {
@@ -63,8 +64,8 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
     });
   }
 
-  final _$phoneNumberAtom =
-      Atom(name: '_FormCreateUserAddressStoreBase.phoneNumber');
+  late final _$phoneNumberAtom = Atom(
+      name: '_FormCreateUserAddressStoreBase.phoneNumber', context: context);
 
   @override
   String get phoneNumber {
@@ -79,7 +80,8 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
     });
   }
 
-  final _$noteAtom = Atom(name: '_FormCreateUserAddressStoreBase.note');
+  late final _$noteAtom =
+      Atom(name: '_FormCreateUserAddressStoreBase.note', context: context);
 
   @override
   String get note {
@@ -94,7 +96,8 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
     });
   }
 
-  final _$addressAtom = Atom(name: '_FormCreateUserAddressStoreBase.address');
+  late final _$addressAtom =
+      Atom(name: '_FormCreateUserAddressStoreBase.address', context: context);
 
   @override
   Address get address {
@@ -109,8 +112,8 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
     });
   }
 
-  final _$isDefaultAtom =
-      Atom(name: '_FormCreateUserAddressStoreBase.isDefault');
+  late final _$isDefaultAtom =
+      Atom(name: '_FormCreateUserAddressStoreBase.isDefault', context: context);
 
   @override
   bool get isDefault {
@@ -125,16 +128,18 @@ mixin _$FormCreateUserAddressStore on _FormCreateUserAddressStoreBase, Store {
     });
   }
 
-  final _$saveUserAddressAsyncAction =
-      AsyncAction('_FormCreateUserAddressStoreBase.saveUserAddress');
+  late final _$saveUserAddressAsyncAction = AsyncAction(
+      '_FormCreateUserAddressStoreBase.saveUserAddress',
+      context: context);
 
   @override
   Future<void> saveUserAddress() {
     return _$saveUserAddressAsyncAction.run(() => super.saveUserAddress());
   }
 
-  final _$_FormCreateUserAddressStoreBaseActionController =
-      ActionController(name: '_FormCreateUserAddressStoreBase');
+  late final _$_FormCreateUserAddressStoreBaseActionController =
+      ActionController(
+          name: '_FormCreateUserAddressStoreBase', context: context);
 
   @override
   void setFullName(String fullName) {
@@ -204,8 +209,9 @@ mixin _$FormCreateUserAddressValidation
           name: 'FormCreateUserAddressValidationBase.isValid'))
       .value;
 
-  final _$fullNameErrorAtom =
-      Atom(name: 'FormCreateUserAddressValidationBase.fullNameError');
+  late final _$fullNameErrorAtom = Atom(
+      name: 'FormCreateUserAddressValidationBase.fullNameError',
+      context: context);
 
   @override
   String? get fullNameError {
@@ -220,8 +226,9 @@ mixin _$FormCreateUserAddressValidation
     });
   }
 
-  final _$phoneNumberErrorAtom =
-      Atom(name: 'FormCreateUserAddressValidationBase.phoneNumberError');
+  late final _$phoneNumberErrorAtom = Atom(
+      name: 'FormCreateUserAddressValidationBase.phoneNumberError',
+      context: context);
 
   @override
   String? get phoneNumberError {
@@ -236,8 +243,9 @@ mixin _$FormCreateUserAddressValidation
     });
   }
 
-  final _$FormCreateUserAddressValidationBaseActionController =
-      ActionController(name: 'FormCreateUserAddressValidationBase');
+  late final _$FormCreateUserAddressValidationBaseActionController =
+      ActionController(
+          name: 'FormCreateUserAddressValidationBase', context: context);
 
   @override
   dynamic setFullNameError(String? fullNameError) {

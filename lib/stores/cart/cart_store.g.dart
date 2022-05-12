@@ -63,7 +63,7 @@ mixin _$CartStore on _CartStoreBase, Store {
               name: '_CartStoreBase.sellerIds'))
           .value;
 
-  final _$itemsAtom = Atom(name: '_CartStoreBase.items');
+  late final _$itemsAtom = Atom(name: '_CartStoreBase.items', context: context);
 
   @override
   List<CartItem> get items {
@@ -78,7 +78,8 @@ mixin _$CartStore on _CartStoreBase, Store {
     });
   }
 
-  final _$isLoadingAtom = Atom(name: '_CartStoreBase.isLoading');
+  late final _$isLoadingAtom =
+      Atom(name: '_CartStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -93,7 +94,7 @@ mixin _$CartStore on _CartStoreBase, Store {
     });
   }
 
-  final _$errorAtom = Atom(name: '_CartStoreBase.error');
+  late final _$errorAtom = Atom(name: '_CartStoreBase.error', context: context);
 
   @override
   String get error {
@@ -108,7 +109,7 @@ mixin _$CartStore on _CartStoreBase, Store {
     });
   }
 
-  final _$qtyAtom = Atom(name: '_CartStoreBase.qty');
+  late final _$qtyAtom = Atom(name: '_CartStoreBase.qty', context: context);
 
   @override
   int get qty {
@@ -123,22 +124,24 @@ mixin _$CartStore on _CartStoreBase, Store {
     });
   }
 
-  final _$addItemAsyncAction = AsyncAction('_CartStoreBase.addItem');
+  late final _$addItemAsyncAction =
+      AsyncAction('_CartStoreBase.addItem', context: context);
 
   @override
   Future<void> addItem(CartItem item) {
     return _$addItemAsyncAction.run(() => super.addItem(item));
   }
 
-  final _$addItemsAsyncAction = AsyncAction('_CartStoreBase.addItems');
+  late final _$addItemsAsyncAction =
+      AsyncAction('_CartStoreBase.addItems', context: context);
 
   @override
   Future<void> addItems(List<CartItem> items) {
     return _$addItemsAsyncAction.run(() => super.addItems(items));
   }
 
-  final _$updateQuantityAsyncAction =
-      AsyncAction('_CartStoreBase.updateQuantity');
+  late final _$updateQuantityAsyncAction =
+      AsyncAction('_CartStoreBase.updateQuantity', context: context);
 
   @override
   Future<void> updateQuantity(CartItem item, int quantty) {
@@ -146,22 +149,24 @@ mixin _$CartStore on _CartStoreBase, Store {
         .run(() => super.updateQuantity(item, quantty));
   }
 
-  final _$removeItemAsyncAction = AsyncAction('_CartStoreBase.removeItem');
+  late final _$removeItemAsyncAction =
+      AsyncAction('_CartStoreBase.removeItem', context: context);
 
   @override
   Future<void> removeItem(CartItem item) {
     return _$removeItemAsyncAction.run(() => super.removeItem(item));
   }
 
-  final _$removeItemsAsyncAction = AsyncAction('_CartStoreBase.removeItems');
+  late final _$removeItemsAsyncAction =
+      AsyncAction('_CartStoreBase.removeItems', context: context);
 
   @override
   Future<void> removeItems(List<CartItem> items) {
     return _$removeItemsAsyncAction.run(() => super.removeItems(items));
   }
 
-  final _$_CartStoreBaseActionController =
-      ActionController(name: '_CartStoreBase');
+  late final _$_CartStoreBaseActionController =
+      ActionController(name: '_CartStoreBase', context: context);
 
   @override
   void selectItem(CartItem item) {

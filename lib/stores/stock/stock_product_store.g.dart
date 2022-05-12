@@ -9,7 +9,8 @@ part of 'stock_product_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$StockProductStore on _StockProductStoreBase, Store {
-  final _$isLoadingAtom = Atom(name: '_StockProductStoreBase.isLoading');
+  late final _$isLoadingAtom =
+      Atom(name: '_StockProductStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -24,7 +25,8 @@ mixin _$StockProductStore on _StockProductStoreBase, Store {
     });
   }
 
-  final _$stockAtom = Atom(name: '_StockProductStoreBase.stock');
+  late final _$stockAtom =
+      Atom(name: '_StockProductStoreBase.stock', context: context);
 
   @override
   Stock? get stock {
@@ -39,8 +41,9 @@ mixin _$StockProductStore on _StockProductStoreBase, Store {
     });
   }
 
-  final _$getStockByProductIdAsyncAction =
-      AsyncAction('_StockProductStoreBase.getStockByProductId');
+  late final _$getStockByProductIdAsyncAction = AsyncAction(
+      '_StockProductStoreBase.getStockByProductId',
+      context: context);
 
   @override
   Future<void> getStockByProductId(String id) {

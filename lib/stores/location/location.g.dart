@@ -9,7 +9,8 @@ part of 'location.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$LocationStore on _LocationStoreBase, Store {
-  final _$addressAtom = Atom(name: '_LocationStoreBase.address');
+  late final _$addressAtom =
+      Atom(name: '_LocationStoreBase.address', context: context);
 
   @override
   String get address {
@@ -24,7 +25,8 @@ mixin _$LocationStore on _LocationStoreBase, Store {
     });
   }
 
-  final _$positionAtom = Atom(name: '_LocationStoreBase.position');
+  late final _$positionAtom =
+      Atom(name: '_LocationStoreBase.position', context: context);
 
   @override
   Position get position {
@@ -39,8 +41,8 @@ mixin _$LocationStore on _LocationStoreBase, Store {
     });
   }
 
-  final _$updatePositionAsyncAction =
-      AsyncAction('_LocationStoreBase.updatePosition');
+  late final _$updatePositionAsyncAction =
+      AsyncAction('_LocationStoreBase.updatePosition', context: context);
 
   @override
   Future<void> updatePosition() {

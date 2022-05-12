@@ -24,7 +24,8 @@ mixin _$SellerDetailStore on _SellerDetailStoreBase, Store {
           name: '_SellerDetailStoreBase.minutesToString'))
       .value;
 
-  final _$loadingAtom = Atom(name: '_SellerDetailStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_SellerDetailStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -39,7 +40,8 @@ mixin _$SellerDetailStore on _SellerDetailStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: '_SellerDetailStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: '_SellerDetailStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -54,7 +56,8 @@ mixin _$SellerDetailStore on _SellerDetailStoreBase, Store {
     });
   }
 
-  final _$sellerAtom = Atom(name: '_SellerDetailStoreBase.seller');
+  late final _$sellerAtom =
+      Atom(name: '_SellerDetailStoreBase.seller', context: context);
 
   @override
   Seller? get seller {
@@ -69,8 +72,8 @@ mixin _$SellerDetailStore on _SellerDetailStoreBase, Store {
     });
   }
 
-  final _$relateProductsAtom =
-      Atom(name: '_SellerDetailStoreBase.relateProducts');
+  late final _$relateProductsAtom =
+      Atom(name: '_SellerDetailStoreBase.relateProducts', context: context);
 
   @override
   List<Product> get relateProducts {
@@ -85,7 +88,8 @@ mixin _$SellerDetailStore on _SellerDetailStoreBase, Store {
     });
   }
 
-  final _$locationAtom = Atom(name: '_SellerDetailStoreBase.location');
+  late final _$locationAtom =
+      Atom(name: '_SellerDetailStoreBase.location', context: context);
 
   @override
   LatLng get location {
@@ -100,7 +104,8 @@ mixin _$SellerDetailStore on _SellerDetailStoreBase, Store {
     });
   }
 
-  final _$distanceAtom = Atom(name: '_SellerDetailStoreBase.distance');
+  late final _$distanceAtom =
+      Atom(name: '_SellerDetailStoreBase.distance', context: context);
 
   @override
   double get distance {
@@ -115,16 +120,17 @@ mixin _$SellerDetailStore on _SellerDetailStoreBase, Store {
     });
   }
 
-  final _$getSellerAsyncAction =
-      AsyncAction('_SellerDetailStoreBase.getSeller');
+  late final _$getSellerAsyncAction =
+      AsyncAction('_SellerDetailStoreBase.getSeller', context: context);
 
   @override
   Future<void> getSeller(String id) {
     return _$getSellerAsyncAction.run(() => super.getSeller(id));
   }
 
-  final _$getProductsBySellerAsyncAction =
-      AsyncAction('_SellerDetailStoreBase.getProductsBySeller');
+  late final _$getProductsBySellerAsyncAction = AsyncAction(
+      '_SellerDetailStoreBase.getProductsBySeller',
+      context: context);
 
   @override
   Future<void> getProductsBySeller(String id) {
@@ -132,8 +138,8 @@ mixin _$SellerDetailStore on _SellerDetailStoreBase, Store {
         .run(() => super.getProductsBySeller(id));
   }
 
-  final _$getLocationAsyncAction =
-      AsyncAction('_SellerDetailStoreBase.getLocation');
+  late final _$getLocationAsyncAction =
+      AsyncAction('_SellerDetailStoreBase.getLocation', context: context);
 
   @override
   Future<void> getLocation(String address) {

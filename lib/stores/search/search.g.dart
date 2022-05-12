@@ -17,7 +17,8 @@ mixin _$SearchStore on _SearchStoreBase, Store {
               name: '_SearchStoreBase.productIds'))
           .value;
 
-  final _$productsAtom = Atom(name: '_SearchStoreBase.products');
+  late final _$productsAtom =
+      Atom(name: '_SearchStoreBase.products', context: context);
 
   @override
   List<ProductSimplify> get products {
@@ -32,7 +33,8 @@ mixin _$SearchStore on _SearchStoreBase, Store {
     });
   }
 
-  final _$loadingAtom = Atom(name: '_SearchStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_SearchStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -47,7 +49,8 @@ mixin _$SearchStore on _SearchStoreBase, Store {
     });
   }
 
-  final _$keywordAtom = Atom(name: '_SearchStoreBase.keyword');
+  late final _$keywordAtom =
+      Atom(name: '_SearchStoreBase.keyword', context: context);
 
   @override
   String get keyword {
@@ -62,7 +65,8 @@ mixin _$SearchStore on _SearchStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: '_SearchStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: '_SearchStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -77,16 +81,16 @@ mixin _$SearchStore on _SearchStoreBase, Store {
     });
   }
 
-  final _$searchProductAsyncAction =
-      AsyncAction('_SearchStoreBase.searchProduct');
+  late final _$searchProductAsyncAction =
+      AsyncAction('_SearchStoreBase.searchProduct', context: context);
 
   @override
   Future<void> searchProduct(int limit) {
     return _$searchProductAsyncAction.run(() => super.searchProduct(limit));
   }
 
-  final _$_SearchStoreBaseActionController =
-      ActionController(name: '_SearchStoreBase');
+  late final _$_SearchStoreBaseActionController =
+      ActionController(name: '_SearchStoreBase', context: context);
 
   @override
   void dispose() {

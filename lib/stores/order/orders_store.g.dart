@@ -24,7 +24,8 @@ mixin _$OrdersStore on _OrdersStoreBase, Store {
               name: '_OrdersStoreBase.completedOrders'))
       .value;
 
-  final _$isLoadingAtom = Atom(name: '_OrdersStoreBase.isLoading');
+  late final _$isLoadingAtom =
+      Atom(name: '_OrdersStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -39,7 +40,8 @@ mixin _$OrdersStore on _OrdersStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: '_OrdersStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: '_OrdersStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -54,7 +56,8 @@ mixin _$OrdersStore on _OrdersStoreBase, Store {
     });
   }
 
-  final _$ordersAtom = Atom(name: '_OrdersStoreBase.orders');
+  late final _$ordersAtom =
+      Atom(name: '_OrdersStoreBase.orders', context: context);
 
   @override
   List<Order> get orders {
@@ -69,7 +72,8 @@ mixin _$OrdersStore on _OrdersStoreBase, Store {
     });
   }
 
-  final _$getMyOrdersAsyncAction = AsyncAction('_OrdersStoreBase.getMyOrders');
+  late final _$getMyOrdersAsyncAction =
+      AsyncAction('_OrdersStoreBase.getMyOrders', context: context);
 
   @override
   Future<void> getMyOrders(String status) {

@@ -9,7 +9,8 @@ part of 'child_categories_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChildCategoryStore on _ChildCategoryStoreBase, Store {
-  final _$categoriesAtom = Atom(name: '_ChildCategoryStoreBase.categories');
+  late final _$categoriesAtom =
+      Atom(name: '_ChildCategoryStoreBase.categories', context: context);
 
   @override
   List<Category> get categories {
@@ -24,7 +25,8 @@ mixin _$ChildCategoryStore on _ChildCategoryStoreBase, Store {
     });
   }
 
-  final _$loadingAtom = Atom(name: '_ChildCategoryStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_ChildCategoryStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -39,7 +41,8 @@ mixin _$ChildCategoryStore on _ChildCategoryStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: '_ChildCategoryStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: '_ChildCategoryStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -54,8 +57,8 @@ mixin _$ChildCategoryStore on _ChildCategoryStoreBase, Store {
     });
   }
 
-  final _$getCategoriesAsyncAction =
-      AsyncAction('_ChildCategoryStoreBase.getCategories');
+  late final _$getCategoriesAsyncAction =
+      AsyncAction('_ChildCategoryStoreBase.getCategories', context: context);
 
   @override
   Future<void> getCategories(Category category) {

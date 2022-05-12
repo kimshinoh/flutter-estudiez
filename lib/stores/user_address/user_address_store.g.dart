@@ -48,7 +48,8 @@ mixin _$UserAddressStore on _UserAddressStoreBase, Store {
               name: '_UserAddressStoreBase.hasNonDefaultAddress'))
       .value;
 
-  final _$userAddressesAtom = Atom(name: '_UserAddressStoreBase.userAddresses');
+  late final _$userAddressesAtom =
+      Atom(name: '_UserAddressStoreBase.userAddresses', context: context);
 
   @override
   List<UserAddress> get userAddresses {
@@ -63,7 +64,8 @@ mixin _$UserAddressStore on _UserAddressStoreBase, Store {
     });
   }
 
-  final _$errorAtom = Atom(name: '_UserAddressStoreBase.error');
+  late final _$errorAtom =
+      Atom(name: '_UserAddressStoreBase.error', context: context);
 
   @override
   String? get error {
@@ -78,7 +80,8 @@ mixin _$UserAddressStore on _UserAddressStoreBase, Store {
     });
   }
 
-  final _$loadingAtom = Atom(name: '_UserAddressStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_UserAddressStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -93,16 +96,16 @@ mixin _$UserAddressStore on _UserAddressStoreBase, Store {
     });
   }
 
-  final _$getUserAddressesAsyncAction =
-      AsyncAction('_UserAddressStoreBase.getUserAddresses');
+  late final _$getUserAddressesAsyncAction =
+      AsyncAction('_UserAddressStoreBase.getUserAddresses', context: context);
 
   @override
   Future<void> getUserAddresses() {
     return _$getUserAddressesAsyncAction.run(() => super.getUserAddresses());
   }
 
-  final _$_UserAddressStoreBaseActionController =
-      ActionController(name: '_UserAddressStoreBase');
+  late final _$_UserAddressStoreBaseActionController =
+      ActionController(name: '_UserAddressStoreBase', context: context);
 
   @override
   void clearUserAddresses() {

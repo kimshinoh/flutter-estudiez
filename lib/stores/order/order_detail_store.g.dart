@@ -9,7 +9,8 @@ part of 'order_detail_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$OrderDetailStore on _OrderDetailStoreBase, Store {
-  final _$orderAtom = Atom(name: '_OrderDetailStoreBase.order');
+  late final _$orderAtom =
+      Atom(name: '_OrderDetailStoreBase.order', context: context);
 
   @override
   Order? get order {
@@ -24,7 +25,8 @@ mixin _$OrderDetailStore on _OrderDetailStoreBase, Store {
     });
   }
 
-  final _$isLoadingAtom = Atom(name: '_OrderDetailStoreBase.isLoading');
+  late final _$isLoadingAtom =
+      Atom(name: '_OrderDetailStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -39,7 +41,8 @@ mixin _$OrderDetailStore on _OrderDetailStoreBase, Store {
     });
   }
 
-  final _$errorAtom = Atom(name: '_OrderDetailStoreBase.error');
+  late final _$errorAtom =
+      Atom(name: '_OrderDetailStoreBase.error', context: context);
 
   @override
   String? get error {
@@ -54,8 +57,8 @@ mixin _$OrderDetailStore on _OrderDetailStoreBase, Store {
     });
   }
 
-  final _$getOrderDetailAsyncAction =
-      AsyncAction('_OrderDetailStoreBase.getOrderDetail');
+  late final _$getOrderDetailAsyncAction =
+      AsyncAction('_OrderDetailStoreBase.getOrderDetail', context: context);
 
   @override
   Future<void> getOrderDetail(String orderId) {

@@ -17,7 +17,8 @@ mixin _$SellerStore on _SellerStoreBase, Store {
               name: '_SellerStoreBase.sellersMap'))
       .value;
 
-  final _$sellersAtom = Atom(name: '_SellerStoreBase.sellers');
+  late final _$sellersAtom =
+      Atom(name: '_SellerStoreBase.sellers', context: context);
 
   @override
   List<Seller> get sellers {
@@ -32,7 +33,8 @@ mixin _$SellerStore on _SellerStoreBase, Store {
     });
   }
 
-  final _$loadingAtom = Atom(name: '_SellerStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_SellerStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -47,7 +49,8 @@ mixin _$SellerStore on _SellerStoreBase, Store {
     });
   }
 
-  final _$errorAtom = Atom(name: '_SellerStoreBase.error');
+  late final _$errorAtom =
+      Atom(name: '_SellerStoreBase.error', context: context);
 
   @override
   String get error {
@@ -62,7 +65,8 @@ mixin _$SellerStore on _SellerStoreBase, Store {
     });
   }
 
-  final _$getSellersAsyncAction = AsyncAction('_SellerStoreBase.getSellers');
+  late final _$getSellersAsyncAction =
+      AsyncAction('_SellerStoreBase.getSellers', context: context);
 
   @override
   Future<void> getSellers(List<String> ids) {

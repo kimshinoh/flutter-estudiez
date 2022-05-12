@@ -17,7 +17,8 @@ mixin _$PaymentStore on _PaymentStoreBase, Store {
               name: '_PaymentStoreBase.defaultPayment'))
       .value;
 
-  final _$paymentsAtom = Atom(name: '_PaymentStoreBase.payments');
+  late final _$paymentsAtom =
+      Atom(name: '_PaymentStoreBase.payments', context: context);
 
   @override
   List<Payment> get payments {
@@ -32,7 +33,8 @@ mixin _$PaymentStore on _PaymentStoreBase, Store {
     });
   }
 
-  final _$errorAtom = Atom(name: '_PaymentStoreBase.error');
+  late final _$errorAtom =
+      Atom(name: '_PaymentStoreBase.error', context: context);
 
   @override
   String? get error {
@@ -47,7 +49,8 @@ mixin _$PaymentStore on _PaymentStoreBase, Store {
     });
   }
 
-  final _$loadingAtom = Atom(name: '_PaymentStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_PaymentStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -62,16 +65,16 @@ mixin _$PaymentStore on _PaymentStoreBase, Store {
     });
   }
 
-  final _$getMyPaymentsAsyncAction =
-      AsyncAction('_PaymentStoreBase.getMyPayments');
+  late final _$getMyPaymentsAsyncAction =
+      AsyncAction('_PaymentStoreBase.getMyPayments', context: context);
 
   @override
   Future<void> getMyPayments() {
     return _$getMyPaymentsAsyncAction.run(() => super.getMyPayments());
   }
 
-  final _$_PaymentStoreBaseActionController =
-      ActionController(name: '_PaymentStoreBase');
+  late final _$_PaymentStoreBaseActionController =
+      ActionController(name: '_PaymentStoreBase', context: context);
 
   @override
   void clearPayments() {

@@ -9,7 +9,8 @@ part of 'confirm_order_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
-  final _$receivedAtAtom = Atom(name: '_OrderConfirmationStoreBase.receivedAt');
+  late final _$receivedAtAtom =
+      Atom(name: '_OrderConfirmationStoreBase.receivedAt', context: context);
 
   @override
   DateTime get receivedAt {
@@ -24,7 +25,8 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     });
   }
 
-  final _$timeAtom = Atom(name: '_OrderConfirmationStoreBase.time');
+  late final _$timeAtom =
+      Atom(name: '_OrderConfirmationStoreBase.time', context: context);
 
   @override
   String get time {
@@ -39,8 +41,8 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     });
   }
 
-  final _$timesCanSelectAtom =
-      Atom(name: '_OrderConfirmationStoreBase.timesCanSelect');
+  late final _$timesCanSelectAtom = Atom(
+      name: '_OrderConfirmationStoreBase.timesCanSelect', context: context);
 
   @override
   List<String> get timesCanSelect {
@@ -55,8 +57,8 @@ mixin _$OrderConfirmationStore on _OrderConfirmationStoreBase, Store {
     });
   }
 
-  final _$_OrderConfirmationStoreBaseActionController =
-      ActionController(name: '_OrderConfirmationStoreBase');
+  late final _$_OrderConfirmationStoreBaseActionController =
+      ActionController(name: '_OrderConfirmationStoreBase', context: context);
 
   @override
   void setReceivedAt(DateTime receivedAt) {

@@ -9,7 +9,8 @@ part of 'search_history_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SearchHistoryStore on _SearchHistoryStoreBase, Store {
-  final _$searchsAtom = Atom(name: '_SearchHistoryStoreBase.searchs');
+  late final _$searchsAtom =
+      Atom(name: '_SearchHistoryStoreBase.searchs', context: context);
 
   @override
   List<String> get searchs {
@@ -24,7 +25,8 @@ mixin _$SearchHistoryStore on _SearchHistoryStoreBase, Store {
     });
   }
 
-  final _$isLoadingAtom = Atom(name: '_SearchHistoryStoreBase.isLoading');
+  late final _$isLoadingAtom =
+      Atom(name: '_SearchHistoryStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -39,7 +41,8 @@ mixin _$SearchHistoryStore on _SearchHistoryStoreBase, Store {
     });
   }
 
-  final _$errorAtom = Atom(name: '_SearchHistoryStoreBase.error');
+  late final _$errorAtom =
+      Atom(name: '_SearchHistoryStoreBase.error', context: context);
 
   @override
   String get error {
@@ -54,30 +57,32 @@ mixin _$SearchHistoryStore on _SearchHistoryStoreBase, Store {
     });
   }
 
-  final _$getAllAsyncAction = AsyncAction('_SearchHistoryStoreBase.getAll');
+  late final _$getAllAsyncAction =
+      AsyncAction('_SearchHistoryStoreBase.getAll', context: context);
 
   @override
   Future<void> getAll() {
     return _$getAllAsyncAction.run(() => super.getAll());
   }
 
-  final _$addItemAsyncAction = AsyncAction('_SearchHistoryStoreBase.addItem');
+  late final _$addItemAsyncAction =
+      AsyncAction('_SearchHistoryStoreBase.addItem', context: context);
 
   @override
   Future<void> addItem(String search) {
     return _$addItemAsyncAction.run(() => super.addItem(search));
   }
 
-  final _$removeItemAsyncAction =
-      AsyncAction('_SearchHistoryStoreBase.removeItem');
+  late final _$removeItemAsyncAction =
+      AsyncAction('_SearchHistoryStoreBase.removeItem', context: context);
 
   @override
   Future<void> removeItem(String search) {
     return _$removeItemAsyncAction.run(() => super.removeItem(search));
   }
 
-  final _$_SearchHistoryStoreBaseActionController =
-      ActionController(name: '_SearchHistoryStoreBase');
+  late final _$_SearchHistoryStoreBaseActionController =
+      ActionController(name: '_SearchHistoryStoreBase', context: context);
 
   @override
   void clear() {

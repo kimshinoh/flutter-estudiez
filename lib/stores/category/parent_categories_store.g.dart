@@ -9,7 +9,8 @@ part of 'parent_categories_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ParentCategoryStore on _ParentCategoryStoreBase, Store {
-  final _$categoryIdAtom = Atom(name: '_ParentCategoryStoreBase.categoryId');
+  late final _$categoryIdAtom =
+      Atom(name: '_ParentCategoryStoreBase.categoryId', context: context);
 
   @override
   String? get categoryId {
@@ -24,7 +25,8 @@ mixin _$ParentCategoryStore on _ParentCategoryStoreBase, Store {
     });
   }
 
-  final _$categoriesAtom = Atom(name: '_ParentCategoryStoreBase.categories');
+  late final _$categoriesAtom =
+      Atom(name: '_ParentCategoryStoreBase.categories', context: context);
 
   @override
   List<Category> get categories {
@@ -39,7 +41,8 @@ mixin _$ParentCategoryStore on _ParentCategoryStoreBase, Store {
     });
   }
 
-  final _$loadingAtom = Atom(name: '_ParentCategoryStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_ParentCategoryStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -54,8 +57,8 @@ mixin _$ParentCategoryStore on _ParentCategoryStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom =
-      Atom(name: '_ParentCategoryStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: '_ParentCategoryStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -70,16 +73,16 @@ mixin _$ParentCategoryStore on _ParentCategoryStoreBase, Store {
     });
   }
 
-  final _$getCategoriesAsyncAction =
-      AsyncAction('_ParentCategoryStoreBase.getCategories');
+  late final _$getCategoriesAsyncAction =
+      AsyncAction('_ParentCategoryStoreBase.getCategories', context: context);
 
   @override
   Future<void> getCategories() {
     return _$getCategoriesAsyncAction.run(() => super.getCategories());
   }
 
-  final _$_ParentCategoryStoreBaseActionController =
-      ActionController(name: '_ParentCategoryStoreBase');
+  late final _$_ParentCategoryStoreBaseActionController =
+      ActionController(name: '_ParentCategoryStoreBase', context: context);
 
   @override
   void setCategoryId(String? categoryId) {

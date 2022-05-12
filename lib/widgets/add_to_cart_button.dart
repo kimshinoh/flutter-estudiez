@@ -227,12 +227,16 @@ class _AddToCartForm extends StatelessWidget {
                                   icon: Icon(
                                     Icons.add_circle,
                                     size: 24,
-                                    color: _cartStore.canIncreaseQuantity
+                                    color: _cartStore.canIncreaseQuantity &&
+                                            stock != null &&
+                                            _cartStore.qty < stock.quantity
                                         ? AppColors.palette.shade500
                                         : Colors.grey,
                                   ),
                                   onPressed: () {
-                                    if (_cartStore.canIncreaseQuantity) {
+                                    if (_cartStore.canIncreaseQuantity &&
+                                        stock != null &&
+                                        _cartStore.qty < stock.quantity) {
                                       _cartStore.increaseQuantity();
                                       _controller.text =
                                           _cartStore.qty.toString();

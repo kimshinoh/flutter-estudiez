@@ -17,7 +17,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
               name: '_ProductStoreBase.sortedProducts'))
       .value;
 
-  final _$sortProductAtom = Atom(name: '_ProductStoreBase.sortProduct');
+  late final _$sortProductAtom =
+      Atom(name: '_ProductStoreBase.sortProduct', context: context);
 
   @override
   SortProduct get sortProduct {
@@ -32,7 +33,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final _$productsAtom = Atom(name: '_ProductStoreBase.products');
+  late final _$productsAtom =
+      Atom(name: '_ProductStoreBase.products', context: context);
 
   @override
   List<Product> get products {
@@ -47,7 +49,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final _$productsTopSaleAtom = Atom(name: '_ProductStoreBase.productsTopSale');
+  late final _$productsTopSaleAtom =
+      Atom(name: '_ProductStoreBase.productsTopSale', context: context);
 
   @override
   List<Product> get productsTopSale {
@@ -62,7 +65,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final _$productsSaleOffAtom = Atom(name: '_ProductStoreBase.productsSaleOff');
+  late final _$productsSaleOffAtom =
+      Atom(name: '_ProductStoreBase.productsSaleOff', context: context);
 
   @override
   List<Product> get productsSaleOff {
@@ -77,8 +81,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final _$productsSaleShockAtom =
-      Atom(name: '_ProductStoreBase.productsSaleShock');
+  late final _$productsSaleShockAtom =
+      Atom(name: '_ProductStoreBase.productsSaleShock', context: context);
 
   @override
   List<Product> get productsSaleShock {
@@ -93,8 +97,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final _$productsTopSaleBigAtom =
-      Atom(name: '_ProductStoreBase.productsTopSaleBig');
+  late final _$productsTopSaleBigAtom =
+      Atom(name: '_ProductStoreBase.productsTopSaleBig', context: context);
 
   @override
   List<Product> get productsTopSaleBig {
@@ -109,8 +113,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final _$productsSaleOffBigAtom =
-      Atom(name: '_ProductStoreBase.productsSaleOffBig');
+  late final _$productsSaleOffBigAtom =
+      Atom(name: '_ProductStoreBase.productsSaleOffBig', context: context);
 
   @override
   List<Product> get productsSaleOffBig {
@@ -125,8 +129,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final _$productsSaleShockBigAtom =
-      Atom(name: '_ProductStoreBase.productsSaleShockBig');
+  late final _$productsSaleShockBigAtom =
+      Atom(name: '_ProductStoreBase.productsSaleShockBig', context: context);
 
   @override
   List<Product> get productsSaleShockBig {
@@ -142,7 +146,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final _$loadingAtom = Atom(name: '_ProductStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_ProductStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -157,7 +162,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: '_ProductStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: '_ProductStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -172,8 +178,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
     });
   }
 
-  final _$getProductsTopSaleAsyncAction =
-      AsyncAction('_ProductStoreBase.getProductsTopSale');
+  late final _$getProductsTopSaleAsyncAction =
+      AsyncAction('_ProductStoreBase.getProductsTopSale', context: context);
 
   @override
   Future<void> getProductsTopSale(int limit) {
@@ -181,8 +187,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
         .run(() => super.getProductsTopSale(limit));
   }
 
-  final _$getProductsSaleShockAsyncAction =
-      AsyncAction('_ProductStoreBase.getProductsSaleShock');
+  late final _$getProductsSaleShockAsyncAction =
+      AsyncAction('_ProductStoreBase.getProductsSaleShock', context: context);
 
   @override
   Future<void> getProductsSaleShock(int limit) {
@@ -190,8 +196,8 @@ mixin _$ProductStore on _ProductStoreBase, Store {
         .run(() => super.getProductsSaleShock(limit));
   }
 
-  final _$getProductsSaleOffAsyncAction =
-      AsyncAction('_ProductStoreBase.getProductsSaleOff');
+  late final _$getProductsSaleOffAsyncAction =
+      AsyncAction('_ProductStoreBase.getProductsSaleOff', context: context);
 
   @override
   Future<void> getProductsSaleOff(int limit) {
@@ -199,15 +205,16 @@ mixin _$ProductStore on _ProductStoreBase, Store {
         .run(() => super.getProductsSaleOff(limit));
   }
 
-  final _$getProductsAsyncAction = AsyncAction('_ProductStoreBase.getProducts');
+  late final _$getProductsAsyncAction =
+      AsyncAction('_ProductStoreBase.getProducts', context: context);
 
   @override
   Future<void> getProducts(String categoryId) {
     return _$getProductsAsyncAction.run(() => super.getProducts(categoryId));
   }
 
-  final _$_ProductStoreBaseActionController =
-      ActionController(name: '_ProductStoreBase');
+  late final _$_ProductStoreBaseActionController =
+      ActionController(name: '_ProductStoreBase', context: context);
 
   @override
   void setSortProduct(SortProduct sortProduct) {

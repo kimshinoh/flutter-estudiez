@@ -9,7 +9,8 @@ part of 'cancel_order_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$CancelOrderStore on _CancelOrderStoreBase, Store {
-  final _$isLoadingAtom = Atom(name: '_CancelOrderStoreBase.isLoading');
+  late final _$isLoadingAtom =
+      Atom(name: '_CancelOrderStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -24,7 +25,8 @@ mixin _$CancelOrderStore on _CancelOrderStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: '_CancelOrderStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: '_CancelOrderStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -39,7 +41,8 @@ mixin _$CancelOrderStore on _CancelOrderStoreBase, Store {
     });
   }
 
-  final _$orderIdAtom = Atom(name: '_CancelOrderStoreBase.orderId');
+  late final _$orderIdAtom =
+      Atom(name: '_CancelOrderStoreBase.orderId', context: context);
 
   @override
   String get orderId {
@@ -54,7 +57,8 @@ mixin _$CancelOrderStore on _CancelOrderStoreBase, Store {
     });
   }
 
-  final _$noteAtom = Atom(name: '_CancelOrderStoreBase.note');
+  late final _$noteAtom =
+      Atom(name: '_CancelOrderStoreBase.note', context: context);
 
   @override
   String get note {
@@ -69,16 +73,16 @@ mixin _$CancelOrderStore on _CancelOrderStoreBase, Store {
     });
   }
 
-  final _$cancelOrderAsyncAction =
-      AsyncAction('_CancelOrderStoreBase.cancelOrder');
+  late final _$cancelOrderAsyncAction =
+      AsyncAction('_CancelOrderStoreBase.cancelOrder', context: context);
 
   @override
   Future<void> cancelOrder() {
     return _$cancelOrderAsyncAction.run(() => super.cancelOrder());
   }
 
-  final _$_CancelOrderStoreBaseActionController =
-      ActionController(name: '_CancelOrderStoreBase');
+  late final _$_CancelOrderStoreBaseActionController =
+      ActionController(name: '_CancelOrderStoreBase', context: context);
 
   @override
   void setOrderId(String id) {

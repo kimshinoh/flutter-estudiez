@@ -9,7 +9,8 @@ part of 'product_detail_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ProductDetailStore on _ProductDetailStoreBase, Store {
-  final _$isLoadingAtom = Atom(name: '_ProductDetailStoreBase.isLoading');
+  late final _$isLoadingAtom =
+      Atom(name: '_ProductDetailStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -24,7 +25,8 @@ mixin _$ProductDetailStore on _ProductDetailStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: '_ProductDetailStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: '_ProductDetailStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -39,7 +41,8 @@ mixin _$ProductDetailStore on _ProductDetailStoreBase, Store {
     });
   }
 
-  final _$productAtom = Atom(name: '_ProductDetailStoreBase.product');
+  late final _$productAtom =
+      Atom(name: '_ProductDetailStoreBase.product', context: context);
 
   @override
   Product? get product {
@@ -54,8 +57,8 @@ mixin _$ProductDetailStore on _ProductDetailStoreBase, Store {
     });
   }
 
-  final _$relateProductsAtom =
-      Atom(name: '_ProductDetailStoreBase.relateProducts');
+  late final _$relateProductsAtom =
+      Atom(name: '_ProductDetailStoreBase.relateProducts', context: context);
 
   @override
   List<Product> get relateProducts {
@@ -70,8 +73,8 @@ mixin _$ProductDetailStore on _ProductDetailStoreBase, Store {
     });
   }
 
-  final _$getProductDetailAsyncAction =
-      AsyncAction('_ProductDetailStoreBase.getProductDetail');
+  late final _$getProductDetailAsyncAction =
+      AsyncAction('_ProductDetailStoreBase.getProductDetail', context: context);
 
   @override
   Future<void> getProductDetail(String productId) {

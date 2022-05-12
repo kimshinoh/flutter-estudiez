@@ -9,8 +9,8 @@ part of 'category_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$CategoryStore on _CategoryStoreBase, Store {
-  final _$selectedCategoryAtom =
-      Atom(name: '_CategoryStoreBase.selectedCategory');
+  late final _$selectedCategoryAtom =
+      Atom(name: '_CategoryStoreBase.selectedCategory', context: context);
 
   @override
   Category? get selectedCategory {
@@ -25,8 +25,8 @@ mixin _$CategoryStore on _CategoryStoreBase, Store {
     });
   }
 
-  final _$selectedChildCategoryAtom =
-      Atom(name: '_CategoryStoreBase.selectedChildCategory');
+  late final _$selectedChildCategoryAtom =
+      Atom(name: '_CategoryStoreBase.selectedChildCategory', context: context);
 
   @override
   Category? get selectedChildCategory {
@@ -42,15 +42,16 @@ mixin _$CategoryStore on _CategoryStoreBase, Store {
     });
   }
 
-  final _$initAsyncAction = AsyncAction('_CategoryStoreBase.init');
+  late final _$initAsyncAction =
+      AsyncAction('_CategoryStoreBase.init', context: context);
 
   @override
   Future<void> init() {
     return _$initAsyncAction.run(() => super.init());
   }
 
-  final _$_CategoryStoreBaseActionController =
-      ActionController(name: '_CategoryStoreBase');
+  late final _$_CategoryStoreBaseActionController =
+      ActionController(name: '_CategoryStoreBase', context: context);
 
   @override
   void setSelectCategory(Category category) {

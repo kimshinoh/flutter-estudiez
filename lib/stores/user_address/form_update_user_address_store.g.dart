@@ -16,8 +16,8 @@ mixin _$FormUpdateUserAddressStore on _FormUpdateUserAddressStoreBase, Store {
           name: '_FormUpdateUserAddressStoreBase.isValid'))
       .value;
 
-  final _$isLoadingAtom =
-      Atom(name: '_FormUpdateUserAddressStoreBase.isLoading');
+  late final _$isLoadingAtom =
+      Atom(name: '_FormUpdateUserAddressStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -32,8 +32,8 @@ mixin _$FormUpdateUserAddressStore on _FormUpdateUserAddressStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom =
-      Atom(name: '_FormUpdateUserAddressStoreBase.errorMessage');
+  late final _$errorMessageAtom = Atom(
+      name: '_FormUpdateUserAddressStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -48,7 +48,8 @@ mixin _$FormUpdateUserAddressStore on _FormUpdateUserAddressStoreBase, Store {
     });
   }
 
-  final _$idAtom = Atom(name: '_FormUpdateUserAddressStoreBase.id');
+  late final _$idAtom =
+      Atom(name: '_FormUpdateUserAddressStoreBase.id', context: context);
 
   @override
   String get id {
@@ -63,7 +64,8 @@ mixin _$FormUpdateUserAddressStore on _FormUpdateUserAddressStoreBase, Store {
     });
   }
 
-  final _$fullNameAtom = Atom(name: '_FormUpdateUserAddressStoreBase.fullName');
+  late final _$fullNameAtom =
+      Atom(name: '_FormUpdateUserAddressStoreBase.fullName', context: context);
 
   @override
   String get fullName {
@@ -78,8 +80,8 @@ mixin _$FormUpdateUserAddressStore on _FormUpdateUserAddressStoreBase, Store {
     });
   }
 
-  final _$phoneNumberAtom =
-      Atom(name: '_FormUpdateUserAddressStoreBase.phoneNumber');
+  late final _$phoneNumberAtom = Atom(
+      name: '_FormUpdateUserAddressStoreBase.phoneNumber', context: context);
 
   @override
   String get phoneNumber {
@@ -94,7 +96,8 @@ mixin _$FormUpdateUserAddressStore on _FormUpdateUserAddressStoreBase, Store {
     });
   }
 
-  final _$noteAtom = Atom(name: '_FormUpdateUserAddressStoreBase.note');
+  late final _$noteAtom =
+      Atom(name: '_FormUpdateUserAddressStoreBase.note', context: context);
 
   @override
   String get note {
@@ -109,7 +112,8 @@ mixin _$FormUpdateUserAddressStore on _FormUpdateUserAddressStoreBase, Store {
     });
   }
 
-  final _$addressAtom = Atom(name: '_FormUpdateUserAddressStoreBase.address');
+  late final _$addressAtom =
+      Atom(name: '_FormUpdateUserAddressStoreBase.address', context: context);
 
   @override
   Address get address {
@@ -124,8 +128,8 @@ mixin _$FormUpdateUserAddressStore on _FormUpdateUserAddressStoreBase, Store {
     });
   }
 
-  final _$isDefaultAtom =
-      Atom(name: '_FormUpdateUserAddressStoreBase.isDefault');
+  late final _$isDefaultAtom =
+      Atom(name: '_FormUpdateUserAddressStoreBase.isDefault', context: context);
 
   @override
   bool get isDefault {
@@ -140,16 +144,18 @@ mixin _$FormUpdateUserAddressStore on _FormUpdateUserAddressStoreBase, Store {
     });
   }
 
-  final _$getUserAddressAsyncAction =
-      AsyncAction('_FormUpdateUserAddressStoreBase.getUserAddress');
+  late final _$getUserAddressAsyncAction = AsyncAction(
+      '_FormUpdateUserAddressStoreBase.getUserAddress',
+      context: context);
 
   @override
   Future<void> getUserAddress() {
     return _$getUserAddressAsyncAction.run(() => super.getUserAddress());
   }
 
-  final _$updateUserAddressAsyncAction =
-      AsyncAction('_FormUpdateUserAddressStoreBase.updateUserAddress');
+  late final _$updateUserAddressAsyncAction = AsyncAction(
+      '_FormUpdateUserAddressStoreBase.updateUserAddress',
+      context: context);
 
   @override
   Future<void> updateUserAddress(String userId) {
@@ -157,8 +163,9 @@ mixin _$FormUpdateUserAddressStore on _FormUpdateUserAddressStoreBase, Store {
         .run(() => super.updateUserAddress(userId));
   }
 
-  final _$removeUserAddressAsyncAction =
-      AsyncAction('_FormUpdateUserAddressStoreBase.removeUserAddress');
+  late final _$removeUserAddressAsyncAction = AsyncAction(
+      '_FormUpdateUserAddressStoreBase.removeUserAddress',
+      context: context);
 
   @override
   Future<void> removeUserAddress(String userId) {
@@ -166,8 +173,9 @@ mixin _$FormUpdateUserAddressStore on _FormUpdateUserAddressStoreBase, Store {
         .run(() => super.removeUserAddress(userId));
   }
 
-  final _$_FormUpdateUserAddressStoreBaseActionController =
-      ActionController(name: '_FormUpdateUserAddressStoreBase');
+  late final _$_FormUpdateUserAddressStoreBaseActionController =
+      ActionController(
+          name: '_FormUpdateUserAddressStoreBase', context: context);
 
   @override
   void setFullName(String fullName) {
@@ -238,8 +246,9 @@ mixin _$FormUpdateUserAddressValidation
           name: 'FormUpdateUserAddressValidationBase.isValid'))
       .value;
 
-  final _$fullNameErrorAtom =
-      Atom(name: 'FormUpdateUserAddressValidationBase.fullNameError');
+  late final _$fullNameErrorAtom = Atom(
+      name: 'FormUpdateUserAddressValidationBase.fullNameError',
+      context: context);
 
   @override
   String? get fullNameError {
@@ -254,8 +263,9 @@ mixin _$FormUpdateUserAddressValidation
     });
   }
 
-  final _$phoneNumberErrorAtom =
-      Atom(name: 'FormUpdateUserAddressValidationBase.phoneNumberError');
+  late final _$phoneNumberErrorAtom = Atom(
+      name: 'FormUpdateUserAddressValidationBase.phoneNumberError',
+      context: context);
 
   @override
   String? get phoneNumberError {
@@ -270,8 +280,9 @@ mixin _$FormUpdateUserAddressValidation
     });
   }
 
-  final _$FormUpdateUserAddressValidationBaseActionController =
-      ActionController(name: 'FormUpdateUserAddressValidationBase');
+  late final _$FormUpdateUserAddressValidationBaseActionController =
+      ActionController(
+          name: 'FormUpdateUserAddressValidationBase', context: context);
 
   @override
   dynamic setFullNameError(String? fullNameError) {

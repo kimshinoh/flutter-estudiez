@@ -17,8 +17,8 @@ mixin _$SearchProductStore on _SearchProductStoreBase, Store {
               name: '_SearchProductStoreBase.products'))
           .value;
 
-  final _$productsByIdsAtom =
-      Atom(name: '_SearchProductStoreBase.productsByIds');
+  late final _$productsByIdsAtom =
+      Atom(name: '_SearchProductStoreBase.productsByIds', context: context);
 
   @override
   List<Product> get productsByIds {
@@ -33,7 +33,8 @@ mixin _$SearchProductStore on _SearchProductStoreBase, Store {
     });
   }
 
-  final _$loadingAtom = Atom(name: '_SearchProductStoreBase.loading');
+  late final _$loadingAtom =
+      Atom(name: '_SearchProductStoreBase.loading', context: context);
 
   @override
   bool get loading {
@@ -48,7 +49,8 @@ mixin _$SearchProductStore on _SearchProductStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: '_SearchProductStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: '_SearchProductStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -63,7 +65,8 @@ mixin _$SearchProductStore on _SearchProductStoreBase, Store {
     });
   }
 
-  final _$searchTypeAtom = Atom(name: '_SearchProductStoreBase.searchType');
+  late final _$searchTypeAtom =
+      Atom(name: '_SearchProductStoreBase.searchType', context: context);
 
   @override
   int get searchType {
@@ -78,16 +81,16 @@ mixin _$SearchProductStore on _SearchProductStoreBase, Store {
     });
   }
 
-  final _$getProductsByIdsAsyncAction =
-      AsyncAction('_SearchProductStoreBase.getProductsByIds');
+  late final _$getProductsByIdsAsyncAction =
+      AsyncAction('_SearchProductStoreBase.getProductsByIds', context: context);
 
   @override
   Future<void> getProductsByIds(List<String> ids) {
     return _$getProductsByIdsAsyncAction.run(() => super.getProductsByIds(ids));
   }
 
-  final _$_SearchProductStoreBaseActionController =
-      ActionController(name: '_SearchProductStoreBase');
+  late final _$_SearchProductStoreBaseActionController =
+      ActionController(name: '_SearchProductStoreBase', context: context);
 
   @override
   void dispose() {

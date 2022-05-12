@@ -16,8 +16,8 @@ mixin _$FormUpdateProfileStore on _FormUpdateProfileStoreBase, Store {
           name: '_FormUpdateProfileStoreBase.isValid'))
       .value;
 
-  final _$errorMessageAtom =
-      Atom(name: '_FormUpdateProfileStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: '_FormUpdateProfileStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -32,7 +32,8 @@ mixin _$FormUpdateProfileStore on _FormUpdateProfileStoreBase, Store {
     });
   }
 
-  final _$isLoadingAtom = Atom(name: '_FormUpdateProfileStoreBase.isLoading');
+  late final _$isLoadingAtom =
+      Atom(name: '_FormUpdateProfileStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -47,8 +48,8 @@ mixin _$FormUpdateProfileStore on _FormUpdateProfileStoreBase, Store {
     });
   }
 
-  final _$isLoadingAvatarAtom =
-      Atom(name: '_FormUpdateProfileStoreBase.isLoadingAvatar');
+  late final _$isLoadingAvatarAtom = Atom(
+      name: '_FormUpdateProfileStoreBase.isLoadingAvatar', context: context);
 
   @override
   bool get isLoadingAvatar {
@@ -63,7 +64,8 @@ mixin _$FormUpdateProfileStore on _FormUpdateProfileStoreBase, Store {
     });
   }
 
-  final _$fullNameAtom = Atom(name: '_FormUpdateProfileStoreBase.fullName');
+  late final _$fullNameAtom =
+      Atom(name: '_FormUpdateProfileStoreBase.fullName', context: context);
 
   @override
   String get fullName {
@@ -78,7 +80,8 @@ mixin _$FormUpdateProfileStore on _FormUpdateProfileStoreBase, Store {
     });
   }
 
-  final _$avatarAtom = Atom(name: '_FormUpdateProfileStoreBase.avatar');
+  late final _$avatarAtom =
+      Atom(name: '_FormUpdateProfileStoreBase.avatar', context: context);
 
   @override
   String get avatar {
@@ -93,7 +96,8 @@ mixin _$FormUpdateProfileStore on _FormUpdateProfileStoreBase, Store {
     });
   }
 
-  final _$emailAtom = Atom(name: '_FormUpdateProfileStoreBase.email');
+  late final _$emailAtom =
+      Atom(name: '_FormUpdateProfileStoreBase.email', context: context);
 
   @override
   String get email {
@@ -108,16 +112,16 @@ mixin _$FormUpdateProfileStore on _FormUpdateProfileStoreBase, Store {
     });
   }
 
-  final _$uploadAvatarAsyncAction =
-      AsyncAction('_FormUpdateProfileStoreBase.uploadAvatar');
+  late final _$uploadAvatarAsyncAction =
+      AsyncAction('_FormUpdateProfileStoreBase.uploadAvatar', context: context);
 
   @override
   Future<void> uploadAvatar(String filePath) {
     return _$uploadAvatarAsyncAction.run(() => super.uploadAvatar(filePath));
   }
 
-  final _$_FormUpdateProfileStoreBaseActionController =
-      ActionController(name: '_FormUpdateProfileStoreBase');
+  late final _$_FormUpdateProfileStoreBaseActionController =
+      ActionController(name: '_FormUpdateProfileStoreBase', context: context);
 
   @override
   void setFullName(String fullName) {
@@ -168,8 +172,9 @@ isValid: ${isValid}
 
 mixin _$FormUpdateUserProfileValidation
     on _FormUpdateUserProfileValidationBase, Store {
-  final _$fullNameErrorAtom =
-      Atom(name: '_FormUpdateUserProfileValidationBase.fullNameError');
+  late final _$fullNameErrorAtom = Atom(
+      name: '_FormUpdateUserProfileValidationBase.fullNameError',
+      context: context);
 
   @override
   String? get fullNameError {
@@ -184,8 +189,9 @@ mixin _$FormUpdateUserProfileValidation
     });
   }
 
-  final _$_FormUpdateUserProfileValidationBaseActionController =
-      ActionController(name: '_FormUpdateUserProfileValidationBase');
+  late final _$_FormUpdateUserProfileValidationBaseActionController =
+      ActionController(
+          name: '_FormUpdateUserProfileValidationBase', context: context);
 
   @override
   dynamic setFullNameError(String? fullNameError) {

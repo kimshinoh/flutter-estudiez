@@ -17,7 +17,8 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
               name: '_FormLoginStoreBase.transformPhoneNumber'))
       .value;
 
-  final _$phoneNumberAtom = Atom(name: '_FormLoginStoreBase.phoneNumber');
+  late final _$phoneNumberAtom =
+      Atom(name: '_FormLoginStoreBase.phoneNumber', context: context);
 
   @override
   String get phoneNumber {
@@ -32,7 +33,8 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
     });
   }
 
-  final _$smsCodeAtom = Atom(name: '_FormLoginStoreBase.smsCode');
+  late final _$smsCodeAtom =
+      Atom(name: '_FormLoginStoreBase.smsCode', context: context);
 
   @override
   String get smsCode {
@@ -47,7 +49,8 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
     });
   }
 
-  final _$formErrorStoreAtom = Atom(name: '_FormLoginStoreBase.formErrorStore');
+  late final _$formErrorStoreAtom =
+      Atom(name: '_FormLoginStoreBase.formErrorStore', context: context);
 
   @override
   FormErrorStore get formErrorStore {
@@ -62,8 +65,8 @@ mixin _$FormLoginStore on _FormLoginStoreBase, Store {
     });
   }
 
-  final _$_FormLoginStoreBaseActionController =
-      ActionController(name: '_FormLoginStoreBase');
+  late final _$_FormLoginStoreBaseActionController =
+      ActionController(name: '_FormLoginStoreBase', context: context);
 
   @override
   void setPhoneNumber(String phoneNumber) {
@@ -147,7 +150,8 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
           name: '_FormErrorStore.hasErrorsInVerify'))
       .value;
 
-  final _$phoneNumberAtom = Atom(name: '_FormErrorStore.phoneNumber');
+  late final _$phoneNumberAtom =
+      Atom(name: '_FormErrorStore.phoneNumber', context: context);
 
   @override
   String? get phoneNumber {
@@ -162,7 +166,8 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     });
   }
 
-  final _$smsCodeAtom = Atom(name: '_FormErrorStore.smsCode');
+  late final _$smsCodeAtom =
+      Atom(name: '_FormErrorStore.smsCode', context: context);
 
   @override
   String? get smsCode {
@@ -177,8 +182,8 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     });
   }
 
-  final _$_FormErrorStoreActionController =
-      ActionController(name: '_FormErrorStore');
+  late final _$_FormErrorStoreActionController =
+      ActionController(name: '_FormErrorStore', context: context);
 
   @override
   void clear() {

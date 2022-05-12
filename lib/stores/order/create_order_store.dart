@@ -148,6 +148,7 @@ abstract class _CreateOrderStoreBase with Store {
   Future<void> createOrder(UserAddress userAddress) async {
     isLoading = true;
     errorMessage = null;
+
     final CreateOrderRequest request = CreateOrderRequest(
       note: note,
       userAddressId: userAddress.id,

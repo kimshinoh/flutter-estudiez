@@ -38,7 +38,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
               name: '_CreateOrderStoreBase.canCreateOrder'))
           .value;
 
-  final _$isLoadingAtom = Atom(name: '_CreateOrderStoreBase.isLoading');
+  late final _$isLoadingAtom =
+      Atom(name: '_CreateOrderStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -53,7 +54,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: '_CreateOrderStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: '_CreateOrderStoreBase.errorMessage', context: context);
 
   @override
   String? get errorMessage {
@@ -68,7 +70,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$receivedAtAtom = Atom(name: '_CreateOrderStoreBase.receivedAt');
+  late final _$receivedAtAtom =
+      Atom(name: '_CreateOrderStoreBase.receivedAt', context: context);
 
   @override
   DateTime get receivedAt {
@@ -83,7 +86,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$noteAtom = Atom(name: '_CreateOrderStoreBase.note');
+  late final _$noteAtom =
+      Atom(name: '_CreateOrderStoreBase.note', context: context);
 
   @override
   String get note {
@@ -98,7 +102,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$paymentAtom = Atom(name: '_CreateOrderStoreBase.payment');
+  late final _$paymentAtom =
+      Atom(name: '_CreateOrderStoreBase.payment', context: context);
 
   @override
   Payment? get payment {
@@ -113,7 +118,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$sellerIdAtom = Atom(name: '_CreateOrderStoreBase.sellerId');
+  late final _$sellerIdAtom =
+      Atom(name: '_CreateOrderStoreBase.sellerId', context: context);
 
   @override
   String? get sellerId {
@@ -128,7 +134,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$sellerAtom = Atom(name: '_CreateOrderStoreBase.seller');
+  late final _$sellerAtom =
+      Atom(name: '_CreateOrderStoreBase.seller', context: context);
 
   @override
   Seller? get seller {
@@ -143,7 +150,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$itemsAtom = Atom(name: '_CreateOrderStoreBase.items');
+  late final _$itemsAtom =
+      Atom(name: '_CreateOrderStoreBase.items', context: context);
 
   @override
   List<CartItem> get items {
@@ -158,7 +166,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$addressAtom = Atom(name: '_CreateOrderStoreBase.address');
+  late final _$addressAtom =
+      Atom(name: '_CreateOrderStoreBase.address', context: context);
 
   @override
   UserAddress? get address {
@@ -173,7 +182,8 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$distanceAtom = Atom(name: '_CreateOrderStoreBase.distance');
+  late final _$distanceAtom =
+      Atom(name: '_CreateOrderStoreBase.distance', context: context);
 
   @override
   double get distance {
@@ -188,24 +198,24 @@ mixin _$CreateOrderStore on _CreateOrderStoreBase, Store {
     });
   }
 
-  final _$calcDistanceAsyncAction =
-      AsyncAction('_CreateOrderStoreBase.calcDistance');
+  late final _$calcDistanceAsyncAction =
+      AsyncAction('_CreateOrderStoreBase.calcDistance', context: context);
 
   @override
   Future<void> calcDistance() {
     return _$calcDistanceAsyncAction.run(() => super.calcDistance());
   }
 
-  final _$createOrderAsyncAction =
-      AsyncAction('_CreateOrderStoreBase.createOrder');
+  late final _$createOrderAsyncAction =
+      AsyncAction('_CreateOrderStoreBase.createOrder', context: context);
 
   @override
   Future<void> createOrder(UserAddress userAddress) {
     return _$createOrderAsyncAction.run(() => super.createOrder(userAddress));
   }
 
-  final _$_CreateOrderStoreBaseActionController =
-      ActionController(name: '_CreateOrderStoreBase');
+  late final _$_CreateOrderStoreBaseActionController =
+      ActionController(name: '_CreateOrderStoreBase', context: context);
 
   @override
   void setItems(List<CartItem> items) {
