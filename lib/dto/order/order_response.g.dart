@@ -7,17 +7,11 @@ part of 'order_response.dart';
 // **************************************************************************
 
 CreateOrderResponse _$CreateOrderResponseFromJson(Map<String, dynamic> json) =>
-    CreateOrderResponse(
-      order: json['order'] == null
-          ? null
-          : Order.fromJson(json['order'] as Map<String, dynamic>),
-    );
+    CreateOrderResponse();
 
 Map<String, dynamic> _$CreateOrderResponseToJson(
         CreateOrderResponse instance) =>
-    <String, dynamic>{
-      'order': instance.order,
-    };
+    <String, dynamic>{};
 
 MyOrdersResponse _$MyOrdersResponseFromJson(Map<String, dynamic> json) =>
     MyOrdersResponse(

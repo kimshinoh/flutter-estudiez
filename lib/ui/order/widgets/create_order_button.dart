@@ -44,6 +44,17 @@ class ButtonCreateOrder extends StatelessWidget {
                           address != null) {
                         await _orderConfirmationStore.createOrderStore
                             .createOrder(address);
+                        if (_orderConfirmationStore
+                                .createOrderStore.errorMessage !=
+                            null) {
+                          NotifyHelper.error(
+                              context,
+                              _orderConfirmationStore
+                                      .createOrderStore.errorMessage ??
+                                  '');
+                          return;
+                        }
+
                         await _cartStore.removeItems(
                           _orderConfirmationStore.createOrderStore.items,
                         );

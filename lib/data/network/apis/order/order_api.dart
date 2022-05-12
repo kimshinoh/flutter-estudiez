@@ -12,7 +12,6 @@ class OrderAPI {
     try {
       final Map<String, dynamic> response =
           await _dioClient.post('/orders', data: request.toJson());
-
       return CreateOrderResponse.fromJson(response);
     } catch (e) {
       if (e is NetworkException) {

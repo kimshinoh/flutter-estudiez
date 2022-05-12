@@ -6,10 +6,8 @@ part 'order_response.g.dart';
 @JsonSerializable()
 class CreateOrderResponse {
   CreateOrderResponse({
-    Order? order,
     String? message,
   }) {
-    _order = order;
     _errorMessage = message;
   }
 
@@ -19,9 +17,6 @@ class CreateOrderResponse {
 
   factory CreateOrderResponse.withError(String message) =>
       CreateOrderResponse(message: message);
-
-  Order? _order;
-  Order? get order => _order;
 
   String? _errorMessage;
 

@@ -3,13 +3,13 @@ import 'package:fruity/data/network/apis/order/order_api.dart';
 import 'package:fruity/data/network/dio_client.dart';
 import 'package:fruity/data/network/exceptions/network_exceptions.dart';
 import 'package:fruity/dto/order/order_request.dart';
+import 'package:fruity/dto/order/order_response.dart';
 import 'package:fruity/models/cart/cart.dart';
 import 'package:fruity/models/payment/payment.dart';
 import 'package:fruity/models/seller/seller.dart';
 import 'package:fruity/models/user_address/user_address.dart';
 import 'package:fruity/utils/location_util.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:mobx/mobx.dart';
 
 part 'create_order_store.g.dart';
@@ -35,7 +35,7 @@ abstract class _CreateOrderStoreBase with Store {
   bool isLoading = false;
 
   @observable
-  String? errorMessage = null;
+  String? errorMessage;
 
   @observable
   DateTime receivedAt = DateTime.now().add(const Duration(minutes: 30));
@@ -147,6 +147,7 @@ abstract class _CreateOrderStoreBase with Store {
   @action
   Future<void> createOrder(UserAddress userAddress) async {
     isLoading = true;
+    errorMessage = null;
     final CreateOrderRequest request = CreateOrderRequest(
       note: note,
       userAddressId: userAddress.id,
@@ -159,7 +160,10 @@ abstract class _CreateOrderStoreBase with Store {
     );
 
     try {
-      await _orderAPI.createOrder(request);
+      CreateOrderResponse res = await _orderAPI.createOrder(request);
+      if (res.errorMessage != null) {
+        errorMessage = res.errorMessage;
+      }
     } catch (e) {
       if (e is NetworkException) {
         errorMessage = e.message;
