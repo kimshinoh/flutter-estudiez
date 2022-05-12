@@ -47,10 +47,10 @@
               "client_type": 3
             },
             {
-              "client_id": "28096104856-use1rea7p19g8139lfc7gqoc128qthqa.apps.googleusercontent.com",
+              "client_id": "28096104856-r2d6v01nus12ifg9i1bct38fecj8ugk3.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.fruity.app"
+                "bundle_id": "com.example.fruity"
               }
             }
           ]

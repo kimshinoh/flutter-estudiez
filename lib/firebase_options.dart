@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -32,12 +29,32 @@ class DefaultFirebaseOptions {
           'DefaultFirebaseOptions have not been configured for macos - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
+      case TargetPlatform.windows:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for windows - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
+      case TargetPlatform.linux:
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for linux - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
         );
     }
   }
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAmCHoTGqlG4BofI0AAuG2gr8Kl9OQ9aq0',
+    appId: '1:28096104856:web:51a29179ed16151e4c03ed',
+    messagingSenderId: '28096104856',
+    projectId: 'flutter-fruity',
+    authDomain: 'flutter-fruity.firebaseapp.com',
+    storageBucket: 'flutter-fruity.appspot.com',
+    measurementId: 'G-4TPZ9CHY9L',
+  );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCKPaKZ0aDD9XdOwIPhUnt69NeLs2rp-q4',
@@ -49,7 +66,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDH4QgwC5uH8UUF5Rz0mrN4Y-xl3gxEtR8',
-    appId: '1:28096104856:ios:ed574e269ec59fde4c03ed',
+    appId: '1:28096104856:ios:139523fce6e915884c03ed',
     messagingSenderId: '28096104856',
     projectId: 'flutter-fruity',
     storageBucket: 'flutter-fruity.appspot.com',
