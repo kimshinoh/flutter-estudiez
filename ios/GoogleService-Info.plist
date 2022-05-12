@@ -3,19 +3,19 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>28096104856-use1rea7p19g8139lfc7gqoc128qthqa.apps.googleusercontent.com</string>
+	<string>28096104856-r2d6v01nus12ifg9i1bct38fecj8ugk3.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.28096104856-use1rea7p19g8139lfc7gqoc128qthqa</string>
+	<string>com.googleusercontent.apps.28096104856-r2d6v01nus12ifg9i1bct38fecj8ugk3</string>
 	<key>ANDROID_CLIENT_ID</key>
 	<string>28096104856-ct6s4qok84vamq57clccbnj0l91bn61l.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDbZ1ZHtXmiVmYXi_pUfXAo7azoCPy1DXc</string>
+	<string>AIzaSyDH4QgwC5uH8UUF5Rz0mrN4Y-xl3gxEtR8</string>
 	<key>GCM_SENDER_ID</key>
 	<string>28096104856</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.fruity.app</string>
+	<string>com.example.fruity</string>
 	<key>PROJECT_ID</key>
 	<string>flutter-fruity</string>
 	<key>STORAGE_BUCKET</key>
@@ -31,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:28096104856:ios:d816c89777daf4194c03ed</string>
+	<string>1:28096104856:ios:139523fce6e915884c03ed</string>
 </dict>
 </plist>
