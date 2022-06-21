@@ -69,6 +69,7 @@ dependencies:
   url_launcher: ^6.1.0
   package_info_plus: ^1.4.2
   image_picker: ^0.8.5
+  http_auth: ^1.0.1
 
 dev_dependencies:
   flutter_test:
