@@ -15,11 +15,11 @@ class PaymentSelectionWidget extends StatelessWidget {
     AuthStore _authStore = context.read<AuthStore>();
     OrderConfirmationStore _orderConfirmationStore =
         context.read<OrderConfirmationStore>();
-
+    List<Payment> payments = _authStore.paymentStore.payments;
     bool isSelected(Payment payment) {
       Payment? selectedPayment =
           _orderConfirmationStore.createOrderStore.payment;
-
+      print(selectedPayment!.name);
       return selectedPayment != null &&
           selectedPayment.provider == payment.provider;
     }
@@ -29,62 +29,66 @@ class PaymentSelectionWidget extends StatelessWidget {
           _orderConfirmationStore.createOrderStore.payment;
 
       if (_authStore.isLoggedIn) {
-        return Row(
-          children: [
-            Expanded(
-                flex: 1,
-                child: Stack(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        _orderConfirmationStore.createOrderStore.setPayment(
-                            _authStore.paymentStore.defaultPayment!);
-                      },
-                      child: Container(
-                        foregroundDecoration:
-                            isSelected(_authStore.paymentStore.defaultPayment!)
-                                ? BadgeDecoration(
-                                    badgeColor: AppColors.palette.shade500,
-                                    badgeSize: 25,
-                                    textSpan: TextSpan(),
-                                  )
-                                : null,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: isSelected(
-                                    _authStore.paymentStore.defaultPayment!)
-                                ? AppColors.palette.shade500
-                                : Colors.grey,
-                            width: 1,
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _authStore.paymentStore.defaultPayment!
-                                    .paymentWidget(),
-                                const SizedBox(width: 10),
-                                Text(
-                                  _authStore.paymentStore.defaultPayment!.name,
-                                  style: TextStyle(fontWeight: FontWeight.w500),
+        return ListView.builder(
+            itemCount: payments.length,
+            shrinkWrap: true,
+            itemBuilder: (BuildContext context, int index) {
+              return Row(
+                children: [
+                  Expanded(
+                      flex: 1,
+                      child: Stack(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              _orderConfirmationStore.createOrderStore
+                                  .setPayment(payments[index]);
+                            },
+                            child: Container(
+                              foregroundDecoration: isSelected(payments[index])
+                                  ? BadgeDecoration(
+                                      badgeColor: AppColors.palette.shade500,
+                                      badgeSize: 25,
+                                      textSpan: TextSpan(),
+                                    )
+                                  : null,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                  color: isSelected(payments[index])
+                                      ? AppColors.palette.shade500
+                                      : Colors.grey,
+                                  width: 1,
                                 ),
-                              ]),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      child: Icon(Icons.done, size: 12, color: Colors.white),
-                      top: 0,
-                      right: 0,
-                    ),
-                  ],
-                )),
-          ],
-        );
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      payments[index].paymentWidget(),
+                                      const SizedBox(width: 10),
+                                      Text(
+                                        payments[index].name,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ]),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            child:
+                                Icon(Icons.done, size: 12, color: Colors.white),
+                            top: 0,
+                            right: 0,
+                          ),
+                        ],
+                      )),
+                ],
+              );
+            });
       } else {
         return Text('Đăng nhập để thực hiện giao dịch');
       }

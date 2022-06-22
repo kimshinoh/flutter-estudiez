@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/extensions/paypal/paypal_payment.dart';
 import 'package:fruity/models/user_address/user_address.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
@@ -42,29 +43,24 @@ class ButtonCreateOrder extends StatelessWidget {
                       if (_orderConfirmationStore
                               .createOrderStore.canCreateOrder &&
                           address != null) {
-                        await _orderConfirmationStore.createOrderStore
-                            .createOrder(address);
                         if (_orderConfirmationStore
-                                .createOrderStore.errorMessage !=
-                            null) {
-                          NotifyHelper.error(
-                              context,
-                              _orderConfirmationStore
-                                      .createOrderStore.errorMessage ??
-                                  '');
-                          return;
+                                .createOrderStore.payment!.provider ==
+                            'paypal') {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => PaypalPayment(
+                                onFinish: (number) async {
+                                  // payment done
+                                  _handleCreate(_orderConfirmationStore,
+                                      address, context, _cartStore);
+                                },
+                              ),
+                            ),
+                          );
+                        } else {
+                          _handleCreate(_orderConfirmationStore, address,
+                              context, _cartStore);
                         }
-
-                        await _cartStore.removeItems(
-                          _orderConfirmationStore.createOrderStore.items,
-                        );
-                        _orderConfirmationStore.createOrderStore.clear();
-
-                        Navigator.popAndPushNamed(context, Routes.orders);
-                        Future.delayed(Duration.zero, () {
-                          NotifyHelper.success(
-                              context, 'Tạo đơn hàng thành công!');
-                        });
                       }
                     },
                     child: Observer(builder: (_) {
@@ -92,5 +88,25 @@ class ButtonCreateOrder extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _handleCreate(OrderConfirmationStore _orderConfirmationStore,
+      UserAddress address, BuildContext context, CartStore _cartStore) async {
+    await _orderConfirmationStore.createOrderStore.createOrder(address);
+    if (_orderConfirmationStore.createOrderStore.errorMessage != null) {
+      NotifyHelper.error(
+          context, _orderConfirmationStore.createOrderStore.errorMessage ?? '');
+      return;
+    }
+
+    await _cartStore.removeItems(
+      _orderConfirmationStore.createOrderStore.items,
+    );
+    _orderConfirmationStore.createOrderStore.clear();
+
+    Navigator.popAndPushNamed(context, Routes.orders);
+    Future.delayed(Duration.zero, () {
+      NotifyHelper.success(context, 'Tạo đơn hàng thành công!');
+    });
   }
 }

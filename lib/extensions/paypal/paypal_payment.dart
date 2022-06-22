@@ -17,20 +17,24 @@ class PaypalPayment extends StatefulWidget {
 
 class PaypalPaymentState extends State<PaypalPayment> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  late String checkoutUrl;
-  late String executeUrl;
-  late String accessToken;
+  late String checkoutUrl = '';
+  late String executeUrl = '';
+  late String accessToken = '';
   PaypalServices services = PaypalServices();
 
   // you can change default currency according to your need
-  Map<dynamic,dynamic> defaultCurrency = {"symbol": "USD ", "decimalDigits": 2, "symbolBeforeTheNumber": true, "currency": "USD"};
+  Map<dynamic, dynamic> defaultCurrency = {
+    "symbol": "USD ",
+    "decimalDigits": 2,
+    "symbolBeforeTheNumber": true,
+    "currency": "USD"
+  };
 
   bool isEnableShipping = false;
   bool isEnableAddress = false;
 
   String returnURL = 'return.example.com';
-  String cancelURL= 'cancel.example.com';
-
+  String cancelURL = 'cancel.example.com';
 
   @override
   void initState() {
@@ -43,25 +47,16 @@ class PaypalPaymentState extends State<PaypalPayment> {
         final transactions = getOrderParams();
         final res =
             await services.createPaypalPayment(transactions, accessToken);
+        print(res);
         if (res != null) {
           setState(() {
             checkoutUrl = res["approvalUrl"] as String;
             executeUrl = res["executeUrl"] as String;
           });
+          print(checkoutUrl);
         }
       } catch (e) {
-        print('exception: '+e.toString());
-        final snackBar = SnackBar(
-          content: Text(e.toString()),
-          duration: Duration(seconds: 10),
-          action: SnackBarAction(
-            label: 'Close',
-            onPressed: () {
-              // Some code to undo the change.
-            },
-          ),
-        );
-        _scaffoldKey.currentState?.showSnackBar(snackBar);
+        print('exception: ' + e.toString());
       }
     });
   }
@@ -80,7 +75,6 @@ class PaypalPaymentState extends State<PaypalPayment> {
         "currency": defaultCurrency["currency"]
       }
     ];
-
 
     // checkout invoice details
     String totalAmount = '1.99';
@@ -107,8 +101,7 @@ class PaypalPaymentState extends State<PaypalPayment> {
             "details": {
               "subtotal": subTotalAmount,
               "shipping": shippingCost,
-              "shipping_discount":
-                  ((-1.0) * shippingDiscountCost).toString()
+              "shipping_discount": ((-1.0) * shippingDiscountCost).toString()
             }
           },
           "description": "The payment transaction description.",
@@ -117,12 +110,9 @@ class PaypalPaymentState extends State<PaypalPayment> {
           },
           "item_list": {
             "items": items,
-            if (isEnableShipping &&
-                isEnableAddress)
+            if (isEnableShipping && isEnableAddress)
               "shipping_address": {
-                "recipient_name": userFirstName +
-                    " " +
-                    userLastName,
+                "recipient_name": userFirstName + " " + userLastName,
                 "line1": addressStreet,
                 "line2": "",
                 "city": addressCity,
@@ -135,67 +125,46 @@ class PaypalPaymentState extends State<PaypalPayment> {
         }
       ],
       "note_to_payer": "Contact us for any questions on your order.",
-      "redirect_urls": {
-        "return_url": returnURL,
-        "cancel_url": cancelURL
-      }
+      "redirect_urls": {"return_url": returnURL, "cancel_url": cancelURL}
     };
     return temp;
   }
 
   @override
   Widget build(BuildContext context) {
-    print(checkoutUrl);
-
-    if (checkoutUrl != null) {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).backgroundColor,
-          leading: GestureDetector(
-            child: Icon(Icons.arrow_back_ios),
-            onTap: () => Navigator.pop(context),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).backgroundColor,
+        leading: GestureDetector(
+          child: Icon(Icons.arrow_back_ios),
+          onTap: () => Navigator.pop(context),
         ),
-        body: WebView(
-          initialUrl: checkoutUrl,
-          javascriptMode: JavascriptMode.unrestricted,
-          navigationDelegate: (NavigationRequest request) {
-            if (request.url.contains(returnURL)) {
-              final uri = Uri.parse(request.url);
-              final payerID = uri.queryParameters['PayerID'];
-              if (payerID != null) {
-                services
-                    .executePayment(executeUrl, payerID, accessToken)
-                    .then((id) {
-                  widget.onFinish(id);
-                  Navigator.of(context).pop();
-                });
-              } else {
+      ),
+      body: WebView(
+        initialUrl: checkoutUrl,
+        javascriptMode: JavascriptMode.unrestricted,
+        navigationDelegate: (NavigationRequest request) {
+          if (request.url.contains(returnURL)) {
+            final uri = Uri.parse(request.url);
+            final payerID = uri.queryParameters['PayerID'];
+            if (payerID != null) {
+              services
+                  .executePayment(executeUrl, payerID, accessToken)
+                  .then((id) {
+                widget.onFinish(id);
                 Navigator.of(context).pop();
-              }
+              });
+            } else {
               Navigator.of(context).pop();
             }
-            if (request.url.contains(cancelURL)) {
-              Navigator.of(context).pop();
-            }
-            return NavigationDecision.navigate;
-          },
-        ),
-      );
-    } else {
-      return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          leading: IconButton(
-              icon: Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
-          backgroundColor: Colors.black12,
-          elevation: 0.0,
-        ),
-        body: Center(child: Container(child: CircularProgressIndicator())),
-      );
-    }
+            Navigator.of(context).pop();
+          }
+          if (request.url.contains(cancelURL)) {
+            Navigator.of(context).pop();
+          }
+          return NavigationDecision.navigate;
+        },
+      ),
+    );
   }
 }
