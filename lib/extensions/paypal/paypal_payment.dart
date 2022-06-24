@@ -1,13 +1,19 @@
 import 'dart:core';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fruity/constants/app_color.dart';
 import 'package:fruity/extensions/paypal/paypal.service.dart';
+import 'package:fruity/models/cart/cart.dart';
+import 'package:fruity/stores/user/auth_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:fruity/stores/order/confirm_order_store.dart';
 
 class PaypalPayment extends StatefulWidget {
   final Function onFinish;
-
-  const PaypalPayment({required this.onFinish});
+  final OrderConfirmationStore orderDetail;
+  const PaypalPayment({required this.orderDetail, required this.onFinish});
 
   @override
   State<StatefulWidget> createState() {
@@ -39,12 +45,15 @@ class PaypalPaymentState extends State<PaypalPayment> {
   @override
   void initState() {
     super.initState();
-
+    if (Platform.isAndroid) {
+      WebView.platform = SurfaceAndroidWebView();
+    }
     Future.delayed(Duration.zero, () async {
       try {
         accessToken = await services.getAccessToken();
-
-        final transactions = getOrderParams();
+        int currency = await services.getCurrencyRate();
+        final transactions = getOrderParams(currency);
+        print(transactions);
         final res =
             await services.createPaypalPayment(transactions, accessToken);
         print(res);
@@ -61,34 +70,35 @@ class PaypalPaymentState extends State<PaypalPayment> {
     });
   }
 
-  // item name, price and quantity
-  String itemName = 'iPhone X';
-  String itemPrice = '1.99';
-  int quantity = 1;
-
-  Map<String, dynamic> getOrderParams() {
-    List items = [
-      {
-        "name": itemName,
-        "quantity": quantity,
-        "price": itemPrice,
-        "currency": defaultCurrency["currency"]
-      }
-    ];
-
-    // checkout invoice details
-    String totalAmount = '1.99';
-    String subTotalAmount = '1.99';
+  Map<String, dynamic> getOrderParams(int currency) {
+    final List<CartItem> _items = widget.orderDetail.createOrderStore.items;
+    // String totalAmount =
+    //     widget.orderDetail.createOrderStore.totalPrice.toString();
+    List items = [];
+    // convert _item to item
+    // for (CartItem item in _items) {
+    //   items.add({
+    //     "name": item.name,
+    //     "quantity": item.quantity,
+    //     "price": item.price.toString(),
+    //     "currency": defaultCurrency["currency"]
+    //   });
+    // }
+    String convertToUsd =
+        (widget.orderDetail.createOrderStore.totalPrice / currency).toStringAsFixed(2);
+        print(convertToUsd);
+    String totalAmount = convertToUsd;
+    String subTotalAmount = convertToUsd;
     String shippingCost = '0';
     int shippingDiscountCost = 0;
-    String userFirstName = 'Gulshan';
-    String userLastName = 'Yadav';
-    String addressCity = 'Delhi';
-    String addressStreet = 'Mathura Road';
-    String addressZipCode = '110014';
-    String addressCountry = 'India';
-    String addressState = 'Delhi';
-    String addressPhoneNumber = '+919990119091';
+    String userFirstName = '';
+    String userLastName = '';
+    String addressCity = '';
+    String addressStreet = '';
+    String addressZipCode = '';
+    String addressCountry = '';
+    String addressState = '';
+    String addressPhoneNumber = '+705133876';
 
     Map<String, dynamic> temp = {
       "intent": "sale",
@@ -110,17 +120,6 @@ class PaypalPaymentState extends State<PaypalPayment> {
           },
           "item_list": {
             "items": items,
-            if (isEnableShipping && isEnableAddress)
-              "shipping_address": {
-                "recipient_name": userFirstName + " " + userLastName,
-                "line1": addressStreet,
-                "line2": "",
-                "city": addressCity,
-                "country_code": addressCountry,
-                "postal_code": addressZipCode,
-                "phone": addressPhoneNumber,
-                "state": addressState
-              },
           }
         }
       ],
@@ -134,37 +133,42 @@ class PaypalPaymentState extends State<PaypalPayment> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: AppColors.primary,
         leading: GestureDetector(
           child: Icon(Icons.arrow_back_ios),
           onTap: () => Navigator.pop(context),
         ),
+        title: Text(
+          'Paypal Payment',
+        ),
       ),
-      body: WebView(
-        initialUrl: checkoutUrl,
-        javascriptMode: JavascriptMode.unrestricted,
-        navigationDelegate: (NavigationRequest request) {
-          if (request.url.contains(returnURL)) {
-            final uri = Uri.parse(request.url);
-            final payerID = uri.queryParameters['PayerID'];
-            if (payerID != null) {
-              services
-                  .executePayment(executeUrl, payerID, accessToken)
-                  .then((id) {
-                widget.onFinish(id);
-                Navigator.of(context).pop();
-              });
-            } else {
-              Navigator.of(context).pop();
-            }
-            Navigator.of(context).pop();
-          }
-          if (request.url.contains(cancelURL)) {
-            Navigator.of(context).pop();
-          }
-          return NavigationDecision.navigate;
-        },
-      ),
+      body: checkoutUrl == ''
+          ? Center(child: CircularProgressIndicator())
+          : WebView(
+              initialUrl: checkoutUrl,
+              javascriptMode: JavascriptMode.unrestricted,
+              navigationDelegate: (NavigationRequest request) {
+                if (request.url.contains(returnURL)) {
+                  final uri = Uri.parse(request.url);
+                  final payerID = uri.queryParameters['PayerID'];
+                  if (payerID != null) {
+                    services
+                        .executePayment(executeUrl, payerID, accessToken)
+                        .then((id) {
+                      widget.onFinish(id);
+                      Navigator.of(context).pop();
+                    });
+                  } else {
+                    Navigator.of(context).pop();
+                  }
+                  Navigator.of(context).pop();
+                }
+                if (request.url.contains(cancelURL)) {
+                  Navigator.of(context).pop();
+                }
+                return NavigationDecision.navigate;
+              },
+            ),
     );
   }
 }
