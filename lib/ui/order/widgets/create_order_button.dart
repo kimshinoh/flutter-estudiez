@@ -49,10 +49,10 @@ class ButtonCreateOrder extends StatelessWidget {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (BuildContext context) => PaypalPayment(
-                                orderDetail: _orderConfirmationStore,
                                 onFinish: (number) async {
-                                  // _handleCreate(_orderConfirmationStore,
-                                  //     address, context, _cartStore);
+                                  // payment done
+                                  _handleCreate(_orderConfirmationStore,
+                                      address, context, _cartStore);
                                 },
                               ),
                             ),
@@ -98,13 +98,14 @@ class ButtonCreateOrder extends StatelessWidget {
           context, _orderConfirmationStore.createOrderStore.errorMessage ?? '');
       return;
     }
+
     await _cartStore.removeItems(
       _orderConfirmationStore.createOrderStore.items,
     );
     _orderConfirmationStore.createOrderStore.clear();
 
-    Future.delayed(Duration(seconds: 2), () {
     Navigator.popAndPushNamed(context, Routes.orders);
+    Future.delayed(Duration.zero, () {
       NotifyHelper.success(context, 'Tạo đơn hàng thành công!');
     });
   }
