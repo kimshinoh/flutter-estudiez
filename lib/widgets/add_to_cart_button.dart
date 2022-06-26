@@ -224,6 +224,7 @@ class _AddToCartForm extends StatelessWidget {
                                   ),
                                 ),
                                 IconButton(
+                                  key: const Key('increase_quantity'),
                                   icon: Icon(
                                     Icons.add_circle,
                                     size: 24,
@@ -335,6 +336,7 @@ class _AddToCartForm extends StatelessWidget {
                       child: Container(
                         margin: const EdgeInsets.only(left: 10, right: 10),
                         child: OutlinedButton(
+                          key: const Key('add_to_cart'),
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(color: AppColors.palette.shade500),
                             primary: AppColors.palette.shade300,
@@ -361,6 +363,7 @@ class _AddToCartForm extends StatelessWidget {
                       child: Container(
                         margin: const EdgeInsets.only(left: 10, right: 10),
                         child: ElevatedButton(
+                          key: const Key('buy_now_btn'),
                           onPressed: () async {
                             if (_cartStore.canAddToCart) {
                               await _cartStore.addItem(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
@@ -89,6 +91,7 @@ class _formLoginState extends State<LoginForm> {
                     ),
                   ),
                   TextField(
+                    key: Key('phone_number'),
                     maxLength: 10,
                     controller: _phoneController,
                     keyboardType: TextInputType.phone,
@@ -108,6 +111,7 @@ class _formLoginState extends State<LoginForm> {
                     ),
                   ),
                   TextField(
+                    key: Key('secure_code'),
                     maxLength: 6,
                     controller: _secureCodeController,
                     keyboardType: TextInputType.phone,
@@ -128,6 +132,7 @@ class _formLoginState extends State<LoginForm> {
                       suffixIcon: Observer(
                         builder: (_) {
                           return OutlinedButton(
+                            key: Key('send_sms_code'),
                             onPressed: () {
                               FocusScope.of(context).unfocus();
                               if (_store.canVerify) {
@@ -185,6 +190,7 @@ class _formLoginState extends State<LoginForm> {
                   Observer(
                     builder: (_) {
                       return ElevatedButton(
+                        key: Key('login'),
                         style: ElevatedButton.styleFrom(
                           primary: _store.canLogin
                               ? AppColors.palette.shade500

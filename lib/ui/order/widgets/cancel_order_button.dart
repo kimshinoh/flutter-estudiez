@@ -19,6 +19,7 @@ class ButtonOrderCancel extends StatelessWidget {
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           content: TextFormField(
+              key: const Key('reason_cancel'),
               textInputAction: TextInputAction.done,
               onChanged: (String note) {
                 _cancelOrderStore.setNote(note);
@@ -34,6 +35,7 @@ class ButtonOrderCancel extends StatelessWidget {
               },
             ),
             TextButton(
+              key: const Key('confirm_cancel'),
               child: const Text('Đồng ý'),
               onPressed: () async {
                 Navigator.of(context).pop();
@@ -70,6 +72,7 @@ class ButtonOrderCancel extends StatelessWidget {
                   child: Observer(
                     builder: (_) {
                       return ElevatedButton(
+                        key: Key('cancel_order_btn'),
                         style: ElevatedButton.styleFrom(primary: Colors.red),
                         onPressed: () async {
                           await _showConfirmDialog(context);

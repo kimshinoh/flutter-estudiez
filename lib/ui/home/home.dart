@@ -114,6 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         SizedBox(
                                           width: width * 0.7,
                                           child: TextButton(
+                                            key: Key('address_btn'),
                                             onPressed: () => 1 - progress == 0
                                                 ? null
                                                 : Navigator.pushNamed(
@@ -156,6 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       expandedPadding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
                       collapsedPadding: const EdgeInsets.fromLTRB(10, 0, 60, 0),
                       child: GestureDetector(
+                        key: Key('search_btn'),
                         onTap: () {
                           Navigator.pushNamed(
                             context,

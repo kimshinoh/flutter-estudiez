@@ -24,6 +24,7 @@ class CartButton extends StatelessWidget {
     return Observer(
       builder: (_) {
         return IconButton(
+          key: Key('cart_btn'),
           icon: Badge(
             showBadge: _cartStore.items.isNotEmpty,
             badgeColor: badgeColor,

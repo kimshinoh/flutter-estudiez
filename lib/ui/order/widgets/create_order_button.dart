@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/extensions/paypal/paypal_payment.dart';
 import 'package:fruity/models/user_address/user_address.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/cart/cart_store.dart';
@@ -31,6 +32,7 @@ class ButtonCreateOrder extends StatelessWidget {
                   UserAddress? address =
                       _authStore.userAddressStore.defaultAddress;
                   return ElevatedButton(
+                    key: Key('create_order_btn'),
                     style: ElevatedButton.styleFrom(
                       primary: _orderConfirmationStore
                                   .createOrderStore.canCreateOrder &&
@@ -42,29 +44,41 @@ class ButtonCreateOrder extends StatelessWidget {
                       if (_orderConfirmationStore
                               .createOrderStore.canCreateOrder &&
                           address != null) {
-                        await _orderConfirmationStore.createOrderStore
-                            .createOrder(address);
                         if (_orderConfirmationStore
-                                .createOrderStore.errorMessage !=
-                            null) {
-                          NotifyHelper.error(
-                              context,
-                              _orderConfirmationStore
-                                      .createOrderStore.errorMessage ??
-                                  '');
-                          return;
+                                .createOrderStore.payment!.provider ==
+                            'paypal') {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) => PaypalPayment(
+                                  orderDetail: _orderConfirmationStore,
+                                  address: address),
+                            ),
+                          );
+                        } else {
+                          await _orderConfirmationStore.createOrderStore
+                              .createOrder(address);
+                          if (_orderConfirmationStore
+                                  .createOrderStore.errorMessage !=
+                              null) {
+                            NotifyHelper.error(
+                                context,
+                                _orderConfirmationStore
+                                        .createOrderStore.errorMessage ??
+                                    '');
+                            return;
+                          }
+
+                          await _cartStore.removeItems(
+                            _orderConfirmationStore.createOrderStore.items,
+                          );
+                          _orderConfirmationStore.createOrderStore.clear();
+
+                          Navigator.popAndPushNamed(context, Routes.orders);
+                          Future.delayed(Duration.zero, () {
+                            NotifyHelper.success(
+                                context, 'Tạo đơn hàng thành công!');
+                          });
                         }
-
-                        await _cartStore.removeItems(
-                          _orderConfirmationStore.createOrderStore.items,
-                        );
-                        _orderConfirmationStore.createOrderStore.clear();
-
-                        Navigator.popAndPushNamed(context, Routes.orders);
-                        Future.delayed(Duration.zero, () {
-                          NotifyHelper.success(
-                              context, 'Tạo đơn hàng thành công!');
-                        });
                       }
                     },
                     child: Observer(builder: (_) {
