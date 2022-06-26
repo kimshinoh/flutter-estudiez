@@ -15,6 +15,7 @@ class ButtonCreateUserAddress extends StatelessWidget {
           child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(
+                  key: const Key('create_address_btn'),
                   onPressed: () async {
                     Navigator.pushNamed(
                       context,

@@ -26,6 +26,7 @@ class ButtonUpdateUserProfile extends StatelessWidget {
               child: Observer(
                 builder: (_) {
                   return ElevatedButton(
+                    key: const Key('save_profile'),
                       onPressed: () async {
                         if (_formUploadProfileStore.isValid) {
                           User? user =

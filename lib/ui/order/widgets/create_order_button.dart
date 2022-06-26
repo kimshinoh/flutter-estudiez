@@ -32,6 +32,7 @@ class ButtonCreateOrder extends StatelessWidget {
                   UserAddress? address =
                       _authStore.userAddressStore.defaultAddress;
                   return ElevatedButton(
+                    key: Key('create_order_btn'),
                     style: ElevatedButton.styleFrom(
                       primary: _orderConfirmationStore
                                   .createOrderStore.canCreateOrder &&
@@ -49,17 +50,34 @@ class ButtonCreateOrder extends StatelessWidget {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (BuildContext context) => PaypalPayment(
-                                onFinish: (number) async {
-                                  // payment done
-                                  _handleCreate(_orderConfirmationStore,
-                                      address, context, _cartStore);
-                                },
-                              ),
+                                  orderDetail: _orderConfirmationStore,
+                                  address: address),
                             ),
                           );
                         } else {
-                          _handleCreate(_orderConfirmationStore, address,
-                              context, _cartStore);
+                          await _orderConfirmationStore.createOrderStore
+                              .createOrder(address);
+                          if (_orderConfirmationStore
+                                  .createOrderStore.errorMessage !=
+                              null) {
+                            NotifyHelper.error(
+                                context,
+                                _orderConfirmationStore
+                                        .createOrderStore.errorMessage ??
+                                    '');
+                            return;
+                          }
+
+                          await _cartStore.removeItems(
+                            _orderConfirmationStore.createOrderStore.items,
+                          );
+                          _orderConfirmationStore.createOrderStore.clear();
+
+                          Navigator.popAndPushNamed(context, Routes.orders);
+                          Future.delayed(Duration.zero, () {
+                            NotifyHelper.success(
+                                context, 'Tạo đơn hàng thành công!');
+                          });
                         }
                       }
                     },
@@ -88,25 +106,5 @@ class ButtonCreateOrder extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _handleCreate(OrderConfirmationStore _orderConfirmationStore,
-      UserAddress address, BuildContext context, CartStore _cartStore) async {
-    await _orderConfirmationStore.createOrderStore.createOrder(address);
-    if (_orderConfirmationStore.createOrderStore.errorMessage != null) {
-      NotifyHelper.error(
-          context, _orderConfirmationStore.createOrderStore.errorMessage ?? '');
-      return;
-    }
-
-    await _cartStore.removeItems(
-      _orderConfirmationStore.createOrderStore.items,
-    );
-    _orderConfirmationStore.createOrderStore.clear();
-
-    Navigator.popAndPushNamed(context, Routes.orders);
-    Future.delayed(Duration.zero, () {
-      NotifyHelper.success(context, 'Tạo đơn hàng thành công!');
-    });
   }
 }

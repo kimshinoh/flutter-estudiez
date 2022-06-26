@@ -24,6 +24,7 @@ class ButtonSaveUserAddress extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             child: Observer(builder: (_) {
               return ElevatedButton(
+                  key: Key('save_address_btn'),
                   style: ElevatedButton.styleFrom(
                       primary: _formCreateUserAddressStore.isValid
                           ? AppColors.palette.shade500

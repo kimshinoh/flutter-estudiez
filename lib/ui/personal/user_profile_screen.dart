@@ -122,6 +122,7 @@ class _name extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Observer(builder: (_) {
         return TextFormField(
+          key: const Key('name_field'),
           decoration: InputDecoration(
             labelText: 'Họ và tên',
             errorText: _formUploadProfileStore.validation.fullNameError,
@@ -150,6 +151,7 @@ class _email extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: TextFormField(
+        key: const Key('email_field'),
         decoration: const InputDecoration(
           labelText: 'Email',
         ),

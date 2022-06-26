@@ -392,6 +392,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
                           Expanded(
                             child: TextField(
+                              key: Key('search_field'),
                               controller: _searchController,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
@@ -439,6 +440,7 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
             ),
             GestureDetector(
+              key: Key('exit_search'),
               onTap: () {
                 Navigator.pop(context);
               },

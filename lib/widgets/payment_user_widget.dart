@@ -19,7 +19,6 @@ class PaymentSelectionWidget extends StatelessWidget {
     bool isSelected(Payment payment) {
       Payment? selectedPayment =
           _orderConfirmationStore.createOrderStore.payment;
-      print(selectedPayment!.name);
       return selectedPayment != null &&
           selectedPayment.provider == payment.provider;
     }

@@ -70,10 +70,10 @@ class PaypalServices {
   }
 
   // for executing the payment transaction
-  Future<String?> executePayment(
+  Future<String?> executePayment(String
       url, String payerId, String accessToken) async {
     try {
-      var response = await http.post(url as Uri,
+      var response = await http.post(Uri.parse(url),
           body: convert.jsonEncode({"payer_id": payerId}),
           headers: {
             "content-type": "application/json",
@@ -89,4 +89,19 @@ class PaypalServices {
       rethrow;
     }
   }
+
+    Future<int> getCurrencyRate() async {
+    try {
+      var response = await http.get(Uri.parse(
+          'https://free.currconv.com/api/v7/convert?q=USD_VND&compact=ultra&apiKey=aa1181d462e96ce3dbc4'));
+      if (response.statusCode == 200) {
+        final body = convert.jsonDecode(response.body);
+        return body["USD_VND"] as int;
+      }
+      return 1;
+    } catch (e) {
+      throw e;
+    }
+  }
+
 }

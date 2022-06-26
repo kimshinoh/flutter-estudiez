@@ -31,6 +31,7 @@ AppBar PersonalAppBar() {
           }
 
           return GestureDetector(
+            key: const Key('setting_btn'),
             onTap: () {
               Navigator.pushNamed(
                 context,
