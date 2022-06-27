@@ -40,6 +40,13 @@ class ButtonCreateOrder extends StatelessWidget {
                           ? AppColors.palette.shade500
                           : Colors.grey,
                     ),
+                    onLongPress: () {
+                      if (_orderConfirmationStore
+                              .createOrderStore.payment!.provider ==
+                          'tranfer') {
+                        return _showModalBotoomSheet(context);
+                      }
+                    },
                     onPressed: () async {
                       if (_orderConfirmationStore
                               .createOrderStore.canCreateOrder &&
@@ -105,6 +112,31 @@ class ButtonCreateOrder extends StatelessWidget {
               )),
         ),
       ),
+    );
+  }
+
+  void _showModalBotoomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(16),
+          height: 200,
+          child: Column(children: [
+            Text(
+                'Quý khách vui lòng chuyển khoản vào tài khoản MBbank 0705133876 - Chủ tài khoản: NGUYEN MANH TRUONG. Với nội dung: <số điện thoại người đặt> thanh toan phi don hang app fruity'),
+            ElevatedButton(
+              key: Key('create_order_btn'),
+              style:
+                  ElevatedButton.styleFrom(primary: AppColors.palette.shade500),
+              onPressed: () async {
+                Navigator.of(context).pop();
+              },
+              child: Text('Xác nhận'),
+            )
+          ]),
+        );
+      },
     );
   }
 }
