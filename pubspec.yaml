@@ -70,6 +70,7 @@ dependencies:
   package_info_plus: ^1.0.6
   image_picker: ^0.8.5
   http_auth: ^1.0.1
+  percent_indicator: 4.0.1
 
 dev_dependencies:
   flutter_test:
