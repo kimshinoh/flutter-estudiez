@@ -18,3 +18,14 @@ samples, guidance on mobile development, and a full API reference.
 Test 
 flutter drive   --driver=test_driver/integration_test.dart   --target=integration_test/app_test.dart
 flutter test integration_test
+
+Run project (
+    Flutter 2.10.5 • channel unknown • unknown source
+    Framework • revision 5464c5bac7 (6 months ago) • 2022-04-18 09:55:37 -0700
+    Engine • revision 57d3bac3dd
+    Tools • Dart 2.16.2 • DevTools 2.9.2
+)
+```
+flutter pub get
+flutter run
+```
