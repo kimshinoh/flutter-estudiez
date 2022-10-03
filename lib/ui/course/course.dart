@@ -107,7 +107,7 @@ class _CourseScreen extends State<CourseScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Video ca nhac sieu cap vip pro',
+            'Course #51',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -144,7 +144,7 @@ class _CourseScreen extends State<CourseScreen> {
               child: CircleAvatar(
                 radius: 30,
                 backgroundImage: NetworkImage(
-                    "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE"),
+                    "https://i.stack.imgur.com/l60Hf.png"),
               ),
             ),
             const SizedBox(
@@ -154,7 +154,7 @@ class _CourseScreen extends State<CourseScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Truong Manh Nguyen",
+                  "Nguyen Van A",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -164,7 +164,7 @@ class _CourseScreen extends State<CourseScreen> {
                   height: 4,
                 ),
                 Text(
-                  "0705133876",
+                  "01325468975",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,

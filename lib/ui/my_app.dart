@@ -15,6 +15,7 @@ import 'package:fruity/ui/auth/login.dart';
 import 'package:fruity/ui/course/course.dart';
 import 'package:fruity/ui/home/home.dart';
 import 'package:fruity/ui/splash/splash.dart';
+import 'package:fruity/ui/subject/subject.dart';
 import 'package:fruity/utils/fcm.dart';
 import 'package:provider/provider.dart';
 
@@ -64,7 +65,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         routes: Routes.routes,
         title: Strings.appName,
-        home: CourseScreen(),
+        home: SubjectScreen(),
         builder: (BuildContext context, Widget? child) {
           final MediaQueryData mediaQueryData = MediaQuery.of(context);
           final double scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.3);
