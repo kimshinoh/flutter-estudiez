@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -9,6 +11,7 @@ class CourseReportScreen extends StatefulWidget {
 }
 
 class _CourseReportScreen extends State<CourseReportScreen> {
+  int _selectedIndex = 3;
   @override
   void initState() {
     super.initState();
@@ -24,6 +27,12 @@ class _CourseReportScreen extends State<CourseReportScreen> {
     super.dispose();
   }
 
+
+ void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,7 +56,32 @@ class _CourseReportScreen extends State<CourseReportScreen> {
                     const SizedBox(height: 10),
                     _main(),
                   ],
-                ))));
+                )),
+            bottomNavigationBar: BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.task_rounded),
+                  label: 'Task',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.book),
+                  label: 'Test',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.report),
+                  label: 'Report',
+                  
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              selectedItemColor: Color.fromARGB(255, 5, 142, 216),
+              onTap: _onItemTapped,
+              unselectedItemColor: Colors.grey,
+            )));
   }
 
   Widget _miniDivider() {
@@ -89,10 +123,14 @@ class _CourseReportScreen extends State<CourseReportScreen> {
                 child:
                     IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz)))
           ]),
-          const SizedBox(height: 10),
-          _course(),
-          const SizedBox(height: 20),
-          _Counseling_history(),
+          Expanded(
+              child: SingleChildScrollView(
+                  child: Column(children: [
+            const SizedBox(height: 10),
+            _course(),
+            const SizedBox(height: 20),
+            _Counseling_history(),
+          ])))
         ],
       ),
     ));
@@ -171,7 +209,7 @@ class _CourseReportScreen extends State<CourseReportScreen> {
   }
 
   Widget _course() {
-    List<Map<String, dynamic>> courses = [];
+    List<Map<String, String>> courses = [];
     courses = [
       {
         "name": "Physics",
@@ -202,29 +240,86 @@ class _CourseReportScreen extends State<CourseReportScreen> {
         child: CarouselSlider(
       options: CarouselOptions(
         height: 200,
-        aspectRatio: 16 / 2,
+        aspectRatio: 16 / 8,
         viewportFraction: 0.8,
         initialPage: 2,
         reverse: false,
+        disableCenter: true,
         autoPlay: true,
         autoPlayInterval: Duration(seconds: 3),
         autoPlayAnimationDuration: Duration(milliseconds: 800),
         scrollDirection: Axis.horizontal,
       ),
-      items: courses.map((i) {
+      items: courses.map((item) {
         return Builder(
           builder: (BuildContext context) {
             return Container(
+                width: double.infinity,
                 margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10),
-                  ), //BorderRadius.all
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/card.jpg"),
+                    fit: BoxFit.fill,
+                  ),
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
                 ),
-                child: Text(
-                  'text $i',
-                  style: TextStyle(fontSize: 16.0),
+                child: Column(
+                  children: [
+                    Container(
+                      child: Column(children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  padding: EdgeInsets.only(
+                                      right: 8, left: 8, top: 5, bottom: 5),
+                                  child: Text("Assessment",
+                                      style: TextStyle(color: Colors.white)),
+                                  decoration: const BoxDecoration(
+                                    // shape: BoxShape.circle,
+                                    border: Border(
+                                      top: BorderSide(color: Color(0xFFFFFFFF)),
+                                      left:
+                                          BorderSide(color: Color(0xFFFFFFFF)),
+                                      right:
+                                          BorderSide(color: Color(0xFFFFFFFF)),
+                                      bottom:
+                                          BorderSide(color: Color(0xFFFFFFFF)),
+                                    ),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10)),
+                                  )),
+                            ])
+                      ]),
+                    ),
+                    Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                            padding: EdgeInsets.only(left: 20),
+                            margin: EdgeInsets.only(top: 80),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(item["name"]!,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 17.0,
+                                        fontWeight: FontWeight.w600)),
+                                const SizedBox(height: 5),
+                                Text(item["title"]!,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w400))
+                              ],
+                            )))
+                  ],
                 ));
           },
         );
@@ -233,101 +328,222 @@ class _CourseReportScreen extends State<CourseReportScreen> {
   }
 
   Widget _Counseling_history() {
-    final List<Map<String, Object>> history = [
-      {
-        "timeDay": "Firday, 07 August 2019",
-        "avatar":
-            "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE",
-        "title": "Education consutlantion",
-        "description": "Consutlantion guidance",
-        "timeHours": "9:20"
-      },
-      {
-        "timeDay": "Firday, 07 August 2019",
-        "avatar":
-            "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE",
-        "title": "Education consutlantion",
-        "description": "Consutlantion guidance",
-        "timeHours": "9:20"
-      },
-      {
-        "timeDay": "Firday, 07 August 2019",
-        "avatar":
-            "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE",
-        "title": "Education consutlantion",
-        "description": "Consutlantion guidance",
-        "timeHours": "9:20"
-      },
-      {
-        "timeDay": "Firday, 07 August 2019",
-        "avatar":
-            "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE",
-        "title": "Education consutlantion",
-        "description": "Consutlantion guidance",
-        "timeHours": "9:20"
-      },
-      {
-        "timeDay": "Firday, 07 August 2019",
-        "avatar":
-            "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE",
-        "title": "Education consutlantion",
-        "description": "Consutlantion guidance",
-        "timeHours": "9:20"
-      }
-    ];
     return Container(
         child: Container(
-            child: Column(
-      children: [
-        Container(
-            child: Text(
-          "Counseling History",
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        )),
-        Container(
-            child: Column(
-          children: [
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Container(
+          margin: EdgeInsets.only(bottom: 18),
+          child: Text(
+            "Counseling History",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
+      Container(
+          child: Column(
+        children: [
+          Container(
+              child: Column(children: [
             Container(
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: history == null ? 0 : history.length,
-                    itemBuilder: (context, index) {
-                      final historyCard = history[index];
-                      return InkWell(
-                        onTap: () {},
-                        child: Column(children: [
+                margin: EdgeInsets.only(bottom: 15),
+                padding:
+                    EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 20),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color:
+                          Color.fromARGB(255, 217, 216, 216).withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Friday, 09 August 2019",
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage: NetworkImage(
+                                      "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE"),
+                                ),
+                                Container(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Education consultantion",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500)),
+                                    const SizedBox(height: 5),
+                                    Text("Consultantion guidance",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color.fromARGB(
+                                                255, 142, 141, 141))),
+                                  ],
+                                )),
+                                Text("8:30",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color:
+                                            Color.fromARGB(255, 188, 188, 188)))
+                              ]))
+                    ]))
+          ])),
+          Container(
+              margin: EdgeInsets.only(bottom: 15),
+              child: Column(children: [
+                Container(
+                    padding: EdgeInsets.only(
+                        top: 10, left: 10, right: 10, bottom: 20),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromARGB(255, 194, 193, 193)
+                              .withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Friday, 09 August 2019",
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                              )),
                           Container(
-                              margin: EdgeInsets.only(top: 50, bottom: 50),
-                              height: double.infinity,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    topRight: Radius.circular(10),
-                                    bottomLeft: Radius.circular(10),
-                                    bottomRight: Radius.circular(10)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: Offset(
-                                        0, 3), // changes position of shadow
-                                  ),
-                                ],
-                              ),
-                              child: Text(historyCard["timeDay"].toString() ?? ""))
-                        ]),
-                      );
-                    }))
-          ],
-        ))
-      ],
-    )));
+                              margin: EdgeInsets.only(top: 10),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 30,
+                                      backgroundImage: NetworkImage(
+                                          "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE"),
+                                    ),
+                                    Container(
+                                        child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Education consultantion",
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500)),
+                                        const SizedBox(height: 5),
+                                        Text("Consultantion guidance",
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Color.fromARGB(
+                                                    255, 142, 141, 141))),
+                                      ],
+                                    )),
+                                    Text("8:30",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color.fromARGB(
+                                                255, 188, 188, 188)))
+                                  ]))
+                        ]))
+              ])),
+          Container(
+              child: Column(children: [
+            Container(
+                padding:
+                    EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 20),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Friday, 09 August 2019",
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(top: 10),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CircleAvatar(
+                                  radius: 30,
+                                  backgroundImage: NetworkImage(
+                                      "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE"),
+                                ),
+                                Container(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Education consultantion",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500)),
+                                    const SizedBox(height: 5),
+                                    Text("Consultantion guidance",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Color.fromARGB(
+                                                255, 142, 141, 141))),
+                                  ],
+                                )),
+                                Text("8:30",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color:
+                                            Color.fromARGB(255, 188, 188, 188)))
+                              ]))
+                    ]))
+          ]))
+        ],
+      ))
+    ])));
   }
 }
