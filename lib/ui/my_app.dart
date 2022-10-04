@@ -16,6 +16,7 @@ import 'package:fruity/ui/course-report/course-report.dart';
 import 'package:fruity/ui/course/course.dart';
 import 'package:fruity/ui/home/home.dart';
 import 'package:fruity/ui/splash/splash.dart';
+import 'package:fruity/ui/subject/subject.dart';
 import 'package:fruity/utils/fcm.dart';
 import 'package:provider/provider.dart';
 
