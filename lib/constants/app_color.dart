@@ -2,29 +2,33 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   AppColors._();
+  //blue
   static MaterialColor palette =
       const MaterialColor(_mcgpalette0PrimaryValue, <int, Color>{
-    50: Color(0xFFEAF5E1),
-    100: Color(0xFFCBE6B3),
-    200: Color(0xFFA8D581),
-    300: Color(0xFF85C44F),
-    400: Color(0xFF6AB729),
+    50: Color(0xFFE3F2FD),
+    100: Color(0xFFBBDEFB),
+    200: Color(0xFF90CAF9),
+    300: Color(0xFF64B5F6),
+    400: Color(0xFF42A5F5),
     500: Color(_mcgpalette0PrimaryValue),
-    600: Color(0xFF49A303),
-    700: Color(0xFF409902),
-    800: Color(0xFF379002),
-    900: Color(0xFF277F01),
+    600: Color(0xFF1E88E5),
+    700: Color(0xFF1976D2),
+    800: Color(0xFF1565C0),
+    900: Color(0xFF0D47A1),
+
   });
-  static const int _mcgpalette0PrimaryValue = 0xFF50AA03;
+  //blue
+  static const int _mcgpalette0PrimaryValue = 0xFF5C6BC0; 
 
   static const MaterialColor paletteAccent =
       MaterialColor(_mcgpalette0AccentValue, <int, Color>{
-    100: Color(0xFFBFFFAD),
+    100: Color(0xFF82B1FF),
     200: Color(_mcgpalette0AccentValue),
-    400: Color(0xFF6FFF47),
-    700: Color(0xFF5BFF2D),
+    400: Color(0xFF2962FF),
+    700: Color(0xFF0039CB),
   });
-  static const int _mcgpalette0AccentValue = 0xFF97FF7A;
-  static const Color primary = Color.fromARGB(255, 26, 162, 70);
+  //blue 
+  static const int _mcgpalette0AccentValue = 0xFF448AFF;
+  static const Color primary = Color.fromARGB(255, 26, 112, 162);
   static const Color backgroudGrey = Color.fromARGB(255, 242, 242, 242);
 }

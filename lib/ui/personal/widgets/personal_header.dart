@@ -1,51 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:fruity/models/user/user.dart';
-import 'package:fruity/routes.dart';
-import 'package:fruity/stores/user/auth_store.dart';
-import 'package:fruity/widgets/login_button.dart';
 import 'package:provider/provider.dart';
 
 AppBar PersonalAppBar() {
   return AppBar(
-    toolbarHeight: 100, // Set this height
+    backgroundColor: Colors.blue.shade400,
+    toolbarHeight: 60, // Set this height
     title: Builder(
       builder: (BuildContext context) {
-        AuthStore _store = context.read<AuthStore>();
+        // AuthStore _store = context.read<AuthStore>();
         return Observer(builder: (_) {
-          if (!_store.isLoggedIn) {
-            return TextButton(
-                style: TextButton.styleFrom(
-                  primary: Colors.white,
-                  padding: EdgeInsets.zero,
-                  minimumSize: Size.zero,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                onPressed: () {
-                  ShowButtomSheetLogin(context);
-                },
-                child: Text(
-                  "Đăng ký/Đăng nhập",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ));
-          }
-
           return GestureDetector(
             key: const Key('setting_btn'),
             onTap: () {
-              Navigator.pushNamed(
-                context,
-                Routes.user_profile,
-              );
+              showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                        title: const Text('Logout'),
+                        content: const Text('Are you sure?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              'Cancel',
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              // _store.removeAuth();
+                              Future.delayed(Duration.zero, () {
+                                Navigator.pop(context);
+                              });
+
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Logout'),
+                          ),
+                        ],
+                      ));
             },
             child: SizedBox(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  UserAvatar(),
+                  const UserTextInfo(),
                   const SizedBox(
                     width: 10,
                   ),
-                  const UserTextInfo()
+                  UserAvatar(),
                 ],
               ),
             ),
@@ -61,27 +66,18 @@ class UserTextInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthStore _store = context.read<AuthStore>();
+    // AuthStore _store = context.read<AuthStore>();
 
     return Observer(
       builder: (_) {
-        if (!_store.isLoggedIn) {
-          return Container();
-        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              _store.user!.fullName,
+              "Truong Manh Nguyen",
               style: const TextStyle(
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            Text(
-              _store.user!.phoneNumber,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.normal,
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
               ),
             ),
           ],
@@ -96,27 +92,22 @@ class UserAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AuthStore _store = context.read<AuthStore>();
+    // AuthStore _store = context.read<AuthStore>();
 
-    return Observer(
-      builder: (_) {
-        User? user = _store.user;
-        if (_store.isLoggedIn && user != null) {
-          return Avatar(
-            imageUrl: user.avatar,
-          );
-        }
-
-        return Container();
-      },
-    );
+    return Observer(builder: (_) {
+      // User? user = _store.user;
+      return Avatar(
+        imageUrl:
+            'https://upload.wikimedia.org/wikipedia/vi/thumb/e/ef/Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg/1365px-Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg.png',
+      );
+    });
   }
 }
 
 class Avatar extends StatelessWidget {
   String imageUrl;
   Size size;
-  Avatar({Key? key, required this.imageUrl, this.size = const Size(60, 60)})
+  Avatar({Key? key, required this.imageUrl, this.size = const Size(40, 40)})
       : super(key: key);
 
   @override

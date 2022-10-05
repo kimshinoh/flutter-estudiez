@@ -27,12 +27,12 @@ class _CourseReportScreen extends State<CourseReportScreen> {
     super.dispose();
   }
 
-
- void _onItemTapped(int index) {
+  void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,32 +56,7 @@ class _CourseReportScreen extends State<CourseReportScreen> {
                     const SizedBox(height: 10),
                     _main(),
                   ],
-                )),
-            bottomNavigationBar: BottomNavigationBar(
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.task_rounded),
-                  label: 'Task',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.book),
-                  label: 'Test',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.report),
-                  label: 'Report',
-                  
-                ),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: Color.fromARGB(255, 5, 142, 216),
-              onTap: _onItemTapped,
-              unselectedItemColor: Colors.grey,
-            )));
+                ))));
   }
 
   Widget _miniDivider() {

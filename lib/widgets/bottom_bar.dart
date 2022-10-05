@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:fruity/ui/course-report/course-report.dart';
+import 'package:fruity/ui/course/course.dart';
 import 'package:fruity/ui/home/home.dart';
-import 'package:fruity/ui/order/orders_screen.dart';
 import 'package:fruity/ui/personal/personal_screen.dart';
-import 'package:fruity/ui/product/product_screen.dart';
+import 'package:fruity/ui/search/search_screen.dart';
+import 'package:fruity/ui/subject/subject.dart';
 
 class MyBottombar extends StatefulWidget {
   const MyBottombar({Key? key}) : super(key: key);
@@ -25,9 +27,10 @@ class _MyBottombarState extends State<MyBottombar> {
 
   static List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    ProductScreen(),
-    OrdersScreen(),
-    PersonalScreen(),
+    SubjectScreen(),
+    SearchScreen(),
+    CourseReportScreen(),
+    PersonalScreen()
   ];
 
   @override
@@ -40,32 +43,28 @@ class _MyBottombarState extends State<MyBottombar> {
         type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
-            label: 'Trang chủ',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.widgets_outlined),
-            activeIcon: Icon(Icons.widgets),
-            label: 'Sản phẩm',
-          ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.notifications_outlined),
-          //   activeIcon: Icon(Icons.notifications),
-          //   label: 'Thông báo',
-          // ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_basket_outlined),
-            activeIcon: Icon(Icons.shopping_basket),
-            label: 'Đơn hàng',
+            icon: Icon(Icons.task_rounded),
+            label: 'Subject',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person),
-            label: 'Cá nhân',
+            icon: Icon(Icons.book),
+            label: 'PhoneBook',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.report),
+            label: 'Report',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
         ],
         currentIndex: _selectedIndex,
+        selectedItemColor: Color.fromARGB(255, 5, 142, 216),
         iconSize: 20,
         elevation: 0,
         unselectedFontSize: 10,

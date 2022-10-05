@@ -15,10 +15,10 @@ class _HomeScreenState extends State<HomeScreen> {
         home: Scaffold(
             resizeToAvoidBottomInset: false,
             body: Container(
-                padding: const EdgeInsets.fromLTRB(16, 30, 16, 16),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                ),
+                padding: const EdgeInsets.fromLTRB(16, 30, 16, 0),
+                // decoration: BoxDecoration(
+                //   color: Colors.grey.shade200,
+                // ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -31,18 +31,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ))));
   }
+
   Widget _exam() {
-    return Container(
+    return Expanded(
+        child: Container(
+      // decoration: BoxDecoration(
+      //   borderRadius: BorderRadius.circular(20),
+      //   color: Colors.white,
+      // ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Exam',
+          Center(
+              child: Text(
+            'Summary',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
-          ),
+          )),
           const SizedBox(height: 10),
           Container(
             height: 200,
@@ -134,8 +141,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-    );
+    ));
   }
+
   Widget _process() {
     return IntrinsicHeight(
         child: Container(
@@ -268,14 +276,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       height: 50,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Container(
-            child: IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.menu),
-            ),
-          ),
           Row(
             children: [
               Container(
@@ -290,8 +292,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: EdgeInsets.only(right: 16),
                   child: CircleAvatar(
                     radius: 16,
-                    backgroundImage: NetworkImage(
-                        "https://i.stack.imgur.com/l60Hf.png"),
+                    backgroundImage:
+                        NetworkImage("https://i.stack.imgur.com/l60Hf.png"),
                   ),
                 ),
               ),

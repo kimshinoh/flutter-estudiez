@@ -1,70 +1,144 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:fruity/stores/user/auth_store.dart';
-import 'package:provider/provider.dart';
 
-class SettingScreen extends StatelessWidget {
-  const SettingScreen({Key? key}) : super(key: key);
+class SettingScreen extends StatefulWidget {
+  @override
+  _SettingScreenState createState() => _SettingScreenState();
+}
+
+class _SettingScreenState extends State<SettingScreen> {
+  late bool showPassword = false;
+  late bool isInProgress = false;
+  late TextEditingController emailTFController;
+  late TextEditingController passwordTFController;
+  @override
+  void initState() {
+    super.initState();
+    emailTFController = TextEditingController();
+    passwordTFController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
-    AuthStore _store = context.read<AuthStore>();
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cài đặt'),
-        centerTitle: true,
-      ),
-      body: Observer(
-        builder: (_) {
-          if (_store.isLoggedIn) {
-            return Align(
-              alignment: Alignment.bottomLeft,
-              child: TextButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                            title: const Text('Đăng xuất'),
-                            content:
-                                const Text('Bạn có chắc chắn muốn đăng xuất?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text(
-                                  'Hủy',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  _store.removeAuth();
-                                  Future.delayed(Duration.zero, () {
-                                    Navigator.pop(context);
-                                  });
-
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Đăng xuất'),
-                              ),
-                            ],
-                          ));
-                },
-                child: Row(
-                  children: const [
-                    Icon(Icons.exit_to_app),
-                    SizedBox(width: 10),
-                    Text('Đăng xuất'),
-                  ],
+        appBar: AppBar(
+          title: Text('Setting'),
+          centerTitle: true,
+        ),
+        resizeToAvoidBottomInset: false,
+        body: Container(
+          color: Colors.white30,
+          child: ListView(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.fromLTRB(24, 24, 24, 0),
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                      alignLabelWithHint: true,
+                      hintText: "Your Student Id",
+                      prefixIcon: Icon(
+                        Icons.card_membership,
+                        size: 20,
+                      ),
+                      isDense: true,
+                      contentPadding: EdgeInsets.all(12)),
+                  // controller: emailTFController,
                 ),
               ),
-            );
-          }
-          return const SizedBox.shrink();
-        },
-      ),
-    );
+              Container(
+                margin: EdgeInsets.fromLTRB(24, 16, 24, 0),
+                child: TextFormField(
+                  obscureText: showPassword,
+                  decoration: InputDecoration(
+                    hintText: "Display Name",
+                    isDense: true,
+                    contentPadding: EdgeInsets.all(12),
+                    prefixIcon: Icon(
+                      Icons.person,
+                      size: 22,
+                    ),
+                  ),
+                  controller: passwordTFController,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(24, 16, 24, 0),
+                child: TextFormField(
+                  obscureText: showPassword,
+                  decoration: InputDecoration(
+                    hintText: "Avatar Link",
+                    isDense: true,
+                    contentPadding: EdgeInsets.all(12),
+                    prefixIcon: Icon(
+                      Icons.link,
+                      size: 22,
+                    ),
+                  ),
+                  controller: passwordTFController,
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.fromLTRB(24, 16, 24, 0),
+                child: TextFormField(
+                  obscureText: showPassword,
+                  decoration: InputDecoration(
+                    hintText: "Phone Number",
+                    isDense: true,
+                    contentPadding: EdgeInsets.all(12),
+                    prefixIcon: Icon(
+                      Icons.phone,
+                      size: 22,
+                    ),
+                  ),
+                  controller: passwordTFController,
+                ),
+              ),
+              Container(
+                  margin: EdgeInsets.fromLTRB(24, 24, 24, 0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(48)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.blue.shade400,
+                          blurRadius: 5,
+                          offset: Offset(0, 5),
+                        ),
+                      ],
+                    ),
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8)),
+                      color: Colors.blue.shade400,
+                      highlightColor: Colors.blue.shade600,
+                      splashColor: Colors.white.withAlpha(100),
+                      padding: EdgeInsets.only(top: 16, bottom: 16),
+                      onPressed: isInProgress ? () {} : () => {},
+                      child: Stack(
+                        // overflow: Overflow.visible,
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.center,
+                            child: isInProgress
+                                ? Container(
+                                    width: 20,
+                                    height: 20,
+                                    child: const CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.white,
+                                      ),
+                                    ),
+                                  )
+                                : Text(
+                                    "Save".toUpperCase(),
+                                  ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )),
+            ],
+          ),
+        ));
   }
 }
