@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fruity/routes.dart';
+import 'package:fruity/ui/auth/login.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 AppBar PersonalAppBar() {
   return AppBar(
@@ -29,13 +32,13 @@ AppBar PersonalAppBar() {
                             ),
                           ),
                           TextButton(
-                            onPressed: () {
-                              // _store.removeAuth();
-                              Future.delayed(Duration.zero, () {
-                                Navigator.pop(context);
-                              });
+                            onPressed: () async {
+                              final SharedPreferences _preferences =
+                                  await SharedPreferences.getInstance();
+                              await _preferences.clear();
 
-                              Navigator.pop(context);
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                  Routes.login, (Route<dynamic> route) => false);
                             },
                             child: const Text('Logout'),
                           ),

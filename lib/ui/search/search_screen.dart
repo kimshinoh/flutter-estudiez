@@ -1,12 +1,17 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fruity/constants/app_color.dart';
-import 'package:fruity/models/search/product_simplify.dart';
+import 'package:fruity/data/network/rest_client.dart';
+import 'package:fruity/data/sharedpref/constants/preferences.dart';
+import 'package:fruity/data/sharedpref/shared_preference_helper.dart';
+import 'package:fruity/models/user/teacher.dart';
 import 'package:fruity/ui/personal/widgets/personal_header.dart';
-import 'package:provider/provider.dart';
+import 'package:fruity/utils/notify_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -21,15 +26,9 @@ class _SearchScreenState extends State<SearchScreen> {
   // late SearchHistoryStore _store;
   // late SearchStore _searchStore;
   // late FocusScopeNode currentFocus;
+  late List<Teacher> _teachers;
   Timer? _debounce;
-  final List<String> _hotSearch = [
-    'Dừa',
-    'Cà chua',
-    'Cà rốt',
-    'Cà phê',
-    'Cà tím',
-    'Cà tỏi'
-  ];
+  bool isInProgress = false;
   final TextEditingController _searchController = TextEditingController();
   @override
   void dispose() {
@@ -39,52 +38,70 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   void initState() {
-    // _store = context.read<SearchHistoryStore>();
-    // _searchStore = context.read<SearchStore>();
-    // if (_searchStore.keyword.isNotEmpty) {
-    //   _searchController.text = _searchStore.keyword;
-    // }
+    _getTeachers();
     super.initState();
+  }
+
+  _getTeachers() async {
+    setState(() {
+      isInProgress = true;
+    });
+    SharedPreferences _preferences = await SharedPreferences.getInstance();
+    var token = await _preferences.getString(Preferences.token);
+    await RestClient().get("/teacher", headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    }).then((value) async {
+      // print(value);
+      // if (value["statusCode"] == 200) {
+      //   final parsed =
+      //       jsonDecode(value as String).cast<Map<String, dynamic>>();
+      //   setState(() {
+      //     _teachers = parsed
+      //         .map<Teacher>((json) => Teacher.fromJson(json as Map<String, dynamic>))
+      //         .toList() as List<Teacher>;
+      //   });
+      // } else {
+      //   NotifyHelper.error(context, "Something went wrong");
+      // }
+    }).catchError((error) {
+      print(error);
+      NotifyHelper.error(context, "Something went wrong");
+    }).whenComplete(() {
+      if (mounted) {
+        setState(() {
+          isInProgress = false;
+        });
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     // currentFocus = FocusScope.of(context);
-    return Observer(
-      builder: (_) {
-        return SafeArea(
-            child: Scaffold(
-                body: CustomScrollView(slivers: <Widget>[
-          SliverPinnedHeader(
-            child: Column(
-              children: [
-                _header(),
-              ],
-            ),
-          ),
-          SliverToBoxAdapter(
-              child: Container(
-            decoration: const BoxDecoration(color: AppColors.backgroudGrey),
-            child: Column(
-              children: [
-                _list(),
-              ],
-            ),
-          )),
-        ])));
-      },
-    );
+    return SafeArea(
+        child: Scaffold(
+            body: CustomScrollView(slivers: <Widget>[
+      SliverPinnedHeader(
+        child: Column(
+          children: [
+            _header(),
+          ],
+        ),
+      ),
+      SliverToBoxAdapter(
+          child: Container(
+        decoration: const BoxDecoration(color: AppColors.backgroudGrey),
+        child: Column(
+          children: [
+            _list(),
+          ],
+        ),
+      )),
+    ])));
   }
 
-
   Widget _list() {
-    // if (_searchStore.keyword.isEmpty == false) {
-    //   return Container();
-    // }
-    // final List<String> searchHistory = _store.searchs;
-    // if (searchHistory.isEmpty) {
-    //   return Container();
-    // }
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 56.0),
       child: Container(
@@ -129,7 +146,6 @@ class _SearchScreenState extends State<SearchScreen> {
                               launchUrlString(url);
                             },
                             child: Text("0712365489")),
-
                       ],
                     ),
                     const Divider(
@@ -239,7 +255,6 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
     );
   }
-
 }
 
 class _emptySearch extends StatelessWidget {

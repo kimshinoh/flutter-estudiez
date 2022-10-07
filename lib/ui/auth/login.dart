@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fruity/data/network/rest_client.dart';
+import 'package:fruity/data/sharedpref/shared_preference_helper.dart';
 import 'package:fruity/ui/auth/register.dart';
 import 'package:fruity/ui/home/home.dart';
 import 'package:fruity/utils/Validator.dart';
 import 'package:fruity/utils/notify_util.dart';
+import 'package:fruity/widgets/bottom_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -24,7 +28,8 @@ class _LoginScreenState extends State<LoginScreen> {
   _handleLogin() async {
     String email = emailTFController.text;
     String password = passwordTFController.text;
-
+    print(email);
+    print(password);
     if (email.isEmpty) {
       NotifyHelper.error(context, "Please Fill Email");
     } else if (Validator.isEmail(email)) {
@@ -37,20 +42,48 @@ class _LoginScreenState extends State<LoginScreen> {
           isInProgress = true;
         });
       }
-
-      await Future.delayed(Duration(seconds: 1), () {
-        if (mounted) {
-          setState(() {
-            isInProgress = false;
-          });
-        }
+    final SharedPreferences _preferences = await SharedPreferences.getInstance();
+    await RestClient().post("/auth/login",
+      headers: {
+        "Content-Type": "application/json",
+      }, 
+      body: {
+        "email": email,
+        "password": password
+      }
+    ).then((value) async {
+      print(value);
+      if (value["statusCode"] == 200) {
+        await SharedPreferenceHelper(_preferences).saveAuthToken(value["data"]["access_token"] as String);
         Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) => HomeScreen(),
-          ),
-        );
-      });
+            context, MaterialPageRoute(builder: (context) => MyBottombar()));
+      } else {
+        NotifyHelper.error(context, "Something went wrong");
+      }
+    }).catchError((error) {
+      print(error);
+      NotifyHelper.error(context, "Something went wrong");
+    }).whenComplete(() {
+      if (mounted) {
+        setState(() {
+          isInProgress = false;
+        });
+      }
+    });
+    // })
+      // await Future.delayed(Duration(seconds: 1), () {
+      //   if (mounted) {
+      //     setState(() {
+      //       isInProgress = false;
+      //     });
+      //   }
+      //   Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (BuildContext context) => HomeScreen(),
+      //     ),
+      //   );
+      // });
     }
   }
 

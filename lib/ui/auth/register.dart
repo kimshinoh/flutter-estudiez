@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fruity/data/network/rest_client.dart';
+import 'package:fruity/data/sharedpref/shared_preference_helper.dart';
+import 'package:fruity/ui/auth/login.dart';
 import 'package:fruity/utils/Validator.dart';
 import 'package:fruity/utils/notify_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -11,9 +15,11 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreen extends State<RegisterScreen> {
   late bool showPassword = false;
   late bool isInProgress = false;
+  String? selectedType;
   late TextEditingController emailTFController;
   late TextEditingController passwordTFController;
   late TextEditingController nameTFController;
+  late TextEditingController passwordCFTFController;
 
   //Global Keys
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -29,12 +35,14 @@ class _RegisterScreen extends State<RegisterScreen> {
     nameTFController = TextEditingController();
     emailTFController = TextEditingController();
     passwordTFController = TextEditingController();
+    passwordCFTFController = TextEditingController();
   }
 
   _handleRegister() async {
     String username = nameTFController.text;
     String email = emailTFController.text;
     String password = passwordTFController.text;
+    String passwordConfirm = passwordCFTFController.text;
 
     if (email.isEmpty) {
       NotifyHelper.error(context, "Please Fill Email");
@@ -42,12 +50,39 @@ class _RegisterScreen extends State<RegisterScreen> {
       NotifyHelper.error(context, "Please fill email properly");
     } else if (password.isEmpty) {
       NotifyHelper.error(context, "Please fill password");
+    } else if (password != passwordConfirm) {
+      NotifyHelper.error(context, "Password not match");
+    } else if (selectedType == null) {
+      NotifyHelper.error(context, "Please select user type");
     } else {
-      if (mounted) {
-        setState(() {
-          isInProgress = true;
-        });
-      }
+      setState(() {
+        isInProgress = true;
+      });
+      final SharedPreferences _preferences =
+          await SharedPreferences.getInstance();
+      await RestClient().post("/auth/register", headers: {
+        "Content-Type": "application/json",
+      }, body: {
+        "email": email,
+        "password": password,
+        "type": selectedType!.toLowerCase(),
+      }).then((value) async {
+        if (value["statusCode"] == 200) {
+          NotifyHelper.success(context, "Register Success, please login");
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        } else {
+          NotifyHelper.error(context, "Something went wrong");
+        }
+      }).catchError((error) {
+        NotifyHelper.error(context, "Something went wrong");
+      }).whenComplete(() {
+        if (mounted) {
+          setState(() {
+            isInProgress = false;
+          });
+        }
+      });
 
       // await Future.delayed(Duration(seconds: 1), () {
       //   if (mounted) {
@@ -96,7 +131,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                         isDense: true,
                         contentPadding: EdgeInsets.all(12)),
                     keyboardType: TextInputType.emailAddress,
-                    // controller: emailTFController,
+                    controller: emailTFController,
                   ),
                 ),
                 Container(
@@ -125,14 +160,14 @@ class _RegisterScreen extends State<RegisterScreen> {
                       isDense: true,
                       contentPadding: EdgeInsets.all(12),
                     ),
-                    // controller: passwordTFController,
+                    controller: passwordTFController,
                     keyboardType: TextInputType.visiblePassword,
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.fromLTRB(24, 16, 24, 0),
                   child: TextFormField(
-                    obscureText: showPassword,
+                    obscureText: true,
                     decoration: InputDecoration(
                       hintText: "Confirm Password",
                       isDense: true,
@@ -155,7 +190,7 @@ class _RegisterScreen extends State<RegisterScreen> {
                       //   ),
                       // ),
                     ),
-                    controller: passwordTFController,
+                    controller: passwordCFTFController,
                   ),
                 ),
                 Container(
@@ -174,8 +209,11 @@ class _RegisterScreen extends State<RegisterScreen> {
                       );
                     }).toList(),
                     onChanged: (String? value) {
-                      print(value);
+                      setState(() {
+                        selectedType = value;
+                      });
                     },
+                    value: selectedType,
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.only(right: 16),
                       prefixIcon: Icon(
