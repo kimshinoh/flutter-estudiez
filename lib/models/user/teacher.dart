@@ -6,7 +6,7 @@ class Teacher {
   String id;
   String name;
   String address;
-  List<SubjectClass> subjectClass;
+  List<SubjectClass>? subjectClass;
   Teacher(
     this.id,
     this.name,

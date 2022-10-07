@@ -52,18 +52,14 @@ class _SearchScreenState extends State<SearchScreen> {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     }).then((value) async {
-      // print(value);
-      // if (value["statusCode"] == 200) {
-      //   final parsed =
-      //       jsonDecode(value as String).cast<Map<String, dynamic>>();
-      //   setState(() {
-      //     _teachers = parsed
-      //         .map<Teacher>((json) => Teacher.fromJson(json as Map<String, dynamic>))
-      //         .toList() as List<Teacher>;
-      //   });
-      // } else {
-      //   NotifyHelper.error(context, "Something went wrong");
-      // }
+      final parsed = jsonDecode(value.body);
+      print(value.body);
+      setState(() {
+        _teachers = parsed
+            .map<Teacher>(
+                (json) => Teacher.fromJson(json as Map<String, dynamic>))
+            .toList() as List<Teacher>;
+      });
     }).catchError((error) {
       print(error);
       NotifyHelper.error(context, "Something went wrong");
@@ -110,55 +106,58 @@ class _SearchScreenState extends State<SearchScreen> {
         color: Colors.white,
         child: Column(
           children: [
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: 6,
-              itemBuilder: (BuildContext context, int index) {
-                // final String search =
-                //     searchHistory[searchHistory.length - 1 - index];
-                return Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            Avatar(
-                              imageUrl:
-                                  "https://atpsoftware.vn/wp-content/uploads//2019/06/depositphotos_58810529-stock-illustration-product-concept.jpg",
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              "Teacher 1",
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
-                            ),
-                          ],
-                        ),
-                        TextButton(
-                            style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              minimumSize: Size.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            onPressed: () {
-                              String url = 'tel:0712365489';
-                              launchUrlString(url);
-                            },
-                            child: Text("0712365489")),
-                      ],
-                    ),
-                    const Divider(
-                      height: 1,
-                      indent: 15,
-                      endIndent: 15,
-                      thickness: 1,
-                      color: Color.fromARGB(108, 158, 158, 158),
-                    ),
-                  ],
-                );
-              },
-            ),
+            isInProgress
+                ? const LinearProgressIndicator()
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: _teachers.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // final String search =
+                      //     searchHistory[searchHistory.length - 1 - index];
+                      return Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Avatar(
+                                    imageUrl:
+                                        "https://atpsoftware.vn/wp-content/uploads//2019/06/depositphotos_58810529-stock-illustration-product-concept.jpg",
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    _teachers[index].name,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ],
+                              ),
+                              TextButton(
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: Size.zero,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  onPressed: () {
+                                    String url = 'tel:0712365489';
+                                    launchUrlString(url);
+                                  },
+                                  child: Text("0712365489")),
+                            ],
+                          ),
+                          const Divider(
+                            height: 1,
+                            indent: 15,
+                            endIndent: 15,
+                            thickness: 1,
+                            color: Color.fromARGB(108, 158, 158, 158),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
           ],
         ),
       ),
