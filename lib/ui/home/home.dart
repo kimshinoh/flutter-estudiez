@@ -1,5 +1,17 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:fruity/data/network/rest_client.dart';
+import 'package:fruity/data/sharedpref/constants/preferences.dart';
+import 'package:fruity/models/mark/mark.dart';
+import 'package:fruity/models/subject/subject.dart';
+import 'package:fruity/models/user/student.dart';
+import 'package:fruity/models/user/user.dart';
+import 'package:fruity/utils/datetime_util.dart';
+import 'package:fruity/utils/notify_util.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -9,6 +21,94 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  User? _user = User("", "", "", "", "",
+      Student("", "", "", new DateTime(2022), null, null, null), null, null);
+  bool isInProgress = false;
+  List<Subject> _subjects = [];
+  List<Mark> _marks = [];
+  int maxLenght = 10;
+  @override
+  void initState() {
+    super.initState();
+    _paserUser();
+    _getSubject();
+    _getMark();
+  }
+
+  final _random = new Random();
+
+  // double next() => _random.nextDouble();
+  _paserUser() async {
+    final SharedPreferences _preferences =
+        await SharedPreferences.getInstance();
+    String? _userString = _preferences.getString(Preferences.user);
+    if (_userString != null) {
+      final parsed = jsonDecode(_userString) as Map<String, dynamic>;
+      User user = User.fromJson(parsed);
+      print(user);
+      setState(() {
+        _user = user;
+      });
+    }
+  }
+
+  _getSubject() async {
+    setState(() {
+      isInProgress = true;
+    });
+    SharedPreferences _preferences = await SharedPreferences.getInstance();
+    var token = await _preferences.getString(Preferences.token);
+    await RestClient().get("/subject", headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    }).then((value) async {
+      final parsed = jsonDecode(value.body);
+      setState(() {
+        _subjects = parsed
+            .map<Subject>(
+                (json) => Subject.fromJson(json as Map<String, dynamic>))
+            .toList() as List<Subject>;
+      });
+    }).catchError((error) {
+      print(error);
+      NotifyHelper.error(context, "Something went wrong");
+    }).whenComplete(() {
+      if (mounted) {
+        setState(() {
+          isInProgress = false;
+        });
+      }
+    });
+  }
+
+  _getMark() async {
+    setState(() {
+      isInProgress = true;
+    });
+    SharedPreferences _preferences = await SharedPreferences.getInstance();
+    var token = await _preferences.getString(Preferences.token);
+    await RestClient().get("/mark", headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    }).then((value) async {
+      final parsed = jsonDecode(value.body);
+      setState(() {
+        _marks = parsed
+            .map<Mark>((json) => Mark.fromJson(json as Map<String, dynamic>))
+            .toList() as List<Mark>;
+      });
+    }).catchError((error) {
+      print(error);
+      NotifyHelper.error(context, "Something went wrong");
+    }).whenComplete(() {
+      if (mounted) {
+        setState(() {
+          isInProgress = false;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -33,6 +133,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _exam() {
+    if (_user!.type != "student") {
+      return Container();
+    }
     return Expanded(
         child: Container(
       // decoration: BoxDecoration(
@@ -54,9 +157,13 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             height: 200,
             width: double.infinity,
-            child: Column(
-              children: [
-                Container(
+            child: ListView.builder(
+              itemCount: _marks.length,
+              itemBuilder: (context, index) {
+                if (index > maxLenght) {
+                  return Container();
+                }
+                return Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.grey.shade200,
@@ -66,14 +173,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Math',
+                        _marks[index].name!,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        '20/20',
+                        _random.nextInt(100).toString(),
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -81,62 +188,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'English',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '20/20',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Physics',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '20/20',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                );
+              },
             ),
           ),
         ],
@@ -145,6 +198,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _process() {
+    if (_user!.type != "student") {
+      return Container();
+    }
     return IntrinsicHeight(
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -152,18 +208,19 @@ class _HomeScreenState extends State<HomeScreen> {
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: 5,
+              itemCount: _subjects.length,
               itemBuilder: (BuildContext context, int index) {
                 // final Product _product = _productStore.productsSaleShock[index];
                 return InkWell(
                   onTap: () {},
-                  child: _cardProcess(),
+                  child: _cardProcess(index),
                 );
               },
             )));
   }
 
-  Widget _cardProcess() {
+  Widget _cardProcess(int index) {
+    double percent = _random.nextDouble();
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 5),
         padding: EdgeInsets.all(10),
@@ -184,12 +241,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   radius: 35,
                   lineWidth: 5,
                   animation: true,
-                  percent: 0.7,
+                  //random percent
+                  percent: percent,
                   center: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "70.0",
+                          (percent * 100).toStringAsFixed(0) + "%",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -214,15 +272,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Biology",
+                    _subjects[index].name,
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 16.0,
                       color: Colors.white,
                     ),
+                    maxLines: 3,
                   ),
                   Text(
-                    "Chapter 1",
+                    "CNTT",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18.0,
@@ -230,7 +289,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Text(
-                    "12 Aug 2021",
+                    DateTimeHelper.formatDate(
+                        _subjects[index].createdAt, "dd/MM/yyyy"),
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 16.0,
@@ -260,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 8,
           ),
           Text(
-            "Nguyen Van A",
+            _user!.student!.name,
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,

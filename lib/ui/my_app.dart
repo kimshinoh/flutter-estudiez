@@ -4,6 +4,7 @@ import 'package:fruity/constants/strings.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/stores/version/version_store.dart';
 import 'package:fruity/ui/auth/login.dart';
+import 'package:fruity/ui/splash/splash.dart';
 import 'package:provider/provider.dart';
 
 class MyApp extends StatefulWidget {
@@ -34,8 +35,8 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         routes: Routes.routes,
         title: Strings.appName,
-        home: LoginScreen(),
-        builder: (BuildContext context, Widget? child) {
+        home: const SplashScreen(), 
+          builder: (BuildContext context, Widget? child) {
           final MediaQueryData mediaQueryData = MediaQuery.of(context);
           final double scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.3);
           return MediaQuery(

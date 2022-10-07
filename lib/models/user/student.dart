@@ -11,7 +11,7 @@ class Student {
   DateTime birthday;
   Parent? parent;
   List<Mark>? marks;
-  List<SubjectClass> subjectClass;
+  List<SubjectClass>? subjectClass;
   Student(
     this.id,
     this.name,

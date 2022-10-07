@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/assest.dart';
+import 'package:fruity/data/sharedpref/constants/preferences.dart';
+import 'package:fruity/ui/auth/login.dart';
 import 'package:fruity/widgets/bottom_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,15 +29,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _navigate() async {
-    // final SharedPreferences _preferences =
-    //     await SharedPreferences.getInstance();
-    // final UserLoginResponseDTO? res =
-    //     UserLoginResponseDTO.fromPrefs(_preferences);
-
-    // if (res != null) {
-    //   // _store.setAuth(res);
-    // }
-
+    final SharedPreferences _preferences =
+        await SharedPreferences.getInstance();
+    final bool _isLogin = _preferences.getString(Preferences.token) != null;
     await Future<void>.delayed(const Duration(seconds: 1));
     if (!mounted) {
       return;
@@ -43,7 +39,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
-        builder: (BuildContext context) => const MyBottombar(),
+        builder: (BuildContext context) =>
+            _isLogin ? const MyBottombar() : LoginScreen(),
       ),
     );
   }

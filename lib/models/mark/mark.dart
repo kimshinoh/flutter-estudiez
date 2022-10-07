@@ -7,14 +7,20 @@ part 'mark.g.dart';
 @JsonSerializable()
 class Mark {
   String id;
-  double score;
-  Exam exam;
-  Student student;
+  String name;
+  double? score;
+  Exam? exam;
+  int? duration;
+  Student? student;
+  String? subjectClass;
   Mark(
     this.id,
     this.score,
+    this.name,
+    this.duration,
     this.exam,
     this.student,
+    this.subjectClass,
   );
   factory Mark.fromJson(Map<String, dynamic> json) => _$MarkFromJson(json);
   Map<String, dynamic> toJson() => _$MarkToJson(this);

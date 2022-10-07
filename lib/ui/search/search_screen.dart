@@ -53,7 +53,6 @@ class _SearchScreenState extends State<SearchScreen> {
       "Authorization": "Bearer $token"
     }).then((value) async {
       final parsed = jsonDecode(value.body);
-      print(value.body);
       setState(() {
         _teachers = parsed
             .map<Teacher>(

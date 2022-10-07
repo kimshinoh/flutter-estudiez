@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fruity/data/network/rest_client.dart';
+import 'package:fruity/data/sharedpref/constants/preferences.dart';
 import 'package:fruity/data/sharedpref/shared_preference_helper.dart';
 import 'package:fruity/ui/auth/register.dart';
 import 'package:fruity/ui/home/home.dart';
@@ -25,11 +28,10 @@ class _LoginScreenState extends State<LoginScreen> {
     emailTFController = TextEditingController();
     passwordTFController = TextEditingController();
   }
+
   _handleLogin() async {
     String email = emailTFController.text;
     String password = passwordTFController.text;
-    print(email);
-    print(password);
     if (email.isEmpty) {
       NotifyHelper.error(context, "Please Fill Email");
     } else if (Validator.isEmail(email)) {
@@ -42,24 +44,46 @@ class _LoginScreenState extends State<LoginScreen> {
           isInProgress = true;
         });
       }
-    final SharedPreferences _preferences = await SharedPreferences.getInstance();
-    await RestClient().post("/auth/login",
-      headers: {
+      final SharedPreferences _preferences =
+          await SharedPreferences.getInstance();
+      await RestClient().post("/auth/login", headers: {
         "Content-Type": "application/json",
-      }, 
-      body: {
+      }, body: {
         "email": email,
         "password": password
-      }
-    ).then((value) async {
-      print(value);
-      if (value["statusCode"] == 200) {
-        await SharedPreferenceHelper(_preferences).saveAuthToken(value["data"]["access_token"] as String);
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MyBottombar()));
-      } else {
+      }).then((value) async {
+        if (value["statusCode"] == 200) {
+          await SharedPreferenceHelper(_preferences)
+              .saveAuthToken(value["data"]["access_token"] as String);
+          String? userInfo = await _getInfoUser();
+          _preferences.setString(Preferences.user, userInfo!);
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => MyBottombar()));
+        } else {
+          NotifyHelper.error(context, "Something went wrong");
+        }
+      }).catchError((error) {
+        print(error);
         NotifyHelper.error(context, "Something went wrong");
-      }
+      }).whenComplete(() {
+        if (mounted) {
+          setState(() {
+            isInProgress = false;
+          });
+        }
+      });
+    }
+  }
+
+  Future<String?> _getInfoUser() async {
+    final SharedPreferences _preferences =
+        await SharedPreferences.getInstance();
+    String? token = await _preferences.getString(Preferences.token);
+    return RestClient().get("/auth/verify", headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    }).then((res) async {
+      return res.body;
     }).catchError((error) {
       print(error);
       NotifyHelper.error(context, "Something went wrong");
@@ -70,21 +94,6 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       }
     });
-    // })
-      // await Future.delayed(Duration(seconds: 1), () {
-      //   if (mounted) {
-      //     setState(() {
-      //       isInProgress = false;
-      //     });
-      //   }
-      //   Navigator.pushReplacement(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (BuildContext context) => HomeScreen(),
-      //     ),
-      //   );
-      // });
-    }
   }
 
   @override
@@ -215,8 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    RegisterScreen()));
+                                builder: (context) => RegisterScreen()));
                       },
                       child: Text(
                         "I have not an account",

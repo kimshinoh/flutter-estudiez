@@ -9,13 +9,15 @@ part of 'subject.dart';
 Subject _$SubjectFromJson(Map<String, dynamic> json) => Subject(
       json['id'] as String,
       json['name'] as String,
-      (json['subjectClass'] as List<dynamic>)
-          .map((e) => SubjectClass.fromJson(e as Map<String, dynamic>))
+      (json['subjectClass'] as List<dynamic>?)
+          ?.map((e) => SubjectClass.fromJson(e as Map<String, dynamic>))
           .toList(),
+      DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$SubjectToJson(Subject instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'subjectClass': instance.subjectClass,
+      'createdAt': instance.createdAt.toIso8601String(),
     };

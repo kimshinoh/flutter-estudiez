@@ -17,8 +17,8 @@ Student _$StudentFromJson(Map<String, dynamic> json) => Student(
       (json['marks'] as List<dynamic>?)
           ?.map((e) => Mark.fromJson(e as Map<String, dynamic>))
           .toList(),
-      (json['subjectClass'] as List<dynamic>)
-          .map((e) => SubjectClass.fromJson(e as Map<String, dynamic>))
+      (json['subjectClass'] as List<dynamic>?)
+          ?.map((e) => SubjectClass.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
