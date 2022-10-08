@@ -8,7 +8,7 @@ part of 'parent.dart';
 
 Parent _$ParentFromJson(Map<String, dynamic> json) => Parent(
       json['id'] as String,
-      json['name'] as String,
+      json['name'] as String?,
       json['address'] as String?,
       (json['students'] as List<dynamic>?)
           ?.map((e) => Student.fromJson(e as Map<String, dynamic>))

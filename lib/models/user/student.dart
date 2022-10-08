@@ -6,7 +6,7 @@ part 'student.g.dart';
 @JsonSerializable()
 class Student {
   String id;
-  String name;
+  String? name;
   String? address;
   DateTime birthday;
   Parent? parent;

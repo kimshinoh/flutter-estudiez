@@ -5,9 +5,9 @@ part 'resource.g.dart';
 @JsonSerializable()
 class Resource {
   String id;
-  String name;
-  String type;
-  SubjectClass subjectClass;
+  String? name;
+  String? type;
+  SubjectClass? subjectClass;
   Resource(
     this.id,
     this.name,

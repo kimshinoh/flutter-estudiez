@@ -8,7 +8,7 @@ part of 'student.dart';
 
 Student _$StudentFromJson(Map<String, dynamic> json) => Student(
       json['id'] as String,
-      json['name'] as String,
+      json['name'] as String?,
       json['address'] as String?,
       DateTime.parse(json['birthday'] as String),
       json['parent'] == null

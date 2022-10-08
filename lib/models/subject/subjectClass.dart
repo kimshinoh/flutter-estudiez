@@ -9,14 +9,15 @@ part 'subjectClass.g.dart';
 class SubjectClass {
   String id;
   String name;
-  String code;
-  DateTime startAt;
-  DateTime endAt;
-  Subject subject;
-  Teacher teacher;
-  List<Student> students;
-  List<Resource> resources;
-  List<Exam> exams;
+  String? code;
+  DateTime? startAt;
+  DateTime? endAt;
+  String? subject;
+  String? teacher;
+  // List<Student>? students;
+  // List<Resource>? resources;
+  // List<Exam>? exams;
+  DateTime createdAt;
   SubjectClass(
     this.id,
     this.name,
@@ -25,9 +26,10 @@ class SubjectClass {
     this.endAt,
     this.subject,
     this.teacher,
-    this.students,
-    this.resources,
-    this.exams,
+    // this.students,
+    // this.resources,
+    // this.exams,
+    this.createdAt,
   );
   factory SubjectClass.fromJson(Map<String, dynamic> json) => _$SubjectClassFromJson(json);
   Map<String, dynamic> toJson() => _$SubjectClassToJson(this);

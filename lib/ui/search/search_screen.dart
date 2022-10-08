@@ -126,7 +126,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   ),
                                   const SizedBox(width: 10),
                                   Text(
-                                    _teachers[index].name,
+                                    _teachers[index].name!,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),

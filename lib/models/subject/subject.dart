@@ -4,7 +4,7 @@ part 'subject.g.dart';
 @JsonSerializable()
 class Subject {
   String id;
-  String name;
+  String? name;
   List<SubjectClass>? subjectClass;
   DateTime createdAt;
   Subject(

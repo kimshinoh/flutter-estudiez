@@ -8,12 +8,14 @@ part of 'exam.dart';
 
 Exam _$ExamFromJson(Map<String, dynamic> json) => Exam(
       json['id'] as String,
-      json['name'] as String,
-      json['duration'] as int,
-      json['type'] as String,
-      SubjectClass.fromJson(json['subjectClass'] as Map<String, dynamic>),
-      (json['marks'] as List<dynamic>)
-          .map((e) => Mark.fromJson(e as Map<String, dynamic>))
+      json['name'] as String?,
+      json['duration'] as int?,
+      json['type'] as String?,
+      json['subjectClass'] == null
+          ? null
+          : SubjectClass.fromJson(json['subjectClass'] as Map<String, dynamic>),
+      (json['marks'] as List<dynamic>?)
+          ?.map((e) => Mark.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

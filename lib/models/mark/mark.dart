@@ -7,17 +7,15 @@ part 'mark.g.dart';
 @JsonSerializable()
 class Mark {
   String id;
-  String name;
+  String? name;
   double? score;
-  Exam? exam;
-  int? duration;
-  Student? student;
+  String? exam;
+  String? student;
   String? subjectClass;
   Mark(
     this.id,
     this.score,
     this.name,
-    this.duration,
     this.exam,
     this.student,
     this.subjectClass,

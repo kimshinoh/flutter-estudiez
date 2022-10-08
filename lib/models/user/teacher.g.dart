@@ -8,8 +8,8 @@ part of 'teacher.dart';
 
 Teacher _$TeacherFromJson(Map<String, dynamic> json) => Teacher(
       json['id'] as String,
-      json['name'] as String,
-      json['address'] as String,
+      json['name'] as String?,
+      json['address'] as String?,
       (json['subjectClass'] as List<dynamic>?)
           ?.map((e) => SubjectClass.fromJson(e as Map<String, dynamic>))
           .toList(),

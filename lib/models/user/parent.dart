@@ -4,7 +4,7 @@ part 'parent.g.dart';
 @JsonSerializable()
 class Parent {
   String id;
-  String name;
+  String? name;
   String? address;
   List<Student>? students;
   Parent(

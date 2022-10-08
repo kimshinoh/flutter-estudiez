@@ -25,9 +25,9 @@ class _RegisterScreen extends State<RegisterScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final List<Map<String, String>> typesUser = [
     {"name": "Parent/Guardian", "value": "parent"},
-    {"name": "Admin", "value": "admin"},
+    // {"name": "Admin", "value": "admin"},
     {"name": "Student", "value": "student"},
-    {"name": "Teacher", "value": "teacher"},
+    // {"name": "Teacher", "value": "teacher"},
   ];
   @override
   void initState() {

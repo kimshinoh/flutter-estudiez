@@ -173,14 +173,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        _marks[index].name!,
+                        _marks[index].exam!,
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        _random.nextInt(100).toString(),
+                        _marks[index].score.toString(),
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -272,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _subjects[index].name,
+                    _subjects[index].name!,
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 16.0,
@@ -320,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 8,
           ),
           Text(
-            _user!.student!.name,
+            _user!.student!.name!,
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,

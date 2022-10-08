@@ -5,11 +5,11 @@ part 'exam.g.dart';
 @JsonSerializable()
 class Exam {
   String id;
-  String name;
-  int duration;
-  String type;
-  SubjectClass subjectClass;
-  List<Mark> marks;
+  String? name;
+  int? duration;
+  String? type;
+  SubjectClass? subjectClass;
+  List<Mark>? marks;
   Exam(
     this.id,
     this.name,

@@ -29,3 +29,4 @@ Run project (
 flutter pub get
 flutter run
 ```
+flutter pub run build_runner watch --delete-conflicting-outputs

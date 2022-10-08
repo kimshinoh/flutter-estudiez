@@ -4,8 +4,8 @@ part 'teacher.g.dart';
 @JsonSerializable()
 class Teacher {
   String id;
-  String name;
-  String address;
+  String? name;
+  String? address;
   List<SubjectClass>? subjectClass;
   Teacher(
     this.id,

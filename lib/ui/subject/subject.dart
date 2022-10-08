@@ -1,4 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fruity/data/network/rest_client.dart';
+import 'package:fruity/data/sharedpref/constants/preferences.dart';
+import 'package:fruity/models/subject/subjectClass.dart';
+import 'package:fruity/models/user/teacher.dart';
+import 'package:fruity/utils/datetime_util.dart';
+import 'package:fruity/utils/notify_util.dart';
+import 'package:fruity/utils/string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class SubjectScreen extends StatefulWidget {
@@ -9,9 +19,41 @@ class SubjectScreen extends StatefulWidget {
 }
 
 class _SubjectScreen extends State<SubjectScreen> {
+  List<SubjectClass> _subjectClass = [];
+  bool isInProgress = false;
   @override
   void initState() {
     super.initState();
+    _getSubjectClass();
+  }
+
+  _getSubjectClass() async {
+    setState(() {
+      isInProgress = true;
+    });
+    SharedPreferences _preferences = await SharedPreferences.getInstance();
+    var token = await _preferences.getString(Preferences.token);
+    await RestClient().get("/subject-class", headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    }).then((value) async {
+      final parsed = jsonDecode(value.body);
+      setState(() {
+        _subjectClass = parsed
+            .map<SubjectClass>(
+                (json) => SubjectClass.fromJson(json as Map<String, dynamic>))
+            .toList() as List<SubjectClass>;
+      });
+    }).catchError((error) {
+      print(error);
+      NotifyHelper.error(context, "Something went wrong");
+    }).whenComplete(() {
+      if (mounted) {
+        setState(() {
+          isInProgress = false;
+        });
+      }
+    });
   }
 
   @override
@@ -75,214 +117,214 @@ class _SubjectScreen extends State<SubjectScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet<void>(
-                        // border top corner
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                            topRight: Radius.circular(40),
-                          ),
-                        ),
+              // GestureDetector(
+              //     onTap: () {
+              //       showModalBottomSheet<void>(
+              //           // border top corner
+              //           shape: const RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.only(
+              //               topLeft: Radius.circular(40),
+              //               topRight: Radius.circular(40),
+              //             ),
+              //           ),
 
-                        // close button in top right corn
+              //           // close button in top right corn
 
-                        enableDrag: true,
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return BottomSheet(
-                            onClosing: () {},
-                            builder: (BuildContext context) {
-                              List<String> typeFilter = [];
-                              return StatefulBuilder(
-                                  builder: (BuildContext context, setState) =>
-                                      Container(
-                                        height: height * 0.6,
-                                        padding: const EdgeInsets.fromLTRB(
-                                            20, 30, 20, 16),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  "Filter By:",
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                                Icon(
-                                                  Icons.close,
-                                                  color: Colors.grey,
-                                                )
-                                              ],
-                                            ),
-                                            // const SizedBox(height: 20),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "Type",
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                  ),
-                                                ),
-                                                const SizedBox(height: 10),
-                                                Wrap(
-                                                  spacing: 10,
-                                                  runSpacing: 10,
-                                                  children: [
-                                                    InkWell(
-                                                      onTap: () {
-                                                        setState(() {
-                                                          if (typeFilter
-                                                              .contains(
-                                                                  "Basic")) {
-                                                            typeFilter.remove(
-                                                                "Basic");
-                                                          } else {
-                                                            typeFilter
-                                                                .add("Basic");
-                                                          }
-                                                        });
-                                                      },
-                                                      child: chip(
-                                                          "Basic",
-                                                          typeFilter.contains(
-                                                                  "Basic")
-                                                              ? Colors.blue
-                                                              : Colors.grey),
-                                                    ),
-                                                    InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            if (typeFilter
-                                                                .contains(
-                                                                    "Major")) {
-                                                              typeFilter.remove(
-                                                                  "Major");
-                                                            } else {
-                                                              typeFilter
-                                                                  .add("Major");
-                                                            }
-                                                          });
-                                                        },
-                                                        child: chip(
-                                                            "Major",
-                                                            typeFilter.contains(
-                                                                    "Major")
-                                                                ? Colors.blue
-                                                                : Colors.grey)),
-                                                    InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            if (typeFilter
-                                                                .contains(
-                                                                    "Physical")) {
-                                                              typeFilter.remove(
-                                                                  "Physical");
-                                                            } else {
-                                                              typeFilter.add(
-                                                                  "Physical");
-                                                            }
-                                                          });
-                                                        },
-                                                        child: chip(
-                                                            "Physical",
-                                                            typeFilter.contains(
-                                                                    "Physical")
-                                                                ? Colors.blue
-                                                                : Colors.grey)),
-                                                    InkWell(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            if (typeFilter.contains(
-                                                                "Soft skills")) {
-                                                              typeFilter.remove(
-                                                                  "Soft skills");
-                                                            } else {
-                                                              typeFilter.add(
-                                                                  "Soft skills");
-                                                            }
-                                                          });
-                                                        },
-                                                        child: chip(
-                                                            "Soft skills",
-                                                            typeFilter.contains(
-                                                                    "Soft skills")
-                                                                ? Colors.blue
-                                                                : Colors.grey)),
-                                                  ],
-                                                ),
-                                                Divider(
-                                                  color: Colors.grey,
-                                                  thickness: 1,
-                                                ),
-                                              ],
-                                            ),
-                                            InkWell(
-                                              onTap: () {},
-                                              child: Container(
-                                                width: double.infinity,
-                                                height: 50,
-                                                decoration: BoxDecoration(
-                                                  color: Colors.blue,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    "Apply",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ));
-                            },
-                          );
-                        });
-                  },
-                  child: Container(
-                      padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.filter_alt_outlined,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 5),
-                          Text(
-                            'Filter',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(width: 5),
-                          Icon(
-                            Icons.arrow_drop_down,
-                            size: 20,
-                          ),
-                        ],
-                      )))
+              //           enableDrag: true,
+              //           isScrollControlled: true,
+              //           context: context,
+              //           builder: (BuildContext context) {
+              //             return BottomSheet(
+              //               onClosing: () {},
+              //               builder: (BuildContext context) {
+              //                 List<String> typeFilter = [];
+              //                 return StatefulBuilder(
+              //                     builder: (BuildContext context, setState) =>
+              //                         Container(
+              //                           height: height * 0.6,
+              //                           padding: const EdgeInsets.fromLTRB(
+              //                               20, 30, 20, 16),
+              //                           child: Column(
+              //                             crossAxisAlignment:
+              //                                 CrossAxisAlignment.start,
+              //                             mainAxisAlignment:
+              //                                 MainAxisAlignment.spaceBetween,
+              //                             children: [
+              //                               Row(
+              //                                 mainAxisAlignment:
+              //                                     MainAxisAlignment
+              //                                         .spaceBetween,
+              //                                 children: [
+              //                                   Text(
+              //                                     "Filter By:",
+              //                                     style: TextStyle(
+              //                                       fontSize: 20,
+              //                                       fontWeight: FontWeight.bold,
+              //                                     ),
+              //                                   ),
+              //                                   Icon(
+              //                                     Icons.close,
+              //                                     color: Colors.grey,
+              //                                   )
+              //                                 ],
+              //                               ),
+              //                               // const SizedBox(height: 20),
+              //                               Column(
+              //                                 crossAxisAlignment:
+              //                                     CrossAxisAlignment.start,
+              //                                 children: [
+              //                                   Text(
+              //                                     "Type",
+              //                                     style: TextStyle(
+              //                                       fontSize: 16,
+              //                                     ),
+              //                                   ),
+              //                                   const SizedBox(height: 10),
+              //                                   Wrap(
+              //                                     spacing: 10,
+              //                                     runSpacing: 10,
+              //                                     children: [
+              //                                       InkWell(
+              //                                         onTap: () {
+              //                                           setState(() {
+              //                                             if (typeFilter
+              //                                                 .contains(
+              //                                                     "Basic")) {
+              //                                               typeFilter.remove(
+              //                                                   "Basic");
+              //                                             } else {
+              //                                               typeFilter
+              //                                                   .add("Basic");
+              //                                             }
+              //                                           });
+              //                                         },
+              //                                         child: chip(
+              //                                             "Basic",
+              //                                             typeFilter.contains(
+              //                                                     "Basic")
+              //                                                 ? Colors.blue
+              //                                                 : Colors.grey),
+              //                                       ),
+              //                                       InkWell(
+              //                                           onTap: () {
+              //                                             setState(() {
+              //                                               if (typeFilter
+              //                                                   .contains(
+              //                                                       "Major")) {
+              //                                                 typeFilter.remove(
+              //                                                     "Major");
+              //                                               } else {
+              //                                                 typeFilter
+              //                                                     .add("Major");
+              //                                               }
+              //                                             });
+              //                                           },
+              //                                           child: chip(
+              //                                               "Major",
+              //                                               typeFilter.contains(
+              //                                                       "Major")
+              //                                                   ? Colors.blue
+              //                                                   : Colors.grey)),
+              //                                       InkWell(
+              //                                           onTap: () {
+              //                                             setState(() {
+              //                                               if (typeFilter
+              //                                                   .contains(
+              //                                                       "Physical")) {
+              //                                                 typeFilter.remove(
+              //                                                     "Physical");
+              //                                               } else {
+              //                                                 typeFilter.add(
+              //                                                     "Physical");
+              //                                               }
+              //                                             });
+              //                                           },
+              //                                           child: chip(
+              //                                               "Physical",
+              //                                               typeFilter.contains(
+              //                                                       "Physical")
+              //                                                   ? Colors.blue
+              //                                                   : Colors.grey)),
+              //                                       InkWell(
+              //                                           onTap: () {
+              //                                             setState(() {
+              //                                               if (typeFilter.contains(
+              //                                                   "Soft skills")) {
+              //                                                 typeFilter.remove(
+              //                                                     "Soft skills");
+              //                                               } else {
+              //                                                 typeFilter.add(
+              //                                                     "Soft skills");
+              //                                               }
+              //                                             });
+              //                                           },
+              //                                           child: chip(
+              //                                               "Soft skills",
+              //                                               typeFilter.contains(
+              //                                                       "Soft skills")
+              //                                                   ? Colors.blue
+              //                                                   : Colors.grey)),
+              //                                     ],
+              //                                   ),
+              //                                   Divider(
+              //                                     color: Colors.grey,
+              //                                     thickness: 1,
+              //                                   ),
+              //                                 ],
+              //                               ),
+              //                               InkWell(
+              //                                 onTap: () {},
+              //                                 child: Container(
+              //                                   width: double.infinity,
+              //                                   height: 50,
+              //                                   decoration: BoxDecoration(
+              //                                     color: Colors.blue,
+              //                                     borderRadius:
+              //                                         BorderRadius.circular(10),
+              //                                   ),
+              //                                   child: Center(
+              //                                     child: Text(
+              //                                       "Apply",
+              //                                       style: TextStyle(
+              //                                         color: Colors.white,
+              //                                         fontSize: 16,
+              //                                         fontWeight:
+              //                                             FontWeight.bold,
+              //                                       ),
+              //                                     ),
+              //                                   ),
+              //                                 ),
+              //                               ),
+              //                             ],
+              //                           ),
+              //                         ));
+              //               },
+              //             );
+              //           });
+              //     },
+              //     child: Container(
+              // padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+              // child: Row(
+              //   children: [
+              //     Icon(
+              //       Icons.filter_alt_outlined,
+              //       size: 20,
+              //     ),
+              //     const SizedBox(width: 5),
+              //     Text(
+              //       'Filter',
+              //       style: TextStyle(
+              //         fontSize: 15,
+              //         fontWeight: FontWeight.bold,
+              //       ),
+              //     ),
+              //     const SizedBox(width: 5),
+              //     Icon(
+              //       Icons.arrow_drop_down,
+              //       size: 20,
+              //     ),
+              //   ],
+              // )))
             ],
           ),
           const SizedBox(height: 10),
@@ -291,7 +333,7 @@ class _SubjectScreen extends State<SubjectScreen> {
               child: SizedBox(
                   height: height * 0.5,
                   child: ListView.builder(
-                    itemCount: 10,
+                    itemCount: _subjectClass.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return Container(
@@ -324,14 +366,15 @@ class _SubjectScreen extends State<SubjectScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Subject #${index + 1}',
+                                      StringHelper.maxLength(
+                                          _subjectClass[index].name, 20),
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
-                                      'Basic',
+                                      _subjectClass[index].code!,
                                       style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.normal,
@@ -345,7 +388,9 @@ class _SubjectScreen extends State<SubjectScreen> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  '19/10/2022',
+                                  DateTimeHelper.formatDate(
+                                      _subjectClass[index].createdAt,
+                                      'dd/MM/yyyy'),
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.normal,
@@ -355,7 +400,7 @@ class _SubjectScreen extends State<SubjectScreen> {
                                   height: 6,
                                 ),
                                 Text(
-                                  'Doing',
+                                  _subjectClass[index].teacher!,
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.normal,

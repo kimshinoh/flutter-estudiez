@@ -8,9 +8,11 @@ part of 'resource.dart';
 
 Resource _$ResourceFromJson(Map<String, dynamic> json) => Resource(
       json['id'] as String,
-      json['name'] as String,
-      json['type'] as String,
-      SubjectClass.fromJson(json['subjectClass'] as Map<String, dynamic>),
+      json['name'] as String?,
+      json['type'] as String?,
+      json['subjectClass'] == null
+          ? null
+          : SubjectClass.fromJson(json['subjectClass'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ResourceToJson(Resource instance) => <String, dynamic>{
