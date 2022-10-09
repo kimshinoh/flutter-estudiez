@@ -17,7 +17,7 @@ class CourseReportScreen extends StatefulWidget {
 
 class _CourseReportScreen extends State<CourseReportScreen> {
   int _selectedIndex = 3;
-  List<Exam>? _exam;
+  late List<Exam> _exam = [];
   bool isInProgress = false;
 
   @override
@@ -63,8 +63,6 @@ class _CourseReportScreen extends State<CourseReportScreen> {
       print(error);
       NotifyHelper.error(context, "Something went wrong");
     }).whenComplete(() {
-      print("oke exam");
-      print(_exam);
       if (mounted) {
         setState(() {
           isInProgress = false;
@@ -126,13 +124,6 @@ class _CourseReportScreen extends State<CourseReportScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Text(
-              'Course Report',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
             const SizedBox(),
             Container(
                 child:
@@ -172,7 +163,7 @@ class _CourseReportScreen extends State<CourseReportScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Truong Manh Nguyen",
+                  "CouseReport",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -180,25 +171,6 @@ class _CourseReportScreen extends State<CourseReportScreen> {
                 ),
                 const SizedBox(
                   height: 4,
-                ),
-                Text(
-                  "0705133876",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                      wordSpacing: 2),
-                ),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  "Class 6",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                      wordSpacing: 2),
                 ),
               ],
             ),
@@ -361,11 +333,9 @@ class _CourseReportScreen extends State<CourseReportScreen> {
         children: [
           ListView.builder(
             shrinkWrap: true,
-            itemCount: _exam!.length,
+            itemCount: _exam.length,
             itemBuilder: (_, index) {
               Exam examData = _exam![index];
-              print("examdata");
-              print(examData);
               return Container(
                   child: Column(children: [
                 Container(

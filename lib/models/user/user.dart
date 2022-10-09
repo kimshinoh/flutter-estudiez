@@ -12,8 +12,8 @@ class User {
   String id;
   String? name;
   String? address;
-  String type;
-  String email;
+  String? type;
+  String? email;
   Student? student;
   Teacher? teacher;
   Parent? parents;

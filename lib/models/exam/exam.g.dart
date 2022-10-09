@@ -11,9 +11,7 @@ Exam _$ExamFromJson(Map<String, dynamic> json) => Exam(
       json['name'] as String?,
       json['duration'] as int?,
       json['type'] as String?,
-      json['subjectClass'] == null
-          ? null
-          : SubjectClass.fromJson(json['subjectClass'] as Map<String, dynamic>),
+      json['subjectClass'] as String?,
       (json['marks'] as List<dynamic>?)
           ?.map((e) => Mark.fromJson(e as Map<String, dynamic>))
           .toList(),

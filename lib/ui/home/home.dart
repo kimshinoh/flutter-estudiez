@@ -23,7 +23,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   User? _user = User("", "", "", "", "",
       Student("", "", "", new DateTime(2022), null, null, null), null, null);
+  Student _student = Student("", "", "", new DateTime(2022), null, null, null);
   bool isInProgress = false;
+  bool isParent = false;
   List<Subject> _subjects = [];
   List<Mark> _marks = [];
   int maxLenght = 10;
@@ -31,81 +33,85 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _paserUser();
-    _getSubject();
-    _getMark();
   }
 
   final _random = new Random();
 
-  // double next() => _random.nextDouble();
   _paserUser() async {
     final SharedPreferences _preferences =
         await SharedPreferences.getInstance();
     String? _userString = _preferences.getString(Preferences.user);
+    var token = await _preferences.getString(Preferences.token);
     if (_userString != null) {
       final parsed = jsonDecode(_userString) as Map<String, dynamic>;
       User user = User.fromJson(parsed);
-      print(user);
+      if (user.type == "parents") {
+        String body = await _getInfoStudent();
+        setState(() {
+          _student = Student.fromJson(
+              jsonDecode(body)['student'][0] as Map<String, dynamic>);
+          isParent = true;
+          // _user = student;
+        });
+      }
       setState(() {
         _user = user;
+      });
+      await RestClient().get("/subject", headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      }).then((value) async {
+        final parsed = jsonDecode(value.body);
+        setState(() {
+          _subjects = parsed
+              .map<Subject>(
+                  (json) => Subject.fromJson(json as Map<String, dynamic>))
+              .toList() as List<Subject>;
+        });
+      }).catchError((error) {
+        print(error);
+        NotifyHelper.error(context, "Something went wrong");
+      }).whenComplete(() {
+        if (mounted) {
+          setState(() {
+            isInProgress = false;
+          });
+        }
+      });
+      await RestClient().get("/mark", headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      }).then((value) async {
+        final parsed = jsonDecode(value.body);
+        setState(() {
+          _marks = parsed
+              .map<Mark>((json) => Mark.fromJson(json as Map<String, dynamic>))
+              .toList() as List<Mark>;
+        });
+      }).catchError((error) {
+        print(error);
+        NotifyHelper.error(context, "Something went wrong");
+      }).whenComplete(() {
+        if (mounted) {
+          setState(() {
+            isInProgress = false;
+          });
+        }
       });
     }
   }
 
-  _getSubject() async {
-    setState(() {
-      isInProgress = true;
-    });
+  Future<String> _getInfoStudent() async {
     SharedPreferences _preferences = await SharedPreferences.getInstance();
     var token = await _preferences.getString(Preferences.token);
-    await RestClient().get("/subject", headers: {
+    return RestClient().get("/parents/me", headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     }).then((value) async {
-      final parsed = jsonDecode(value.body);
-      setState(() {
-        _subjects = parsed
-            .map<Subject>(
-                (json) => Subject.fromJson(json as Map<String, dynamic>))
-            .toList() as List<Subject>;
-      });
+      return value.body;
     }).catchError((error) {
-      print(error);
       NotifyHelper.error(context, "Something went wrong");
-    }).whenComplete(() {
-      if (mounted) {
-        setState(() {
-          isInProgress = false;
-        });
-      }
-    });
-  }
-
-  _getMark() async {
-    setState(() {
-      isInProgress = true;
-    });
-    SharedPreferences _preferences = await SharedPreferences.getInstance();
-    var token = await _preferences.getString(Preferences.token);
-    await RestClient().get("/mark", headers: {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $token"
-    }).then((value) async {
-      final parsed = jsonDecode(value.body);
-      setState(() {
-        _marks = parsed
-            .map<Mark>((json) => Mark.fromJson(json as Map<String, dynamic>))
-            .toList() as List<Mark>;
-      });
-    }).catchError((error) {
-      print(error);
-      NotifyHelper.error(context, "Something went wrong");
-    }).whenComplete(() {
-      if (mounted) {
-        setState(() {
-          isInProgress = false;
-        });
-      }
+      return "";
     });
   }
 
@@ -133,9 +139,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _exam() {
-    if (_user!.type != "student") {
-      return Container();
-    }
     return Expanded(
         child: Container(
       // decoration: BoxDecoration(
@@ -198,9 +201,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _process() {
-    if (_user!.type != "student") {
-      return Container();
-    }
     return IntrinsicHeight(
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -319,14 +319,23 @@ class _HomeScreenState extends State<HomeScreen> {
           const SizedBox(
             height: 8,
           ),
-          Text(
-            _user!.student!.name!,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                wordSpacing: 2),
-          ),
+          isParent
+              ? Text(
+                  "Parent of " + _student.name!,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      wordSpacing: 2),
+                )
+              : Text(
+                  _user!.student!.name!,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      wordSpacing: 2),
+                ),
         ],
       ),
     );

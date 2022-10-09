@@ -10,14 +10,12 @@ Resource _$ResourceFromJson(Map<String, dynamic> json) => Resource(
       json['id'] as String,
       json['name'] as String?,
       json['type'] as String?,
-      json['subjectClass'] == null
-          ? null
-          : SubjectClass.fromJson(json['subjectClass'] as Map<String, dynamic>),
+      json['link'] as String?,
     );
 
 Map<String, dynamic> _$ResourceToJson(Resource instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'type': instance.type,
-      'subjectClass': instance.subjectClass,
+      'link': instance.link,
     };

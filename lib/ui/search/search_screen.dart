@@ -26,7 +26,9 @@ class _SearchScreenState extends State<SearchScreen> {
   // late SearchHistoryStore _store;
   // late SearchStore _searchStore;
   // late FocusScopeNode currentFocus;
-  late List<Teacher> _teachers;
+  
+  late List<Teacher> _teachers = [];
+  List<Teacher> _teachersSearch = [];
   Timer? _debounce;
   bool isInProgress = false;
   final TextEditingController _searchController = TextEditingController();
@@ -58,6 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
             .map<Teacher>(
                 (json) => Teacher.fromJson(json as Map<String, dynamic>))
             .toList() as List<Teacher>;
+        _teachersSearch = _teachers;
       });
     }).catchError((error) {
       print(error);
@@ -70,7 +73,24 @@ class _SearchScreenState extends State<SearchScreen> {
       }
     });
   }
-
+  _handleChangeSearch() {
+    String keyword = _searchController.text;
+    if (keyword.isEmpty) {
+      setState(() {
+        _teachersSearch = _teachers;
+      });
+    } else {
+      _debounce?.cancel();
+      _debounce = Timer(const Duration(milliseconds: 500), () {
+        setState(() {
+          _teachersSearch = _teachers
+              .where((element) =>
+                  element.name!.toLowerCase().contains(keyword.toLowerCase()))
+              .toList();
+        });
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     // currentFocus = FocusScope.of(context);
@@ -109,7 +129,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ? const LinearProgressIndicator()
                 : ListView.builder(
                     shrinkWrap: true,
-                    itemCount: _teachers.length,
+                    itemCount: _teachersSearch.length,
                     itemBuilder: (BuildContext context, int index) {
                       // final String search =
                       //     searchHistory[searchHistory.length - 1 - index];
@@ -126,7 +146,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   ),
                                   const SizedBox(width: 10),
                                   Text(
-                                    _teachers[index].name!,
+                                    _teachersSearch[index].name!,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
@@ -233,7 +253,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 }
                                 _debounce = Timer(
                                     const Duration(milliseconds: 500), () {
-                                  // _searchStore.searchProduct(5);
+                                    _handleChangeSearch();
                                 });
                               },
                               onSubmitted: (String value) {

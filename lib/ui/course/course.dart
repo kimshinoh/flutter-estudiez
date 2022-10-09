@@ -1,8 +1,18 @@
+import 'dart:convert';
+
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:fruity/data/network/rest_client.dart';
+import 'package:fruity/data/sharedpref/constants/preferences.dart';
+import 'package:fruity/models/resource/resource.dart';
+import 'package:fruity/utils/notify_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class CourseScreen extends StatefulWidget {
-  const CourseScreen({Key? key}) : super(key: key);
+  final String subjectId;
+  const CourseScreen({Key? key, required this.subjectId}) : super(key: key);
 
   @override
   State<CourseScreen> createState() => _CourseScreen();
@@ -10,47 +20,46 @@ class CourseScreen extends StatefulWidget {
 
 class _CourseScreen extends State<CourseScreen> {
   bool _isPlayerReady = false;
-  late PlayerState _playerState;
-  late YoutubeMetaData _videoMetaData;
-  late YoutubePlayerController _controller;
-  void listener() {
-    if (_isPlayerReady && mounted && !_controller.value.isFullScreen) {
+  late List<Resource> _resources = [];
+  late String _subjectId;
+  bool isLoading = true;
+
+  _getInfoResource() async {
+    setState(() {
+      isLoading = true;
+    });
+    SharedPreferences _preferences = await SharedPreferences.getInstance();
+    var token = await _preferences.getString(Preferences.token);
+    await RestClient().get("/resource/subject-class/633459c42103f884c90a25fa",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token"
+        }).then((value) async {
+      final parsed = jsonDecode(value.body);
       setState(() {
-        _playerState = _controller.value.playerState;
-        _videoMetaData = _controller.metadata;
+        _resources = parsed
+            .map<Resource>(
+                (json) => Resource.fromJson(json as Map<String, dynamic>))
+            .toList() as List<Resource>;
       });
-    }
+    }).catchError((error) {
+      print(error);
+      NotifyHelper.error(context, "Something went wrong");
+    }).whenComplete(() {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    });
   }
+
   @override
   void initState() {
     super.initState();
-    _controller = YoutubePlayerController(
-      initialVideoId: "puDQTscHaIo",
-      flags: const YoutubePlayerFlags(
-        mute: false,
-        autoPlay: true,
-        disableDragSeek: false,
-        loop: false,
-        isLive: false,
-        forceHD: false,
-        enableCaption: true,
-      ),
-    )..addListener(listener);
-    _videoMetaData = const YoutubeMetaData();
-    _playerState = PlayerState.unknown;
+    _subjectId = widget.subjectId;
+    _getInfoResource();
   }
-    @override
-  void deactivate() {
-    _controller.pause();
-    super.deactivate();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +101,9 @@ class _CourseScreen extends State<CourseScreen> {
   }
 
   Widget _main() {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return Expanded(
         child: Container(
       decoration: BoxDecoration(
@@ -103,33 +115,41 @@ class _CourseScreen extends State<CourseScreen> {
       ),
       padding: const EdgeInsets.fromLTRB(16, 25, 16, 0),
       width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Course #51',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Container(
-            height: 200,
-            width: double.infinity,
-            child: YoutubePlayer(
-              controller: _controller,
-              showVideoProgressIndicator: true,
-              onReady: () {
-                setState(() {
-                  _isPlayerReady = true;
-                });
-              },
-             
-            ),
-          ),
-        ],
-      ),
+      child: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: _resources.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _resources[index].name!,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      height: 200,
+                      width: double.infinity,
+                      child: InkWell(
+                        onTap: () {
+                          launchUrlString(_resources[index].link!);
+                        },
+                        child: Text(_resources[index].link!,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blue,
+                            )),
+                      ),
+                    ),
+                  ],
+                );
+              }),
     ));
   }
 
@@ -143,8 +163,8 @@ class _CourseScreen extends State<CourseScreen> {
               margin: EdgeInsets.only(right: 16),
               child: CircleAvatar(
                 radius: 30,
-                backgroundImage: NetworkImage(
-                    "https://i.stack.imgur.com/l60Hf.png"),
+                backgroundImage:
+                    NetworkImage("https://i.stack.imgur.com/l60Hf.png"),
               ),
             ),
             const SizedBox(

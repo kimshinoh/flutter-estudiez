@@ -29,7 +29,7 @@ class Routes {
   static final Map<String, WidgetBuilder> routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => const SplashScreen(),
     home: (BuildContext context) => const HomeScreen(),
-    course: (BuildContext context) => const CourseScreen(),
+    // course: (BuildContext context) => const CourseScreen(),
     subject: (BuildContext context) => const SubjectScreen(),
     report: (BuildContext context) => const CourseReportScreen(),
     search: (BuildContext context) => const SearchScreen(),

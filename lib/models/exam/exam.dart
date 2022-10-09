@@ -8,7 +8,7 @@ class Exam {
   String? name;
   int? duration;
   String? type;
-  SubjectClass? subjectClass;
+  String? subjectClass;
   List<Mark>? marks;
   Exam(
     this.id,

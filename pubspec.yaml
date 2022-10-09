@@ -65,6 +65,7 @@ dependencies:
   http_auth: ^1.0.1
   percent_indicator: 4.0.1
   youtube_player_flutter: ^8.0.0
+  advance_pdf_viewer: ^2.0.1
 
 dev_dependencies:
   flutter_test:

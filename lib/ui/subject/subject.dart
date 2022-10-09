@@ -5,6 +5,7 @@ import 'package:fruity/data/network/rest_client.dart';
 import 'package:fruity/data/sharedpref/constants/preferences.dart';
 import 'package:fruity/models/subject/subjectClass.dart';
 import 'package:fruity/models/user/teacher.dart';
+import 'package:fruity/ui/course/course.dart';
 import 'package:fruity/utils/datetime_util.dart';
 import 'package:fruity/utils/notify_util.dart';
 import 'package:fruity/utils/string.dart';
@@ -336,81 +337,91 @@ class _SubjectScreen extends State<SubjectScreen> {
                     itemCount: _subjectClass.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 10),
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 2,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.book,
-                                  size: 40,
-                                  color: Colors.blue.shade600,
+                      return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CourseScreen(
+                                          subjectId: _subjectClass[index].id,
+                                        )));
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 3),
                                 ),
-                                const SizedBox(width: 10),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.book,
+                                      size: 40,
+                                      color: Colors.blue.shade600,
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          StringHelper.maxLength(
+                                              _subjectClass[index].name, 20),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          _subjectClass[index].code!,
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.grey),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
                                 Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      StringHelper.maxLength(
-                                          _subjectClass[index].name, 20),
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    Text(
-                                      _subjectClass[index].code!,
+                                      DateTimeHelper.formatDate(
+                                          _subjectClass[index].createdAt,
+                                          'dd/MM/yyyy'),
                                       style: TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.normal,
                                           color: Colors.grey),
                                     ),
+                                    const SizedBox(
+                                      height: 6,
+                                    ),
+                                    Text(
+                                      _subjectClass[index].teacher!,
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.normal,
+                                          color: Colors.orange),
+                                    ),
                                   ],
                                 )
                               ],
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  DateTimeHelper.formatDate(
-                                      _subjectClass[index].createdAt,
-                                      'dd/MM/yyyy'),
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.grey),
-                                ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                Text(
-                                  _subjectClass[index].teacher!,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.orange),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      );
+                          ));
                     },
                   )))
         ],

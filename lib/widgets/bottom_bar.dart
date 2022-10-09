@@ -65,8 +65,9 @@ class _MyBottombarState extends State<MyBottombar> {
       setState(() {
         _user = user;
       });
-      if (_user!.type == "parent") {
+      if (_user!.type == "parents") {
         _widgetOptions.insert(2, SearchScreen());
+        _widgetOptions.removeAt(1);
         _bottomNBIs.insert(
           2,
           BottomNavigationBarItem(
@@ -74,6 +75,7 @@ class _MyBottombarState extends State<MyBottombar> {
             label: 'PhoneBook',
           ),
         );
+        _bottomNBIs.removeAt(1);
       }
     }
   }
