@@ -63,7 +63,7 @@ class _CourseReportScreen extends State<CourseReportScreen> {
       print(error);
       NotifyHelper.error(context, "Something went wrong");
     }).whenComplete(() {
-      print("oke");
+      print("oke sd");
       print(_exam);
       if (mounted) {
         setState(() {
