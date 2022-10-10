@@ -185,11 +185,11 @@ class _CourseReportScreen extends State<CourseReportScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            child: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
-          ),
-          Container(
-              child: IconButton(onPressed: () {}, icon: Icon(Icons.settings)))
+          // Container(
+          //   child: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+          // ),
+          // Container(
+          //     child: IconButton(onPressed: () {}, icon: Icon(Icons.settings)))
         ],
       ),
     );
@@ -238,84 +238,76 @@ class _CourseReportScreen extends State<CourseReportScreen> {
         scrollDirection: Axis.horizontal,
       ),
       items: courses.map((item) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Container(
-                width: double.infinity,
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/card.jpg"),
-                    fit: BoxFit.fill,
-                  ),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10)),
+        return Container(
+            width: double.infinity,
+            margin: EdgeInsets.symmetric(horizontal: 5.0),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/card.jpg"),
+                fit: BoxFit.fill,
+              ),
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
+            ),
+            child: Column(
+              children: [
+                Container(
+                  child: Column(children: [
+                    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                      Container(
+                          margin: EdgeInsets.only(top: 20),
+                          padding: EdgeInsets.only(
+                              right: 8, left: 8, top: 5, bottom: 5),
+                          child: Text("Assessment",
+                              style: TextStyle(color: Colors.white)),
+                          decoration: const BoxDecoration(
+                            // shape: BoxShape.circle,
+                            border: Border(
+                              top: BorderSide(color: Color(0xFFFFFFFF)),
+                              left: BorderSide(color: Color(0xFFFFFFFF)),
+                              right: BorderSide(color: Color(0xFFFFFFFF)),
+                              bottom: BorderSide(color: Color(0xFFFFFFFF)),
+                            ),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                bottomLeft: Radius.circular(10)),
+                          )),
+                    ])
+                  ]),
                 ),
-                child: Column(
-                  children: [
-                    Container(
-                      child: Column(children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Container(
-                                  margin: EdgeInsets.only(top: 20),
-                                  padding: EdgeInsets.only(
-                                      right: 8, left: 8, top: 5, bottom: 5),
-                                  child: Text("Assessment",
-                                      style: TextStyle(color: Colors.white)),
-                                  decoration: const BoxDecoration(
-                                    // shape: BoxShape.circle,
-                                    border: Border(
-                                      top: BorderSide(color: Color(0xFFFFFFFF)),
-                                      left:
-                                          BorderSide(color: Color(0xFFFFFFFF)),
-                                      right:
-                                          BorderSide(color: Color(0xFFFFFFFF)),
-                                      bottom:
-                                          BorderSide(color: Color(0xFFFFFFFF)),
-                                    ),
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10),
-                                        bottomLeft: Radius.circular(10)),
-                                  )),
-                            ])
-                      ]),
-                    ),
-                    Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                            padding: EdgeInsets.only(left: 20),
-                            margin: EdgeInsets.only(top: 80),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(item["name"]!,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17.0,
-                                        fontWeight: FontWeight.w600)),
-                                const SizedBox(height: 5),
-                                Text(item["title"]!,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14.0,
-                                        fontWeight: FontWeight.w400))
-                              ],
-                            )))
-                  ],
-                ));
-          },
-        );
+                Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Container(
+                        padding: EdgeInsets.only(left: 20),
+                        margin: EdgeInsets.only(top: 80),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(item["name"]!,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.w600)),
+                            const SizedBox(height: 5),
+                            Text(item["title"]!,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14.0,
+                                    fontWeight: FontWeight.w400))
+                          ],
+                        )))
+              ],
+            ));
       }).toList(),
     ));
   }
 
   Widget _Counseling_history() {
     return Container(
+        // height: double.infinity,
         child: Container(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -336,8 +328,7 @@ class _CourseReportScreen extends State<CourseReportScreen> {
             itemCount: _exam.length,
             itemBuilder: (_, index) {
               Exam examData = _exam![index];
-              return Container(
-                  child: Column(children: [
+              return Column(children: [
                 Container(
                     padding: EdgeInsets.only(
                         top: 10, left: 10, right: 10, bottom: 20),
@@ -401,7 +392,7 @@ class _CourseReportScreen extends State<CourseReportScreen> {
                                                 255, 188, 188, 188)))
                                   ]))
                         ]))
-              ]));
+              ]);
             },
           )
         ],

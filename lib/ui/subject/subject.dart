@@ -343,7 +343,7 @@ class _SubjectScreen extends State<SubjectScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => CourseScreen(
-                                          subjectId: _subjectClass[index].id,
+                                          subject: _subjectClass[index],
                                         )));
                           },
                           child: Container(
@@ -450,10 +450,7 @@ class _SubjectScreen extends State<SubjectScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  child: IconButton(
-                      onPressed: () {}, icon: Icon(Icons.arrow_back)),
-                ),
+                SizedBox(width: 10,),
                 Row(
                   children: [
                     Container(

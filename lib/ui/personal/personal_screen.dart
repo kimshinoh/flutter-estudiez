@@ -1,20 +1,49 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:fruity/constants/app_color.dart';
+import 'package:fruity/data/sharedpref/constants/preferences.dart';
+import 'package:fruity/models/user/student.dart';
+import 'package:fruity/models/user/user.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/ui/personal/widgets/personal_header.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class PersonalScreen extends StatelessWidget {
+class PersonalScreen extends StatefulWidget {
   PersonalScreen({Key? key}) : super(key: key);
 
+  @override
+  State<PersonalScreen> createState() => _PersonalScreenState();
+}
+
+class _PersonalScreenState extends State<PersonalScreen> {
   String SUPPORT_PHONE_NUMBER = '0123456789';
+  User? _user = User("", "", "", "", "",
+      Student("", "", "", new DateTime(2022), null, null, null), null, null);
+  _paserUser() async {
+    final SharedPreferences _preferences =
+        await SharedPreferences.getInstance();
+    String? _userString = _preferences.getString(Preferences.user);
+    var token = await _preferences.getString(Preferences.token);
+    if (_userString != null) {
+      final parsed = jsonDecode(_userString) as Map<String, dynamic>;
+      User user = User.fromJson(parsed);
+      setState(() {
+        _user = user;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _paserUser();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // final AuthStore _store = context.read<AuthStore>();
-    // final VersionStore _versionStore = context.read<VersionStore>();
-
     return Scaffold(
       appBar: PersonalAppBar(),
       body: ListView(

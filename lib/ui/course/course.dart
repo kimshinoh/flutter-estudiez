@@ -5,14 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:fruity/data/network/rest_client.dart';
 import 'package:fruity/data/sharedpref/constants/preferences.dart';
 import 'package:fruity/models/resource/resource.dart';
+import 'package:fruity/models/subject/subjectClass.dart';
 import 'package:fruity/utils/notify_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class CourseScreen extends StatefulWidget {
-  final String subjectId;
-  const CourseScreen({Key? key, required this.subjectId}) : super(key: key);
+  final SubjectClass subject;
+  const CourseScreen({Key? key, required this.subject}) : super(key: key);
 
   @override
   State<CourseScreen> createState() => _CourseScreen();
@@ -21,8 +22,15 @@ class CourseScreen extends StatefulWidget {
 class _CourseScreen extends State<CourseScreen> {
   bool _isPlayerReady = false;
   late List<Resource> _resources = [];
-  late String _subjectId;
+  late SubjectClass _subject;
   bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _subject = widget.subject;
+    _getInfoResource();
+  }
 
   _getInfoResource() async {
     setState(() {
@@ -30,11 +38,11 @@ class _CourseScreen extends State<CourseScreen> {
     });
     SharedPreferences _preferences = await SharedPreferences.getInstance();
     var token = await _preferences.getString(Preferences.token);
-    await RestClient().get("/resource/subject-class/633459c42103f884c90a25fa",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer $token"
-        }).then((value) async {
+    String id = _subject.id;
+    await RestClient().get("/resource/subject-class/$id", headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    }).then((value) async {
       final parsed = jsonDecode(value.body);
       setState(() {
         _resources = parsed
@@ -52,13 +60,6 @@ class _CourseScreen extends State<CourseScreen> {
         });
       }
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _subjectId = widget.subjectId;
-    _getInfoResource();
   }
 
   @override
@@ -117,39 +118,41 @@ class _CourseScreen extends State<CourseScreen> {
       width: double.infinity,
       child: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: _resources.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _resources[index].name!,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      height: 200,
-                      width: double.infinity,
-                      child: InkWell(
-                        onTap: () {
-                          launchUrlString(_resources[index].link!);
-                        },
-                        child: Text(_resources[index].link!,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blue,
-                            )),
-                      ),
-                    ),
-                  ],
-                );
-              }),
+          : _resources.length > 0
+              ? ListView.builder(
+                  itemCount: _resources.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          _resources[index].name!,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          height: 100,
+                          width: double.infinity,
+                          child: InkWell(
+                            onTap: () {
+                              launchUrlString(_resources[index].link!);
+                            },
+                            child: Text(_resources[index].link!,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue,
+                                )),
+                          ),
+                        ),
+                      ],
+                    );
+                  })
+              : const Center(child: Text("No resource")),
     ));
   }
 
@@ -164,7 +167,7 @@ class _CourseScreen extends State<CourseScreen> {
               child: CircleAvatar(
                 radius: 30,
                 backgroundImage:
-                    NetworkImage("https://i.stack.imgur.com/l60Hf.png"),
+                    NetworkImage("https://play-lh.googleusercontent.com/_tslXR7zUXgzpiZI9t70ywHqWAxwMi8LLSfx8Ab4Mq4NUTHMjFNxVMwTM1G0Q-XNU80"),
               ),
             ),
             const SizedBox(
@@ -174,7 +177,7 @@ class _CourseScreen extends State<CourseScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Nguyen Van A",
+                  _subject.name,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -184,7 +187,7 @@ class _CourseScreen extends State<CourseScreen> {
                   height: 4,
                 ),
                 Text(
-                  "01325468975",
+                  _subject.code!,
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -195,7 +198,7 @@ class _CourseScreen extends State<CourseScreen> {
                   height: 4,
                 ),
                 Text(
-                  "Class 6",
+                  _subject.teacher ?? "",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -216,7 +219,9 @@ class _CourseScreen extends State<CourseScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            child: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+            child: IconButton(onPressed: () {
+              Navigator.pop(context);
+            }, icon: Icon(Icons.arrow_back)),
           ),
         ],
       ),

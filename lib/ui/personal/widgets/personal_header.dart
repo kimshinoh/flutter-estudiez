@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fruity/data/sharedpref/constants/preferences.dart';
+import 'package:fruity/models/user/student.dart';
+import 'package:fruity/models/user/user.dart';
 import 'package:fruity/routes.dart';
 import 'package:fruity/ui/auth/login.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +43,8 @@ AppBar PersonalAppBar() {
                               await _preferences.clear();
 
                               Navigator.of(context).pushNamedAndRemoveUntil(
-                                  Routes.login, (Route<dynamic> route) => false);
+                                  Routes.login,
+                                  (Route<dynamic> route) => false);
                             },
                             child: const Text('Logout'),
                           ),
@@ -64,8 +70,34 @@ AppBar PersonalAppBar() {
   );
 }
 
-class UserTextInfo extends StatelessWidget {
+class UserTextInfo extends StatefulWidget {
   const UserTextInfo({Key? key}) : super(key: key);
+  @override
+  State<UserTextInfo> createState() => _UserTextInfoState();
+}
+
+class _UserTextInfoState extends State<UserTextInfo> {
+  User? _user = User("", "", "", "", "",
+      Student("", "", "", new DateTime(2022), null, null, null), null, null);
+  @override
+  void initState() {
+    super.initState();
+    _paserUser();
+  }
+
+  _paserUser() async {
+    final SharedPreferences _preferences =
+        await SharedPreferences.getInstance();
+    String? _userString = _preferences.getString(Preferences.user);
+    var token = await _preferences.getString(Preferences.token);
+    if (_userString != null) {
+      final parsed = jsonDecode(_userString) as Map<String, dynamic>;
+      User user = User.fromJson(parsed);
+      setState(() {
+        _user = user;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +109,7 @@ class UserTextInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Truong Manh Nguyen",
+              _user!.name ?? "",
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 16,
