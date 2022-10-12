@@ -66,6 +66,7 @@ dependencies:
   percent_indicator: 4.0.1
   youtube_player_flutter: ^8.0.0
   advance_pdf_viewer: ^2.0.1
+  editable: ^2.0.0
 
 dev_dependencies:
   flutter_test:

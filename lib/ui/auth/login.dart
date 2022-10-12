@@ -57,8 +57,8 @@ class _LoginScreenState extends State<LoginScreen> {
               .saveAuthToken(value["data"]["access_token"] as String);
           String? userInfo = await _getInfoUser();
           _preferences.setString(Preferences.user, userInfo!);
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => MyBottombar()));
+          Navigator.of(context, rootNavigator: true).pushReplacement(
+              MaterialPageRoute(builder: (context) => new MyBottombar()));
         } else {
           NotifyHelper.error(context, "Something went wrong");
         }

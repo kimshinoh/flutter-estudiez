@@ -10,13 +10,12 @@ class RestClient {
   final JsonEncoder _encoder = const JsonEncoder();
   // Get:-----------------------------------------------------------------------
   Future<http.Response> get(String path, {Map<String, String>? headers}) async {
-    return http
-        .get(
-          Uri.parse(
-            '${Endpoints.baseUrl}$path',
-          ),
-          headers: headers,
-        );
+    return http.get(
+      Uri.parse(
+        '${Endpoints.baseUrl}$path',
+      ),
+      headers: headers,
+    );
   }
 
   // Post:----------------------------------------------------------------------
@@ -37,18 +36,16 @@ class RestClient {
   }
 
   // Put:----------------------------------------------------------------------
-  Future<Map<String, dynamic>> put(String path,
+  Future<http.Response> put(String path,
       {Map<String, String>? headers, Object? body, Encoding? encoding}) {
-    return http
-        .put(
-          Uri.parse(
-            '${Endpoints.baseUrl}$path',
-          ),
-          body: _encoder.convert(body),
-          headers: headers,
-          encoding: encoding,
-        )
-        .then(_createResponse);
+    return http.put(
+      Uri.parse(
+        '${Endpoints.baseUrl}$path',
+      ),
+      body: _encoder.convert(body),
+      headers: headers,
+      encoding: encoding,
+    );
   }
 
   // Delete:----------------------------------------------------------------------

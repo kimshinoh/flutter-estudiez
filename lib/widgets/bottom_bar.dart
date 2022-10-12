@@ -9,10 +9,10 @@ import 'package:fruity/ui/home/home.dart';
 import 'package:fruity/ui/personal/personal_screen.dart';
 import 'package:fruity/ui/search/search_screen.dart';
 import 'package:fruity/ui/subject/subject.dart';
+import 'package:fruity/ui/teacher/teacher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyBottombar extends StatefulWidget {
-  const MyBottombar({Key? key}) : super(key: key);
 
   @override
   State<MyBottombar> createState() => _MyBottombarState();
@@ -29,6 +29,7 @@ class _MyBottombarState extends State<MyBottombar> {
     HomeScreen(),
     SubjectScreen(),
     CourseReportScreen(),
+    TeacherScreen(),
     PersonalScreen()
   ];
   static List<BottomNavigationBarItem> _bottomNBIs = <BottomNavigationBarItem>[
@@ -45,6 +46,10 @@ class _MyBottombarState extends State<MyBottombar> {
       label: 'Report',
     ),
     BottomNavigationBarItem(
+      icon: Icon(Icons.school),
+      label: 'Teacher',
+    ),
+    BottomNavigationBarItem(
       icon: Icon(Icons.person),
       label: 'Profile',
     ),
@@ -54,6 +59,7 @@ class _MyBottombarState extends State<MyBottombar> {
     super.initState();
     _paserUser();
   }
+  
 
   _paserUser() async {
     final SharedPreferences _preferences =
@@ -76,6 +82,14 @@ class _MyBottombarState extends State<MyBottombar> {
           ),
         );
         _bottomNBIs.removeAt(1);
+      }
+      if (_user!.type == "teacher") {
+        _widgetOptions.removeRange(0, 3);
+        _bottomNBIs.removeRange(0, 3);
+      }
+      if (_user!.type == "student") {
+        _widgetOptions.removeAt(3);
+        _bottomNBIs.removeAt(3);
       }
     }
   }
