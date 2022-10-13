@@ -10,6 +10,7 @@ ExamTeacher _$ExamTeacherFromJson(Map<String, dynamic> json) => ExamTeacher(
       json['exam'] as String?,
       json['examId'] as String?,
       (json['score'] as num?)?.toDouble(),
+      json['markId'] as String?,
     );
 
 Map<String, dynamic> _$ExamTeacherToJson(ExamTeacher instance) =>
@@ -17,4 +18,5 @@ Map<String, dynamic> _$ExamTeacherToJson(ExamTeacher instance) =>
       'exam': instance.exam,
       'examId': instance.examId,
       'score': instance.score,
+      'markId': instance.markId,
     };

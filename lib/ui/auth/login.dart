@@ -58,7 +58,8 @@ class _LoginScreenState extends State<LoginScreen> {
           String? userInfo = await _getInfoUser();
           _preferences.setString(Preferences.user, userInfo!);
           Navigator.of(context, rootNavigator: true).pushReplacement(
-              MaterialPageRoute(builder: (context) => new MyBottombar()));
+              MaterialPageRoute(
+                  builder: (BuildContext context) => new MyBottombar()));
         } else {
           NotifyHelper.error(context, "Something went wrong");
         }

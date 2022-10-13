@@ -64,39 +64,42 @@ class _SettingScreenState extends State<SettingScreen> {
           color: Colors.white30,
           child: ListView(
             children: <Widget>[
-              if (_user!.type == "parent")
-                Container(
-                  margin: EdgeInsets.fromLTRB(24, 24, 24, 0),
-                  child: TextFormField(
-                    enabled: false,
-                    decoration: const InputDecoration(
-                        alignLabelWithHint: true,
-                        hintText: "Your Student Id",
-                        prefixIcon: Icon(
-                          Icons.card_membership,
-                          size: 20,
+              _user!.type == "parents"
+                  ? Container(
+                      margin: EdgeInsets.fromLTRB(24, 24, 24, 0),
+                      child: TextFormField(
+                        enabled: false,
+                        decoration: const InputDecoration(
+                            alignLabelWithHint: true,
+                            hintText: "Your Student Id",
+                            prefixIcon: Icon(
+                              Icons.card_membership,
+                              size: 20,
+                            ),
+                            isDense: true,
+                            contentPadding: EdgeInsets.all(12)),
+                        controller: studentId,
+                      ),
+                    )
+                  : Container(),
+              _user!.type == "student"
+                  ? Container(
+                      margin: EdgeInsets.fromLTRB(24, 16, 24, 0),
+                      child: TextFormField(
+                        obscureText: showPassword,
+                        decoration: InputDecoration(
+                          hintText: "Display Name",
+                          isDense: true,
+                          contentPadding: EdgeInsets.all(12),
+                          prefixIcon: Icon(
+                            Icons.person,
+                            size: 22,
+                          ),
                         ),
-                        isDense: true,
-                        contentPadding: EdgeInsets.all(12)),
-                    controller: studentId,
-                  ),
-                ),
-              Container(
-                margin: EdgeInsets.fromLTRB(24, 16, 24, 0),
-                child: TextFormField(
-                  obscureText: showPassword,
-                  decoration: InputDecoration(
-                    hintText: "Display Name",
-                    isDense: true,
-                    contentPadding: EdgeInsets.all(12),
-                    prefixIcon: Icon(
-                      Icons.person,
-                      size: 22,
-                    ),
-                  ),
-                  controller: displayName,
-                ),
-              ),
+                        controller: displayName,
+                      ),
+                    )
+                  : Container(),
               Container(
                 margin: EdgeInsets.fromLTRB(24, 16, 24, 0),
                 child: TextFormField(

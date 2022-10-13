@@ -8,10 +8,12 @@ class ExamTeacher {
   String? exam;
   String? examId;
   double? score;
+  String? markId;
   ExamTeacher(
     this.exam,
     this.examId,
     this.score,
+    this.markId,
   );
   factory ExamTeacher.fromJson(Map<String, dynamic> json) =>
       _$ExamTeacherFromJson(json);

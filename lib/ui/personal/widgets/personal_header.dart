@@ -42,7 +42,9 @@ AppBar PersonalAppBar() {
                                   await SharedPreferences.getInstance();
                               await _preferences.clear();
 
-                              Navigator.of(context, rootNavigator: true).pushReplacement(MaterialPageRoute(builder: (context) => new LoginScreen()));
+                              Navigator.of(context, rootNavigator: true)
+                                  .pushReplacement(MaterialPageRoute(
+                                      builder: (context) => new LoginScreen()));
                             },
                             child: const Text('Logout'),
                           ),

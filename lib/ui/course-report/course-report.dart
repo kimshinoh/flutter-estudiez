@@ -77,6 +77,7 @@ class _CourseReportScreen extends State<CourseReportScreen> {
         home: Scaffold(
             resizeToAvoidBottomInset: false,
             body: Container(
+                height: MediaQuery.of(context).size.height,
                 padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                 decoration: const BoxDecoration(
                   image: DecorationImage(
@@ -120,25 +121,76 @@ class _CourseReportScreen extends State<CourseReportScreen> {
       ),
       padding: const EdgeInsets.fromLTRB(16, 25, 16, 0),
       width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            const SizedBox(),
-            Container(
-                child:
-                    IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz)))
-          ]),
-          Expanded(
-              child: SingleChildScrollView(
-                  child: Column(children: [
-            const SizedBox(height: 10),
-            _course(),
-            const SizedBox(height: 20),
-            _Counseling_history(),
-          ])))
-        ],
-      ),
+      child: SizedBox(
+          height: 400,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: _exam.length,
+            itemBuilder: (_, index) {
+              Exam examData = _exam[index];
+              return Container(
+                  margin: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                  ),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            width: double.infinity,
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Friday, 09 August 2019",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                      )),
+                                  Container(
+                                      margin: EdgeInsets.only(top: 10),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 30,
+                                              backgroundImage: NetworkImage(
+                                                  "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE"),
+                                            ),
+                                            Container(
+                                                child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(examData.name.toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w500)),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                    examData.subjectClass
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        color: Color.fromARGB(
+                                                            255,
+                                                            142,
+                                                            141,
+                                                            141))),
+                                              ],
+                                            )),
+                                            Text(examData.duration.toString(),
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    color: Color.fromARGB(
+                                                        255, 188, 188, 188)))
+                                          ]))
+                                ]))
+                      ]));
+            },
+          )),
     ));
   }
 
@@ -163,7 +215,7 @@ class _CourseReportScreen extends State<CourseReportScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "CouseReport",
+                  "Report",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -193,210 +245,5 @@ class _CourseReportScreen extends State<CourseReportScreen> {
         ],
       ),
     );
-  }
-
-  Widget _course() {
-    List<Map<String, String>> courses = [];
-    courses = [
-      {
-        "name": "Physics",
-        "title": "Bruce Crawford",
-      },
-      {
-        "name": "Biology",
-        "title": "Madge Jefferson",
-      },
-      {
-        "name": "Math",
-        "title": "Rena Brew",
-      },
-      {
-        "name": "Physics",
-        "title": "Bruce Crawford",
-      },
-      {
-        "name": "Physics",
-        "title": "Bruce Crawford",
-      },
-      {
-        "name": "Physics",
-        "title": "Bruce Crawford",
-      }
-    ];
-    return Container(
-        child: CarouselSlider(
-      options: CarouselOptions(
-        height: 200,
-        aspectRatio: 16 / 8,
-        viewportFraction: 0.8,
-        initialPage: 2,
-        reverse: false,
-        disableCenter: true,
-        autoPlay: true,
-        autoPlayInterval: Duration(seconds: 3),
-        autoPlayAnimationDuration: Duration(milliseconds: 800),
-        scrollDirection: Axis.horizontal,
-      ),
-      items: courses.map((item) {
-        return Container(
-            width: double.infinity,
-            margin: EdgeInsets.symmetric(horizontal: 5.0),
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/images/card.jpg"),
-                fit: BoxFit.fill,
-              ),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10)),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  child: Column(children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      Container(
-                          margin: EdgeInsets.only(top: 20),
-                          padding: EdgeInsets.only(
-                              right: 8, left: 8, top: 5, bottom: 5),
-                          child: Text("Assessment",
-                              style: TextStyle(color: Colors.white)),
-                          decoration: const BoxDecoration(
-                            // shape: BoxShape.circle,
-                            border: Border(
-                              top: BorderSide(color: Color(0xFFFFFFFF)),
-                              left: BorderSide(color: Color(0xFFFFFFFF)),
-                              right: BorderSide(color: Color(0xFFFFFFFF)),
-                              bottom: BorderSide(color: Color(0xFFFFFFFF)),
-                            ),
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                bottomLeft: Radius.circular(10)),
-                          )),
-                    ])
-                  ]),
-                ),
-                Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Container(
-                        padding: EdgeInsets.only(left: 20),
-                        margin: EdgeInsets.only(top: 80),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(item["name"]!,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17.0,
-                                    fontWeight: FontWeight.w600)),
-                            const SizedBox(height: 5),
-                            Text(item["title"]!,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14.0,
-                                    fontWeight: FontWeight.w400))
-                          ],
-                        )))
-              ],
-            ));
-      }).toList(),
-    ));
-  }
-
-  Widget _Counseling_history() {
-    return Container(
-        // height: double.infinity,
-        child: Container(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Container(
-          margin: EdgeInsets.only(bottom: 18),
-          child: Text(
-            "Counseling History",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          )),
-      Container(
-          child: Column(
-        children: [
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: _exam.length,
-            itemBuilder: (_, index) {
-              Exam examData = _exam![index];
-              return Column(children: [
-                Container(
-                    padding: EdgeInsets.only(
-                        top: 10, left: 10, right: 10, bottom: 20),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(10),
-                          bottomRight: Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Friday, 09 August 2019",
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                              )),
-                          Container(
-                              margin: EdgeInsets.only(top: 10),
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    CircleAvatar(
-                                      radius: 30,
-                                      backgroundImage: NetworkImage(
-                                          "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE"),
-                                    ),
-                                    Container(
-                                        child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(examData.name.toString(),
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500)),
-                                        const SizedBox(height: 5),
-                                        Text(examData.subjectClass.toString(),
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: Color.fromARGB(
-                                                    255, 142, 141, 141))),
-                                      ],
-                                    )),
-                                    Text(examData.duration.toString(),
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: Color.fromARGB(
-                                                255, 188, 188, 188)))
-                                  ]))
-                        ]))
-              ]);
-            },
-          )
-        ],
-      ))
-    ])));
   }
 }

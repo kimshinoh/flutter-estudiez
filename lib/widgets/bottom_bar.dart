@@ -13,7 +13,6 @@ import 'package:fruity/ui/teacher/teacher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyBottombar extends StatefulWidget {
-
   @override
   State<MyBottombar> createState() => _MyBottombarState();
 }
@@ -25,17 +24,17 @@ class _MyBottombarState extends State<MyBottombar> {
   int _selectedIndex = 0;
   User? _user = User("", "", "", "", "", null, null, null);
 
-  static List<Widget> _widgetOptions = <Widget>[
+  List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
     SubjectScreen(),
     CourseReportScreen(),
     TeacherScreen(),
     PersonalScreen()
   ];
-  static List<BottomNavigationBarItem> _bottomNBIs = <BottomNavigationBarItem>[
+  List<BottomNavigationBarItem> _bottomNBIs = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
       icon: Icon(Icons.home),
-      label: 'Home',
+      label: 'Summary',
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.task_rounded),
@@ -59,7 +58,6 @@ class _MyBottombarState extends State<MyBottombar> {
     super.initState();
     _paserUser();
   }
-  
 
   _paserUser() async {
     final SharedPreferences _preferences =
@@ -72,6 +70,8 @@ class _MyBottombarState extends State<MyBottombar> {
         _user = user;
       });
       if (_user!.type == "parents") {
+        _widgetOptions.removeAt(3);
+        _bottomNBIs.removeAt(3);
         _widgetOptions.insert(2, SearchScreen());
         _widgetOptions.removeAt(1);
         _bottomNBIs.insert(

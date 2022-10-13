@@ -26,7 +26,7 @@ class _SearchScreenState extends State<SearchScreen> {
   // late SearchHistoryStore _store;
   // late SearchStore _searchStore;
   // late FocusScopeNode currentFocus;
-  
+
   late List<Teacher> _teachers = [];
   List<Teacher> _teachersSearch = [];
   Timer? _debounce;
@@ -73,6 +73,7 @@ class _SearchScreenState extends State<SearchScreen> {
       }
     });
   }
+
   _handleChangeSearch() {
     String keyword = _searchController.text;
     if (keyword.isEmpty) {
@@ -91,6 +92,7 @@ class _SearchScreenState extends State<SearchScreen> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     // currentFocus = FocusScope.of(context);
@@ -160,10 +162,12 @@ class _SearchScreenState extends State<SearchScreen> {
                                         MaterialTapTargetSize.shrinkWrap,
                                   ),
                                   onPressed: () {
-                                    String url = 'tel:0712365489';
-                                    launchUrlString(url);
+                                    String phone =
+                                        _teachersSearch[index].phone!;
+                                    String url = 'tel:$phone';
+                                    launchUrlString(phone);
                                   },
-                                  child: Text("0712365489")),
+                                  child: Text(_teachersSearch[index].phone ?? "0123456789")),
                             ],
                           ),
                           const Divider(
@@ -238,22 +242,17 @@ class _SearchScreenState extends State<SearchScreen> {
                                     color: Colors.grey,
                                   ),
                                   onPressed: () {
-                                    // _searchStore.keyword = '';
                                     _searchController.clear();
                                   },
                                 ),
                               ),
                               onChanged: (String value) {
-                                // if (value == _searchStore.keyword) {
-                                //   return;
-                                // }
-                                // _searchStore.keyword = value;
                                 if (_debounce?.isActive ?? false) {
                                   _debounce!.cancel();
                                 }
                                 _debounce = Timer(
                                     const Duration(milliseconds: 500), () {
-                                    _handleChangeSearch();
+                                  _handleChangeSearch();
                                 });
                               },
                               onSubmitted: (String value) {
@@ -267,37 +266,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _emptySearch extends StatelessWidget {
-  const _emptySearch({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(
-              image: const AssetImage('assets/images/empty_search.png'),
-              width: MediaQuery.of(context).size.width * 0.7,
-              height: MediaQuery.of(context).size.width * 0.5,
-              fit: BoxFit.cover,
-            ),
-            const Text(
-              'Không tìm thấy sản phẩm',
-              style: TextStyle(fontSize: 20),
-            ),
-            const SizedBox(
-              height: 10,
             ),
           ],
         ),

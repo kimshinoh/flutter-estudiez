@@ -124,24 +124,24 @@ class _ListMarkState extends State<ListMark> {
     }
   }
 
-  Future _updateMark(int indexStudent, int indexMark, String score) async {
+  Future _updateMark(
+    int indexStudent,
+    int indexMark,
+    String score,
+  ) async {
     setState(() {
       isInProgress = true;
     });
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String? token = prefs.getString(Preferences.token);
-    final String studentId = listMark[indexStudent].studentId!;
-    final String examId = listMark[indexMark].exams[indexMark].examId!;
-    await RestClient().put("/mark/student/$studentId/exam/$examId", headers: {
+    final String markId = listMark[indexStudent].exams[indexMark].markId!;
+    await RestClient().put("/mark/$markId", headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     }, body: {
-      "score": score
+      "score": double.parse(score),
     }).then((value) async {
-      setState(() {
-        listMark[indexStudent].exams[indexMark].score =
-            double.parse(score.toString());
-      });
+      _getMarkOfSubjectClass();
     }).catchError((error) {
       print(error);
       NotifyHelper.error(context, "Something went wrong");
@@ -234,6 +234,11 @@ class _ListMarkState extends State<ListMark> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios)),
                 SizedBox(
                   width: 10,
                 ),

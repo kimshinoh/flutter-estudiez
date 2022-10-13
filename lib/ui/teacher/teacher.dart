@@ -266,6 +266,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 SizedBox(
                   width: 10,
                 ),
