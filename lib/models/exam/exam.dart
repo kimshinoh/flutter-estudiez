@@ -8,6 +8,7 @@ class Exam {
   String? name;
   int? duration;
   String? type;
+  DateTime? createdAt;
   String? subjectClass;
   List<Mark>? marks;
   Exam(
@@ -17,6 +18,7 @@ class Exam {
     this.type,
     this.subjectClass,
     this.marks,
+    this.createdAt
   );
   factory Exam.fromJson(Map<String, dynamic> json) => _$ExamFromJson(json);
   Map<String, dynamic> toJson() => _$ExamToJson(this);

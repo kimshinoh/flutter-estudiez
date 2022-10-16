@@ -6,6 +6,7 @@ import 'package:fruity/data/network/rest_client.dart';
 import 'package:fruity/data/sharedpref/constants/preferences.dart';
 import 'package:fruity/models/exam/exam.dart';
 import 'package:fruity/utils/notify_util.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CourseReportScreen extends StatefulWidget {
@@ -110,6 +111,7 @@ class _CourseReportScreen extends State<CourseReportScreen> {
   }
 
   Widget _main() {
+    final f = new DateFormat('yyyy-MM-dd');
     return Expanded(
         child: Container(
       decoration: BoxDecoration(
@@ -142,7 +144,7 @@ class _CourseReportScreen extends State<CourseReportScreen> {
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text("Friday, 09 August 2019",
+                                  Text(f.format(examData.createdAt as DateTime),
                                       style: TextStyle(
                                         fontSize: 13,
                                         fontWeight: FontWeight.w600,
