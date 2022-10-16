@@ -6,6 +6,7 @@ import 'package:fruity/data/sharedpref/constants/preferences.dart';
 import 'package:fruity/models/user/student.dart';
 import 'package:fruity/models/user/user.dart';
 import 'package:fruity/routes.dart';
+import 'package:fruity/ui/personal/setting_screen.dart';
 import 'package:fruity/ui/personal/widgets/personal_header.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,8 +21,16 @@ class PersonalScreen extends StatefulWidget {
 
 class _PersonalScreenState extends State<PersonalScreen> {
   String SUPPORT_PHONE_NUMBER = '0123456789';
-  User? _user = User("", "", "", "", "",
-      Student("", "", "", new DateTime(2022), null, null, null), null, null);
+  User? _user = User(
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      Student("", "", "", new DateTime(2022), null, null, "", null),
+      null,
+      null);
   _paserUser() async {
     final SharedPreferences _preferences =
         await SharedPreferences.getInstance();
@@ -63,10 +72,10 @@ class _PersonalScreenState extends State<PersonalScreen> {
                       horizontal: 8,
                     ),
                     onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        Routes.setting,
-                      );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SettingScreen()));
                     },
                     title: Row(
                       children: const [

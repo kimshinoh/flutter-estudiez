@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:fruity/data/network/rest_client.dart';
 import 'package:fruity/data/sharedpref/constants/preferences.dart';
 import 'package:fruity/models/exam/exam.dart';
+import 'package:fruity/models/user/user.dart';
 import 'package:fruity/utils/notify_util.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,11 +21,12 @@ class _CourseReportScreen extends State<CourseReportScreen> {
   int _selectedIndex = 3;
   late List<Exam> _exam = [];
   bool isInProgress = false;
-
+  User? _user = User("", "", "", "", "", "", null, null, null);
   @override
   void initState() {
     super.initState();
     _getExam();
+    _paserUser();
   }
 
   @override
@@ -41,6 +43,20 @@ class _CourseReportScreen extends State<CourseReportScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  _paserUser() async {
+    final SharedPreferences _preferences =
+        await SharedPreferences.getInstance();
+    String? _userString = _preferences.getString(Preferences.user);
+    var token = await _preferences.getString(Preferences.token);
+    if (_userString != null) {
+      final parsed = jsonDecode(_userString) as Map<String, dynamic>;
+      User user = User.fromJson(parsed);
+      setState(() {
+        _user = user;
+      });
+    }
   }
 
   _getExam() async {
@@ -157,8 +173,9 @@ class _CourseReportScreen extends State<CourseReportScreen> {
                                           children: [
                                             CircleAvatar(
                                               radius: 30,
-                                              backgroundImage: NetworkImage(
-                                                  "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE"),
+                                              backgroundImage: NetworkImage(_user!
+                                                      .avatar ??
+                                                  "https://i.stack.imgur.com/l60Hf.png"),
                                             ),
                                             Container(
                                                 child: Column(
@@ -207,7 +224,7 @@ class _CourseReportScreen extends State<CourseReportScreen> {
               child: CircleAvatar(
                 radius: 30,
                 backgroundImage: NetworkImage(
-                    "https://scontent.fsgn2-1.fna.fbcdn.net/v/t39.30808-6/308505217_1594721400924906_3025204205154832825_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=2lJNGFkqN3MAX95hzcy&tn=MMQY6WMhs1Yzm49w&_nc_ht=scontent.fsgn2-1.fna&oh=00_AT-7ehVgitOfs9wIgkFlO58xGwK9IcqyoInjUVz_jeQ75g&oe=633D3EFE"),
+                    _user!.avatar ?? "https://i.stack.imgur.com/l60Hf.png"),
               ),
             ),
             const SizedBox(

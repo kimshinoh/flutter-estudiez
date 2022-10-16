@@ -10,6 +10,7 @@ import 'package:fruity/data/sharedpref/constants/preferences.dart';
 import 'package:fruity/data/sharedpref/shared_preference_helper.dart';
 import 'package:fruity/models/mark/teacher_mark.dart';
 import 'package:fruity/models/user/teacher.dart';
+import 'package:fruity/models/user/user.dart';
 import 'package:fruity/ui/personal/widgets/personal_header.dart';
 import 'package:fruity/utils/notify_util.dart';
 import 'package:fruity/utils/string.dart';
@@ -43,12 +44,28 @@ class _ListMarkState extends State<ListMark> {
   List<DataColumn> listColumn = [];
   List<DataRow> listRow = [];
   Timer? _debounce;
+  User? _user = User("", "", "", "", "", "", null, null, null);
   bool isInProgress = false;
   final TextEditingController _searchController = TextEditingController();
   @override
   void dispose() {
     _debounce?.cancel();
+    _paserUser();
     super.dispose();
+  }
+
+  _paserUser() async {
+    final SharedPreferences _preferences =
+        await SharedPreferences.getInstance();
+    String? _userString = _preferences.getString(Preferences.user);
+    var token = await _preferences.getString(Preferences.token);
+    if (_userString != null) {
+      final parsed = jsonDecode(_userString) as Map<String, dynamic>;
+      User user = User.fromJson(parsed);
+      setState(() {
+        _user = user;
+      });
+    }
   }
 
   @override
@@ -250,7 +267,7 @@ class _ListMarkState extends State<ListMark> {
                         margin: EdgeInsets.only(right: 16),
                         child: CircleAvatar(
                           radius: 16,
-                          backgroundImage: NetworkImage(
+                          backgroundImage: NetworkImage(_user!.avatar ??
                               "https://i.stack.imgur.com/l60Hf.png"),
                         ),
                       ),

@@ -10,6 +10,7 @@ class Student {
   String? address;
   DateTime birthday;
   Parent? parent;
+  String? parentsId;
   List<Mark>? marks;
   List<SubjectClass>? subjectClass;
   Student(
@@ -19,6 +20,7 @@ class Student {
     this.birthday,
     this.parent,
     this.marks,
+    this.parentsId,
     this.subjectClass,
   );  
   factory Student.fromJson(Map<String, dynamic> json) => _$StudentFromJson(json);

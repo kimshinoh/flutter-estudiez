@@ -22,7 +22,7 @@ class _MyBottombarState extends State<MyBottombar> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
   int _selectedIndex = 0;
-  User? _user = User("", "", "", "", "", null, null, null);
+  User? _user = User("", "", "", "", "", "", null, null, null);
 
   List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),

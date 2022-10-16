@@ -21,9 +21,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  User? _user = User("", "", "", "", "",
-      Student("", "", "", new DateTime(2022), null, null, null), null, null);
-  Student _student = Student("", "", "", new DateTime(2022), null, null, null);
+  User? _user = User(
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      Student("", "", "", new DateTime(2022), null, null, "", null),
+      null,
+      null);
+  Student _student =
+      Student("", "", "", new DateTime(2022), null, null, "", null);
   bool isInProgress = false;
   bool isParent = false;
   List<Subject> _subjects = [];
@@ -160,40 +169,44 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             height: 200,
             width: double.infinity,
-            child: ListView.builder(
-              itemCount: _marks.length,
-              itemBuilder: (context, index) {
-                if (index > maxLenght) {
-                  return Container();
-                }
-                return Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade200,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        _marks[index].exam!,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+            child: _marks.length == 0
+                ? Center(
+                    child: Text("No data"),
+                  )
+                : ListView.builder(
+                    itemCount: _marks.length,
+                    itemBuilder: (context, index) {
+                      if (index > maxLenght) {
+                        return Container();
+                      }
+                      return Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      Text(
-                        _marks[index].score.toString(),
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              _marks[index].exam!,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              _marks[index].score.toString(),
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                      );
+                    },
                   ),
-                );
-              },
-            ),
           ),
         ],
       ),
@@ -205,18 +218,22 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 5),
             height: 200,
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: _subjects.length,
-              itemBuilder: (BuildContext context, int index) {
-                // final Product _product = _productStore.productsSaleShock[index];
-                return InkWell(
-                  onTap: () {},
-                  child: _cardProcess(index),
-                );
-              },
-            )));
+            child: _subjects.length == 0
+                ? Center(
+                    child: Text("No data"),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _subjects.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      // final Product _product = _productStore.productsSaleShock[index];
+                      return InkWell(
+                        onTap: () {},
+                        child: _cardProcess(index),
+                      );
+                    },
+                  )));
   }
 
   Widget _cardProcess(int index) {
@@ -236,35 +253,35 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Center(
-                child: CircularPercentIndicator(
-                  radius: 35,
-                  lineWidth: 5,
-                  animation: true,
-                  //random percent
-                  percent: percent,
-                  center: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          (percent * 100).toStringAsFixed(0) + "%",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12.0),
-                        ),
-                        Text(
-                          "Percent",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12.0),
-                        )
-                      ]),
-                  circularStrokeCap: CircularStrokeCap.round,
-                  progressColor: Colors.blue.shade500,
-                ),
-              ),
+              // Center(
+              //   child: CircularPercentIndicator(
+              //     radius: 35,
+              //     lineWidth: 5,
+              //     animation: true,
+              //     //random percent
+              //     percent: percent,
+              //     center: Column(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: [
+              //           Text(
+              //             (percent * 100).toStringAsFixed(0) + "%",
+              //             style: TextStyle(
+              //                 color: Colors.white,
+              //                 fontWeight: FontWeight.bold,
+              //                 fontSize: 12.0),
+              //           ),
+              //           Text(
+              //             "Percent",
+              //             style: TextStyle(
+              //                 color: Colors.white,
+              //                 fontWeight: FontWeight.bold,
+              //                 fontSize: 12.0),
+              //           )
+              //         ]),
+              //     circularStrokeCap: CircularStrokeCap.round,
+              //     progressColor: Colors.blue.shade500,
+              //   ),
+              // ),
               const SizedBox(
                 height: 10,
               ),
@@ -321,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           isParent
               ? Text(
-                  "Parent of " + _student.name!,
+                  "Parent of " + (_student.name ?? "Unknown"),
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -329,7 +346,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       wordSpacing: 2),
                 )
               : Text(
-                  _user!.student!.name!,
+                  _user!.student!.name ?? "Unknown",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -362,7 +379,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: CircleAvatar(
                     radius: 16,
                     backgroundImage:
-                        NetworkImage("https://i.stack.imgur.com/l60Hf.png"),
+                         NetworkImage(_user!.avatar ??
+                              "https://i.stack.imgur.com/l60Hf.png"),
                   ),
                 ),
               ),

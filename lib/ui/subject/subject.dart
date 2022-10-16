@@ -333,97 +333,105 @@ class _SubjectScreen extends State<SubjectScreen> {
               physics: const BouncingScrollPhysics(),
               child: SizedBox(
                   height: height * 0.5,
-                  child: ListView.builder(
-                    itemCount: _subjectClass.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => CourseScreen(
-                                          subject: _subjectClass[index],
-                                        )));
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 2,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.book,
-                                      size: 40,
-                                      color: Colors.blue.shade600,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          StringHelper.maxLength(
-                                              _subjectClass[index].name, 20),
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
+                  child: _subjectClass.length == 0
+                      ? Center(
+                          child: Text("No data"),
+                        )
+                      : ListView.builder(
+                          itemCount: _subjectClass.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CourseScreen(
+                                                subject: _subjectClass[index],
+                                              )));
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.book,
+                                            size: 40,
+                                            color: Colors.blue.shade600,
                                           ),
-                                        ),
-                                        Text(
-                                          _subjectClass[index].code!,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.grey),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      DateTimeHelper.formatDate(
-                                          _subjectClass[index].createdAt,
-                                          'dd/MM/yyyy'),
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.normal,
-                                          color: Colors.grey),
-                                    ),
-                                    const SizedBox(
-                                      height: 6,
-                                    ),
-                                    Text(
-                                      _subjectClass[index].teacher!,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.normal,
-                                          color: Colors.orange),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ));
-                    },
-                  )))
+                                          const SizedBox(width: 10),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                StringHelper.maxLength(
+                                                    _subjectClass[index].name,
+                                                    20),
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                _subjectClass[index].code!,
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.grey),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            DateTimeHelper.formatDate(
+                                                _subjectClass[index].createdAt,
+                                                'dd/MM/yyyy'),
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.grey),
+                                          ),
+                                          const SizedBox(
+                                            height: 6,
+                                          ),
+                                          Text(
+                                            _subjectClass[index].teacher!,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.orange),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ));
+                          },
+                        )))
         ],
       ),
     ));
@@ -450,7 +458,9 @@ class _SubjectScreen extends State<SubjectScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(width: 10,),
+                SizedBox(
+                  width: 10,
+                ),
                 Row(
                   children: [
                     Container(

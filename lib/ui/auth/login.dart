@@ -53,6 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
         "password": password
       }).then((value) async {
         if (value["statusCode"] == 200) {
+          print(1234);
           await SharedPreferenceHelper(_preferences)
               .saveAuthToken(value["data"]["access_token"] as String);
           String? userInfo = await _getInfoUser();
@@ -64,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
           NotifyHelper.error(context, "Something went wrong");
         }
       }).catchError((error) {
-        print(error);
+        print(error.toString());
         NotifyHelper.error(context, "Something went wrong");
       }).whenComplete(() {
         if (mounted) {

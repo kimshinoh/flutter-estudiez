@@ -24,7 +24,8 @@ class TeacherScreen extends StatefulWidget {
 
 class _TeacherScreenState extends State<TeacherScreen> {
   List<SubjectClass> _subjectClass = [];
-  User _user = User("", "", "", "", "", null, Teacher("", "", "", ""), null);
+  User _user =
+      User("", "", "", "", "", "", null, Teacher("", "", "", ""), null);
   Teacher _teacher = Teacher("", "", "", "");
   List<SubjectClass> _subjectClassOfTeacher = [];
   bool isInProgress = false;
@@ -139,107 +140,120 @@ class _TeacherScreenState extends State<TeacherScreen> {
               physics: const BouncingScrollPhysics(),
               child: SizedBox(
                   height: height * 0.5,
-                  child: ListView.builder(
-                    itemCount: _subjectClassOfTeacher.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ListMark(
-                                          subjectClassId:
-                                              _subjectClassOfTeacher[index].id,
-                                          subjectCode:
-                                              _subjectClassOfTeacher[index]
-                                                  .code!,
-                                          subjectName:
-                                              _subjectClassOfTeacher[index]
-                                                  .name,
-                                        )));
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 2,
-                                  offset: const Offset(0, 3),
-                                ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(
-                                      Icons.door_front_door_outlined,
-                                      size: 40,
-                                      color: Colors.blue.shade600,
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          StringHelper.maxLength(
-                                              _subjectClassOfTeacher[index]
-                                                  .name,
-                                              20),
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
+                  child: _subjectClassOfTeacher.length == 0
+                      ? Center(
+                          child: Text("No data"),
+                        )
+                      : ListView.builder(
+                          itemCount: _subjectClassOfTeacher.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => ListMark(
+                                                subjectClassId:
+                                                    _subjectClassOfTeacher[
+                                                            index]
+                                                        .id,
+                                                subjectCode:
+                                                    _subjectClassOfTeacher[
+                                                            index]
+                                                        .code!,
+                                                subjectName:
+                                                    _subjectClassOfTeacher[
+                                                            index]
+                                                        .name,
+                                              )));
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 3),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.door_front_door_outlined,
+                                            size: 40,
+                                            color: Colors.blue.shade600,
                                           ),
-                                        ),
-                                        Text(
-                                          _subjectClassOfTeacher[index].code!,
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              color: Colors.grey),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      DateTimeHelper.formatDate(
-                                          _subjectClassOfTeacher[index]
-                                              .createdAt,
-                                          'dd/MM/yyyy'),
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.normal,
-                                          color: Colors.grey),
-                                    ),
-                                    const SizedBox(
-                                      height: 6,
-                                    ),
-                                    // Text(
-                                    //  "456",
-                                    //   style: TextStyle(
-                                    //       fontSize: 12,
-                                    //       fontWeight: FontWeight.normal,
-                                    //       color: Colors.orange),
-                                    // ),
-                                  ],
-                                )
-                              ],
-                            ),
-                          ));
-                    },
-                  )))
+                                          const SizedBox(width: 10),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                StringHelper.maxLength(
+                                                    _subjectClassOfTeacher[
+                                                            index]
+                                                        .name,
+                                                    20),
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                _subjectClassOfTeacher[index]
+                                                    .code!,
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.grey),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.end,
+                                        children: [
+                                          Text(
+                                            DateTimeHelper.formatDate(
+                                                _subjectClassOfTeacher[index]
+                                                    .createdAt,
+                                                'dd/MM/yyyy'),
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.grey),
+                                          ),
+                                          const SizedBox(
+                                            height: 6,
+                                          ),
+                                          // Text(
+                                          //  "456",
+                                          //   style: TextStyle(
+                                          //       fontSize: 12,
+                                          //       fontWeight: FontWeight.normal,
+                                          //       color: Colors.orange),
+                                          // ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ));
+                          },
+                        )))
         ],
       ),
     ));
@@ -266,7 +280,6 @@ class _TeacherScreenState extends State<TeacherScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 SizedBox(
                   width: 10,
                 ),
@@ -278,7 +291,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
                         margin: EdgeInsets.only(right: 16),
                         child: CircleAvatar(
                           radius: 16,
-                          backgroundImage: NetworkImage(
+                          backgroundImage: NetworkImage(_user.avatar ??
                               "https://i.stack.imgur.com/l60Hf.png"),
                         ),
                       ),
@@ -322,7 +335,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    _teacher.name!,
+                    _teacher.name ?? "Unknown",
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -330,7 +343,7 @@ class _TeacherScreenState extends State<TeacherScreen> {
                     ),
                   ),
                   Text(
-                    _user.email!,
+                    _user.email ?? "Unknown",
                     style: TextStyle(
                       color: Colors.black.withOpacity(0.7),
                       fontSize: 15,

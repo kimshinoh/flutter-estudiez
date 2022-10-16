@@ -14,6 +14,7 @@ class User {
   String? address;
   String? type;
   String? email;
+  String? avatar;
   Student? student;
   Teacher? teacher;
   Parent? parents;
@@ -21,6 +22,7 @@ class User {
     this.id,
     this.email,
     this.name,
+    this.avatar,
     this.address,
     this.type,
     this.student,

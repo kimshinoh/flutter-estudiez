@@ -59,7 +59,7 @@ AppBar PersonalAppBar() {
                   const SizedBox(
                     width: 10,
                   ),
-                  UserAvatar(),
+                  Avatar()
                 ],
               ),
             ),
@@ -77,8 +77,16 @@ class UserTextInfo extends StatefulWidget {
 }
 
 class _UserTextInfoState extends State<UserTextInfo> {
-  User? _user = User("", "", "", "", "",
-      Student("", "", "", new DateTime(2022), null, null, null), null, null);
+  User? _user = User(
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      Student("", "", "", new DateTime(2022), null, null, "", null),
+      null,
+      null);
   @override
   void initState() {
     super.initState();
@@ -108,13 +116,13 @@ class _UserTextInfoState extends State<UserTextInfo> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              _user!.name ?? "",
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-              ),
-            ),
+            // Text(
+            //   _user!.name ?? "Unknown",
+            //   style: const TextStyle(
+            //     fontWeight: FontWeight.w600,
+            //     fontSize: 16,
+            //   ),
+            // ),
           ],
         );
       },
@@ -122,43 +130,52 @@ class _UserTextInfoState extends State<UserTextInfo> {
   }
 }
 
-class UserAvatar extends StatelessWidget {
-  UserAvatar({Key? key}) : super(key: key);
-
+class Avatar extends StatefulWidget {
+  Size size;
+  Avatar({Key? key, this.size = const Size(40, 40)}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
-    // AuthStore _store = context.read<AuthStore>();
-
-    return Observer(builder: (_) {
-      // User? user = _store.user;
-      return Avatar(
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/vi/thumb/e/ef/Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg/1365px-Logo_%C4%90%E1%BA%A1i_h%E1%BB%8Dc_B%C3%A1ch_Khoa_H%C3%A0_N%E1%BB%99i.svg.png',
-      );
-    });
-  }
+  State<Avatar> createState() => _AvatarState();
 }
 
-class Avatar extends StatelessWidget {
-  String imageUrl;
-  Size size;
-  Avatar({Key? key, required this.imageUrl, this.size = const Size(40, 40)})
-      : super(key: key);
+class _AvatarState extends State<Avatar> {
+  User? _user = User(
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      Student("", "", "", new DateTime(2022), null, null, "", null),
+      null,
+      null);
+
+  _paserUser() async {
+    final SharedPreferences _preferences =
+        await SharedPreferences.getInstance();
+    String? _userString = _preferences.getString(Preferences.user);
+    var token = await _preferences.getString(Preferences.token);
+    if (_userString != null) {
+      final parsed = jsonDecode(_userString) as Map<String, dynamic>;
+      User user = User.fromJson(parsed);
+      setState(() {
+        _user = user;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size.width,
-      height: size.height,
+      width: 40,
+      height: 40,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
           color: Colors.white,
         ),
         image: DecorationImage(
-          image: NetworkImage(imageUrl.isNotEmpty
-              ? imageUrl
-              : 'https://i.imgur.com/EYdQnGt.jpeg'),
+          image: NetworkImage(
+              _user!.avatar ?? "https://i.stack.imgur.com/l60Hf.png"),
           fit: BoxFit.cover,
         ),
       ),

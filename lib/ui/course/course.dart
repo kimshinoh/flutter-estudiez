@@ -6,6 +6,8 @@ import 'package:fruity/data/network/rest_client.dart';
 import 'package:fruity/data/sharedpref/constants/preferences.dart';
 import 'package:fruity/models/resource/resource.dart';
 import 'package:fruity/models/subject/subjectClass.dart';
+import 'package:fruity/models/user/student.dart';
+import 'package:fruity/models/user/user.dart';
 import 'package:fruity/utils/notify_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -24,12 +26,36 @@ class _CourseScreen extends State<CourseScreen> {
   late List<Resource> _resources = [];
   late SubjectClass _subject;
   bool isLoading = true;
-
+  User? _user = User(
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      Student("", "", "", new DateTime(2022), null, null, "", null),
+      null,
+      null);
   @override
   void initState() {
     super.initState();
     _subject = widget.subject;
     _getInfoResource();
+    _paserUser();
+  }
+
+  _paserUser() async {
+    final SharedPreferences _preferences =
+        await SharedPreferences.getInstance();
+    String? _userString = _preferences.getString(Preferences.user);
+    var token = await _preferences.getString(Preferences.token);
+    if (_userString != null) {
+      final parsed = jsonDecode(_userString) as Map<String, dynamic>;
+      User user = User.fromJson(parsed);
+      setState(() {
+        _user = user;
+      });
+    }
   }
 
   _getInfoResource() async {
@@ -166,8 +192,8 @@ class _CourseScreen extends State<CourseScreen> {
               margin: EdgeInsets.only(right: 16),
               child: CircleAvatar(
                 radius: 30,
-                backgroundImage:
-                    NetworkImage("https://play-lh.googleusercontent.com/_tslXR7zUXgzpiZI9t70ywHqWAxwMi8LLSfx8Ab4Mq4NUTHMjFNxVMwTM1G0Q-XNU80"),
+                backgroundImage: NetworkImage(
+                    _user!.avatar ?? "https://i.stack.imgur.com/l60Hf.png"),
               ),
             ),
             const SizedBox(
@@ -219,9 +245,11 @@ class _CourseScreen extends State<CourseScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            child: IconButton(onPressed: () {
-              Navigator.pop(context);
-            }, icon: Icon(Icons.arrow_back)),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back)),
           ),
         ],
       ),
