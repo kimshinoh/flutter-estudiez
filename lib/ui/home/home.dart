@@ -50,6 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isParent = false;
   List<Subject> _subjects = [];
   List<CookMark> _marks = [];
+  List<Item> _data = [];
   int maxLenght = 10;
   @override
   void initState() {
@@ -132,10 +133,29 @@ class _HomeScreenState extends State<HomeScreen> {
             }
           }
         });
-        print(_cookMarks[0].subject);
-
         setState(() {
           _marks = _cookMarks;
+          _data = _cookMarks
+              .map((cookMark) => Item(
+                  isExpanded: false,
+                  headerValue: cookMark.subject ?? "Unknown",
+                  expandedValue: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    height: 100,
+                    width: double.infinity,
+                    child: ListView.builder(
+                        itemCount: cookMark.marks.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(cookMark.marks[index].exam ?? "Unknown"),
+                                Text(cookMark.marks[index].score.toString() ??
+                                    "Unknown"),
+                              ]);
+                        }),
+                  )))
+              .toList();
         });
       }).catchError((error) {
         print(error);
@@ -188,7 +208,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _exam() {
-    final List<Item> _data = generateItems();
     return Expanded(
         child: Container(
       // decoration: BoxDecoration(
@@ -230,9 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               title: Text(item.headerValue),
                             );
                           },
-                          body: ListTile(
-                            title: Text("123"),
-                          ),
+                          body: item.expandedValue,
                           isExpanded: item.isExpanded,
                         );
                       }).toList(),
