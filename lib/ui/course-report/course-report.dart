@@ -7,6 +7,7 @@ import 'package:fruity/data/sharedpref/constants/preferences.dart';
 import 'package:fruity/models/exam/exam.dart';
 import 'package:fruity/models/user/user.dart';
 import 'package:fruity/utils/notify_util.dart';
+import 'package:fruity/utils/string.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -191,8 +192,8 @@ class _CourseReportScreen extends State<CourseReportScreen> {
                                                             FontWeight.w500)),
                                                 const SizedBox(height: 5),
                                                 Text(
-                                                    examData.subjectClass
-                                                        .toString(),
+                                                    StringHelper.maxLength(examData.subjectClass
+                                                        .toString(), 20),
                                                     style: TextStyle(
                                                         fontSize: 14,
                                                         color: Color.fromARGB(
