@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:fruity/data/network/rest_client.dart';
 import 'package:fruity/data/sharedpref/constants/preferences.dart';
+import 'package:fruity/models/mark/cook_mark.dart';
 import 'package:fruity/models/mark/mark.dart';
 import 'package:fruity/models/subject/subject.dart';
 import 'package:fruity/models/user/student.dart';
@@ -12,6 +13,18 @@ import 'package:fruity/utils/datetime_util.dart';
 import 'package:fruity/utils/notify_util.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+class Item {
+  Item({
+    required this.expandedValue,
+    required this.headerValue,
+    this.isExpanded = false,
+  });
+
+  Widget expandedValue;
+  String headerValue;
+  bool isExpanded;
+}
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -36,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isInProgress = false;
   bool isParent = false;
   List<Subject> _subjects = [];
-  List<Mark> _marks = [];
+  List<CookMark> _marks = [];
   int maxLenght = 10;
   @override
   void initState() {
@@ -87,15 +100,42 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         }
       });
-      await RestClient().get("/mark", headers: {
+      String studentId = isParent
+          ? _student.id
+          : _user!.student != null
+              ? _user!.student!.id
+              : "";
+      await RestClient().get("/mark/student/$studentId", headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token"
       }).then((value) async {
         final parsed = jsonDecode(value.body);
+        List<Mark> _rawMarks = parsed
+            .map<Mark>((json) => Mark.fromJson(json as Map<String, dynamic>))
+            .toList() as List<Mark>;
+        List<CookMark> _cookMarks = [];
+        // group mark by subject and sort by created At desc
+        _rawMarks.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+        _rawMarks.forEach((element) {
+          if (_cookMarks.length == 0) {
+            _cookMarks.add(CookMark(element.subject, [element]));
+          } else {
+            bool isExist = false;
+            _cookMarks.forEach((cookMark) {
+              if (cookMark.subject == element.subject) {
+                isExist = true;
+                cookMark.marks.add(element);
+              }
+            });
+            if (!isExist) {
+              _cookMarks.add(CookMark(element.subject, [element]));
+            }
+          }
+        });
+        print(_cookMarks[0].subject);
+
         setState(() {
-          _marks = parsed
-              .map<Mark>((json) => Mark.fromJson(json as Map<String, dynamic>))
-              .toList() as List<Mark>;
+          _marks = _cookMarks;
         });
       }).catchError((error) {
         print(error);
@@ -148,6 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _exam() {
+    final List<Item> _data = generateItems();
     return Expanded(
         child: Container(
       // decoration: BoxDecoration(
@@ -166,48 +207,38 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           )),
           const SizedBox(height: 10),
-          Container(
-            height: 200,
+          Expanded(
+              child: Container(
             width: double.infinity,
             child: _marks.length == 0
                 ? Center(
                     child: Text("No data"),
                   )
-                : ListView.builder(
-                    itemCount: _marks.length,
-                    itemBuilder: (context, index) {
-                      if (index > maxLenght) {
-                        return Container();
-                      }
-                      return Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              _marks[index].exam!,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              _marks[index].score.toString(),
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-          ),
+                : SingleChildScrollView(
+                    child: Container(
+                    child: ExpansionPanelList(
+                      expansionCallback: (int index, bool isExpanded) {
+                        setState(() {
+                          _data[index].isExpanded = !isExpanded;
+                        });
+                      },
+                      children: _data.map<ExpansionPanel>((Item item) {
+                        return ExpansionPanel(
+                          headerBuilder:
+                              (BuildContext context, bool isExpanded) {
+                            return ListTile(
+                              title: Text(item.headerValue),
+                            );
+                          },
+                          body: ListTile(
+                            title: Text("123"),
+                          ),
+                          isExpanded: item.isExpanded,
+                        );
+                      }).toList(),
+                    ),
+                  )),
+          ))
         ],
       ),
     ));
@@ -253,35 +284,35 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Center(
-              //   child: CircularPercentIndicator(
-              //     radius: 35,
-              //     lineWidth: 5,
-              //     animation: true,
-              //     //random percent
-              //     percent: percent,
-              //     center: Column(
-              //         mainAxisAlignment: MainAxisAlignment.center,
-              //         children: [
-              //           Text(
-              //             (percent * 100).toStringAsFixed(0) + "%",
-              //             style: TextStyle(
-              //                 color: Colors.white,
-              //                 fontWeight: FontWeight.bold,
-              //                 fontSize: 12.0),
-              //           ),
-              //           Text(
-              //             "Percent",
-              //             style: TextStyle(
-              //                 color: Colors.white,
-              //                 fontWeight: FontWeight.bold,
-              //                 fontSize: 12.0),
-              //           )
-              //         ]),
-              //     circularStrokeCap: CircularStrokeCap.round,
-              //     progressColor: Colors.blue.shade500,
-              //   ),
-              // ),
+              Center(
+                child: CircularPercentIndicator(
+                  radius: 35,
+                  lineWidth: 5,
+                  animation: true,
+                  //random percent
+                  percent: 0,
+                  center: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "0%",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.0),
+                        ),
+                        Text(
+                          "Percent",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12.0),
+                        )
+                      ]),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: Colors.blue.shade500,
+                ),
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -289,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _subjects[index].name!,
+                    _subjects[index].name ?? "Unknown",
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 16.0,
@@ -346,7 +377,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       wordSpacing: 2),
                 )
               : Text(
-                  _user!.student!.name ?? "Unknown",
+                  _user!.student != null
+                      ? _user!.student!.name ?? "Unknown"
+                      : "Unknown",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -378,9 +411,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: EdgeInsets.only(right: 16),
                   child: CircleAvatar(
                     radius: 16,
-                    backgroundImage:
-                         NetworkImage(_user!.avatar ??
-                              "https://i.stack.imgur.com/l60Hf.png"),
+                    backgroundImage: NetworkImage(
+                        _user!.avatar ?? "https://i.stack.imgur.com/l60Hf.png"),
                   ),
                 ),
               ),
@@ -389,5 +421,25 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
     );
+  }
+
+  List<Item> generateItems() {
+    return List<Item>.generate(_marks.length, (int index) {
+      return Item(
+          headerValue: _marks[index].subject ?? "Unknown",
+          expandedValue: Container(
+            height: 100,
+            width: double.infinity,
+            child: ListView.builder(
+                itemCount: _marks[index].marks.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Row(children: [
+                    Text(_marks[index].marks[index].name ?? "Unknown"),
+                    Text(_marks[index].marks[index].score.toString() ??
+                        "Unknown"),
+                  ]);
+                }),
+          ));
+    });
   }
 }

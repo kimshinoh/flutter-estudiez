@@ -164,6 +164,12 @@ class _AvatarState extends State<Avatar> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _paserUser();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       width: 40,

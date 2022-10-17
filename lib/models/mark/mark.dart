@@ -11,14 +11,16 @@ class Mark {
   double? score;
   String? exam;
   String? student;
-  String? subjectClass;
+  String? subject;
+  DateTime? createdAt;
   Mark(
     this.id,
     this.score,
     this.name,
     this.exam,
     this.student,
-    this.subjectClass,
+    this.subject,
+    this.createdAt,
   );
   factory Mark.fromJson(Map<String, dynamic> json) => _$MarkFromJson(json);
   Map<String, dynamic> toJson() => _$MarkToJson(this);

@@ -50,20 +50,19 @@ class _SettingScreenState extends State<SettingScreen> {
       setState(() {
         _user = user;
         type = user.type!;
-        if (type == "student") {
+        if (type == "student" && user.student != null) {
           name.text = user.student!.name ?? "";
           address.text = user.student!.address ?? "";
           birthday.text = user.student!.birthday != null
               ? user.student!.birthday.toString()
               : "";
           id.text = user.student!.parentsId ?? "";
-          avatarLink.text = user.avatar ?? "";
         }
         if (type == "parents") {
           id.text = user.id;
           avatarLink.text = user.avatar ?? "";
         }
-        if (type == "teacher") {
+        if (type == "teacher" && user.teacher != null) {
           name.text = user.teacher!.name ?? "";
           phone.text = user.teacher!.phone ?? "";
           avatarLink.text = user.avatar ?? "";
