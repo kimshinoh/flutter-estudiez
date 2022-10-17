@@ -90,7 +90,8 @@ class _SettingScreenState extends State<SettingScreen> {
         "parentsId": id.text
         // "avatar": avatarLink.text,
       }).then((value) async {
-        print(value.body);
+        String? userInfo = await _getInfoUser();
+        prefs.setString(Preferences.user, userInfo!);
         _paserUser();
       }).catchError((error) {
         print(error);
@@ -110,6 +111,27 @@ class _SettingScreenState extends State<SettingScreen> {
     }
   }
 
+  Future<String?> _getInfoUser() async {
+    final SharedPreferences _preferences =
+        await SharedPreferences.getInstance();
+    String? token = await _preferences.getString(Preferences.token);
+    return RestClient().get("/auth/verify", headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    }).then((res) async {
+      return res.body;
+    }).catchError((error) {
+      print(error);
+      NotifyHelper.error(context, "Something went wrong");
+    }).whenComplete(() {
+      if (mounted) {
+        setState(() {
+          isInProgress = false;
+        });
+      }
+    });
+  }
+
   Future _updateParent() async {
     setState(() {
       isInProgress = true;
@@ -123,6 +145,8 @@ class _SettingScreenState extends State<SettingScreen> {
       "avatar": avatarLink.text,
     }).then((value) async {
       print(value.body);
+      String? userInfo = await _getInfoUser();
+      prefs.setString(Preferences.user, userInfo!);
       _paserUser();
     }).catchError((error) {
       print(error);
@@ -152,6 +176,8 @@ class _SettingScreenState extends State<SettingScreen> {
         // "avatar": avatarLink.text,
       }).then((value) async {
         print(value.body);
+        String? userInfo = await _getInfoUser();
+        prefs.setString(Preferences.user, userInfo!);
         _paserUser();
       }).catchError((error) {
         print(error);
