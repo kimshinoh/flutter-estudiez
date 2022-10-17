@@ -12,6 +12,7 @@ class Mark {
   String? exam;
   String? student;
   String? subject;
+  String? subjectId;
   DateTime? createdAt;
   Mark(
     this.id,
@@ -20,6 +21,7 @@ class Mark {
     this.exam,
     this.student,
     this.subject,
+    this.subjectId,
     this.createdAt,
   );
   factory Mark.fromJson(Map<String, dynamic> json) => _$MarkFromJson(json);

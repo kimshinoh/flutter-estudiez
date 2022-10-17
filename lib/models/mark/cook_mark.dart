@@ -8,9 +8,11 @@ part 'cook_mark.g.dart';
 @JsonSerializable()
 class CookMark {
   String? subject;
+  String? subjectId;
   List<Mark> marks;
   CookMark(
     this.subject,
+    this.subjectId,
     this.marks,
   );
   factory CookMark.fromJson(Map<String, dynamic> json) => _$CookMarkFromJson(json);

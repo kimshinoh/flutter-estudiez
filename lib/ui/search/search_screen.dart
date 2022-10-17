@@ -165,8 +165,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       margin: EdgeInsets.only(right: 16),
                                       child: CircleAvatar(
                                         radius: 16,
-                                        backgroundImage: NetworkImage(_user
-                                                .avatar ??
+                                        backgroundImage: NetworkImage(_teachersSearch[index].avatar ??
                                             "https://i.stack.imgur.com/l60Hf.png"),
                                       ),
                                     ),

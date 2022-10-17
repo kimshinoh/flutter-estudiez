@@ -11,6 +11,7 @@ import 'package:fruity/models/user/student.dart';
 import 'package:fruity/models/user/user.dart';
 import 'package:fruity/utils/datetime_util.dart';
 import 'package:fruity/utils/notify_util.dart';
+import 'package:fruity/utils/string.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -119,7 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
         _rawMarks.sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
         _rawMarks.forEach((element) {
           if (_cookMarks.length == 0) {
-            _cookMarks.add(CookMark(element.subject, [element]));
+            _cookMarks
+                .add(CookMark(element.subject, element.subjectId, [element]));
           } else {
             bool isExist = false;
             _cookMarks.forEach((cookMark) {
@@ -129,7 +131,8 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             });
             if (!isExist) {
-              _cookMarks.add(CookMark(element.subject, [element]));
+              _cookMarks
+                  .add(CookMark(element.subject, element.subjectId, [element]));
             }
           }
         });
@@ -285,7 +288,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _cardProcess(int index) {
-    double percent = _random.nextDouble();
+    Subject currentSubject = _subjects[index];
+
+    CookMark currentMark = _marks.firstWhere(
+        (element) => element.subjectId == currentSubject.id,
+        orElse: () => CookMark("", "", []));
+    List<Mark> mark = currentMark.marks;
+    double averageScore = 0;
+    mark.forEach((element) {
+      averageScore += element.score!;
+    });
+    averageScore = averageScore / mark.length;
     return Container(
         margin: const EdgeInsets.symmetric(horizontal: 5),
         padding: EdgeInsets.all(10),
@@ -307,12 +320,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   lineWidth: 5,
                   animation: true,
                   //random percent
-                  percent: 0,
+                  percent: averageScore / 10,
                   center: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "0%",
+                          StringHelper.maxLength((averageScore * 10).toString(), 5) + "%",
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,

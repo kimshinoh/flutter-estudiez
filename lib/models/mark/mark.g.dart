@@ -13,6 +13,7 @@ Mark _$MarkFromJson(Map<String, dynamic> json) => Mark(
       json['exam'] as String?,
       json['student'] as String?,
       json['subject'] as String?,
+      json['subjectId'] as String?,
       json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -25,5 +26,6 @@ Map<String, dynamic> _$MarkToJson(Mark instance) => <String, dynamic>{
       'exam': instance.exam,
       'student': instance.student,
       'subject': instance.subject,
+      'subjectId': instance.subjectId,
       'createdAt': instance.createdAt?.toIso8601String(),
     };

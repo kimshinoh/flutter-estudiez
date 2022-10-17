@@ -25,8 +25,8 @@ class TeacherScreen extends StatefulWidget {
 class _TeacherScreenState extends State<TeacherScreen> {
   List<SubjectClass> _subjectClass = [];
   User _user =
-      User("", "", "", "", "", "", null, Teacher("", "", "", ""), null);
-  Teacher _teacher = Teacher("", "", "", "");
+      User("", "", "", "", "", "", null, Teacher("", "", "", "", ""), null);
+  Teacher _teacher = Teacher("", "", "", "", "");
   List<SubjectClass> _subjectClassOfTeacher = [];
   bool isInProgress = false;
   @override

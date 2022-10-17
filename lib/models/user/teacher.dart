@@ -7,12 +7,14 @@ class Teacher {
   String? name;
   String? address;
   String? phone;
+  String? avatar;
   // List<SubjectClass>? subjectClass;
   Teacher(
     this.id,
     this.name,
     this.address,
     this.phone,
+    this.avatar,
   );
   factory Teacher.fromJson(Map<String, dynamic> json) => _$TeacherFromJson(json);
   Map<String, dynamic> toJson() => _$TeacherToJson(this);

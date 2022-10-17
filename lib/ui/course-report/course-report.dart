@@ -70,11 +70,13 @@ class _CourseReportScreen extends State<CourseReportScreen> {
       "Authorization": "Bearer $token"
     }).then((value) async {
       List<dynamic>? body = jsonDecode(value.body) as List<dynamic>;
-      setState(() => {
-            _exam = body
+      List<Exam> exams = body
                 .map<Exam>(
                     (json) => Exam.fromJson(json as Map<String, dynamic>))
-                .toList()
+                .toList();
+      setState(() => {
+      // sort by createdAt asc
+            _exam = exams.reversed.toList(),
           });
     }).catchError((error) {
       print(error);
@@ -234,7 +236,7 @@ class _CourseReportScreen extends State<CourseReportScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Report",
+                  "All Exam",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,

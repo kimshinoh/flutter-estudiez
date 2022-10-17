@@ -42,7 +42,7 @@ class _MyBottombarState extends State<MyBottombar> {
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.report),
-      label: 'Report',
+      label: 'All Exam',
     ),
     BottomNavigationBarItem(
       icon: Icon(Icons.school),
